@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import '../ContentSection.css'
-import './SignIn.css'
+import '../styles/Page.css'
+import '../styles/SignIn.css'
 
 export default class SignIn extends Component {
   constructor(props) {

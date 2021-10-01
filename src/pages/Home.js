@@ -1,10 +1,10 @@
 import React from 'react';
-import '../App.css';
-import './ContentSection.css'
-import { Button } from './Button';
+import '../styles/App.css';
+import { Button } from '../components/Button';
 
-function ContentSection() {
-    return (
+
+function Home(){
+    return(
         <div className='content-container'>
            <h1>Wynajmuj na wysokim poziomie</h1>
            <div className="content-btns">
@@ -16,7 +16,8 @@ function ContentSection() {
                 </Button>
            </div>
         </div>
-    )
+
+    );
 }
 
-export default ContentSection
+export default Home;
