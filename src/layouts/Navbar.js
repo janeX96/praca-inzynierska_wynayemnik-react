@@ -45,7 +45,7 @@ function Navbar() {
                         </Link>
                     </li>
                     <li className='nav-item'>
-                        <Link to="/wlasciciel" className='nav-links' onClick={closeMobileMenu}>
+                        <Link to="/owner-premises" className='nav-links' onClick={closeMobileMenu}>
                         Właściciel
                         </Link>
                     </li>
