@@ -4,6 +4,7 @@ import { Button } from '../components/Button';
 
 
 function Home(){
+    
     return(
         <div className='content-container'>
            <h1>Wynajmuj na wysokim poziomie</h1>
