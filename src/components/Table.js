@@ -1,6 +1,7 @@
 
 import React from "react";
 import { useTable, usePagination } from "react-table";
+import '../styles/Table.css'
 
 function Table({ columns, data }) {
   
@@ -18,7 +19,7 @@ function Table({ columns, data }) {
         {
           columns,
           data,
-          initialState: { pageSize: 2 }
+          initialState: { pageSize: 5 }
         },
         usePagination
       );

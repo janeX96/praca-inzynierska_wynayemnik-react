@@ -1,7 +1,9 @@
 import React from 'react'
-import { Component, ReactDOM, useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import '../styles/App.css'
 import Table from '../components/Table'
+import { ReactKeycloakProvider } from '@react-keycloak/web'
+import Keycloak from 'keycloak-js'
 
 const Owner = () => {
     const [cells, setCells] = useState([]);
@@ -12,6 +14,7 @@ const Owner = () => {
         setCells(data);
       };
 
+    
       const columns = React.useMemo(
         () => [
           {
@@ -31,16 +34,18 @@ const Owner = () => {
       );
 
       useEffect(() => {
+
         getData();
       }, []);
       const data = React.useMemo(() => cells, []);
-    
-    
 
       return(
+       
           <div>
+            <h1>Strona właściciela</h1>
               {cells && <Table columns={columns} data={data} />}
           </div>
+         
         
       )
 }
