@@ -1,53 +1,51 @@
 import React from 'react'
-import { useState, useEffect } from 'react'
+import { Component } from 'react';
 import '../styles/App.css'
-import Table from '../components/Table'
-import { ReactKeycloakProvider } from '@react-keycloak/web'
-import Keycloak from 'keycloak-js'
+import LoadData from './LoadData';
 
-const Owner = () => {
-    const [cells, setCells] = useState([]);
 
-    const getData = async () => {
-        const resp = await fetch("/exampleData.json");
-        const data = await resp.json();
-        setCells(data);
-      };
 
-    
-      const columns = React.useMemo(
-        () => [
-          {
-            Header: "Adres",
-            accessor: "location" // accessor is the "key" in the data
-          },
-          {
-            Header: "Rodzaj",
-            accessor: "type"
-          },
-          {
-            Header: "Status",
-            accessor: "status"
-          }
-        ],
-        []
-      );
+class Owner extends Component{
+    constructor(props) {
+        super(props);
+        this.state = { 
+          data:[]
+        };
+    }
 
-      useEffect(() => {
+    componentDidMount() {
+      this.getData();
+      console.log("CompDidM. data: ", this.state.data)
+    }
 
-        getData();
-      }, []);
-      const data = React.useMemo(() => cells, []);
+    getData = () => {
+      
+        fetch('/exampleData.json',{ headers : { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+         }})
+        .then(response => {
+          // console.log(response);
+          return response.json();
+        }).then(data => {
+          this.setState({ data : data })
+        // console.log(data);
+        }).catch(err => {
+          // Do something for an error here
+          console.log("OJOJOJ- Error Reading data " + err);
+        });
+      }
 
-      return(
-       
+      render(){
+        return (
           <div>
-            <h1>Strona właściciela</h1>
-              {cells && <Table columns={columns} data={data} />}
+            <h1>Moje lokale</h1>
+              { this.state.data.length > 0 ? <LoadData data ={this.state.data}/> : "sdds" }
           </div>
-         
-        
-      )
+             
+        );
+      }
 }
+
 
 export default Owner;

@@ -1,0 +1,54 @@
+import React from 'react'
+import { useState, useEffect } from 'react'
+import '../styles/App.css'
+import Table from '../components/Table'
+
+
+const LoadData = (props) => {
+  const [premises, setPremises] = useState(props.data);
+
+//   const getData = async () => {
+//       console.log("Premises: ", this.props.data)
+//       setPremises(this.props.data)
+//     };
+
+
+
+      const columns = React.useMemo(
+        () => [
+          {
+            Header: "Adres",
+            accessor: "location" // accessor is the "key" in the data
+          },
+          {
+            Header: "Rodzaj",
+            accessor: "type"
+          },
+          {
+            Header: "Status",
+            accessor: "status"
+          }
+        ],
+        []
+      );
+
+      useEffect(() => {
+
+        console.log("props.data: ", props.data)
+        setPremises(props.data)
+        console.log("premises: ", premises)
+      }, []);
+
+     const data = React.useMemo(() => premises, []);
+
+      return(
+        
+          <div>
+              {premises && <Table columns={columns} data={data} />}
+          </div>
+         
+        
+      )
+}
+
+export default LoadData;

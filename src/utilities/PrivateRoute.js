@@ -23,7 +23,7 @@ export function PrivateRoute({ component: Component, roles, ...rest }) {
             render={props => {
                 return isAutherized(roles)
                     ? <Component {...props} />
-                    : <Redirect to={ keycloak.login()} />
+                    : <Redirect to={ keycloak.login() } />
             }}
         />
     )
