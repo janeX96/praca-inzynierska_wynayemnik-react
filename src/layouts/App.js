@@ -1,8 +1,6 @@
-import Navbar from './Navbar';
 import '../styles/App.css';
-import Footer from './Footer';
 import { ReactKeycloakProvider } from '@react-keycloak/web';
-import keycloak from './keycloak';
+import keycloak from '../auth/keycloak';
 import AppRouter from './AppRouter';
 
 const App = () => {

@@ -17,16 +17,24 @@ const LoadData = (props) => {
       const columns = React.useMemo(
         () => [
           {
-            Header: "Adres",
-            accessor: "location" // accessor is the "key" in the data
+            Header: "Numer",
+            accessor: "premisesNumber" // accessor is the "key" in the data
+          },
+          {
+            Header: "powierzchnia",
+            accessor: "area"
+          },
+          {
+            Header: "Poziom",
+            accessor: "premisesLevel"
+          },
+          {
+            Header: "Stan",
+            accessor: "state"
           },
           {
             Header: "Rodzaj",
-            accessor: "type"
-          },
-          {
-            Header: "Status",
-            accessor: "status"
+            accessor: "premisesType.type"
           }
         ],
         []
