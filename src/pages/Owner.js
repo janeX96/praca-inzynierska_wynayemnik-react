@@ -15,35 +15,41 @@ class Owner extends Component{
 
     componentDidMount() {
       this.getData();
-      console.log("CompDidM. data: ", this.state.data)
+    }
+
+    // pobranie danych dot. endpointów
+    async getResources(){
+      const response = await fetch('/resources.json')
+      const resources = await response.json();
+
+      return resources;
     }
 
     getData = () => {
-      // http://localhost:8080/owner/premises
-        fetch('http://localhost:8080/owner/premises',{ headers: { 'Authorization': ' Bearer ' + keycloak.token } })
+      
+      this.getResources().then( res =>{
+      
+        fetch(res.urls.owner.premises,{ headers: { 'Authorization': ' Bearer ' + keycloak.token } })
         .then(response => {
-          // console.log(response);
           return response.json();
         }).then(data => {
-
           data.map( prem => {
             if(prem.state === 'HIRED'){
               prem.state = 'wynajęty'
             }
           })
           this.setState({ data : data })
-        // console.log(data);
         }).catch(err => {
-          // Do something for an error here
-          console.log("OJOJOJ- Error Reading data " + err);
+          console.log("Error Reading data " + err);
         });
-      }
+      }) 
+    }
 
       render(){
         return (
           <div>
             <h1>Moje lokale</h1>
-              { this.state.data.length > 0 ? <LoadData data ={this.state.data}/> : "nope" }
+              { this.state.data.length > 0 ? <LoadData data ={this.state.data}/> : "brak" }
           </div>
              
         );

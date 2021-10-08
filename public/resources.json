@@ -1,0 +1,9 @@
+{
+    "urls" : {
+
+        "owner": {
+            "premises" : "http://localhost:8080/owner/premises"
+        
+        }
+    }
+}
