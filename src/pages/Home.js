@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/App.css";
+import "../styles/Home.css";
 import { useKeycloak } from "@react-keycloak/web";
 
 function Home() {
@@ -16,7 +16,7 @@ function Home() {
     //       : <h2>keycloak initializing ....!!!!</h2>
     //     }
     //   </div>
-    <div className="content-container">
+    <div className="content-container-home">
       <h1>Wynajmuj na wysokim poziomie</h1>
     </div>
   );

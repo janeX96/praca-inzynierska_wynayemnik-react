@@ -1,20 +1,23 @@
 table {
-    margin: 20px 20px;
-    border-spacing: 0;
-    border: 1px solid black;
-    }
- 
-    th,
-    td {
-      padding: 0.5rem;
-      border-bottom: 1px solid black;
-      border-right: 1px solid black;
-    }
-   
-    th {
-      background: grey;
-      border-bottom: 3px solid black;
-      color: white;
-      fontWeight: bold;
-    }
-  
+  margin: 20px 70px;
+  border-spacing: 0;
+  border: 1px solid black;
+}
+
+th,
+td {
+  padding: 0.5rem;
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+}
+
+th {
+  background: grey;
+  border-bottom: 3px solid black;
+  color: white;
+  font-style: bold;
+}
+
+.page-button {
+  margin-left: 70px;
+}
