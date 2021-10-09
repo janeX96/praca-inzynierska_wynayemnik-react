@@ -16,7 +16,6 @@ const AppRouter = () => {
 
     return (
     <>
-    <Login/>
       <Router>
         <div>
             <main>
@@ -24,6 +23,7 @@ const AppRouter = () => {
                 <section>
                     <Switch>
                     <Route path="/" exact component={Home}/>
+                    <Route path="/login" exact component={Login}/>
                     <PrivateRoute roles={['owner']} path="/owner-premises" component={Owner}/>
                     </Switch>
                 </section>

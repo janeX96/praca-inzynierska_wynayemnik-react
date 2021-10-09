@@ -28,5 +28,3 @@ export function PrivateRoute({ component: Component, roles, ...rest }) {
         />
     )
 }
-
-{/* <Redirect to={{ pathname: '/', }} */}
