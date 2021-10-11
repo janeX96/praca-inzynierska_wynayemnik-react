@@ -1,0 +1,18 @@
+ul {
+  list-style-type: none;
+  margin: 20px 20px 20px 0px;
+  color: #404142;
+}
+
+li {
+  margin: 10px 10px;
+}
+
+.premises-details {
+  font-size: 30px;
+  margin-right: auto;
+  margin-left: 70px;
+  margin-top: 20px;
+  border-style: solid;
+  border-color: #404142;
+}

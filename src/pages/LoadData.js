@@ -37,7 +37,13 @@ const LoadData = (props) => {
         Header: "Akcja",
         accessor: "action",
         Cell: ({ cell }) => (
-          <button value={cell.row.values.action} onClick={props.action}>
+          <button
+            className="action-button"
+            value={cell.row.values.actions}
+            onClick={
+              () => props.action(cell.row.values.premisesNumber) //parseInt(cell.row.values.premisesNumber, 10)
+            }
+          >
             Szczegóły
           </button>
         ),

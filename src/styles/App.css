@@ -36,3 +36,33 @@
 .content-btns .btn {
   margin: 6px;
 }
+
+.action-button {
+  background-color: #87888a;
+  font-size: large;
+  color: #e3e3e3;
+}
+
+.details-buttons {
+  margin-left: 50px;
+  margin-bottom: 20px;
+}
+
+.details-buttons .return-button {
+  margin-right: 100px;
+}
+
+.details-buttons button {
+  margin-right: 10px;
+  background-color: #87888a;
+  font-size: large;
+  color: #e3e3e3;
+}
+
+.details-buttons button:hover {
+  background-color: #404142;
+}
+
+.action-button:hover {
+  background-color: #404142;
+}

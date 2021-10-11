@@ -18,6 +18,21 @@ th {
   font-style: bold;
 }
 
-.page-button {
+.table-buttons {
   margin-left: 70px;
+}
+
+.table-buttons button:hover {
+  background-color: #404142;
+}
+
+.table-buttons button:disabled {
+  background-color: #b8b8b8;
+}
+
+.page-button {
+  background-color: #87888a;
+  font-size: large;
+  color: #e3e3e3;
+  margin-right: 10px;
 }

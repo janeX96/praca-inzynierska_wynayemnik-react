@@ -3,12 +3,14 @@ import { Component } from "react";
 import LoadData from "./LoadData";
 import keycloak from "../auth/keycloak";
 import "../styles/App.css";
+import PremisesDetails from "./PremisesDetails/PremisesDetails";
 
 class Owner extends Component {
   constructor(props) {
     super(props);
     this.state = {
       data: [],
+      choosenId: -1,
     };
   }
 
@@ -36,6 +38,14 @@ class Owner extends Component {
           data.map((prem) => {
             if (prem.state === "HIRED") {
               prem.state = "wynajęty";
+            } else {
+              prem.state = "wolny";
+            }
+
+            if (prem.isFurnished) {
+              prem.isFurnished = "tak";
+            } else {
+              prem.isFurnished = "nie";
             }
           });
           this.setState({ data: data });
@@ -46,18 +56,39 @@ class Owner extends Component {
     });
   };
 
-  handleAction = () => {
-    alert("działa");
+  findDataById(id) {
+    const res = this.state.data.find((premises) => {
+      return premises.premisesNumber === id;
+    });
+    console.log("wynik: ", res);
+    return res;
+  }
+
+  handleAction = (id) => {
+    this.setState({
+      choosenId: id,
+    });
   };
 
   render() {
+    console.log("w renderze: ", this.findDataById(this.state.choosenId));
     return (
       <div className="content-container">
-        <h1 className="content-title">Moje lokale</h1>
-        {this.state.data.length > 0 ? (
-          <LoadData data={this.state.data} action={this.handleAction} />
+        {this.state.choosenId >= 0 ? (
+          <PremisesDetails
+            key={this.state.choosenId}
+            action={this.handleAction}
+            {...this.findDataById(this.state.choosenId)}
+          />
         ) : (
-          "brak"
+          <>
+            <h1 className="content-title">Moje lokale</h1>
+            {this.state.data.length > 0 ? (
+              <LoadData data={this.state.data} action={this.handleAction} />
+            ) : (
+              "brak"
+            )}
+          </>
         )}
       </div>
     );

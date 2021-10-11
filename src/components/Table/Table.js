@@ -49,20 +49,22 @@ function Table({ columns, data }) {
           })}
         </tbody>
       </table>
-      <button
-        className="page-button"
-        onClick={() => previousPage()}
-        disabled={!canPreviousPage}
-      >
-        Previous page{" "}
-      </button>
-      <button
-        className="page-button"
-        onClick={() => nextPage()}
-        disabled={!canNextPage}
-      >
-        Next page{" "}
-      </button>
+      <div className="table-buttons">
+        <button
+          className="page-button"
+          onClick={() => previousPage()}
+          disabled={!canPreviousPage}
+        >
+          Poprzednia strona{" "}
+        </button>
+        <button
+          className="page-button"
+          onClick={() => nextPage()}
+          disabled={!canNextPage}
+        >
+          Następna strona{" "}
+        </button>
+      </div>
     </div>
   );
 }
