@@ -1,0 +1,16 @@
+footer {
+  background-color: #656566;
+  position: relative;
+  margin-left: 0px;
+  margin-right: 0px;
+  bottom: 0px;
+  width: 100%;
+  color: white;
+  text-align: center;
+  /* margin-top: -80px; */
+  height: 120px;
+}
+
+footer p {
+  margin-top: 5px;
+}
