@@ -28,6 +28,7 @@ class Owner extends Component {
 
   getData = () => {
     this.getResources().then((res) => {
+      //pobranie danych z wyciągniętego adresu url
       fetch(res.urls.owner.premises, {
         headers: { Authorization: " Bearer " + keycloak.token },
       })
@@ -64,6 +65,8 @@ class Owner extends Component {
     return res;
   }
 
+  //wybierając dany lokal zaamiętuję jego id, jeśi id jest >=0
+  // to wyświetlam info, jeśli nie to pokazuje liste lokali
   handleAction = (id) => {
     this.setState({
       choosenId: id,
@@ -83,6 +86,9 @@ class Owner extends Component {
         ) : (
           <>
             <h1 className="content-title">Moje lokale</h1>
+            <div>
+              <button className="add-button">Dodaj nowy</button>
+            </div>
             {this.state.data.length > 0 ? (
               <LoadData data={this.state.data} action={this.handleAction} />
             ) : (

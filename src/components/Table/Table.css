@@ -1,5 +1,5 @@
 table {
-  margin: 20px 70px;
+  margin: 20px 0px;
   border-spacing: 0;
   border: 1px solid black;
 }
@@ -16,10 +16,6 @@ th {
   border-bottom: 3px solid black;
   color: white;
   font-style: bold;
-}
-
-.table-buttons {
-  margin-left: 70px;
 }
 
 .table-buttons button:hover {

@@ -20,6 +20,9 @@
   border-color: #404142;
   border-bottom-style: solid;
 }
+.content-container > div {
+  margin-left: 70px;
+}
 
 .content-container > p {
   margin-top: 8px;
@@ -27,6 +30,16 @@
   font-size: 32px;
   font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
     "Lucida Sans", Arial, sans-serif;
+}
+
+.content-container .add-button {
+  font-size: large;
+  background-color: #4e47b5;
+  color: #e3e3e3;
+}
+
+.content-container .add-button:hover {
+  background-color: #2d277a;
 }
 
 .content-btns {
