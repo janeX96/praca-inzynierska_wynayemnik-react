@@ -4,6 +4,7 @@ import LoadData from "./LoadData";
 import keycloak from "../auth/keycloak";
 import "../styles/App.css";
 import PremisesDetails from "./PremisesDetails/PremisesDetails";
+import { Link } from "react-router-dom";
 
 class Owner extends Component {
   constructor(props) {
@@ -87,7 +88,11 @@ class Owner extends Component {
           <>
             <h1 className="content-title">Moje lokale</h1>
             <div>
-              <button className="add-button">Dodaj nowy</button>
+              <Link to="/owner-premises-new">
+                <button className="add-button" Link>
+                  Dodaj nowy
+                </button>
+              </Link>
             </div>
             {this.state.data.length > 0 ? (
               <LoadData data={this.state.data} action={this.handleAction} />

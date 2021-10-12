@@ -1,9 +1,8 @@
 {
-    "urls" : {
-
-        "owner": {
-            "premises" : "http://localhost:8080/owner/premises"
-        
-        }
+  "urls": {
+    "owner": {
+      "premises": "http://localhost:8080/owner/premises",
+      "locations": "http://localhost:8080/owner/locations"
     }
+  }
 }

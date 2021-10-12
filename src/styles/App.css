@@ -79,3 +79,27 @@
 .action-button:hover {
   background-color: #404142;
 }
+
+/* forms */
+
+form {
+  margin-left: 70px;
+}
+
+label {
+  font-size: large;
+  display: block;
+}
+
+input {
+  margin-left: 10px;
+}
+
+select {
+  margin-left: 10px;
+}
+
+.error-msg {
+  margin-left: 10px;
+  color: red;
+}
