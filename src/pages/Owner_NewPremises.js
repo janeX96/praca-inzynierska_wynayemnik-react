@@ -5,6 +5,13 @@ import { Link } from "react-router-dom";
 
 class Owner_NewPremises extends Component {
   state = {
+    newLocation: {
+      city: "",
+      postCode: "",
+      street: "",
+      streetNumber: "",
+      locationName: "",
+    },
     premisesNumber: "",
     area: "",
     premisesLevel: "",
@@ -21,9 +28,16 @@ class Owner_NewPremises extends Component {
       area: false,
       premisesLevel: false,
       location: false,
+      premisesType: false,
+      city: false,
+      postCode: false,
+      street: false,
+      streetNumber: false,
+      locationName: false,
     },
     lastAdded: "",
     postURL: "",
+    changed: false,
   };
 
   async getResources() {
@@ -83,14 +97,28 @@ class Owner_NewPremises extends Component {
     this.getData();
   }
 
+  componentDidUpdate() {
+    if (this.state.changed) {
+      this.reactiveValidation();
+    }
+  }
+
   messages = {
     number_incorrect: "Numer lokalu ma nieprawidłową formę",
     area_incorrect: "Powierzchnia ma nieprawidłową formę",
     premisesLevel_incorrect: "Poziom ma nieprawidłową formę",
     location_incorrect: "Wybierz adres z listy",
+    premisesType_incorrect: "Wybierz adres z listy",
+
+    city_incorrect: "Nieprawidłowa nazwa miasta",
+    postCode_incorrect: "Nie poprawny kod pocztowy",
+    street_incorrect: "Nieprawidłowa nazwa uliicy",
+    streetNumber_incorrect: "Nie poprawny numer",
+    locationName_incorrect: "Nie poprawna nazwa",
   };
 
   handleChange = (e) => {
+    this.setState({ changed: true });
     const name = e.target.name;
     const type = e.target.type;
     console.log(name, ", type: ", type);
@@ -111,6 +139,20 @@ class Owner_NewPremises extends Component {
             type: value,
           },
         });
+      } else if (
+        e.target.name === "city" ||
+        e.target.name === "postCode" ||
+        e.target.name === "street" ||
+        e.target.name === "streetNumber" ||
+        e.target.name === "locationName"
+      ) {
+        console.log("zmieniam>>> ", name);
+        this.setState({
+          newLocation: {
+            ...this.state.newLocation,
+            [name]: value,
+          },
+        });
       } else {
         this.setState({
           [name]: value,
@@ -126,6 +168,29 @@ class Owner_NewPremises extends Component {
 
   //walidacja
   formValidation = () => {
+    let city = false;
+    let postCode = false;
+    let street = false;
+    let streetNumber = false;
+    let locationName = false;
+
+    if (this.state.newLocation.city.length >= 3) {
+      city = true;
+    }
+    //tutaj regex
+    if (this.state.newLocation.postCode.length > 3) {
+      postCode = true;
+    }
+    if (this.state.newLocation.street.length > 3) {
+      street = true;
+    }
+    if (this.state.newLocation.streetNumber.length > 0) {
+      streetNumber = true;
+    }
+    if (this.state.newLocation.locationName.length > 1) {
+      locationName = true;
+    }
+
     let number = false;
     let area = false;
     let premisesLevel = false;
@@ -156,10 +221,29 @@ class Owner_NewPremises extends Component {
       premisesType = true;
     }
 
-    if (number && area && premisesLevel && location && premisesType) {
+    if (number && area && premisesLevel && premisesType) {
       correct = true;
     }
 
+    if (this.state.choosenLocation.length === 0) {
+      correct =
+        correct && city && postCode && street && streetNumber && locationName;
+      return {
+        city,
+        postCode,
+        street,
+        streetNumber,
+        locationName,
+        number,
+        area,
+        premisesLevel,
+        location,
+        premisesType,
+        correct,
+      };
+    }
+
+    correct = correct && location;
     return {
       number,
       area,
@@ -170,30 +254,38 @@ class Owner_NewPremises extends Component {
     };
   };
 
-  handleSubmit = (e) => {
-    e.preventDefault();
-
+  reactiveValidation = () => {
+    this.setState({
+      changed: false,
+    });
     const validation = this.formValidation();
-
     if (validation.correct) {
-      this.sendPost();
-
       this.setState({
-        premisesNumber: "",
-        area: "",
-        premisesLevel: "",
-        state: "",
-        premisesType: {
-          type: "",
-        },
-        locationId: "",
-        furnished: false,
-
         errors: {
           number: false,
           area: false,
           premisesLevel: false,
           location: false,
+          premisesType: false,
+          city: false,
+          postCode: false,
+          street: false,
+          streetNumber: false,
+          locationName: false,
+        },
+      });
+    } else if (this.state.choosenLocation.length === 0) {
+      this.setState({
+        errors: {
+          number: !validation.number,
+          area: !validation.area,
+          premisesLevel: !validation.premisesLevel,
+          premisesType: !validation.premisesType,
+          city: !validation.city,
+          postCode: !validation.postCode,
+          street: !validation.street,
+          streetNumber: !validation.streetNumber,
+          locationName: !validation.locationName,
         },
       });
     } else {
@@ -209,22 +301,113 @@ class Owner_NewPremises extends Component {
     }
   };
 
-  sendPost = () => {
-    const newPremises = {
-      area: this.state.area,
-      furnished: this.state.furnished,
-      location: {
-        address: null,
-        locationName: this.state.choosenLocation,
-      },
-      premisesLevel: this.state.premisesLevel,
-      premisesNumber: this.state.premisesNumber,
-      premisesType: {
-        type: this.state.premisesType.type,
-      },
-    };
+  handleSubmit = (e) => {
+    e.preventDefault();
 
-    // console.log("wysyłam:", JSON.stringify(newPremises));
+    const validation = this.formValidation();
+
+    console.log("walidacja: ", validation);
+    if (validation.correct) {
+      this.sendPost();
+
+      this.setState({
+        newLocation: {
+          city: "",
+          postCode: "",
+          street: "",
+          streetNumber: "",
+          locationName: "",
+        },
+        premisesNumber: "",
+        area: "",
+        premisesLevel: "",
+        state: "",
+        premisesType: {
+          type: "",
+        },
+        locationId: "",
+        furnished: false,
+
+        errors: {
+          number: false,
+          area: false,
+          premisesLevel: false,
+          location: false,
+          premisesType: false,
+          city: false,
+          postCode: false,
+          street: false,
+          streetNumber: false,
+          locationName: false,
+        },
+      });
+    } else {
+      if (this.state.choosenLocation.length === 0) {
+        this.setState({
+          errors: {
+            number: !validation.number,
+            area: !validation.area,
+            premisesLevel: !validation.premisesLevel,
+            premisesType: !validation.premisesType,
+            city: !validation.city,
+            postCode: !validation.postCode,
+            street: !validation.street,
+            streetNumber: !validation.streetNumber,
+            locationName: !validation.locationName,
+          },
+        });
+      } else {
+        this.setState({
+          errors: {
+            number: !validation.number,
+            area: !validation.area,
+            premisesLevel: !validation.premisesLevel,
+            location: !validation.location,
+            premisesType: !validation.premisesType,
+          },
+        });
+      }
+    }
+  };
+
+  sendPost = () => {
+    let newPremises = {};
+    if (this.state.choosenLocation.length > 0) {
+      newPremises = {
+        area: this.state.area,
+        furnished: this.state.furnished,
+        location: {
+          address: null,
+          locationName: this.state.choosenLocation,
+        },
+        premisesLevel: this.state.premisesLevel,
+        premisesNumber: this.state.premisesNumber,
+        premisesType: {
+          type: this.state.premisesType.type,
+        },
+      };
+    } else {
+      newPremises = {
+        area: this.state.area,
+        furnished: this.state.furnished,
+        location: {
+          address: {
+            city: this.state.newLocation.city,
+            postCode: this.state.newLocation.postCode,
+            street: this.state.newLocation.street,
+            streetNumber: this.state.newLocation.streetNumber,
+          },
+          locationName: this.state.newLocation.locationName,
+        },
+        premisesLevel: this.state.premisesLevel,
+        premisesNumber: this.state.premisesNumber,
+        premisesType: {
+          type: this.state.premisesType.type,
+        },
+      };
+    }
+
+    console.log("wysyłam:", JSON.stringify(newPremises));
     let json = JSON.stringify(newPremises);
     const requestOptions = {
       method: "POST",
@@ -258,25 +441,109 @@ class Owner_NewPremises extends Component {
       <div className="content-container">
         <h1 className="content-title">Nowy lokal</h1>
         <form onSubmit={this.handleSubmit}>
-          <label htmlFor="choosenLocation">
-            Adres:
-            <select
-              value={this.state.locationId}
-              name="choosenLocation"
-              id="choosenLocation"
-              onChange={this.handleChange}
-            >
-              <option value=""></option>
-              {this.state.locations.map((option) => (
-                <option value={option.value}>{option.label}</option>
-              ))}
-            </select>
-            {this.state.errors.location && (
-              <span className="error-msg">
-                {this.messages.location_incorrect}
-              </span>
-            )}
-          </label>
+          <div className="location-choose">
+            <label style={{ fontWeight: "bold" }} htmlFor="choosenLocation">
+              Wybierz istniejący adres:
+              <select
+                value={this.state.locationId}
+                name="choosenLocation"
+                id="choosenLocation"
+                onChange={this.handleChange}
+              >
+                <option value=""></option>
+                {this.state.locations.map((option) => (
+                  <option value={option.value}>{option.label}</option>
+                ))}
+              </select>
+              {this.state.errors.location && (
+                <span className="error-msg">
+                  {this.messages.location_incorrect}
+                </span>
+              )}
+            </label>
+            <p style={{ fontWeight: "bold" }}>Lub dodaj nowy:</p>
+            <label htmlFor="city">
+              Miasto:
+              <input
+                id="city"
+                type="text"
+                name="city"
+                disabled={this.state.choosenLocation.length > 0 ? true : false}
+                value={this.state.newLocation.city}
+                onChange={this.handleChange}
+              />
+              {this.state.errors.city && (
+                <span className="error-msg">
+                  {this.messages.city_incorrect}
+                </span>
+              )}
+            </label>
+            <label htmlFor="street">
+              Ulica:
+              <input
+                id="street"
+                type="text"
+                name="street"
+                disabled={this.state.choosenLocation.length > 0 ? true : false}
+                value={this.state.newLocation.street}
+                onChange={this.handleChange}
+              />
+              {this.state.errors.street && (
+                <span className="error-msg">
+                  {this.messages.street_incorrect}
+                </span>
+              )}
+            </label>
+            <label htmlFor="streetNumber">
+              Nr:
+              <input
+                id="streetNumber"
+                type="text"
+                name="streetNumber"
+                disabled={this.state.choosenLocation.length > 0 ? true : false}
+                value={this.state.newLocation.streetNumber}
+                onChange={this.handleChange}
+              />
+              {this.state.errors.streetNumber && (
+                <span className="error-msg">
+                  {this.messages.streetNumber_incorrect}
+                </span>
+              )}
+            </label>
+            <label htmlFor="postCode">
+              Kod pocztowy:
+              <input
+                id="postCode"
+                type="text"
+                name="postCode"
+                disabled={this.state.choosenLocation.length > 0 ? true : false}
+                value={this.state.newLocation.postCode}
+                onChange={this.handleChange}
+              />
+              {this.state.errors.postCode && (
+                <span className="error-msg">
+                  {this.messages.postCode_incorrect}
+                </span>
+              )}
+            </label>
+            <label htmlFor="locationName">
+              Nazwa:
+              <input
+                id="locationName"
+                type="text"
+                name="locationName"
+                disabled={this.state.choosenLocation.length > 0 ? true : false}
+                value={this.state.newLocation.locationName}
+                onChange={this.handleChange}
+              />
+              {this.state.errors.locationName && (
+                <span className="error-msg">
+                  {this.messages.locationName_incorrect}
+                </span>
+              )}
+            </label>
+          </div>
+
           <label htmlFor="premisesNumber">
             Numer lokalu:
             <input

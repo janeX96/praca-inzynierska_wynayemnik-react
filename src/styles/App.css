@@ -105,3 +105,10 @@ select {
   margin-left: 10px;
   color: red;
 }
+
+.location-choose {
+  margin-right: 60%;
+
+  margin-bottom: 50px;
+  border-style: outset;
+}
