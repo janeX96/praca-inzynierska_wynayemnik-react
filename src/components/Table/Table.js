@@ -2,7 +2,7 @@ import React from "react";
 import { useTable, usePagination } from "react-table";
 import "./Table.css";
 
-function Table({ columns, data }) {
+function Table({ columns, data, initialState }) {
   const {
     getTableProps, // table props from react-table
     getTableBodyProps, // table body props from react-table
@@ -17,7 +17,7 @@ function Table({ columns, data }) {
     {
       columns,
       data,
-      initialState: { pageSize: 5 },
+      initialState,
     },
     usePagination
   );

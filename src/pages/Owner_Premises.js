@@ -60,7 +60,7 @@ class Owner extends Component {
 
   findDataById(id) {
     const res = this.state.data.find((premises) => {
-      return premises.premisesNumber === id;
+      return premises.premisesId === id;
     });
     console.log("wynik: ", res);
     return res;

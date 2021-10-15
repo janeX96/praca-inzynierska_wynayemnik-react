@@ -89,9 +89,11 @@ form {
 label {
   font-size: large;
   display: block;
+  margin-bottom: 10px;
 }
 
 input {
+  padding-right: 5px;
   margin-left: 10px;
 }
 

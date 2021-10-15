@@ -14,6 +14,10 @@ const LoadData = (props) => {
   const columns = React.useMemo(
     () => [
       {
+        Header: "Id",
+        accessor: "premisesId", // accessor is the "key" in the data
+      },
+      {
         Header: "Adres",
         accessor: "location.locationName", // accessor is the "key" in the data
       },
@@ -45,7 +49,7 @@ const LoadData = (props) => {
             className="action-button"
             value={cell.row.values.actions}
             onClick={
-              () => props.action(cell.row.values.premisesNumber) //parseInt(cell.row.values.premisesNumber, 10)
+              () => props.action(cell.row.values.premisesId) //parseInt(cell.row.values.premisesNumber, 10)
             }
           >
             Szczegóły
@@ -64,7 +68,15 @@ const LoadData = (props) => {
 
   const data = React.useMemo(() => premises, []);
 
-  return <div>{premises && <Table columns={columns} data={data} />}</div>;
+  const initialState = { pageSize: 5, hiddenColumns: "premisesId" };
+
+  return (
+    <div>
+      {premises && (
+        <Table columns={columns} data={data} initialState={initialState} />
+      )}
+    </div>
+  );
 };
 
 export default LoadData;

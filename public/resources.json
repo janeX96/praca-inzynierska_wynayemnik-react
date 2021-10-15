@@ -2,7 +2,9 @@
   "urls": {
     "owner": {
       "premises": "http://localhost:8080/owner/premises",
-      "locations": "http://localhost:8080/owner/locations"
+      "locations": "http://localhost:8080/owner/locations",
+      "newPremises": "http://localhost:8080/owner/new-premises",
+      "premisesTypes": "http://localhost:8080/premisesType/all"
     }
   }
 }
