@@ -37,7 +37,7 @@ class Owner_NewPremises extends Component {
     },
     lastAdded: "",
     postURL: "",
-    changed: false,
+    changed: "",
   };
 
   async getResources() {
@@ -98,7 +98,7 @@ class Owner_NewPremises extends Component {
   }
 
   componentDidUpdate() {
-    if (this.state.changed) {
+    if (this.state.changed.length > 0) {
       this.reactiveValidation();
     }
   }
@@ -118,9 +118,9 @@ class Owner_NewPremises extends Component {
   };
 
   handleChange = (e) => {
-    this.setState({ changed: true });
     const name = e.target.name;
     const type = e.target.type;
+    this.setState({ changed: name });
     console.log(name, ", type: ", type);
 
     if (type === "text" || type === "number" || type === "select-one") {
@@ -254,50 +254,86 @@ class Owner_NewPremises extends Component {
     };
   };
 
-  reactiveValidation = () => {
-    this.setState({
-      changed: false,
-    });
-    const validation = this.formValidation();
-    if (validation.correct) {
+  validationErrorSetter = (name, condition) => {
+    if (condition) {
       this.setState({
         errors: {
-          number: false,
-          area: false,
-          premisesLevel: false,
-          location: false,
-          premisesType: false,
-          city: false,
-          postCode: false,
-          street: false,
-          streetNumber: false,
-          locationName: false,
-        },
-      });
-    } else if (this.state.choosenLocation.length === 0) {
-      this.setState({
-        errors: {
-          number: !validation.number,
-          area: !validation.area,
-          premisesLevel: !validation.premisesLevel,
-          premisesType: !validation.premisesType,
-          city: !validation.city,
-          postCode: !validation.postCode,
-          street: !validation.street,
-          streetNumber: !validation.streetNumber,
-          locationName: !validation.locationName,
+          [name]: false,
         },
       });
     } else {
       this.setState({
         errors: {
-          number: !validation.number,
-          area: !validation.area,
-          premisesLevel: !validation.premisesLevel,
-          location: !validation.location,
-          premisesType: !validation.premisesType,
+          [name]: true,
         },
       });
+    }
+  };
+
+  reactiveValidation = () => {
+    const fieldName = this.state.changed;
+    this.setState({
+      changed: "",
+    });
+
+    const { city, postCode, street, streetNumber, locationName } =
+      this.state.newLocation;
+
+    const { premisesNumber, area, premisesLevel } = this.state;
+    const { type } = this.state.premisesType;
+
+    switch (fieldName) {
+      case "city":
+        this.validationErrorSetter(
+          "city",
+          city.length > 0 && city.length <= 30
+        );
+        break;
+      case "postCode":
+        this.validationErrorSetter(
+          "postCode",
+          /[0-9]{2}-[0-9]{3}/.test(postCode)
+        );
+        break;
+      case "street":
+        this.validationErrorSetter(
+          "street",
+          street.length > 0 && street.length <= 60
+        );
+        break;
+      case "streetNumber":
+        this.validationErrorSetter(
+          "streetNumber",
+          /^[0-9a-zA-Z]{1,4}$/.test(streetNumber)
+        );
+        break;
+      case "locationName":
+        this.validationErrorSetter(
+          "locationName",
+          locationName.length > 0 && locationName.length <= 40
+        );
+        break;
+      case "premisesNumber":
+        this.validationErrorSetter(
+          "premisesNumber",
+          /^[0-9a-zA-Z]{1,10}$/.test(premisesNumber)
+        );
+        break;
+      case "area":
+        this.validationErrorSetter("area", /^[0-9]{1,10}$/.test(area));
+        break;
+      case "premisesLevel":
+        this.validationErrorSetter(
+          "premisesLevel",
+          premisesLevel.length > 0 && premisesLevel.length <= 20
+        );
+        break;
+      case "premisesType":
+        this.validationErrorSetter("premisesType", type.length > 0);
+        break;
+
+      default:
+        return null;
     }
   };
 
@@ -430,11 +466,6 @@ class Owner_NewPremises extends Component {
       })
       .catch((err) => console.log(err));
   };
-
-  //   premisesTypeOptions = [
-  //     { value: "residential", label: "Mieszkalny" },
-  //     { value: "service", label: "Usługowy" },
-  //   ];
 
   render() {
     return (
