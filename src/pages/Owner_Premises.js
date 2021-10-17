@@ -6,7 +6,7 @@ import "../styles/App.css";
 import PremisesDetails from "./PremisesDetails/PremisesDetails";
 import { Link } from "react-router-dom";
 
-class Owner extends Component {
+class Owner_Premises extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -106,4 +106,4 @@ class Owner extends Component {
   }
 }
 
-export default Owner;
+export default Owner_Premises;
