@@ -44,10 +44,10 @@ class Owner_Premises extends Component {
               prem.state = "wolny";
             }
 
-            if (prem.isFurnished) {
-              prem.isFurnished = "tak";
+            if (prem.furnished) {
+              prem.furnished = "tak";
             } else {
-              prem.isFurnished = "nie";
+              prem.furnished = "nie";
             }
           });
           this.setState({ data: data });

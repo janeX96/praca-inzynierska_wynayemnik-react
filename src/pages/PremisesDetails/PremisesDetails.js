@@ -9,7 +9,7 @@ const PremisesDetails = ({
   area,
   state,
   createdDate,
-  isFurnished,
+  furnished,
   premisesLevel,
   premisesType,
   location,
@@ -20,7 +20,7 @@ const PremisesDetails = ({
     premisesNumber,
     area,
     state,
-    isFurnished,
+    furnished,
     premisesLevel,
     premisesType,
     location,
@@ -52,7 +52,7 @@ const PremisesDetails = ({
               <li>Numer lokalu: {premisesNumber}</li>
               <li>Powierzchnia (m2): {area}</li>
               <li>Rodzaj lokalu: {premisesType.type}</li>
-              <li>Umeblowanie: {isFurnished}</li>
+              <li>Umeblowanie: {furnished}</li>
               <li>Poziom: {premisesLevel}</li>
               <li>Dodano: {createdDate}</li>
               <li>Status: {state}</li>
