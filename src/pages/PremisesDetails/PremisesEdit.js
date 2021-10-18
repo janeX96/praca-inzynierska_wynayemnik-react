@@ -345,7 +345,7 @@ export default class PremisesEdit extends Component {
 
     console.log("walidacja: ", validation);
     if (validation.correct) {
-      this.sendPost();
+      this.sendPut();
 
       this.setState({
         newLocation: {
@@ -409,7 +409,7 @@ export default class PremisesEdit extends Component {
     this.props.edited();
   };
 
-  sendPost = () => {
+  sendPut = () => {
     let newPremises = {};
     if (this.state.choosenLocation.length > 0) {
       newPremises = {

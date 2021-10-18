@@ -10,9 +10,19 @@ li {
 
 .premises-details {
   font-size: 30px;
-  margin-right: auto;
+  margin-right: 50%;
   margin-left: 70px;
   margin-top: 20px;
   border-style: solid;
   border-color: #404142;
+}
+
+.content-title {
+  color: #404142;
+  font-size: 50px;
+  padding-top: 20px;
+  margin-left: 70px;
+  margin-right: 70px;
+  border-color: #404142;
+  border-bottom-style: solid;
 }

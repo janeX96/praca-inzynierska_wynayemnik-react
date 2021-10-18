@@ -38,6 +38,7 @@ class Owner_NewPremises extends Component {
     lastAdded: "",
     postURL: "",
     changed: "",
+    submitMessage: "",
   };
 
   async getResources() {
@@ -98,8 +99,17 @@ class Owner_NewPremises extends Component {
   }
 
   componentDidUpdate() {
+    //walidacja reaktywnie
     if (this.state.changed.length > 0) {
       this.reactiveValidation();
+    }
+
+    if (this.state.submitMessage !== "") {
+      setTimeout(() => {
+        this.setState({
+          submitMessage: "",
+        });
+      }, 3000);
     }
   }
 
@@ -342,11 +352,11 @@ class Owner_NewPremises extends Component {
 
     const validation = this.formValidation();
 
-    console.log("walidacja: ", validation);
     if (validation.correct) {
       this.sendPost();
 
       this.setState({
+        submitMessage: "Lokal został dodany",
         newLocation: {
           city: "",
           postCode: "",
@@ -652,6 +662,9 @@ class Owner_NewPremises extends Component {
           </Link>
           <button type="submit">Zapisz</button>
         </form>
+        {this.state.submitMessage && (
+          <h3 className="submit-message">{this.state.submitMessage}</h3>
+        )}
       </div>
     );
   }

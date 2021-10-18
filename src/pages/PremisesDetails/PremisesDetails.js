@@ -26,10 +26,16 @@ const PremisesDetails = ({
     location,
   };
 
+  const [submitMessage, setSubmitMessage] = useState("");
+
   const handleEdited = () => {
     setEdit(false);
-    //info o zapisaniu zmian.. todo
+    setSubmitMessage("Zmiany zostały zapisane");
+    setTimeout(() => {
+      setSubmitMessage("");
+    }, 3000);
   };
+
   return (
     <>
       {edit ? (
@@ -66,6 +72,7 @@ const PremisesDetails = ({
               <button>Usuń</button>
             </div>
           </div>
+          {submitMessage && <h1 className="submit-message">{submitMessage}</h1>}
         </div>
       )}
     </>
