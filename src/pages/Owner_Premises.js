@@ -12,6 +12,7 @@ class Owner_Premises extends Component {
     this.state = {
       data: [],
       choosenId: -1,
+      deleteURL: "",
     };
   }
 
@@ -29,6 +30,7 @@ class Owner_Premises extends Component {
 
   getData = () => {
     this.getResources().then((res) => {
+      this.setState({ deleteURL: res.urls.owner.premisesDelete });
       //pobranie danych z wyciągniętego adresu url
       fetch(res.urls.owner.premises, {
         headers: { Authorization: " Bearer " + keycloak.token },
@@ -75,13 +77,14 @@ class Owner_Premises extends Component {
   };
 
   render() {
-    console.log("w renderze: ", this.findDataById(this.state.choosenId));
+    console.log("render");
     return (
       <div className="content-container">
         {this.state.choosenId >= 0 ? (
           <PremisesDetails
             key={this.state.choosenId}
             action={this.handleAction}
+            deleteURL={this.state.deleteURL}
             {...this.findDataById(this.state.choosenId)}
           />
         ) : (

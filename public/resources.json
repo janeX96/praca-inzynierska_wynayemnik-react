@@ -5,7 +5,8 @@
       "locations": "http://localhost:8080/owner/locations",
       "newPremises": "http://localhost:8080/owner/new-premises",
       "premisesTypes": "http://localhost:8080/premisesType/all",
-      "premisesUpdate": "http://localhost:8080/owner/premises/"
+      "premisesUpdate": "http://localhost:8080/owner/premises/",
+      "premisesDelete": "http://localhost:8080/owner/premises/"
     }
   }
 }

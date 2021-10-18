@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./PremisesDetails.css";
 import "../../styles/App.css";
 import PremisesEdit from "./PremisesEdit";
+import keycloak from "../../auth/keycloak";
 
 const PremisesDetails = ({
   premisesId,
@@ -14,6 +15,7 @@ const PremisesDetails = ({
   premisesType,
   location,
   action,
+  deleteURL,
 }) => {
   const [edit, setEdit] = useState(false);
   const data = {
@@ -34,6 +36,27 @@ const PremisesDetails = ({
     setTimeout(() => {
       setSubmitMessage("");
     }, 3000);
+  };
+
+  const handleDelete = () => {
+    alert("Opie wiesz czo ty robisz ?");
+    const requestOptions = {
+      method: "PATCH",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json", //"application/json",
+        Authorization: " Bearer " + keycloak.token,
+      },
+    };
+
+    fetch(deleteURL + `${premisesId}`, requestOptions)
+      .then((response) => {
+        return response.json();
+      })
+      .catch((err) => console.log(err));
+
+    //powrót do listy
+    action(-1);
   };
 
   return (
@@ -69,7 +92,7 @@ const PremisesDetails = ({
               </button>
               <button>Wynajmij</button>
               <button onClick={() => setEdit(true)}>Edytuj</button>
-              <button>Usuń</button>
+              <button onClick={handleDelete}>Usuń</button>
             </div>
           </div>
           {submitMessage && <h1 className="submit-message">{submitMessage}</h1>}
