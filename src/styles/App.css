@@ -112,3 +112,9 @@ select {
   margin-bottom: 50px;
   border-style: outset;
 }
+
+/* edit */
+.submit-message {
+  margin-left: 70px;
+  color: #226e37;
+}
