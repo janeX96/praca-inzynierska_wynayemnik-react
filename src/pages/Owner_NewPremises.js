@@ -35,7 +35,7 @@ class Owner_NewPremises extends Component {
       streetNumber: false,
       locationName: false,
     },
-    lastAdded: "",
+    lastAdded: -1,
     postURL: "",
     changed: "",
     submitMessage: "",
@@ -353,39 +353,46 @@ class Owner_NewPremises extends Component {
     const validation = this.formValidation();
 
     if (validation.correct) {
-      this.sendPost();
+      this.sendPost().then((res) => {
+        console.log("wynik:", res);
+        const message =
+          res > 0
+            ? "Lokal został dodany"
+            : "Wystąpił problem przy dodawaniu lokalu...";
 
-      this.setState({
-        submitMessage: "Lokal został dodany",
-        newLocation: {
-          city: "",
-          postCode: "",
-          street: "",
-          streetNumber: "",
-          locationName: "",
-        },
-        premisesNumber: "",
-        area: "",
-        premisesLevel: "",
-        state: "",
-        premisesType: {
-          type: "",
-        },
-        locationId: "",
-        furnished: false,
+        this.setState({
+          submitMessage: message,
+          lastAdded: -1,
+          newLocation: {
+            city: "",
+            postCode: "",
+            street: "",
+            streetNumber: "",
+            locationName: "",
+          },
+          premisesNumber: "",
+          area: "",
+          premisesLevel: "",
+          state: "",
+          premisesType: {
+            type: "",
+          },
+          locationId: "",
+          furnished: false,
 
-        errors: {
-          number: false,
-          area: false,
-          premisesLevel: false,
-          location: false,
-          premisesType: false,
-          city: false,
-          postCode: false,
-          street: false,
-          streetNumber: false,
-          locationName: false,
-        },
+          errors: {
+            number: false,
+            area: false,
+            premisesLevel: false,
+            location: false,
+            premisesType: false,
+            city: false,
+            postCode: false,
+            street: false,
+            streetNumber: false,
+            locationName: false,
+          },
+        });
       });
     } else {
       if (this.state.choosenLocation.length === 0) {
@@ -416,7 +423,7 @@ class Owner_NewPremises extends Component {
     }
   };
 
-  sendPost = () => {
+  async sendPost() {
     let newPremises = {};
     if (this.state.choosenLocation.length > 0) {
       newPremises = {
@@ -465,17 +472,18 @@ class Owner_NewPremises extends Component {
       body: json,
     };
 
-    // console.log(requestOptions);
-    fetch(this.state.postURL, requestOptions)
+    const res = await fetch(this.state.postURL, requestOptions)
       .then((response) => {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         this.setState({ lastAdded: data.premisesId });
+        return data;
       })
       .catch((err) => console.log(err));
-  };
+
+    return res;
+  }
 
   render() {
     return (
