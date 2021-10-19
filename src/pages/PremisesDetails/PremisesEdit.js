@@ -36,7 +36,6 @@ export default class PremisesEdit extends Component {
       streetNumber: false,
       locationName: false,
     },
-    lastAdded: "",
     putURL: "",
     changed: "",
   };
@@ -343,40 +342,47 @@ export default class PremisesEdit extends Component {
 
     const validation = this.formValidation();
 
-    console.log("walidacja: ", validation);
     if (validation.correct) {
-      this.sendPut();
+      this.sendPut().then((res) => {
+        //na podstawie odpowiedzi od serwera określam komunikat (nie)powodzenia
 
-      this.setState({
-        newLocation: {
-          city: "",
-          postCode: "",
-          street: "",
-          streetNumber: "",
-          locationName: "",
-        },
-        premisesNumber: "",
-        area: "",
-        premisesLevel: "",
-        state: "",
-        premisesType: {
-          type: "",
-        },
-        locationId: "",
-        furnished: false,
+        const message = res
+          ? "Zmiany zostały zapisane"
+          : "Nie udało się zapisać zmian...";
 
-        errors: {
-          number: false,
-          area: false,
-          premisesLevel: false,
-          location: false,
-          premisesType: false,
-          city: false,
-          postCode: false,
-          street: false,
-          streetNumber: false,
-          locationName: false,
-        },
+        this.setState({
+          newLocation: {
+            city: "",
+            postCode: "",
+            street: "",
+            streetNumber: "",
+            locationName: "",
+          },
+          premisesNumber: "",
+          area: "",
+          premisesLevel: "",
+          state: "",
+          premisesType: {
+            type: "",
+          },
+          locationId: "",
+          furnished: false,
+
+          errors: {
+            number: false,
+            area: false,
+            premisesLevel: false,
+            location: false,
+            premisesType: false,
+            city: false,
+            postCode: false,
+            street: false,
+            streetNumber: false,
+            locationName: false,
+          },
+        });
+        console.log("wustawim odpowiedz na : ", message);
+        this.props.edited(message);
       });
     } else {
       if (this.state.choosenLocation.length === 0) {
@@ -405,16 +411,15 @@ export default class PremisesEdit extends Component {
         });
       }
     }
-
-    this.props.edited();
   };
 
-  sendPut = () => {
+  async sendPut() {
     let newPremises = {};
+    const isFurnished = this.state.furnished === "tak" ? true : false;
     if (this.state.choosenLocation.length > 0) {
       newPremises = {
         area: this.state.area,
-        furnished: this.state.furnished,
+        furnished: isFurnished,
         location: {
           address: null,
           locationName: this.state.choosenLocation,
@@ -428,7 +433,7 @@ export default class PremisesEdit extends Component {
     } else {
       newPremises = {
         area: this.state.area,
-        furnished: this.state.furnished,
+        furnished: isFurnished,
         location: {
           address: {
             city: this.state.newLocation.city,
@@ -458,17 +463,26 @@ export default class PremisesEdit extends Component {
       body: json,
     };
 
-    // console.log(requestOptions);
-    fetch(this.state.putURL + `${this.state.premisesId}`, requestOptions)
-      .then((response) => {
-        return response.json();
-      })
+    let ok = false;
+    const res = await fetch(
+      this.state.putURL + `${this.state.premisesId}`,
+      requestOptions
+    )
+      // .then((response) => {
+      //   return response.json();
+      // })
       .then((data) => {
-        console.log(data);
-        this.setState({ lastAdded: data.premisesId });
+        console.log("odpowiedź od serwera: ", data);
+        if (data.ok) {
+          ok = true;
+        }
+        return data;
       })
       .catch((err) => console.log(err));
-  };
+
+    console.log("czy jest okej?: ", ok);
+    return ok;
+  }
 
   render() {
     return (

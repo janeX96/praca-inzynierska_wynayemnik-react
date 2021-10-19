@@ -30,9 +30,10 @@ const PremisesDetails = ({
 
   const [submitMessage, setSubmitMessage] = useState("");
 
-  const handleEdited = () => {
+  const handleEdited = (msg) => {
     setEdit(false);
-    setSubmitMessage("Zmiany zostały zapisane");
+    console.log("wiadomość do wysw: ", msg);
+    setSubmitMessage(msg);
     setTimeout(() => {
       setSubmitMessage("");
     }, 3000);
@@ -65,8 +66,8 @@ const PremisesDetails = ({
         <PremisesEdit
           premisesId={premisesId}
           data={data}
-          edited={() => {
-            handleEdited();
+          edited={(msg) => {
+            handleEdited(msg);
           }}
           return={() => {
             setEdit(false);
