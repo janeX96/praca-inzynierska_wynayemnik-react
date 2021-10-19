@@ -14,6 +14,7 @@ const PremisesDetails = ({
   premisesLevel,
   premisesType,
   location,
+  deleteShowMessage,
   action,
   deleteURL,
 }) => {
@@ -40,24 +41,28 @@ const PremisesDetails = ({
   };
 
   const handleDelete = () => {
-    alert("Opie wiesz czo ty robisz ?");
-    const requestOptions = {
-      method: "PATCH",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json", //"application/json",
-        Authorization: " Bearer " + keycloak.token,
-      },
-    };
+    if (window.confirm("Czy na pewno chcesz usunąć ten lokal?")) {
+      const requestOptions = {
+        method: "PATCH",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json", //"application/json",
+          Authorization: " Bearer " + keycloak.token,
+        },
+      };
 
-    fetch(deleteURL + `${premisesId}`, requestOptions)
-      .then((response) => {
-        return response.json();
-      })
-      .catch((err) => console.log(err));
+      fetch(deleteURL + `${premisesId}`, requestOptions)
+        .then((response) => {
+          console.log(response.ok);
 
-    //powrót do listy
-    action(-1);
+          deleteShowMessage(response.ok);
+          return response;
+        })
+        .catch((err) => {
+          deleteShowMessage(false);
+          console.log(err);
+        });
+    }
   };
 
   return (

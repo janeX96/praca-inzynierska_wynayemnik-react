@@ -13,6 +13,7 @@ class Owner_Premises extends Component {
       data: [],
       choosenId: -1,
       deleteURL: "",
+      deletedMessage: "",
     };
   }
 
@@ -76,6 +77,21 @@ class Owner_Premises extends Component {
     });
   };
 
+  deleteShowMessage = (res) => {
+    this.handleAction(-1);
+    const msg = res
+      ? "Lokal został usunięty"
+      : "Nie udało się usunąć lokalu...";
+    this.setState({
+      deletedMessage: msg,
+    });
+    setTimeout(() => {
+      this.setState({
+        deletedMessage: "",
+      });
+    }, 3000);
+  };
+
   render() {
     console.log("render");
     return (
@@ -85,6 +101,7 @@ class Owner_Premises extends Component {
             key={this.state.choosenId}
             action={this.handleAction}
             deleteURL={this.state.deleteURL}
+            deleteShowMessage={(res) => this.deleteShowMessage(res)}
             {...this.findDataById(this.state.choosenId)}
           />
         ) : (
@@ -103,6 +120,9 @@ class Owner_Premises extends Component {
               "brak"
             )}
           </>
+        )}
+        {this.state.deletedMessage && (
+          <h2 className="submit-message">{this.state.deletedMessage}</h2>
         )}
       </div>
     );
