@@ -354,7 +354,6 @@ class Owner_NewPremises extends Component {
 
     if (validation.correct) {
       this.sendPost().then((res) => {
-        console.log("wynik:", res);
         const message =
           res > 0
             ? "Lokal został dodany"

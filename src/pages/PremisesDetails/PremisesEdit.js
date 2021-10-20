@@ -121,7 +121,7 @@ export default class PremisesEdit extends Component {
     const name = e.target.name;
     const type = e.target.type;
     this.setState({ changed: name });
-    console.log(name, ", type: ", type);
+    // console.log(name, ", type: ", type);
 
     if (type === "text" || type === "number" || type === "select-one") {
       const value = e.target.value;
@@ -146,7 +146,7 @@ export default class PremisesEdit extends Component {
         e.target.name === "streetNumber" ||
         e.target.name === "locationName"
       ) {
-        console.log("zmieniam>>> ", name);
+        // console.log("zmieniam>>> ", name);
         this.setState({
           newLocation: {
             ...this.state.newLocation,
@@ -381,7 +381,7 @@ export default class PremisesEdit extends Component {
             locationName: false,
           },
         });
-        console.log("wustawim odpowiedz na : ", message);
+        // console.log("wustawim odpowiedz na : ", message);
         this.props.edited(message);
       });
     } else {

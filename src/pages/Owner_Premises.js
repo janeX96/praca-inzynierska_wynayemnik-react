@@ -14,12 +14,20 @@ class Owner_Premises extends Component {
       choosenId: -1,
       deleteURL: "",
       deletedMessage: "",
+      // toReload: false,
     };
   }
 
   componentDidMount() {
     this.getData();
   }
+
+  // componentDidUpdate() {
+  //   if (this.state.toReload) {
+  //     this.setState({ toReload: false });
+  //     this.getData();
+  //   }
+  // }
 
   // pobranie danych dot. endpointów
   async getResources() {
@@ -29,7 +37,7 @@ class Owner_Premises extends Component {
     return resources;
   }
 
-  getData = () => {
+  async getData() {
     this.getResources().then((res) => {
       this.setState({ deleteURL: res.urls.owner.premisesDelete });
       //pobranie danych z wyciągniętego adresu url
@@ -59,19 +67,20 @@ class Owner_Premises extends Component {
           console.log("Error Reading data " + err);
         });
     });
-  };
+  }
 
   findDataById(id) {
     const res = this.state.data.find((premises) => {
       return premises.premisesId === id;
     });
-    console.log("wynik: ", res);
+    // console.log("wynik: ", res);
     return res;
   }
 
   //wybierając dany lokal zaamiętuję jego id, jeśi id jest >=0
   // to wyświetlam info, jeśli nie to pokazuje liste lokali
   handleAction = (id) => {
+    console.log("handleAction");
     this.setState({
       choosenId: id,
     });
@@ -84,6 +93,7 @@ class Owner_Premises extends Component {
       : "Nie udało się usunąć lokalu...";
     this.setState({
       deletedMessage: msg,
+      // toReload: true,
     });
     setTimeout(() => {
       this.setState({
@@ -93,7 +103,6 @@ class Owner_Premises extends Component {
   };
 
   render() {
-    console.log("render");
     return (
       <div className="content-container">
         {this.state.choosenId >= 0 ? (
@@ -102,6 +111,7 @@ class Owner_Premises extends Component {
             action={this.handleAction}
             deleteURL={this.state.deleteURL}
             deleteShowMessage={(res) => this.deleteShowMessage(res)}
+            reloadData={() => this.getData()}
             {...this.findDataById(this.state.choosenId)}
           />
         ) : (

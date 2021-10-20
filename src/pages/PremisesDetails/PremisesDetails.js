@@ -17,6 +17,7 @@ const PremisesDetails = ({
   deleteShowMessage,
   action,
   deleteURL,
+  reloadData,
 }) => {
   const [edit, setEdit] = useState(false);
   const data = {
@@ -33,11 +34,13 @@ const PremisesDetails = ({
 
   const handleEdited = (msg) => {
     setEdit(false);
-    console.log("wiadomość do wysw: ", msg);
+    // console.log("wiadomość do wysw: ", msg);
     setSubmitMessage(msg);
     setTimeout(() => {
       setSubmitMessage("");
     }, 3000);
+
+    reloadData();
   };
 
   const handleDelete = () => {
@@ -53,8 +56,7 @@ const PremisesDetails = ({
 
       fetch(deleteURL + `${premisesId}`, requestOptions)
         .then((response) => {
-          console.log(response.ok);
-
+          // console.log(response.ok);
           deleteShowMessage(response.ok);
           return response;
         })

@@ -61,9 +61,8 @@ const LoadData = (props) => {
   );
 
   useEffect(() => {
-    console.log("props.data: ", props.data);
+    // console.log("props.data: ", props.data);
     setPremises(props.data);
-    console.log("premises: ", premises);
   }, []);
 
   const data = React.useMemo(() => premises, []);
