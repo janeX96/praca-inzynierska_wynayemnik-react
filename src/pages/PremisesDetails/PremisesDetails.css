@@ -26,3 +26,26 @@ li {
   border-color: #404142;
   border-bottom-style: solid;
 }
+
+.deleted-msg {
+  margin-top: 5%;
+  margin-right: 70%;
+  /* padding-top: 10%; */
+  /* margin-top: 10px; */
+  border-style: solid;
+  border-color: #404142;
+  border-width: 5px;
+  text-align: center;
+}
+
+.deleted-msg > h2 {
+  color: red;
+  font-size: 30px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  vertical-align: middle;
+}
+
+.deleted-msg > button {
+  margin-bottom: 15px;
+}

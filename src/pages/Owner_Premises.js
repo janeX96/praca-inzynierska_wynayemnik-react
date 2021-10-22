@@ -23,9 +23,11 @@ class Owner_Premises extends Component {
   }
 
   // componentDidUpdate() {
+  //   console.log("cdUpdate: to reload: ", this.state.toReload);
   //   if (this.state.toReload) {
-  //     this.setState({ toReload: false });
-  //     this.getData();
+  //     this.getData().then(() => {
+  //       this.setState({ toReload: false });
+  //     });
   //   }
   // }
 
@@ -84,6 +86,7 @@ class Owner_Premises extends Component {
     this.setState({
       choosenId: id,
     });
+    this.getData();
   };
 
   deleteShowMessage = (res) => {
@@ -95,6 +98,7 @@ class Owner_Premises extends Component {
       deletedMessage: msg,
       // toReload: true,
     });
+
     setTimeout(() => {
       this.setState({
         deletedMessage: "",

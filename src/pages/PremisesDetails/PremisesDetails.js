@@ -31,6 +31,7 @@ const PremisesDetails = ({
   };
 
   const [submitMessage, setSubmitMessage] = useState("");
+  const [deleted, setDeleted] = useState(false);
 
   const handleEdited = (msg) => {
     setEdit(false);
@@ -42,6 +43,10 @@ const PremisesDetails = ({
 
     reloadData();
   };
+
+  // useEffect(() => {
+  //   reloadData();
+  // });
 
   const handleDelete = () => {
     if (window.confirm("Czy na pewno chcesz usunąć ten lokal?")) {
@@ -56,8 +61,17 @@ const PremisesDetails = ({
 
       fetch(deleteURL + `${premisesId}`, requestOptions)
         .then((response) => {
-          // console.log(response.ok);
-          deleteShowMessage(response.ok);
+          setDeleted(true);
+          // deleteShowMessage(response.ok);
+
+          const msg = response.ok
+            ? "Lokal został usunięty"
+            : "Nie udało się usunąć lokalu...";
+          setSubmitMessage(msg);
+          reloadData();
+          // setTimeout(() => {
+          //   action(-1);
+          // }, 3000);
           return response;
         })
         .catch((err) => {
@@ -80,6 +94,13 @@ const PremisesDetails = ({
             setEdit(false);
           }}
         />
+      ) : deleted ? (
+        <div className="deleted-msg">
+          <h2>{submitMessage}</h2>
+          <button className="action-button" onClick={() => action(-1)}>
+            Powrót
+          </button>
+        </div>
       ) : (
         <div>
           <h1 className="content-title">Szczegóły lokalu</h1>
