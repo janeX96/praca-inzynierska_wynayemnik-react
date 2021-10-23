@@ -1,21 +1,21 @@
-import React from 'react';
-import { useKeycloak } from '@react-keycloak/web';
+import React from "react";
+import { useKeycloak } from "@react-keycloak/web";
 
 const Login = () => {
-    const {keycloak, initialized} = useKeycloak();
-    return (
-        <div>
-             {keycloak && !keycloak.authenticated &&
-                 <button onClick={() => keycloak.login()}>Login</button>
-            }
+  const { keycloak, initialized } = useKeycloak();
+  return (
+    <div>
+      {keycloak && !keycloak.authenticated && (
+        <button onClick={() => keycloak.login()}>Zaloguj</button>
+      )}
 
-            {keycloak && keycloak.authenticated &&
-                    <button onClick={() => keycloak.logout()}>
-                        Logout ({keycloak.tokenParsed.preferred_username })  
-                    </button>
-            }
-        </div>
-    )
-}
+      {keycloak && keycloak.authenticated && (
+        <button onClick={() => keycloak.logout()}>
+          Wyloguj ({keycloak.tokenParsed.preferred_username})
+        </button>
+      )}
+    </div>
+  );
+};
 
-export default Login
+export default Login;
