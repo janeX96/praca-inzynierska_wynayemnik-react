@@ -1,9 +1,6 @@
-import { useKeycloak } from "@react-keycloak/web";
 import keycloak from "./keycloak";
 
 export default function AuthorizedFunction(roles) {
-  //   const [keycloak, initialized] = useKeycloak();
-
   const isAutherized = () => {
     if (keycloak && roles) {
       return roles.some((r) => {

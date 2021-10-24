@@ -1,0 +1,17 @@
+.details {
+  font-size: 30px;
+  margin-right: 50%;
+  margin-left: 70px;
+  margin-top: 20px;
+  border-style: solid;
+  border-color: #404142;
+}
+
+.edit-btn {
+  margin-right: 10px;
+  background-color: #87888a;
+  font-size: large;
+  color: #e3e3e3;
+  margin-left: 50px;
+  margin-bottom: 20px;
+}

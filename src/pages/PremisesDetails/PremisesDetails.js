@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./PremisesDetails.css";
 import "../../styles/App.css";
-import PremisesEdit from "./PremisesEdit";
+import PremisesEdit from "../PremisesEdit";
 import keycloak from "../../auth/keycloak";
 
 const PremisesDetails = ({

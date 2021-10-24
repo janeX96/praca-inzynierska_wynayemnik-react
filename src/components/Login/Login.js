@@ -1,18 +1,17 @@
 import React from "react";
 import { useKeycloak } from "@react-keycloak/web";
+import "./Login.css";
 
 const Login = () => {
   const { keycloak, initialized } = useKeycloak();
   return (
     <div>
       {keycloak && !keycloak.authenticated && (
-        <button onClick={() => keycloak.login()}>Zaloguj</button>
+        <a onClick={() => keycloak.login()}>Logowanie</a>
       )}
 
       {keycloak && keycloak.authenticated && (
-        <button onClick={() => keycloak.logout()}>
-          Wyloguj ({keycloak.tokenParsed.preferred_username})
-        </button>
+        <a onClick={() => keycloak.logout()}>Wyloguj</a>
       )}
     </div>
   );

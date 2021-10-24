@@ -7,6 +7,7 @@
       "premisesTypes": "http://localhost:8080/premisesType/all",
       "premisesUpdate": "http://localhost:8080/owner/premises/",
       "premisesDelete": "http://localhost:8080/owner/premises/"
-    }
+    },
+    "user": "http://localhost:8080/user/"
   }
 }

@@ -1,6 +1,6 @@
-import "../../styles/App.css";
+import "../styles/App.css";
 import { Component } from "react";
-import keycloak from "../../auth/keycloak";
+import keycloak from "../auth/keycloak";
 import { Link } from "react-router-dom";
 
 export default class PremisesEdit extends Component {
