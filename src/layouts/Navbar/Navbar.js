@@ -66,13 +66,25 @@ function Navbar() {
                     Moje wynajmy
                   </Link>
                 </li>
+                <li className="nav-item">
+                  <Link to="/" className="nav-links" onClick={closeMobileMenu}>
+                    Administratorzy
+                  </Link>
+                </li>
               </>
             ) : role === "Admin" ? (
-              <li className="nav-item">
-                <Link to="/" className="nav-links" onClick={closeMobileMenu}>
-                  Przypisane lokale
-                </Link>
-              </li>
+              <>
+                <li className="nav-item">
+                  <Link to="/" className="nav-links" onClick={closeMobileMenu}>
+                    Wynajmy
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link to="/" className="nav-links" onClick={closeMobileMenu}>
+                    Lokale
+                  </Link>
+                </li>
+              </>
             ) : role === "Client" ? (
               <li className="nav-item">
                 <Link to="/" className="nav-links" onClick={closeMobileMenu}>

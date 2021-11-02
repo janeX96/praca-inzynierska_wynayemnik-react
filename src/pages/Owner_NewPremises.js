@@ -591,83 +591,86 @@ class Owner_NewPremises extends Component {
               )}
             </label>
           </div>
-
-          <label htmlFor="premisesNumber">
-            Numer lokalu:
-            <input
-              id="premisesNumber"
-              type="text"
-              name="premisesNumber"
-              value={this.state.premisesNumber}
-              onChange={this.handleChange}
-            />
-            {this.state.errors.number && (
-              <span className="error-msg">
-                {this.messages.number_incorrect}
-              </span>
-            )}
-          </label>
-          <label htmlFor="area">
-            Powierzchnia lokalu:
-            <input
-              id="area"
-              type="number"
-              name="area"
-              value={this.state.area}
-              onChange={this.handleChange}
-            />
-            {this.state.errors.area && (
-              <span className="error-msg">{this.messages.area_incorrect}</span>
-            )}
-          </label>
-          <label htmlFor="premisesLevel">
-            Poziom:
-            <input
-              id="premisesLevel"
-              type="text"
-              name="premisesLevel"
-              value={this.state.premisesLevel}
-              onChange={this.handleChange}
-            />
-            {this.state.errors.premisesLevel && (
-              <span className="error-msg">
-                {this.messages.premisesLevel_incorrect}
-              </span>
-            )}
-          </label>
-          <label htmlFor="premisesType">
-            Rodzaj:
-            <select
-              value={this.state.premisesType.type}
-              id="premisesType"
-              name="premisesType"
-              onChange={this.handleChange}
-            >
-              <option value=""></option>
-              {this.state.premisesTypes.map((option) => (
-                <option value={option.label}>{option.label}</option>
-              ))}
-            </select>
-            {this.state.errors.premisesType && (
-              <span className="error-msg">
-                {this.messages.premisesType_incorrect}
-              </span>
-            )}
-          </label>
-          <label htmlFor="furnished">
-            Umeblowany:
-            <input
-              onChange={this.handleChange}
-              type="checkbox"
-              id="furnished"
-              name="furnished"
-              checked={this.state.furnished}
-            />
-          </label>
-          <Link to="owner-premises">
-            <button>Powrót</button>
-          </Link>
-          <button type="submit">Zapisz</button>
+          <div className="new-premises-details">
+            <label htmlFor="premisesNumber">
+              Numer lokalu:
+              <input
+                id="premisesNumber"
+                type="text"
+                name="premisesNumber"
+                value={this.state.premisesNumber}
+                onChange={this.handleChange}
+              />
+              {this.state.errors.number && (
+                <span className="error-msg">
+                  {this.messages.number_incorrect}
+                </span>
+              )}
+            </label>
+            <label htmlFor="area">
+              Powierzchnia lokalu:
+              <input
+                id="area"
+                type="number"
+                name="area"
+                value={this.state.area}
+                onChange={this.handleChange}
+              />
+              {this.state.errors.area && (
+                <span className="error-msg">
+                  {this.messages.area_incorrect}
+                </span>
+              )}
+            </label>
+            <label htmlFor="premisesLevel">
+              Poziom:
+              <input
+                id="premisesLevel"
+                type="text"
+                name="premisesLevel"
+                value={this.state.premisesLevel}
+                onChange={this.handleChange}
+              />
+              {this.state.errors.premisesLevel && (
+                <span className="error-msg">
+                  {this.messages.premisesLevel_incorrect}
+                </span>
+              )}
+            </label>
+            <label htmlFor="premisesType">
+              Rodzaj:
+              <select
+                value={this.state.premisesType.type}
+                id="premisesType"
+                name="premisesType"
+                onChange={this.handleChange}
+              >
+                <option value=""></option>
+                {this.state.premisesTypes.map((option) => (
+                  <option value={option.label}>{option.label}</option>
+                ))}
+              </select>
+              {this.state.errors.premisesType && (
+                <span className="error-msg">
+                  {this.messages.premisesType_incorrect}
+                </span>
+              )}
+            </label>
+            <label htmlFor="furnished">
+              Umeblowany:
+              <input
+                onChange={this.handleChange}
+                type="checkbox"
+                id="furnished"
+                name="furnished"
+                checked={this.state.furnished}
+              />
+            </label>
+            <Link to="owner-premises">
+              <button>Powrót</button>
+            </Link>
+            <button type="submit">Zapisz</button>
+          </div>
         </form>
         {this.state.submitMessage && (
           <h3 className="submit-message">{this.state.submitMessage}</h3>

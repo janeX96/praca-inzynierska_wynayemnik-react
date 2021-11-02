@@ -95,6 +95,7 @@ label {
 input {
   padding-right: 5px;
   margin-left: 10px;
+  /* float: right; */
 }
 
 select {
@@ -118,3 +119,11 @@ select {
   margin-left: 70px;
   color: #226e37;
 }
+
+/* .new-premises-details {
+  margin-right: 75%;
+} */
+
+/* input[type="checkbox"] {
+  float: initial;
+} */
