@@ -1,37 +1,43 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 import "../../styles/App.css";
 import "./Registration.css";
-import keycloak from "../keycloak";
 import ReCAPTCHA from "react-google-recaptcha";
 import RegistrationComplete from "./RegistrationComplete";
 
-export default class Registration extends Component {
-  constructor(props) {
-    super(props);
+const Registration = () => {
+  const [data, setData] = useState({
+    firstName: "",
+    lastName: "",
+    phoneNumber: "",
+    email: "",
+    password: "",
+    checkPassword: "",
+    registrationErrors: "",
+    success: false,
+    token: "",
+    registerURL: "",
+  });
 
-    this.state = {
-      firstName: "",
-      lastName: "",
-      phoneNumber: "",
-      email: "",
-      password: "",
-      checkPassword: "",
-      registrationErrors: "",
-      success: false,
-      token: "",
-    };
+  //zaciągam url do POST-a
+  useEffect(() => {
+    async function getResources() {
+      let res = await fetch("/resources.json");
+      let response = await res.json();
+      // console.log(response.urls.register);
+      setData({ registerURL: response.urls.register });
+    }
+    getResources();
+  }, []);
 
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-  }
-
-  handleChange(event) {
-    this.setState({
+  const handleChange = (event) => {
+    console.log("edytuje: ", event.target.name);
+    setData({
+      ...data,
       [event.target.name]: event.target.value,
     });
-  }
+  };
 
-  async handleSubmit(event) {
+  async function handleSubmit(event) {
     const {
       firstName,
       lastName,
@@ -40,7 +46,7 @@ export default class Registration extends Component {
       password,
       checkPassword,
       token,
-    } = this.state;
+    } = data;
 
     let userData = {
       firstName: firstName,
@@ -53,28 +59,23 @@ export default class Registration extends Component {
     };
 
     let jsonData = JSON.stringify(userData);
+    console.log(jsonData);
 
     const requestOptions = {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        // Authorization: " Bearer " + keycloak.token,
       },
       body: jsonData,
     };
 
-    // console.log("wysylam: ", requestOptions);
-
     event.preventDefault();
-    const res = await fetch(
-      "http://localhost:8080/auth/register",
-      requestOptions
-    )
+    await fetch("http://localhost:8080/auth/register", requestOptions)
       .then((response) => {
         if (response.ok) {
           console.log("REJESTRACJA POMYŚLNA");
-          this.setState({ success: true });
+          setData({ success: true });
         }
 
         return response.json();
@@ -82,94 +83,94 @@ export default class Registration extends Component {
       .catch((err) => console.log(err));
   }
 
-  handleReCAPTCHA = (value) => {
+  const handleReCAPTCHA = (value) => {
     console.log("Captcha value:", value);
-    this.setState({ token: value });
+    setData({ ...data, token: value });
   };
 
-  render() {
-    return (
-      <div className="content-container">
-        {this.state.success ? (
-          <RegistrationComplete />
-        ) : (
-          <div className="registration-container">
-            <form onSubmit={this.handleSubmit}>
-              <input
-                className="register-input"
-                type="firstName"
-                name="firstName"
-                placeholder="imię"
-                value={this.state.firstName}
-                onChange={this.handleChange}
-                required
+  return (
+    <div className="content-container">
+      {data.success ? (
+        <RegistrationComplete />
+      ) : (
+        <div className="registration-container">
+          <form onSubmit={handleSubmit}>
+            <input
+              className="register-input"
+              type="firstName"
+              name="firstName"
+              placeholder="imię"
+              value={data.firstName}
+              onChange={handleChange}
+              required
+            />
+
+            <input
+              className="register-input"
+              type="lastName"
+              name="lastName"
+              placeholder="nazwisko"
+              value={data.lastName}
+              onChange={handleChange}
+              required
+            />
+
+            <input
+              className="register-input"
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={data.email}
+              onChange={handleChange}
+              required
+            />
+
+            <input
+              className="register-input"
+              type="tel"
+              name="phoneNumber"
+              pattern="[0-9]{9}"
+              placeholder="numer tel : 123456789"
+              value={data.phoneNumber}
+              onChange={handleChange}
+              required
+            />
+
+            <input
+              className="register-input"
+              type="password"
+              name="password"
+              placeholder="hasło"
+              value={data.password}
+              onChange={handleChange}
+              required
+            />
+
+            <input
+              className="register-input"
+              type="password"
+              name="checkPassword"
+              placeholder="powtórz hasło"
+              value={data.checkPassword}
+              onChange={handleChange}
+              required
+            />
+
+            <div>
+              <ReCAPTCHA
+                sitekey="6LdYUw0dAAAAAPtkwRE9qReUtokW_mjQyH71PQgT"
+                onChange={handleReCAPTCHA}
               />
+            </div>
 
-              <input
-                className="register-input"
-                type="lastName"
-                name="lastName"
-                placeholder="nazwisko"
-                value={this.state.lastName}
-                onChange={this.handleChange}
-                required
-              />
+            <button type="submit" className="register-button">
+              Zarejestruj
+            </button>
+          </form>
+        </div>
+      )}
+    </div>
+  );
+};
 
-              <input
-                className="register-input"
-                type="email"
-                name="email"
-                placeholder="Email"
-                value={this.state.email}
-                onChange={this.handleChange}
-                required
-              />
-
-              <input
-                className="register-input"
-                type="tel"
-                name="phoneNumber"
-                pattern="[0-9]{9}"
-                placeholder="numer tel : 123456789"
-                value={this.state.phoneNumber}
-                onChange={this.handleChange}
-                required
-              />
-
-              <input
-                className="register-input"
-                type="password"
-                name="password"
-                placeholder="hasło"
-                value={this.state.password}
-                onChange={this.handleChange}
-                required
-              />
-
-              <input
-                className="register-input"
-                type="password"
-                name="checkPassword"
-                placeholder="powtórz hasło"
-                value={this.state.checkPassword}
-                onChange={this.handleChange}
-                required
-              />
-
-              <div>
-                <ReCAPTCHA
-                  sitekey="6LdYUw0dAAAAAPtkwRE9qReUtokW_mjQyH71PQgT"
-                  onChange={this.handleReCAPTCHA}
-                />
-              </div>
-
-              <button type="submit" className="register-button">
-                Zarejestruj
-              </button>
-            </form>
-          </div>
-        )}
-      </div>
-    );
-  }
-}
+export default Registration;
