@@ -18,6 +18,7 @@ export default class Registration extends Component {
       checkPassword: "",
       registrationErrors: "",
       success: false,
+      token: "",
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -31,8 +32,15 @@ export default class Registration extends Component {
   }
 
   async handleSubmit(event) {
-    const { firstName, lastName, phoneNumber, email, password, checkPassword } =
-      this.state;
+    const {
+      firstName,
+      lastName,
+      phoneNumber,
+      email,
+      password,
+      checkPassword,
+      token,
+    } = this.state;
 
     let userData = {
       firstName: firstName,
@@ -41,6 +49,7 @@ export default class Registration extends Component {
       email: email,
       password: password,
       checkPassword: checkPassword,
+      recaptchaResponse: token,
     };
 
     let jsonData = JSON.stringify(userData);
@@ -55,7 +64,7 @@ export default class Registration extends Component {
       body: jsonData,
     };
 
-    console.log("wysylam: ", requestOptions);
+    // console.log("wysylam: ", requestOptions);
 
     event.preventDefault();
     const res = await fetch(
@@ -64,7 +73,7 @@ export default class Registration extends Component {
     )
       .then((response) => {
         if (response.ok) {
-          // console.log("REJESTRACJA POMYŚLNA");
+          console.log("REJESTRACJA POMYŚLNA");
           this.setState({ success: true });
         }
 
@@ -75,6 +84,7 @@ export default class Registration extends Component {
 
   handleReCAPTCHA = (value) => {
     console.log("Captcha value:", value);
+    this.setState({ token: value });
   };
 
   render() {
@@ -89,7 +99,7 @@ export default class Registration extends Component {
                 className="register-input"
                 type="firstName"
                 name="firstName"
-                placeholder="first name"
+                placeholder="imię"
                 value={this.state.firstName}
                 onChange={this.handleChange}
                 required
@@ -99,7 +109,7 @@ export default class Registration extends Component {
                 className="register-input"
                 type="lastName"
                 name="lastName"
-                placeholder="last name"
+                placeholder="nazwisko"
                 value={this.state.lastName}
                 onChange={this.handleChange}
                 required
@@ -117,9 +127,10 @@ export default class Registration extends Component {
 
               <input
                 className="register-input"
-                type="phoneNumber"
+                type="tel"
                 name="phoneNumber"
-                placeholder="phone number"
+                pattern="[0-9]{9}"
+                placeholder="numer tel : 123456789"
                 value={this.state.phoneNumber}
                 onChange={this.handleChange}
                 required
@@ -129,7 +140,7 @@ export default class Registration extends Component {
                 className="register-input"
                 type="password"
                 name="password"
-                placeholder="Password"
+                placeholder="hasło"
                 value={this.state.password}
                 onChange={this.handleChange}
                 required
@@ -139,18 +150,18 @@ export default class Registration extends Component {
                 className="register-input"
                 type="password"
                 name="checkPassword"
-                placeholder="Password confirmation"
+                placeholder="powtórz hasło"
                 value={this.state.checkPassword}
                 onChange={this.handleChange}
                 required
               />
 
-              {/* <div>
-              <ReCAPTCHA
-                sitekey="6LdYUw0dAAAAAPtkwRE9qReUtokW_mjQyH71PQgT"
-                onChange={this.handleReCAPTCHA}
-              />
-            </div> */}
+              <div>
+                <ReCAPTCHA
+                  sitekey="6LdYUw0dAAAAAPtkwRE9qReUtokW_mjQyH71PQgT"
+                  onChange={this.handleReCAPTCHA}
+                />
+              </div>
 
               <button type="submit" className="register-button">
                 Zarejestruj
