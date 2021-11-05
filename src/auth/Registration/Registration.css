@@ -16,5 +16,9 @@
 .register-button {
   font-size: large;
   margin-top: 10px;
-  margin-left: 16%;
+  margin-left: 7%;
+}
+
+.reCaptcha {
+  margin-left: 1%;
 }
