@@ -22,3 +22,24 @@
 .reCaptcha {
   margin-left: 1%;
 }
+
+.confirm-container {
+  padding-top: 5%;
+  padding-left: 5%;
+  text-align: center;
+  padding-right: 60%;
+  color: #404142;
+}
+
+.confirm-container > h1 {
+  font-size: xx-large;
+}
+.confirm-container > a {
+  font-size: large;
+  cursor: pointer;
+}
+
+.confirm-container > a :hover {
+  text-decoration: underline;
+  color: white;
+}

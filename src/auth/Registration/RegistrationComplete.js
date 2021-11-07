@@ -1,11 +1,13 @@
 import React from "react";
 import Login from "../../components/Login/Login";
-
+import "./Registration.css";
 const RegistrationComplete = () => {
   return (
-    <div>
+    <div className="confirm-container">
       <h1>Rejestracja przebiegła pomyślnie</h1>
-      <Login />
+      <a>
+        <Login />
+      </a>
     </div>
   );
 };
