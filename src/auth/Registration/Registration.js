@@ -14,7 +14,7 @@ const Registration = () => {
     password: "",
     checkPassword: "",
     registrationError: "",
-    success: true,
+    success: false,
     token: "",
     registerURL: "",
     sending: false,
