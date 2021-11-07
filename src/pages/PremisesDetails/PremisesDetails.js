@@ -35,7 +35,6 @@ const PremisesDetails = ({
 
   const handleEdited = (msg) => {
     setEdit(false);
-    // console.log("wiadomość do wysw: ", msg);
     setSubmitMessage(msg);
     setTimeout(() => {
       setSubmitMessage("");
@@ -43,10 +42,6 @@ const PremisesDetails = ({
 
     reloadData();
   };
-
-  // useEffect(() => {
-  //   reloadData();
-  // });
 
   const handleDelete = () => {
     if (window.confirm("Czy na pewno chcesz usunąć ten lokal?")) {
@@ -62,16 +57,13 @@ const PremisesDetails = ({
       fetch(deleteURL + `${premisesId}`, requestOptions)
         .then((response) => {
           setDeleted(true);
-          // deleteShowMessage(response.ok);
 
           const msg = response.ok
             ? "Lokal został usunięty"
             : "Nie udało się usunąć lokalu...";
           setSubmitMessage(msg);
           reloadData();
-          // setTimeout(() => {
-          //   action(-1);
-          // }, 3000);
+
           return response;
         })
         .catch((err) => {

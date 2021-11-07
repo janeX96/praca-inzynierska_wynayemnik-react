@@ -50,7 +50,7 @@ const Owner_Premises = () => {
               prem.furnished = "nie";
             }
           });
-          setState({ ...data, data: data });
+          setState({ ...state, data: data });
         })
         .catch((err) => {
           console.log("Error Reading data " + err);
@@ -59,10 +59,11 @@ const Owner_Premises = () => {
   };
 
   const findDataById = (id) => {
+    console.log("Odczyt: ", state.data);
     const res = state.data.find((premises) => {
       return premises.premisesId === id;
     });
-    // console.log("wynik: ", res);
+
     return res;
   };
 
@@ -71,10 +72,17 @@ const Owner_Premises = () => {
   const handleAction = (id) => {
     console.log("handleAction");
     setState({
+      ...state,
       choosenId: id,
     });
-    getData();
+    // if (id < 0) {
+    //   getData();
+    // }
   };
+
+  useEffect(() => {
+    getData();
+  }, [state.choosenId]);
 
   const deleteShowMessage = (res) => {
     handleAction(-1);
@@ -82,12 +90,14 @@ const Owner_Premises = () => {
       ? "Lokal został usunięty"
       : "Nie udało się usunąć lokalu...";
     setState({
+      ...state,
       deletedMessage: msg,
       // toReload: true,
     });
 
     setTimeout(() => {
       setState({
+        ...state,
         deletedMessage: "",
       });
     }, 3000);
