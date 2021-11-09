@@ -6,6 +6,11 @@
   margin-bottom: 15%;
 }
 
+.registration-container .error-msg {
+  margin-left: 10%;
+  font-size: larger;
+}
+
 .register-input {
   display: block;
   width: 20%;

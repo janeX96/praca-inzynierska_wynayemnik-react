@@ -131,25 +131,36 @@ const Registration = () => {
           body: jsonData,
         };
 
+        let responseOk = false;
+        let errorMsg = "";
         await fetch("http://localhost:8080/auth/register", requestOptions)
           .then((response) => {
             if (response.ok) {
-              console.log("REJESTRACJA POMYŚLNA");
-              setData({ ...data, success: true });
-            } else {
-              const err = response;
-              console.log(">>>Błąd rejestracji: ", err);
-              // setData({
-              //   ...data,
-              //   registrationError: response.errors.json(),
-              //   sending: false,
-              // });
+              // console.log("REJESTRACJA POMYŚLNA");
+              responseOk = true;
             }
-
             return response.json();
           })
+          .then((res) => {
+            if (!res.ok) {
+              // console.log("error: ", res.error);
+              errorMsg = res.error;
+            }
+
+            if (responseOk) {
+              setData({ ...data, success: true });
+            } else {
+              setData({
+                ...data,
+                registrationError: errorMsg,
+                sending: false,
+                token: "",
+              });
+              window.grecaptcha.reset();
+            }
+          })
           .catch((err) => {
-            console.log("Błąd: ", err.message);
+            // console.log("Błąd: ", err.message);
             setData({ ...data, sending: false });
           });
       } else {
@@ -165,7 +176,7 @@ const Registration = () => {
   }
 
   const handleReCAPTCHA = (value) => {
-    console.log("Captcha value:", value);
+    // console.log("Captcha value:", value);
     if (value === null) {
       setData({ ...data, token: "" });
     } else {

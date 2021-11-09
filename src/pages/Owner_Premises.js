@@ -26,8 +26,9 @@ const Owner_Premises = () => {
   };
 
   const getData = async () => {
+    let deleteURL = "";
     getResources().then((res) => {
-      setState({ ...state, deleteURL: res.urls.owner.premisesDelete });
+      deleteURL = res.urls.owner.premisesDelete;
 
       //pobranie danych z wyciągniętego adresu url
       fetch(res.urls.owner.premises, {
@@ -50,7 +51,7 @@ const Owner_Premises = () => {
               prem.furnished = "nie";
             }
           });
-          setState({ ...state, data: data });
+          setState({ ...state, deleteURL: deleteURL, data: data });
         })
         .catch((err) => {
           console.log("Error Reading data " + err);
