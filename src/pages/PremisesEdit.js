@@ -1,10 +1,9 @@
 import "../styles/App.css";
-import { Component } from "react";
+import { useState, useEffect } from "react";
 import keycloak from "../auth/keycloak";
-import { Link } from "react-router-dom";
 
-export default class PremisesEdit extends Component {
-  state = {
+const PremisesEdit = (props) => {
+  const [state, setState] = useState({
     newLocation: {
       city: "",
       postCode: "",
@@ -12,16 +11,16 @@ export default class PremisesEdit extends Component {
       streetNumber: "",
       locationName: "",
     },
-    premisesId: this.props.premisesId,
-    premisesNumber: this.props.data.premisesNumber,
-    area: this.props.data.area,
-    premisesLevel: this.props.data.premisesLevel,
+    premisesId: props.premisesId,
+    premisesNumber: props.data.premisesNumber,
+    area: props.data.area,
+    premisesLevel: props.data.premisesLevel,
     premisesType: {
-      type: this.props.data.premisesType.type,
+      type: props.data.premisesType.type,
     },
-    furnished: this.props.data.furnished,
-    choosenLocation: this.props.data.location.locationName,
-    locationId: this.props.data.location.locationName,
+    furnished: props.data.furnished,
+    choosenLocation: props.data.location.locationName,
+    locationId: props.data.location.locationName,
     locations: [],
     premisesTypes: [],
     errors: {
@@ -38,21 +37,23 @@ export default class PremisesEdit extends Component {
     },
     putURL: "",
     changed: "",
-  };
+  });
 
-  async getResources() {
+  // const [changed, setChanged] = useState("");
+
+  const getResources = async () => {
     const response = await fetch("/resources.json");
     const resources = await response.json();
 
     return resources;
-  }
+  };
 
-  getData = () => {
-    this.getResources().then((res) => {
+  const getData = () => {
+    getResources().then((res) => {
       //pobranie danych z wyciągniętego adresu url
-      this.setState({
-        putURL: res.urls.owner.premisesUpdate,
-      });
+      let putURL = res.urls.owner.premisesUpdate;
+      let locations = [];
+      let types = [];
       fetch(res.urls.owner.locations, {
         headers: { Authorization: " Bearer " + keycloak.token },
       })
@@ -66,44 +67,50 @@ export default class PremisesEdit extends Component {
               label: location.locationName,
             };
           });
-          this.setState({ locations: options });
+          locations = options;
+        })
+        .then(() => {
+          //pobranie dostępnych typów lokali
+          fetch(res.urls.owner.premisesTypes, {
+            headers: { Authorization: " Bearer " + keycloak.token },
+          })
+            .then((response) => {
+              return response.json();
+            })
+            .then((data) => {
+              const options = data.map((type) => {
+                return {
+                  value: type.premisesTypeId,
+                  label: type.type,
+                };
+              });
+              types = options;
+              setState({
+                ...state,
+                premisesTypes: types,
+                locations: locations,
+                putURL: putURL,
+              });
+            });
         })
         .catch((err) => {
           console.log("Error Reading data " + err);
         });
-
-      //pobranie dostępnych typów lokali
-      fetch(res.urls.owner.premisesTypes, {
-        headers: { Authorization: " Bearer " + keycloak.token },
-      })
-        .then((response) => {
-          return response.json();
-        })
-        .then((data) => {
-          const options = data.map((type) => {
-            return {
-              value: type.premisesTypeId,
-              label: type.type,
-            };
-          });
-          this.setState({
-            premisesTypes: options,
-          });
-        });
     });
   };
 
-  componentDidMount() {
-    this.getData();
-  }
+  useEffect(() => {
+    getData();
+  }, []);
 
-  componentDidUpdate() {
-    if (this.state.changed.length > 0) {
-      this.reactiveValidation();
+  useEffect(() => {
+    if (state.changed.length > 0) {
+      setState({ ...state, changed: "" });
+      reactiveValidation();
     }
-  }
+  }, [state.changed]);
 
-  messages = {
+  const messages = {
     number_incorrect: "Numer lokalu ma nieprawidłową formę",
     area_incorrect: "Powierzchnia ma nieprawidłową formę",
     premisesLevel_incorrect: "Poziom ma nieprawidłową formę",
@@ -117,11 +124,10 @@ export default class PremisesEdit extends Component {
     locationName_incorrect: "Nie poprawna nazwa",
   };
 
-  handleChange = (e) => {
+  const handleChange = (e) => {
     const name = e.target.name;
     const type = e.target.type;
-    this.setState({ changed: name });
-    // console.log(name, ", type: ", type);
+    setState({ ...state, changed: name });
 
     if (type === "text" || type === "number" || type === "select-one") {
       const value = e.target.value;
@@ -129,12 +135,14 @@ export default class PremisesEdit extends Component {
       if (e.target.name === "choosenLocation") {
         let index = e.target.selectedIndex;
         let label = e.target[index].text;
-        this.setState({
+        setState({
+          ...state,
           [name]: label,
           locationId: value,
         });
       } else if (e.target.name === "premisesType") {
-        this.setState({
+        setState({
+          ...state,
           premisesType: {
             type: value,
           },
@@ -146,48 +154,50 @@ export default class PremisesEdit extends Component {
         e.target.name === "streetNumber" ||
         e.target.name === "locationName"
       ) {
-        // console.log("zmieniam>>> ", name);
-        this.setState({
+        setState({
+          ...state,
           newLocation: {
             ...this.state.newLocation,
             [name]: value,
           },
         });
       } else {
-        this.setState({
+        setState({
+          ...state,
           [name]: value,
         });
       }
     } else if (type === "checkbox") {
       const checked = e.target.checked;
-      this.setState({
+      setState({
+        ...state,
         [name]: checked,
       });
     }
   };
 
   //walidacja
-  formValidation = () => {
+  const formValidation = () => {
     let city = false;
     let postCode = false;
     let street = false;
     let streetNumber = false;
     let locationName = false;
 
-    if (this.state.newLocation.city.length >= 3) {
+    if (state.newLocation.city.length >= 3) {
       city = true;
     }
     //tutaj regex
-    if (this.state.newLocation.postCode.length > 3) {
+    if (state.newLocation.postCode.length > 3) {
       postCode = true;
     }
-    if (this.state.newLocation.street.length > 3) {
+    if (state.newLocation.street.length > 3) {
       street = true;
     }
-    if (this.state.newLocation.streetNumber.length > 0) {
+    if (state.newLocation.streetNumber.length > 0) {
       streetNumber = true;
     }
-    if (this.state.newLocation.locationName.length > 1) {
+    if (state.newLocation.locationName.length > 1) {
       locationName = true;
     }
 
@@ -199,25 +209,25 @@ export default class PremisesEdit extends Component {
     let premisesType = false;
 
     if (
-      this.state.premisesNumber.length > 0 &&
-      this.state.premisesNumber.indexOf(" ") === -1
+      state.premisesNumber.length > 0 &&
+      state.premisesNumber.indexOf(" ") === -1
     ) {
       number = true;
     }
 
-    if (this.state.area > 0) {
+    if (state.area > 0) {
       area = true;
     }
 
-    if (this.state.premisesLevel.length > 0) {
+    if (state.premisesLevel.length > 0) {
       premisesLevel = true;
     }
 
-    if (this.state.choosenLocation.length > 0) {
+    if (state.choosenLocation.length > 0) {
       location = true;
     }
 
-    if (this.state.premisesType.type.length > 0) {
+    if (state.premisesType.type.length > 0) {
       premisesType = true;
     }
 
@@ -225,7 +235,7 @@ export default class PremisesEdit extends Component {
       correct = true;
     }
 
-    if (this.state.choosenLocation.length === 0) {
+    if (state.choosenLocation.length === 0) {
       correct =
         correct && city && postCode && street && streetNumber && locationName;
       return {
@@ -254,15 +264,17 @@ export default class PremisesEdit extends Component {
     };
   };
 
-  validationErrorSetter = (name, condition) => {
+  const validationErrorSetter = (name, condition) => {
     if (condition) {
-      this.setState({
+      setState({
+        ...state,
         errors: {
           [name]: false,
         },
       });
     } else {
-      this.setState({
+      setState({
+        ...state,
         errors: {
           [name]: true,
         },
@@ -270,66 +282,61 @@ export default class PremisesEdit extends Component {
     }
   };
 
-  reactiveValidation = () => {
-    const fieldName = this.state.changed;
-    this.setState({
+  const reactiveValidation = () => {
+    const fieldName = state.changed;
+    setState({
+      ...state,
       changed: "",
     });
 
     const { city, postCode, street, streetNumber, locationName } =
-      this.state.newLocation;
+      state.newLocation;
 
-    const { premisesNumber, area, premisesLevel } = this.state;
-    const { type } = this.state.premisesType;
+    const { premisesNumber, area, premisesLevel } = state;
+    const { type } = state.premisesType;
 
     switch (fieldName) {
       case "city":
-        this.validationErrorSetter(
-          "city",
-          city.length > 0 && city.length <= 30
-        );
+        validationErrorSetter("city", city.length > 0 && city.length <= 30);
         break;
       case "postCode":
-        this.validationErrorSetter(
-          "postCode",
-          /[0-9]{2}-[0-9]{3}/.test(postCode)
-        );
+        validationErrorSetter("postCode", /[0-9]{2}-[0-9]{3}/.test(postCode));
         break;
       case "street":
-        this.validationErrorSetter(
+        validationErrorSetter(
           "street",
           street.length > 0 && street.length <= 60
         );
         break;
       case "streetNumber":
-        this.validationErrorSetter(
+        validationErrorSetter(
           "streetNumber",
           /^[0-9a-zA-Z]{1,4}$/.test(streetNumber)
         );
         break;
       case "locationName":
-        this.validationErrorSetter(
+        validationErrorSetter(
           "locationName",
           locationName.length > 0 && locationName.length <= 40
         );
         break;
       case "premisesNumber":
-        this.validationErrorSetter(
+        validationErrorSetter(
           "premisesNumber",
           /^[0-9a-zA-Z]{1,10}$/.test(premisesNumber)
         );
         break;
       case "area":
-        this.validationErrorSetter("area", /^[0-9]{1,10}$/.test(area));
+        validationErrorSetter("area", /^[0-9]{1,10}$/.test(area));
         break;
       case "premisesLevel":
-        this.validationErrorSetter(
+        validationErrorSetter(
           "premisesLevel",
           premisesLevel.length > 0 && premisesLevel.length <= 20
         );
         break;
       case "premisesType":
-        this.validationErrorSetter("premisesType", type.length > 0);
+        validationErrorSetter("premisesType", type.length > 0);
         break;
 
       default:
@@ -337,20 +344,21 @@ export default class PremisesEdit extends Component {
     }
   };
 
-  handleSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    const validation = this.formValidation();
+    const validation = formValidation();
 
     if (validation.correct) {
-      this.sendPut().then((res) => {
+      sendPut().then((res) => {
         //na podstawie odpowiedzi od serwera określam komunikat (nie)powodzenia
 
         const message = res
           ? "Zmiany zostały zapisane"
           : "Nie udało się zapisać zmian...";
 
-        this.setState({
+        setState({
+          ...state,
           newLocation: {
             city: "",
             postCode: "",
@@ -382,11 +390,12 @@ export default class PremisesEdit extends Component {
           },
         });
         // console.log("wustawim odpowiedz na : ", message);
-        this.props.edited(message);
+        props.edited(message);
       });
     } else {
-      if (this.state.choosenLocation.length === 0) {
-        this.setState({
+      if (state.choosenLocation.length === 0) {
+        setState({
+          ...state,
           errors: {
             number: !validation.number,
             area: !validation.area,
@@ -400,7 +409,8 @@ export default class PremisesEdit extends Component {
           },
         });
       } else {
-        this.setState({
+        setState({
+          ...state,
           errors: {
             number: !validation.number,
             area: !validation.area,
@@ -413,45 +423,44 @@ export default class PremisesEdit extends Component {
     }
   };
 
-  async sendPut() {
+  const sendPut = async () => {
     let newPremises = {};
-    const isFurnished = this.state.furnished === "tak" ? true : false;
-    if (this.state.choosenLocation.length > 0) {
+    const isFurnished = state.furnished === "tak" ? true : false;
+    if (state.choosenLocation.length > 0) {
       newPremises = {
-        area: this.state.area,
+        area: state.area,
         furnished: isFurnished,
         location: {
           address: null,
-          locationName: this.state.choosenLocation,
+          locationName: state.choosenLocation,
         },
-        premisesLevel: this.state.premisesLevel,
-        premisesNumber: this.state.premisesNumber,
+        premisesLevel: state.premisesLevel,
+        premisesNumber: state.premisesNumber,
         premisesType: {
-          type: this.state.premisesType.type,
+          type: state.premisesType.type,
         },
       };
     } else {
       newPremises = {
-        area: this.state.area,
+        area: state.area,
         furnished: isFurnished,
         location: {
           address: {
-            city: this.state.newLocation.city,
-            postCode: this.state.newLocation.postCode,
-            street: this.state.newLocation.street,
-            streetNumber: this.state.newLocation.streetNumber,
+            city: state.newLocation.city,
+            postCode: state.newLocation.postCode,
+            street: state.newLocation.street,
+            streetNumber: state.newLocation.streetNumber,
           },
-          locationName: this.state.newLocation.locationName,
+          locationName: state.newLocation.locationName,
         },
-        premisesLevel: this.state.premisesLevel,
-        premisesNumber: this.state.premisesNumber,
+        premisesLevel: state.premisesLevel,
+        premisesNumber: state.premisesNumber,
         premisesType: {
-          type: this.state.premisesType.type,
+          type: state.premisesType.type,
         },
       };
     }
 
-    console.log("wysyłam:", JSON.stringify(newPremises));
     let json = JSON.stringify(newPremises);
     const requestOptions = {
       method: "PUT",
@@ -465,14 +474,10 @@ export default class PremisesEdit extends Component {
 
     let ok = false;
     const res = await fetch(
-      this.state.putURL + `${this.state.premisesId}`,
+      state.putURL + `${state.premisesId}`,
       requestOptions
     )
-      // .then((response) => {
-      //   return response.json();
-      // })
       .then((data) => {
-        console.log("odpowiedź od serwera: ", data);
         if (data.ok) {
           ok = true;
         }
@@ -480,196 +485,183 @@ export default class PremisesEdit extends Component {
       })
       .catch((err) => console.log(err));
 
-    console.log("czy jest okej?: ", ok);
     return ok;
-  }
+  };
 
-  render() {
-    return (
-      <div className="content-container">
-        <h1 className="content-title">Edycja lokalu</h1>
-        <form onSubmit={this.handleSubmit}>
-          <div className="location-choose">
-            <label style={{ fontWeight: "bold" }} htmlFor="choosenLocation">
-              Wybierz istniejący adres:
-              <select
-                value={this.state.locationId}
-                name="choosenLocation"
-                id="choosenLocation"
-                onChange={this.handleChange}
-              >
-                <option value=""></option>
-                {this.state.locations.map((option) => (
-                  <option value={option.value}>{option.label}</option>
-                ))}
-              </select>
-              {this.state.errors.location && (
-                <span className="error-msg">
-                  {this.messages.location_incorrect}
-                </span>
-              )}
-            </label>
-            <p style={{ fontWeight: "bold" }}>Lub dodaj nowy:</p>
-            <label htmlFor="city">
-              Miasto:
-              <input
-                id="city"
-                type="text"
-                name="city"
-                disabled={this.state.choosenLocation.length > 0 ? true : false}
-                value={this.state.newLocation.city}
-                onChange={this.handleChange}
-              />
-              {this.state.errors.city && (
-                <span className="error-msg">
-                  {this.messages.city_incorrect}
-                </span>
-              )}
-            </label>
-            <label htmlFor="street">
-              Ulica:
-              <input
-                id="street"
-                type="text"
-                name="street"
-                disabled={this.state.choosenLocation.length > 0 ? true : false}
-                value={this.state.newLocation.street}
-                onChange={this.handleChange}
-              />
-              {this.state.errors.street && (
-                <span className="error-msg">
-                  {this.messages.street_incorrect}
-                </span>
-              )}
-            </label>
-            <label htmlFor="streetNumber">
-              Nr:
-              <input
-                id="streetNumber"
-                type="text"
-                name="streetNumber"
-                disabled={this.state.choosenLocation.length > 0 ? true : false}
-                value={this.state.newLocation.streetNumber}
-                onChange={this.handleChange}
-              />
-              {this.state.errors.streetNumber && (
-                <span className="error-msg">
-                  {this.messages.streetNumber_incorrect}
-                </span>
-              )}
-            </label>
-            <label htmlFor="postCode">
-              Kod pocztowy:
-              <input
-                id="postCode"
-                type="text"
-                name="postCode"
-                disabled={this.state.choosenLocation.length > 0 ? true : false}
-                value={this.state.newLocation.postCode}
-                onChange={this.handleChange}
-              />
-              {this.state.errors.postCode && (
-                <span className="error-msg">
-                  {this.messages.postCode_incorrect}
-                </span>
-              )}
-            </label>
-            <label htmlFor="locationName">
-              Nazwa:
-              <input
-                id="locationName"
-                type="text"
-                name="locationName"
-                disabled={this.state.choosenLocation.length > 0 ? true : false}
-                value={this.state.newLocation.locationName}
-                onChange={this.handleChange}
-              />
-              {this.state.errors.locationName && (
-                <span className="error-msg">
-                  {this.messages.locationName_incorrect}
-                </span>
-              )}
-            </label>
-          </div>
-
-          <label htmlFor="premisesNumber">
-            Numer lokalu:
-            <input
-              id="premisesNumber"
-              type="text"
-              name="premisesNumber"
-              value={this.state.premisesNumber}
-              onChange={this.handleChange}
-            />
-            {this.state.errors.number && (
-              <span className="error-msg">
-                {this.messages.number_incorrect}
-              </span>
-            )}
-          </label>
-          <label htmlFor="area">
-            Powierzchnia lokalu:
-            <input
-              id="area"
-              type="number"
-              name="area"
-              value={this.state.area}
-              onChange={this.handleChange}
-            />
-            {this.state.errors.area && (
-              <span className="error-msg">{this.messages.area_incorrect}</span>
-            )}
-          </label>
-          <label htmlFor="premisesLevel">
-            Poziom:
-            <input
-              id="premisesLevel"
-              type="text"
-              name="premisesLevel"
-              value={this.state.premisesLevel}
-              onChange={this.handleChange}
-            />
-            {this.state.errors.premisesLevel && (
-              <span className="error-msg">
-                {this.messages.premisesLevel_incorrect}
-              </span>
-            )}
-          </label>
-          <label htmlFor="premisesType">
-            Rodzaj:
+  return (
+    <div className="content-container">
+      <h1 className="content-title">Edycja lokalu</h1>
+      <form onSubmit={handleSubmit}>
+        <div className="location-choose">
+          <label style={{ fontWeight: "bold" }} htmlFor="choosenLocation">
+            Wybierz istniejący adres:
             <select
-              value={this.state.premisesType.type}
-              id="premisesType"
-              name="premisesType"
-              onChange={this.handleChange}
+              value={state.locationId}
+              name="choosenLocation"
+              id="choosenLocation"
+              onChange={handleChange}
             >
               <option value=""></option>
-              {this.state.premisesTypes.map((option) => (
-                <option value={option.label}>{option.label}</option>
+              {state.locations.map((option) => (
+                <option value={option.value}>{option.label}</option>
               ))}
             </select>
-            {this.state.errors.premisesType && (
+            {state.errors.location && (
+              <span className="error-msg">{messages.location_incorrect}</span>
+            )}
+          </label>
+          <p style={{ fontWeight: "bold" }}>Lub dodaj nowy:</p>
+          <label htmlFor="city">
+            Miasto:
+            <input
+              id="city"
+              type="text"
+              name="city"
+              disabled={state.choosenLocation.length > 0 ? true : false}
+              value={state.newLocation.city}
+              onChange={handleChange}
+            />
+            {state.errors.city && (
+              <span className="error-msg">{messages.city_incorrect}</span>
+            )}
+          </label>
+          <label htmlFor="street">
+            Ulica:
+            <input
+              id="street"
+              type="text"
+              name="street"
+              disabled={state.choosenLocation.length > 0 ? true : false}
+              value={state.newLocation.street}
+              onChange={handleChange}
+            />
+            {state.errors.street && (
+              <span className="error-msg">{messages.street_incorrect}</span>
+            )}
+          </label>
+          <label htmlFor="streetNumber">
+            Nr:
+            <input
+              id="streetNumber"
+              type="text"
+              name="streetNumber"
+              disabled={state.choosenLocation.length > 0 ? true : false}
+              value={state.newLocation.streetNumber}
+              onChange={handleChange}
+            />
+            {state.errors.streetNumber && (
               <span className="error-msg">
-                {this.messages.premisesType_incorrect}
+                {messages.streetNumber_incorrect}
               </span>
             )}
           </label>
-          <label htmlFor="furnished">
-            Umeblowany:
+          <label htmlFor="postCode">
+            Kod pocztowy:
             <input
-              onChange={this.handleChange}
-              type="checkbox"
-              id="furnished"
-              name="furnished"
-              checked={this.state.furnished}
+              id="postCode"
+              type="text"
+              name="postCode"
+              disabled={state.choosenLocation.length > 0 ? true : false}
+              value={state.newLocation.postCode}
+              onChange={handleChange}
             />
+            {state.errors.postCode && (
+              <span className="error-msg">{messages.postCode_incorrect}</span>
+            )}
           </label>
+          <label htmlFor="locationName">
+            Nazwa:
+            <input
+              id="locationName"
+              type="text"
+              name="locationName"
+              disabled={state.choosenLocation.length > 0 ? true : false}
+              value={state.newLocation.locationName}
+              onChange={handleChange}
+            />
+            {state.errors.locationName && (
+              <span className="error-msg">
+                {messages.locationName_incorrect}
+              </span>
+            )}
+          </label>
+        </div>
 
-          <button onClick={this.props.return}>Powrót</button>
+        <label htmlFor="premisesNumber">
+          Numer lokalu:
+          <input
+            id="premisesNumber"
+            type="text"
+            name="premisesNumber"
+            value={state.premisesNumber}
+            onChange={handleChange}
+          />
+          {state.errors.number && (
+            <span className="error-msg">{messages.number_incorrect}</span>
+          )}
+        </label>
+        <label htmlFor="area">
+          Powierzchnia lokalu:
+          <input
+            id="area"
+            type="number"
+            name="area"
+            value={state.area}
+            onChange={handleChange}
+          />
+          {state.errors.area && (
+            <span className="error-msg">{messages.area_incorrect}</span>
+          )}
+        </label>
+        <label htmlFor="premisesLevel">
+          Poziom:
+          <input
+            id="premisesLevel"
+            type="text"
+            name="premisesLevel"
+            value={state.premisesLevel}
+            onChange={handleChange}
+          />
+          {state.errors.premisesLevel && (
+            <span className="error-msg">
+              {messages.premisesLevel_incorrect}
+            </span>
+          )}
+        </label>
+        <label htmlFor="premisesType">
+          Rodzaj:
+          <select
+            value={state.premisesType.type}
+            id="premisesType"
+            name="premisesType"
+            onChange={handleChange}
+          >
+            <option value=""></option>
+            {state.premisesTypes.map((option) => (
+              <option value={option.label}>{option.label}</option>
+            ))}
+          </select>
+          {state.errors.premisesType && (
+            <span className="error-msg">{messages.premisesType_incorrect}</span>
+          )}
+        </label>
+        <label htmlFor="furnished">
+          Umeblowany:
+          <input
+            onChange={handleChange}
+            type="checkbox"
+            id="furnished"
+            name="furnished"
+            checked={state.furnished}
+          />
+        </label>
 
-          <button type="submit">Zapisz</button>
-        </form>
-      </div>
-    );
-  }
-}
+        <button onClick={props.return}>Powrót</button>
+
+        <button type="submit">Zapisz</button>
+      </form>
+    </div>
+  );
+};
+
+export default PremisesEdit;
