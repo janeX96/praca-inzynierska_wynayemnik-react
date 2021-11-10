@@ -1,28 +1,21 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import keycloak from "../../auth/keycloak";
 import "../../styles/App.css";
 import "./UserProfile.css";
-export default class UserProfile extends Component {
-  state = {
-    // firstName: "",
-    // lastName: "",
-    // email: "",
-    // phoneNumber: "",
-    // NIP: "",
-    // isFakturownia: "",
-    // isNaturalPerson: "",
+const UserProfile = () => {
+  const [user, setUser] = useState({
     data: [],
-  };
-  async getResources() {
+  });
+
+  const getResources = async () => {
     const response = await fetch("/resources.json");
     const resources = await response.json();
 
     return resources;
-  }
+  };
 
-  getData() {
-    this.getResources().then((res) => {
-      this.setState({ deleteURL: res.urls.owner.premisesDelete });
+  const getData = () => {
+    getResources().then((res) => {
       //pobranie danych z wyciągniętego adresu url
       fetch(res.urls.user, {
         headers: { Authorization: " Bearer " + keycloak.token },
@@ -31,45 +24,38 @@ export default class UserProfile extends Component {
           return response.json();
         })
         .then((data) => {
-          this.setState({ data });
+          setUser({ data });
         })
         .catch((err) => {
           console.log("Error Reading data " + err);
         });
     });
-  }
+  };
 
-  componentDidMount() {
-    this.getData();
-  }
-  render() {
-    const {
-      firstName,
-      lastName,
-      email,
-      phoneNumber,
-      NIP,
-      isFakturownia,
-      isNaturalPerson,
-    } = this.state.data;
-    return (
-      <div className="content-container">
-        <h1 className="content-title">Dane użytkownika</h1>
-        <div className="details">
-          <ul>
-            <li>Imię: {firstName}</li>
-            <li>Nazwisko: {lastName}</li>
-            <li>email: {email}</li>
-            <li>numer tel: {phoneNumber}</li>
-            <li>NIP: {NIP}</li>
-            <li>
-              rodzaj użytkownika: {isNaturalPerson ? "osoba fizyczna" : "firma"}
-            </li>
-            <li>fakturownia: {isFakturownia ? "tak" : "nie"}</li>
-          </ul>
-          <button className="edit-btn">Edytuj dane</button>
-        </div>
+  useEffect(() => {
+    getData();
+  }, []);
+
+  return (
+    <div className="content-container">
+      <h1 className="content-title">Dane użytkownika</h1>
+      <div className="details">
+        <ul>
+          <li>Imię: {user.data.firstName}</li>
+          <li>Nazwisko: {user.data.lastName}</li>
+          <li>email: {user.data.email}</li>
+          <li>numer tel: {user.data.phoneNumber}</li>
+          <li>NIP: {user.data.NIP}</li>
+          <li>
+            rodzaj użytkownika:{" "}
+            {user.data.isNaturalPerson ? "osoba fizyczna" : "firma"}
+          </li>
+          <li>fakturownia: {user.data.isFakturownia ? "tak" : "nie"}</li>
+        </ul>
+        <button className="edit-btn">Edytuj dane</button>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
+
+export default UserProfile;
