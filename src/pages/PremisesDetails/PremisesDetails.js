@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./PremisesDetails.css";
 import "../../styles/App.css";
 import PremisesEdit from "../PremisesEdit";

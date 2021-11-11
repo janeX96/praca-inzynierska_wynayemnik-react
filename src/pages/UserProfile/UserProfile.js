@@ -14,25 +14,24 @@ const UserProfile = () => {
     return resources;
   };
 
-  const getData = () => {
-    getResources().then((res) => {
-      //pobranie danych z wyciągniętego adresu url
-      fetch(res.urls.user, {
-        headers: { Authorization: " Bearer " + keycloak.token },
-      })
-        .then((response) => {
-          return response.json();
-        })
-        .then((data) => {
-          setUser({ data });
-        })
-        .catch((err) => {
-          console.log("Error Reading data " + err);
-        });
-    });
-  };
-
   useEffect(() => {
+    const getData = () => {
+      getResources().then((res) => {
+        //pobranie danych z wyciągniętego adresu url
+        fetch(res.urls.user, {
+          headers: { Authorization: " Bearer " + keycloak.token },
+        })
+          .then((response) => {
+            return response.json();
+          })
+          .then((data) => {
+            setUser({ data });
+          })
+          .catch((err) => {
+            console.log("Error Reading data " + err);
+          });
+      });
+    };
     getData();
   }, []);
 

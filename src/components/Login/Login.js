@@ -1,11 +1,9 @@
 import React from "react";
-import { useKeycloak } from "@react-keycloak/web";
 import "./Login.css";
 import { useHistory } from "react-router-dom";
+import keycloak from "../../auth/keycloak";
 
 const Login = () => {
-  const { keycloak, initialized } = useKeycloak();
-
   const history = useHistory();
 
   const logout = () => {
@@ -17,11 +15,11 @@ const Login = () => {
   return (
     <div>
       {keycloak && !keycloak.authenticated && (
-        <a onClick={() => keycloak.login()}>Logowanie</a>
+        <p onClick={() => keycloak.login()}>Logowanie</p>
       )}
 
       {keycloak && keycloak.authenticated && (
-        <a onClick={() => logout()}>Wyloguj</a>
+        <p onClick={() => logout()}>Wyloguj</p>
       )}
     </div>
   );

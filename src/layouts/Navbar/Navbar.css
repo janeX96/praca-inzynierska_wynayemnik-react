@@ -180,7 +180,8 @@
   /* margin-right: 40px; */
 }
 
-.dropdown__content > ul > li > a {
+.dropdown__content > ul > li > p,
+a {
   color: #fff;
   text-decoration: none;
   cursor: pointer;

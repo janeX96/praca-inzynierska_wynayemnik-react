@@ -108,21 +108,21 @@ function Navbar() {
                 <ul>
                   <li>
                     <Link to="/user-profile">
-                      <a>Profil</a>
+                      <p>Profil</p>
                     </Link>
                   </li>
                   {AuthorizedFunction(["owner"]) && (
                     <li>
-                      <a onClick={() => changeRole("Owner")}>Wynajemca</a>
+                      <p onClick={() => changeRole("Owner")}>Wynajemca</p>
                     </li>
                   )}
                   {AuthorizedFunction(["administrator"]) && (
                     <li>
-                      <a onClick={() => changeRole("Admin")}>Administrator</a>
+                      <p onClick={() => changeRole("Admin")}>Administrator</p>
                     </li>
                   )}
                   <li>
-                    <a onClick={() => changeRole("Client")}>Najemca</a>
+                    <p onClick={() => changeRole("Client")}>Najemca</p>
                   </li>
                   <li>
                     <a>
@@ -140,7 +140,7 @@ function Navbar() {
             </a>
 
             <Link to="/registration">
-              <a>Rejestracja</a>
+              <p>Rejestracja</p>
             </Link>
           </div>
         )}

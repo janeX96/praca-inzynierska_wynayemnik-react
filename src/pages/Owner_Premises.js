@@ -14,9 +14,9 @@ const Owner_Premises = () => {
   });
 
   //pobiernie danych
-  useEffect(() => {
-    getData();
-  }, []);
+  // useEffect(() => {
+  //   getData();
+  // }, []);
 
   // pobranie danych dot. endpointów
   const getResources = async () => {
@@ -71,14 +71,10 @@ const Owner_Premises = () => {
   //wybierając dany lokal zaamiętuję jego id, jeśi id jest >=0
   // to wyświetlam info, jeśli nie to pokazuje liste lokali
   const handleAction = (id) => {
-    console.log("handleAction");
     setState({
       ...state,
       choosenId: id,
     });
-    // if (id < 0) {
-    //   getData();
-    // }
   };
 
   useEffect(() => {
@@ -120,9 +116,7 @@ const Owner_Premises = () => {
           <h1 className="content-title">Moje lokale</h1>
           <div>
             <Link to="/owner-premises-new">
-              <button className="add-button" Link>
-                Dodaj nowy
-              </button>
+              <button className="add-button">Dodaj nowy</button>
             </Link>
           </div>
           {state.data.length > 0 ? (

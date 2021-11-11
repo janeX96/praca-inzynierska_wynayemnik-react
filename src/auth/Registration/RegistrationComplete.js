@@ -5,9 +5,9 @@ const RegistrationComplete = () => {
   return (
     <div className="confirm-container">
       <h1>Rejestracja przebiegła pomyślnie</h1>
-      <a>
+      <p>
         <Login />
-      </a>
+      </p>
     </div>
   );
 };

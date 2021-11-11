@@ -39,12 +39,12 @@
 .confirm-container > h1 {
   font-size: xx-large;
 }
-.confirm-container > a {
+.confirm-container > p {
   font-size: large;
   cursor: pointer;
 }
 
-.confirm-container > a :hover {
+.confirm-container > p :hover {
   text-decoration: underline;
   color: white;
 }

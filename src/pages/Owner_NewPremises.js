@@ -523,9 +523,11 @@ const Owner_NewPremises = () => {
               id="choosenLocation"
               onChange={handleChange}
             >
-              <option value=""></option>
+              <option key="" value=""></option>
               {state.locations.map((option) => (
-                <option value={option.value}>{option.label}</option>
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
               ))}
             </select>
             {state.errors.location && (
@@ -658,9 +660,11 @@ const Owner_NewPremises = () => {
               name="premisesType"
               onChange={handleChange}
             >
-              <option value=""></option>
+              <option key="" value=""></option>
               {state.premisesTypes.map((option) => (
-                <option value={option.label}>{option.label}</option>
+                <option key={option.value} value={option.label}>
+                  {option.label}
+                </option>
               ))}
             </select>
             {state.errors.premisesType && (
