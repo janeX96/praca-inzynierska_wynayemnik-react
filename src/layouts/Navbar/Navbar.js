@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
 import Login from "../../components/Login/Login.js";
@@ -9,12 +9,13 @@ import Dropdown, {
 import AuthorizedFunction from "../../auth/AuthorizedFunction";
 import UserIcon from "../../images/icons/icon_user1.png";
 import keycloak from "../../auth/keycloak";
+import dropdown from "react-simple-dropdown";
 
 function Navbar() {
   const [click, setClick] = useState(false);
   const [button, setButton] = useState(true);
-
   const [role, setRole] = useState("");
+  const [menu, setMenu] = useState();
 
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
@@ -34,6 +35,9 @@ function Navbar() {
   }, []);
 
   window.addEventListener("resize", showButton);
+
+  let dropdown = null;
+
   return (
     <>
       <nav className="navbar">
@@ -95,34 +99,65 @@ function Navbar() {
               ""
             )}
           </ul>
-          {/* {button && <Login />} */}
         </div>
         {keycloak.authenticated ? (
           <>
             <a>{keycloak.tokenParsed.preferred_username}</a>
-            <Dropdown>
+            <Dropdown ref={(foo) => (dropdown = foo)}>
               <DropdownTrigger>
                 <img src={UserIcon} alt="" />
               </DropdownTrigger>
               <DropdownContent>
                 <ul>
                   <li>
-                    <Link to="/user-profile">
+                    <Link
+                      onClick={() => {
+                        dropdown.hide();
+                      }}
+                      to="/user-profile"
+                    >
                       <p>Profil</p>
                     </Link>
                   </li>
                   {AuthorizedFunction(["owner"]) && (
                     <li>
-                      <p onClick={() => changeRole("Owner")}>Wynajemca</p>
+                      <Link to="/owner-premises">
+                        <p
+                          onClick={() => {
+                            changeRole("Owner");
+                            dropdown.hide();
+                          }}
+                        >
+                          Wynajemca
+                        </p>{" "}
+                      </Link>
                     </li>
                   )}
                   {AuthorizedFunction(["administrator"]) && (
                     <li>
-                      <p onClick={() => changeRole("Admin")}>Administrator</p>
+                      <Link to="/">
+                        <p
+                          onClick={() => {
+                            changeRole("Admin");
+                            dropdown.hide();
+                          }}
+                        >
+                          Administrator
+                        </p>
+                      </Link>
                     </li>
                   )}
                   <li>
-                    <p onClick={() => changeRole("Client")}>Najemca</p>
+                    <Link to="/">
+                      <p
+                        onClick={() => {
+                          changeRole("Client");
+                          dropdown.hide();
+                        }}
+                      >
+                        Najemca
+                      </p>
+                    </Link>
                   </li>
                   <li>
                     <a>
