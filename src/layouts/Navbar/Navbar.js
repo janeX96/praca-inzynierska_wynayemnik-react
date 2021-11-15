@@ -66,6 +66,15 @@ function Navbar() {
                   </Link>
                 </li>
                 <li className="nav-item">
+                  <Link
+                    to="/owner-locations"
+                    className="nav-links"
+                    onClick={closeMobileMenu}
+                  >
+                    Moje Lokacje
+                  </Link>
+                </li>
+                <li className="nav-item">
                   <Link to="/" className="nav-links" onClick={closeMobileMenu}>
                     Moje wynajmy
                   </Link>

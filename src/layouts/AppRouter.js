@@ -11,6 +11,7 @@ import { PrivateRoute } from "../utilities/PrivateRoute";
 import Owner_NewPremises from "../pages/Owner_NewPremises";
 import Registration from "../auth/Registration/Registration";
 import UserProfile from "../pages/UserProfile/UserProfile";
+import Owner_Locations from "../pages/Owner_Locations";
 const AppRouter = () => {
   const { initialized } = useKeycloak();
   if (!initialized) {
@@ -38,6 +39,11 @@ const AppRouter = () => {
                   roles={["owner"]}
                   path="/owner-premises-new"
                   component={Owner_NewPremises}
+                />
+                <PrivateRoute
+                  roles={["owner"]}
+                  path="/owner-locations"
+                  component={Owner_Locations}
                 />
               </Switch>
             </section>
