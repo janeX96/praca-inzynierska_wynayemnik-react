@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import keycloak from "../auth/keycloak";
+import LoadData from "./LoadData";
+import "../styles/App.css";
 
 const Owner_Locations = () => {
   const [locations, setLocations] = useState([]);
@@ -31,9 +33,63 @@ const Owner_Locations = () => {
     getData();
   }, []);
 
+  const handleAction = () => {};
+
+  const columns = [
+    {
+      Header: "Id",
+      accessor: "address.addressId",
+    },
+    {
+      Header: "Nazwa",
+      accessor: "locationName",
+    },
+    {
+      Header: "Miasto",
+      accessor: "address.city",
+    },
+    {
+      Header: "Kod Pocztowy",
+      accessor: "address.postCode",
+    },
+    {
+      Header: "Ulica",
+      accessor: "address.street",
+    },
+    {
+      Header: "Numer",
+      accessor: "address.streetNumber",
+    },
+    {
+      Header: "Akcja",
+      accessor: "action",
+      Cell: ({ cell }) => (
+        <button
+          className="action-button"
+          value={cell.row.values.actions}
+          onClick={() => handleAction(cell.row.values.address.addressId)}
+        >
+          Szczegóły
+        </button>
+      ),
+    },
+  ];
+  const initialState = { pageSize: 5, hiddenColumns: "premisesId" };
+
   return (
     <>
-      <div>Lokacje</div>
+      <div className="content-container">
+        <h1 className="content-title">Moje Lokacje</h1>
+        {locations.length > 0 ? (
+          <LoadData
+            data={locations}
+            columns={columns}
+            initialState={initialState}
+          />
+        ) : (
+          "brak"
+        )}
+      </div>
     </>
   );
 };
