@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import "./PremisesDetails.css";
-import "../../styles/App.css";
+import "../../../styles/App.css";
 import PremisesEdit from "../PremisesEdit";
-import keycloak from "../../auth/keycloak";
+import keycloak from "../../../auth/keycloak";
 
 const PremisesDetails = ({
   premisesId,

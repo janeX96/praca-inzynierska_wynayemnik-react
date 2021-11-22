@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import LoadData from "./LoadData";
-import keycloak from "../auth/keycloak";
-import "../styles/App.css";
+import LoadData from "../LoadData";
+import keycloak from "../../auth/keycloak";
+import "../../styles/App.css";
 import PremisesDetails from "./PremisesDetails/PremisesDetails";
 import { Link } from "react-router-dom";
 

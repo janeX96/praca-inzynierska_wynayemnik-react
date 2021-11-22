@@ -1,12 +1,9 @@
-import "../styles/App.css";
+import "../../styles/App.css";
 import { useState, useEffect } from "react";
-import keycloak from "../auth/keycloak";
-import { Link } from "react-router-dom";
-import WaitIcon from "../images/icons/wait-icon.png";
+import keycloak from "../../auth/keycloak";
 
-const Owner_NewPremises = () => {
+const PremisesEdit = (props) => {
   const [state, setState] = useState({
-    isSending: false,
     newLocation: {
       city: "",
       postCode: "",
@@ -14,15 +11,16 @@ const Owner_NewPremises = () => {
       streetNumber: "",
       locationName: "",
     },
-    premisesNumber: "",
-    area: "",
-    premisesLevel: "",
+    premisesId: props.premisesId,
+    premisesNumber: props.data.premisesNumber,
+    area: props.data.area,
+    premisesLevel: props.data.premisesLevel,
     premisesType: {
-      type: "",
+      type: props.data.premisesType.type,
     },
-    furnished: false,
-    choosenLocation: "",
-    locationId: "",
+    furnished: props.data.furnished,
+    choosenLocation: props.data.location.locationName,
+    locationId: props.data.location.locationName,
     locations: [],
     premisesTypes: [],
     errors: {
@@ -37,25 +35,25 @@ const Owner_NewPremises = () => {
       streetNumber: false,
       locationName: false,
     },
-    lastAdded: -1,
-    postURL: "",
+    putURL: "",
     changed: "",
-    submitMessage: "",
   });
+
+  // const [changed, setChanged] = useState("");
 
   const getResources = async () => {
     const response = await fetch("/resources.json");
     const resources = await response.json();
+
     return resources;
   };
 
   const getData = () => {
-    let postURL = "";
-    let locations = [];
-    let types = [];
     getResources().then((res) => {
       //pobranie danych z wyciągniętego adresu url
-      postURL = res.urls.owner.newPremises;
+      let putURL = res.urls.owner.premisesUpdate;
+      let locations = [];
+      let types = [];
       fetch(res.urls.owner.locations, {
         headers: { Authorization: " Bearer " + keycloak.token },
       })
@@ -63,12 +61,13 @@ const Owner_NewPremises = () => {
           return response.json();
         })
         .then((data) => {
-          locations = data.map((location) => {
+          const options = data.map((location) => {
             return {
               value: location.locationId,
               label: location.locationName,
             };
           });
+          locations = options;
         })
         .then(() => {
           //pobranie dostępnych typów lokali
@@ -79,24 +78,24 @@ const Owner_NewPremises = () => {
               return response.json();
             })
             .then((data) => {
-              types = data.map((type) => {
+              const options = data.map((type) => {
                 return {
                   value: type.premisesTypeId,
                   label: type.type,
                 };
               });
+              types = options;
               setState({
                 ...state,
-                postURL: postURL,
-                locations: locations,
                 premisesTypes: types,
+                locations: locations,
+                putURL: putURL,
               });
             });
         })
         .catch((err) => {
           console.log("Error Reading data " + err);
         });
-      return res;
     });
   };
 
@@ -106,18 +105,10 @@ const Owner_NewPremises = () => {
 
   useEffect(() => {
     if (state.changed.length > 0) {
+      setState({ ...state, changed: "" });
       reactiveValidation();
     }
-
-    if (state.submitMessage !== "") {
-      setTimeout(() => {
-        setState({
-          ...state,
-          submitMessage: "",
-        });
-      }, 3000);
-    }
-  }, [state.changed, state.submitMessage]);
+  }, [state.changed]);
 
   const messages = {
     number_incorrect: "Numer lokalu ma nieprawidłową formę",
@@ -166,7 +157,7 @@ const Owner_NewPremises = () => {
         setState({
           ...state,
           newLocation: {
-            ...state.newLocation,
+            ...this.state.newLocation,
             [name]: value,
           },
         });
@@ -306,52 +297,46 @@ const Owner_NewPremises = () => {
 
     switch (fieldName) {
       case "city":
-        this.validationErrorSetter(
-          "city",
-          city.length > 0 && city.length <= 30
-        );
+        validationErrorSetter("city", city.length > 0 && city.length <= 30);
         break;
       case "postCode":
-        this.validationErrorSetter(
-          "postCode",
-          /[0-9]{2}-[0-9]{3}/.test(postCode)
-        );
+        validationErrorSetter("postCode", /[0-9]{2}-[0-9]{3}/.test(postCode));
         break;
       case "street":
-        this.validationErrorSetter(
+        validationErrorSetter(
           "street",
           street.length > 0 && street.length <= 60
         );
         break;
       case "streetNumber":
-        this.validationErrorSetter(
+        validationErrorSetter(
           "streetNumber",
           /^[0-9a-zA-Z]{1,4}$/.test(streetNumber)
         );
         break;
       case "locationName":
-        this.validationErrorSetter(
+        validationErrorSetter(
           "locationName",
           locationName.length > 0 && locationName.length <= 40
         );
         break;
       case "premisesNumber":
-        this.validationErrorSetter(
+        validationErrorSetter(
           "premisesNumber",
           /^[0-9a-zA-Z]{1,10}$/.test(premisesNumber)
         );
         break;
       case "area":
-        this.validationErrorSetter("area", /^[0-9]{1,10}$/.test(area));
+        validationErrorSetter("area", /^[0-9]{1,10}$/.test(area));
         break;
       case "premisesLevel":
-        this.validationErrorSetter(
+        validationErrorSetter(
           "premisesLevel",
           premisesLevel.length > 0 && premisesLevel.length <= 20
         );
         break;
       case "premisesType":
-        this.validationErrorSetter("premisesType", type.length > 0);
+        validationErrorSetter("premisesType", type.length > 0);
         break;
 
       default:
@@ -361,96 +346,90 @@ const Owner_NewPremises = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!state.isSending) {
-      setState({ ...state, isSending: true });
-      const validation = formValidation();
 
-      if (validation.correct) {
-        sendPost()
-          .then((res) => {
-            const message =
-              res > 0
-                ? "Lokal został dodany"
-                : "Wystąpił problem przy dodawaniu lokalu...";
+    const validation = formValidation();
 
-            setState({
-              ...state,
-              submitMessage: message,
-              lastAdded: -1,
-              newLocation: {
-                city: "",
-                postCode: "",
-                street: "",
-                streetNumber: "",
-                locationName: "",
-              },
-              premisesNumber: "",
-              area: "",
-              premisesLevel: "",
-              state: "",
-              premisesType: {
-                type: "",
-              },
-              locationId: "",
-              furnished: false,
+    if (validation.correct) {
+      sendPut().then((res) => {
+        //na podstawie odpowiedzi od serwera określam komunikat (nie)powodzenia
 
-              errors: {
-                number: false,
-                area: false,
-                premisesLevel: false,
-                location: false,
-                premisesType: false,
-                city: false,
-                postCode: false,
-                street: false,
-                streetNumber: false,
-                locationName: false,
-              },
-            });
-          })
-          .catch((err) => {
-            setState({ ...state, isSending: false });
-          });
+        const message = res
+          ? "Zmiany zostały zapisane"
+          : "Nie udało się zapisać zmian...";
+
+        setState({
+          ...state,
+          newLocation: {
+            city: "",
+            postCode: "",
+            street: "",
+            streetNumber: "",
+            locationName: "",
+          },
+          premisesNumber: "",
+          area: "",
+          premisesLevel: "",
+          state: "",
+          premisesType: {
+            type: "",
+          },
+          locationId: "",
+          furnished: false,
+
+          errors: {
+            number: false,
+            area: false,
+            premisesLevel: false,
+            location: false,
+            premisesType: false,
+            city: false,
+            postCode: false,
+            street: false,
+            streetNumber: false,
+            locationName: false,
+          },
+        });
+        // console.log("wustawim odpowiedz na : ", message);
+        props.edited(message);
+      });
+    } else {
+      if (state.choosenLocation.length === 0) {
+        setState({
+          ...state,
+          errors: {
+            number: !validation.number,
+            area: !validation.area,
+            premisesLevel: !validation.premisesLevel,
+            premisesType: !validation.premisesType,
+            city: !validation.city,
+            postCode: !validation.postCode,
+            street: !validation.street,
+            streetNumber: !validation.streetNumber,
+            locationName: !validation.locationName,
+          },
+        });
       } else {
-        if (state.choosenLocation.length === 0) {
-          setState({
-            ...state,
-            isSending: false,
-            errors: {
-              number: !validation.number,
-              area: !validation.area,
-              premisesLevel: !validation.premisesLevel,
-              premisesType: !validation.premisesType,
-              city: !validation.city,
-              postCode: !validation.postCode,
-              street: !validation.street,
-              streetNumber: !validation.streetNumber,
-              locationName: !validation.locationName,
-            },
-          });
-        } else {
-          setState({
-            ...state,
-            isSending: false,
-            errors: {
-              number: !validation.number,
-              area: !validation.area,
-              premisesLevel: !validation.premisesLevel,
-              location: !validation.location,
-              premisesType: !validation.premisesType,
-            },
-          });
-        }
+        setState({
+          ...state,
+          errors: {
+            number: !validation.number,
+            area: !validation.area,
+            premisesLevel: !validation.premisesLevel,
+            location: !validation.location,
+            premisesType: !validation.premisesType,
+          },
+        });
       }
     }
   };
 
-  const sendPost = async () => {
+  const sendPut = async () => {
     let newPremises = {};
+    const isFurnished = state.furnished === "tak" ? true : false;
     if (state.choosenLocation.length > 0) {
       newPremises = {
         area: state.area,
-        furnished: state.furnished,
+        furnished: isFurnished,
         location: {
           address: null,
           locationName: state.choosenLocation,
@@ -464,7 +443,7 @@ const Owner_NewPremises = () => {
     } else {
       newPremises = {
         area: state.area,
-        furnished: state.furnished,
+        furnished: isFurnished,
         location: {
           address: {
             city: state.newLocation.city,
@@ -484,35 +463,34 @@ const Owner_NewPremises = () => {
 
     let json = JSON.stringify(newPremises);
     const requestOptions = {
-      method: "POST",
+      method: "PUT",
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json",
+        "Content-Type": "application/json", //"application/json",
         Authorization: " Bearer " + keycloak.token,
       },
       body: json,
     };
 
-    const res = await fetch(state.postURL, requestOptions)
-      .then((response) => {
-        return response.json();
-      })
+    let ok = false;
+    const res = await fetch(
+      state.putURL + `${state.premisesId}`,
+      requestOptions
+    )
       .then((data) => {
-        setState({ ...state, lastAdded: data.premisesId });
-
+        if (data.ok) {
+          ok = true;
+        }
         return data;
       })
-      .catch((err) => {
-        console.log("nie udane wysłanie żądania: ", err);
-        setState({ ...state, isSending: false });
-      });
+      .catch((err) => console.log(err));
 
-    return res;
+    return ok;
   };
 
   return (
     <div className="content-container">
-      <h1 className="content-title">Nowy lokal</h1>
+      <h1 className="content-title">Edycja lokalu</h1>
       <form onSubmit={handleSubmit}>
         <div className="location-choose">
           <label style={{ fontWeight: "bold" }} htmlFor="choosenLocation">
@@ -523,11 +501,9 @@ const Owner_NewPremises = () => {
               id="choosenLocation"
               onChange={handleChange}
             >
-              <option key="" value=""></option>
+              <option value=""></option>
               {state.locations.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
+                <option value={option.value}>{option.label}</option>
               ))}
             </select>
             {state.errors.location && (
@@ -610,94 +586,82 @@ const Owner_NewPremises = () => {
             )}
           </label>
         </div>
-        <div className="new-premises-details">
-          <label htmlFor="premisesNumber">
-            Numer lokalu:
-            <input
-              id="premisesNumber"
-              type="text"
-              name="premisesNumber"
-              value={state.premisesNumber}
-              onChange={handleChange}
-            />
-            {state.errors.number && (
-              <span className="error-msg">{messages.number_incorrect}</span>
-            )}
-          </label>
-          <label htmlFor="area">
-            Powierzchnia lokalu:
-            <input
-              id="area"
-              type="number"
-              name="area"
-              value={state.area}
-              onChange={handleChange}
-            />
-            {state.errors.area && (
-              <span className="error-msg">{messages.area_incorrect}</span>
-            )}
-          </label>
-          <label htmlFor="premisesLevel">
-            Poziom:
-            <input
-              id="premisesLevel"
-              type="text"
-              name="premisesLevel"
-              value={state.premisesLevel}
-              onChange={handleChange}
-            />
-            {state.errors.premisesLevel && (
-              <span className="error-msg">
-                {messages.premisesLevel_incorrect}
-              </span>
-            )}
-          </label>
-          <label htmlFor="premisesType">
-            Rodzaj:
-            <select
-              value={state.premisesType.type}
-              id="premisesType"
-              name="premisesType"
-              onChange={handleChange}
-            >
-              <option key="" value=""></option>
-              {state.premisesTypes.map((option) => (
-                <option key={option.value} value={option.label}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-            {state.errors.premisesType && (
-              <span className="error-msg">
-                {messages.premisesType_incorrect}
-              </span>
-            )}
-          </label>
-          <label htmlFor="furnished">
-            Umeblowany:
-            <input
-              onChange={handleChange}
-              type="checkbox"
-              id="furnished"
-              name="furnished"
-              checked={state.furnished}
-            />
-          </label>
-          <Link to="owner-premises">
-            <button>Powrót</button>
-          </Link>
-          {state.isSending ? (
-            <img src={WaitIcon} alt="..." />
-          ) : (
-            <button type="submit">Zapisz</button>
+
+        <label htmlFor="premisesNumber">
+          Numer lokalu:
+          <input
+            id="premisesNumber"
+            type="text"
+            name="premisesNumber"
+            value={state.premisesNumber}
+            onChange={handleChange}
+          />
+          {state.errors.number && (
+            <span className="error-msg">{messages.number_incorrect}</span>
           )}
-        </div>
+        </label>
+        <label htmlFor="area">
+          Powierzchnia lokalu:
+          <input
+            id="area"
+            type="number"
+            name="area"
+            value={state.area}
+            onChange={handleChange}
+          />
+          {state.errors.area && (
+            <span className="error-msg">{messages.area_incorrect}</span>
+          )}
+        </label>
+        <label htmlFor="premisesLevel">
+          Poziom:
+          <input
+            id="premisesLevel"
+            type="text"
+            name="premisesLevel"
+            value={state.premisesLevel}
+            onChange={handleChange}
+          />
+          {state.errors.premisesLevel && (
+            <span className="error-msg">
+              {messages.premisesLevel_incorrect}
+            </span>
+          )}
+        </label>
+        <label htmlFor="premisesType">
+          Rodzaj:
+          <select
+            value={state.premisesType.type}
+            id="premisesType"
+            name="premisesType"
+            onChange={handleChange}
+          >
+            <option value=""></option>
+            {state.premisesTypes.map((option) => (
+              <option value={option.label}>{option.label}</option>
+            ))}
+          </select>
+          {state.errors.premisesType && (
+            <span className="error-msg">{messages.premisesType_incorrect}</span>
+          )}
+        </label>
+        <label htmlFor="furnished">
+          Umeblowany:
+          <input
+            onChange={handleChange}
+            type="checkbox"
+            id="furnished"
+            name="furnished"
+            checked={state.furnished}
+          />
+        </label>
+
+        <button onClick={props.return}>Powrót</button>
+
+        <button type="submit">Zapisz</button>
       </form>
-      {state.submitMessage && (
-        <h3 className="submit-message">{state.submitMessage}</h3>
-      )}
     </div>
   );
 };
 
-export default Owner_NewPremises;
+export default PremisesEdit;

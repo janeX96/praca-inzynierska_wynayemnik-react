@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import keycloak from "../auth/keycloak";
-import LoadData from "./LoadData";
-import "../styles/App.css";
+import keycloak from "../../auth/keycloak";
+import LoadData from "../LoadData";
+import "../../styles/App.css";
+import { Link } from "react-router-dom";
 
 const Owner_Locations = () => {
   const [locations, setLocations] = useState([]);
@@ -74,12 +75,18 @@ const Owner_Locations = () => {
       ),
     },
   ];
-  const initialState = { pageSize: 5, hiddenColumns: "premisesId" };
+  const initialState = { pageSize: 5, hiddenColumns: "address.addressId" };
 
   return (
     <>
       <div className="content-container">
         <h1 className="content-title">Moje Lokacje</h1>
+        <div>
+          <Link to="owner-new-location">
+            <button className="add-button">Dodaj nową</button>
+          </Link>
+        </div>
+
         {locations.length > 0 ? (
           <LoadData
             data={locations}

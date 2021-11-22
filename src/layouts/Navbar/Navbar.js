@@ -9,7 +9,6 @@ import Dropdown, {
 import AuthorizedFunction from "../../auth/AuthorizedFunction";
 import UserIcon from "../../images/icons/icon_user1.png";
 import keycloak from "../../auth/keycloak";
-import dropdown from "react-simple-dropdown";
 
 function Navbar() {
   const [click, setClick] = useState(false);
