@@ -1,0 +1,129 @@
+.content-container {
+  background: url("../images/wynayemnik img1 transparent.jpg") center
+    center/cover no-repeat;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  /* justify-content: center; */
+  box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.2);
+  object-fit: contain;
+}
+
+.content-container > .content-title {
+  color: #404142;
+  font-size: 50px;
+  padding-top: 20px;
+  margin-left: 70px;
+  margin-right: 70px;
+  border-color: #404142;
+  border-bottom-style: solid;
+}
+.content-container > div {
+  margin-left: 70px;
+}
+
+.content-container > p {
+  margin-top: 8px;
+  color: #fff;
+  font-size: 32px;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+}
+
+.content-container .add-button {
+  font-size: large;
+  background-color: #4e47b5;
+  color: #e3e3e3;
+}
+
+.content-container .add-button:hover {
+  background-color: #2d277a;
+}
+
+.content-btns {
+  margin-top: 32px;
+}
+
+.content-btns .btn {
+  margin: 6px;
+}
+
+.action-button {
+  background-color: #87888a;
+  font-size: large;
+  color: #e3e3e3;
+}
+
+.details-buttons {
+  margin-left: 50px;
+  margin-bottom: 20px;
+}
+
+.details-buttons .return-button {
+  margin-right: 100px;
+}
+
+.details-buttons button {
+  margin-right: 10px;
+  background-color: #87888a;
+  font-size: large;
+  color: #e3e3e3;
+}
+
+.details-buttons button:hover {
+  background-color: #404142;
+}
+
+.action-button:hover {
+  background-color: #404142;
+}
+
+/* forms */
+
+form {
+  margin-left: 70px;
+}
+
+label {
+  font-size: large;
+  display: block;
+  margin-bottom: 10px;
+}
+
+input {
+  padding-right: 5px;
+  margin-left: 10px;
+  /* float: right; */
+}
+
+select {
+  margin-left: 10px;
+}
+
+.error-msg {
+  margin-left: 10px;
+  color: red;
+}
+
+.location-choose {
+  margin-right: 60%;
+
+  margin-bottom: 50px;
+  border-style: outset;
+}
+
+/* edit */
+.submit-message {
+  margin-left: 70px;
+  color: #226e37;
+}
+
+/* .new-premises-details {
+  margin-right: 75%;
+} */
+
+/* input[type="checkbox"] {
+  float: initial;
+} */

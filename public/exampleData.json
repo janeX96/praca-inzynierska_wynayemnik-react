@@ -1,0 +1,46 @@
+[
+    {
+        "location": "Wiejska 22",
+        "type": "mieszkaniowy",
+        "status": "wolny"
+      },
+      {
+        "location": "Nowa 12",
+        "type": "mieszkaniowy",
+        "status": "zajęty"
+      },
+      {
+        "location": "Wolna 12",
+        "type": "mieszkaniowy",
+        "status": "wolny"
+      },{
+        "location": "Wiejska 22",
+        "type": "mieszkaniowy",
+        "status": "wolny"
+      },
+      {
+        "location": "Nowa 12",
+        "type": "mieszkaniowy",
+        "status": "zajęty"
+      },
+      {
+        "location": "Wolna 12",
+        "type": "mieszkaniowy",
+        "status": "wolny"
+      },
+      {
+        "location": "Wiejska 22",
+        "type": "mieszkaniowy",
+        "status": "wolny"
+      },
+      {
+        "location": "Nowa 12",
+        "type": "mieszkaniowy",
+        "status": "zajęty"
+      },
+      {
+        "location": "Wolna 12",
+        "type": "mieszkaniowy",
+        "status": "wolny"
+      }
+]
