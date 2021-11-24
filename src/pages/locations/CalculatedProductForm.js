@@ -1,19 +1,40 @@
 import "../../styles/App.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-const CalculatedProductForm = () => {
+const CalculatedProductForm = (props) => {
   const [data, setData] = useState({
-    forAttribute: "",
-    netto: true,
-    premisesTypes: [],
-    price: 0,
-    productName: "",
-    quantity: "",
-    quantityUnit: "",
-    vat: "",
+    type: "calculated",
+    obj: {
+      forAttribute: "",
+      netto: true,
+      premisesTypes: [],
+      price: 0,
+      productName: "",
+      quantity: "",
+      quantityUnit: "",
+      vat: "",
+    },
   });
 
-  const handleSubmit = (e) => {};
+  const [pattern, setPattern] = useState({
+    attr1: "",
+    arithm: "",
+    attr2: "",
+  });
+
+  useEffect(() => {
+    const forAttribute =
+      pattern.attr1 + " " + pattern.arithm + " " + pattern.attr2;
+    setData({ ...data, obj: { ...data.obj, forAttribute } });
+  }, [pattern]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const forAttribute =
+      pattern.attr1 + " " + pattern.arithm + " " + pattern.attr2;
+    setData({ ...data, obj: { ...data.obj, forAttribute } });
+    props.addProduct(data);
+  };
 
   const handleChange = (e) => {
     const name = e.target.name;
@@ -22,19 +43,24 @@ const CalculatedProductForm = () => {
     if (type === "text" || type === "number" || type === "select-one") {
       const value = e.target.value;
 
-      setData({ ...data, [name]: value });
+      if (name === "attr1" || name === "attr2" || name === "arithm") {
+        setPattern({ ...pattern, [name]: value });
+      } else {
+        setData({ ...data, obj: { ...data.obj, [name]: value } });
+      }
     } else if (type === "checkbox") {
       const checked = e.target.checked;
-      setData({ ...data, [name]: checked });
+      setData({ ...data, obj: { ...data.obj, [name]: checked } });
     }
   };
 
   const getData = () => {};
 
+  //todo
   const messages = {};
-
+  //todo
   const formValidation = () => {};
-
+  //todo
   const reactiveValidation = () => {};
 
   return (
@@ -43,6 +69,7 @@ const CalculatedProductForm = () => {
         <label htmlFor="productName">
           Nazwa:
           <input
+            value={data.obj.productName}
             id="productName"
             type="text"
             name="productName"
@@ -52,6 +79,7 @@ const CalculatedProductForm = () => {
         <label htmlFor="price">
           Cena:
           <input
+            value={data.obj.price}
             id="price"
             type="number"
             min="1"
@@ -63,6 +91,7 @@ const CalculatedProductForm = () => {
         <label htmlFor="netto">
           Netto:
           <input
+            value={data.obj.netto}
             id="netto"
             type="checkbox"
             name="netto"
@@ -72,6 +101,7 @@ const CalculatedProductForm = () => {
         <label htmlFor="vat">
           Vat:
           <input
+            value={data.obj.vat}
             id="vat"
             type="number"
             min="1"
@@ -83,6 +113,7 @@ const CalculatedProductForm = () => {
         <label htmlFor="quantity">
           Ilość:
           <input
+            value={data.obj.quantity}
             id="quantity"
             type="number"
             name="quantity"
@@ -92,6 +123,7 @@ const CalculatedProductForm = () => {
         <label htmlFor="quantityUnit">
           Jednostka miary:
           <input
+            value={data.obj.quantityUnit}
             id="quantityUnit"
             type="text"
             name="quantityUnit"
@@ -102,13 +134,15 @@ const CalculatedProductForm = () => {
         <label htmlFor="forAttribute">
           Wzór:
           <input
-            id="atr1"
+            value={pattern.attr1}
+            id="attr1"
             type="text"
-            name="atr1"
+            name="attr1"
             style={{ width: "40px" }}
             onChange={handleChange}
           />
           <input
+            value={pattern.arithm}
             id="arithm"
             type="text"
             name="arithm"
@@ -116,9 +150,10 @@ const CalculatedProductForm = () => {
             onChange={handleChange}
           />
           <input
-            id="atr2"
+            value={pattern.attr2}
+            id="attr2"
             type="text"
-            name="atr2"
+            name="attr2"
             style={{ width: "40px" }}
             onChange={handleChange}
           />

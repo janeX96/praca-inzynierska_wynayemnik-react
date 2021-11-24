@@ -136,7 +136,7 @@ const NewLocation = () => {
   const productFormRender = (type) => {
     switch (type) {
       case "calculated":
-        return <CalculatedProductForm />;
+        return <CalculatedProductForm addProduct={addProduct} />;
         break;
 
       default:
@@ -171,6 +171,7 @@ const NewLocation = () => {
     prods.push(product);
 
     setProducts(prods);
+    setProductType("");
   };
 
   const handleSubmit = (e) => {
@@ -299,7 +300,18 @@ const NewLocation = () => {
               ))}
             </select>
           </div>
-          <button type="submit">Dodaj</button>
+          {productType.length === 0 && (
+            <div>
+              <ul>
+                {products.map((product) => (
+                  <li key={product.obj.productName}>
+                    {product.obj.productName}
+                  </li>
+                ))}
+              </ul>
+              <button type="submit">Dodaj</button>
+            </div>
+          )}
         </form>
         {productFormRender(productType)}
       </div>
