@@ -58,8 +58,7 @@ const NewLocation = () => {
       city = true;
     }
 
-    //regex needed
-    if (location.address.postCode.length === 6) {
+    if (/^[0-9]{2}-[0-9]{3}$/.test(location.address.postCode)) {
       postCode = true;
     }
 
@@ -82,7 +81,49 @@ const NewLocation = () => {
     return { city, postCode, street, streetNumber, correct };
   };
 
-  const reactiveValidation = () => {};
+  const validationErrorSetter = (name, condition) => {
+    if (condition) {
+      setErrors({
+        ...errors,
+        [name]: false,
+      });
+    } else {
+      setErrors({
+        ...errors,
+        [name]: true,
+      });
+    }
+  };
+
+  const reactiveValidation = () => {
+    const fieldName = changed;
+    setChanged(false);
+    const { city, postCode, street, streetNumber } = location.address;
+
+    switch (fieldName) {
+      case "city":
+        validationErrorSetter("city", city.length > 2 && city.length <= 30);
+        break;
+      case "postCode":
+        validationErrorSetter("postCode", /^[0-9]{2}-[0-9]{3}$/.test(postCode));
+        break;
+      case "street":
+        validationErrorSetter(
+          "street",
+          street.length > 2 && street.length <= 60
+        );
+        break;
+      case "streetNumber":
+        validationErrorSetter(
+          "streetNumber",
+          /^[0-9a-zA-Z]{1,4}$/.test(streetNumber)
+        );
+        break;
+
+      default:
+        return null;
+    }
+  };
 
   const productTypes = [
     { value: "calculated", label: "Wyliczalny" },
@@ -111,7 +152,7 @@ const NewLocation = () => {
     const name = e.target.name;
     const type = e.target.type;
     const value = e.target.value;
-    setChanged({ name });
+    setChanged(name);
     if (name === "locationName") {
       setLocation({ ...location, [name]: value });
     } else {

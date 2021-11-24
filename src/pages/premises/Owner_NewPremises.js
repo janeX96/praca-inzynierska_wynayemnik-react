@@ -196,8 +196,8 @@ const Owner_NewPremises = () => {
     if (state.newLocation.city.length >= 3) {
       city = true;
     }
-    //tutaj regex
-    if (state.newLocation.postCode.length > 3) {
+
+    if (/^[0-9]{2}-[0-9]{3}$/.test(state.newLocation.postCode)) {
       postCode = true;
     }
     if (state.newLocation.street.length > 3) {
@@ -306,52 +306,46 @@ const Owner_NewPremises = () => {
 
     switch (fieldName) {
       case "city":
-        this.validationErrorSetter(
-          "city",
-          city.length > 0 && city.length <= 30
-        );
+        validationErrorSetter("city", city.length > 0 && city.length <= 30);
         break;
       case "postCode":
-        this.validationErrorSetter(
-          "postCode",
-          /[0-9]{2}-[0-9]{3}/.test(postCode)
-        );
+        validationErrorSetter("postCode", /^[0-9]{2}-[0-9]{3}$/.test(postCode));
         break;
       case "street":
-        this.validationErrorSetter(
+        validationErrorSetter(
           "street",
           street.length > 0 && street.length <= 60
         );
         break;
       case "streetNumber":
-        this.validationErrorSetter(
+        validationErrorSetter(
           "streetNumber",
           /^[0-9a-zA-Z]{1,4}$/.test(streetNumber)
         );
         break;
       case "locationName":
-        this.validationErrorSetter(
+        validationErrorSetter(
           "locationName",
           locationName.length > 0 && locationName.length <= 40
         );
         break;
       case "premisesNumber":
-        this.validationErrorSetter(
+        validationErrorSetter(
           "premisesNumber",
           /^[0-9a-zA-Z]{1,10}$/.test(premisesNumber)
         );
         break;
       case "area":
-        this.validationErrorSetter("area", /^[0-9]{1,10}$/.test(area));
+        validationErrorSetter("area", /^[0-9]{1,10}$/.test(area));
         break;
       case "premisesLevel":
-        this.validationErrorSetter(
+        validationErrorSetter(
           "premisesLevel",
           premisesLevel.length > 0 && premisesLevel.length <= 20
         );
         break;
       case "premisesType":
-        this.validationErrorSetter("premisesType", type.length > 0);
+        validationErrorSetter("premisesType", type.length > 0);
         break;
 
       default:
