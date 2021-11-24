@@ -15,6 +15,9 @@ const CalculatedProductForm = (props) => {
       vat: "",
     },
   });
+  const [premisesTypes, setPremisesTypes] = useState(
+    props.premisesTypes.premisesTypes
+  );
 
   const [pattern, setPattern] = useState({
     attr1: "",
@@ -39,7 +42,7 @@ const CalculatedProductForm = (props) => {
   const handleChange = (e) => {
     const name = e.target.name;
     const type = e.target.type;
-
+    console.log(name);
     if (type === "text" || type === "number" || type === "select-one") {
       const value = e.target.value;
 
@@ -49,12 +52,29 @@ const CalculatedProductForm = (props) => {
         setData({ ...data, obj: { ...data.obj, [name]: value } });
       }
     } else if (type === "checkbox") {
-      const checked = e.target.checked;
-      setData({ ...data, obj: { ...data.obj, [name]: checked } });
-    }
-  };
+      if (name === "premisesType") {
+        var set = new Set(data.obj.premisesTypes);
+        const value = e.target.id;
+        console.log(">>>>", value);
+        if (set.has(value)) {
+          set.delete(value);
+          console.log("usunieto:", value);
+        } else {
+          set.add(value);
+          console.log("dodano:", value);
+        }
 
-  const getData = () => {};
+        let arr = Array.from(set);
+
+        setData({ ...data, obj: { ...data.obj, premisesTypes: arr } });
+      } else {
+        const checked = e.target.checked;
+        setData({ ...data, obj: { ...data.obj, [name]: checked } });
+      }
+    } // else if (type === "select-multiple") {
+
+    // }
+  };
 
   //todo
   const messages = {};
@@ -157,6 +177,44 @@ const CalculatedProductForm = (props) => {
             style={{ width: "40px" }}
             onChange={handleChange}
           />
+        </label>
+        <label htmlFor="premisesType">
+          Domyślne dla rodzaju lokalu:
+          {/* <select
+            value={data.obj.premisesTypes}
+            id="premisesType"
+            name="premisesType"
+            onChange={handleChange}
+            multiple
+          >
+            <option key="" value=""></option>
+            {premisesTypes.map((option) => (
+              <option key={option.value} value={option.label}>
+                {option.label}
+              </option>
+            ))}
+          </select> */}
+          {
+            <ul>
+              {premisesTypes.map((option) => (
+                <li>
+                  {option.label}
+                  <input
+                    key={option.value}
+                    id={option.label}
+                    name="premisesType"
+                    type="checkbox"
+                    onChange={handleChange}
+                  />
+                </li>
+              ))}
+            </ul>
+          }
+          {/* {state.errors.premisesType && (
+              <span className="error-msg">
+                {messages.premisesType_incorrect}
+              </span>
+            )} */}
         </label>
         <button type="submit">Dodaj</button>
       </form>

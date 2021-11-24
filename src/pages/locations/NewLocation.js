@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import "../../styles/App.css";
 import CalculatedProductForm from "./CalculatedProductForm";
+import keycloak from "../../auth/keycloak";
 
 const NewLocation = () => {
   const [location, setLocation] = useState({
@@ -14,6 +15,16 @@ const NewLocation = () => {
   });
   const [productType, setProductType] = useState("");
   const [products, setProducts] = useState([]);
+  const [premisesTypes, setPremisesTypes] = useState([]);
+  const [urls, setUrls] = useState({
+    postURL: "",
+    productURLPrefix: "",
+    calculatedProdPostURL: "",
+    disposableProdPostURL: "",
+    mediaQuantProdPostURL: "",
+    mediaStandProdPostURL: "",
+    stateProdPostURL: "",
+  });
   const [changed, setChanged] = useState("");
   const [sending, setSending] = useState(false);
   const [errors, setErrors] = useState({
@@ -31,54 +42,59 @@ const NewLocation = () => {
 
   const getData = () => {
     let postURL = "";
-    let locations = [];
-    let types = [];
-    getResources().then((res) => {
-      //pobranie danych z wyciągniętego adresu url
-      postURL = res.urls.owner.newPremises;
-      fetch(res.urls.owner.locations, {
-        headers: { Authorization: " Bearer " + keycloak.token },
-      })
-        .then((response) => {
-          return response.json();
+    let productURLPrefix = "";
+    let calculatedProdPostURL = "";
+    let disposableProdPostURL = "";
+    let mediaQuantProdPostURL = "";
+    let mediaStandProdPostURL = "";
+    let stateProdPostURL = "";
+    let premisesTypes = [];
+    getResources()
+      .then((res) => {
+        console.log(res.urls.owner.newLocation);
+        postURL = res.urls.owner.newLocation;
+        productURLPrefix = res.urls.owner.products.prefix;
+        calculatedProdPostURL = res.urls.owner.products.addCalculated;
+        disposableProdPostURL = res.urls.owner.products.addDisposable;
+        mediaQuantProdPostURL = res.urls.owner.products.addMiediaQuantity;
+        mediaStandProdPostURL = res.urls.owner.products.addMediaStandard;
+        stateProdPostURL = res.urls.owner.products.addState;
+
+        fetch(res.urls.owner.premisesTypes, {
+          headers: { Authorization: " Bearer " + keycloak.token },
         })
-        .then((data) => {
-          locations = data.map((location) => {
-            return {
-              value: location.locationId,
-              label: location.locationName,
-            };
-          });
-        })
-        .then(() => {
-          //pobranie dostępnych typów lokali
-          fetch(res.urls.owner.premisesTypes, {
-            headers: { Authorization: " Bearer " + keycloak.token },
+          .then((response) => {
+            return response.json();
           })
-            .then((response) => {
-              return response.json();
-            })
-            .then((data) => {
-              types = data.map((type) => {
-                return {
-                  value: type.premisesTypeId,
-                  label: type.type,
-                };
-              });
-              setState({
-                ...state,
-                postURL: postURL,
-                locations: locations,
-                premisesTypes: types,
-              });
+          .then((data) => {
+            premisesTypes = data.map((type) => {
+              return {
+                value: type.premisesTypeId,
+                label: type.type,
+              };
             });
-        })
-        .catch((err) => {
-          console.log("Error Reading data " + err);
-        });
-      return res;
-    });
+            setPremisesTypes({
+              premisesTypes,
+            });
+            setUrls({
+              postURL,
+              productURLPrefix,
+              calculatedProdPostURL,
+              disposableProdPostURL,
+              mediaQuantProdPostURL,
+              mediaStandProdPostURL,
+              stateProdPostURL,
+            });
+          });
+      })
+      .catch((err) => {
+        console.log("Error Reading data " + err);
+      });
   };
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   useEffect(() => {
     if (changed.length > 0) {
@@ -185,7 +201,12 @@ const NewLocation = () => {
   const productFormRender = (type) => {
     switch (type) {
       case "calculated":
-        return <CalculatedProductForm addProduct={addProduct} />;
+        return (
+          <CalculatedProductForm
+            addProduct={addProduct}
+            premisesTypes={premisesTypes}
+          />
+        );
         break;
 
       default:
