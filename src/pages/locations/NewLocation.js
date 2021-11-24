@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "../../styles/App.css";
 import CalculatedProductForm from "./CalculatedProductForm";
 
@@ -12,10 +12,16 @@ const NewLocation = () => {
     },
     locationName: "",
   });
-
   const [productType, setProductType] = useState("");
-
   const [products, setProducts] = useState([]);
+  const [changed, setChanged] = useState("");
+  const [sending, setSending] = useState(false);
+  const [errors, setErrors] = useState({
+    city: false,
+    postCode: false,
+    street: false,
+    streetNumber: false,
+  });
 
   const getResources = async () => {
     const response = await fetch("/resources.json");
@@ -25,9 +31,56 @@ const NewLocation = () => {
 
   const getData = () => {};
 
-  const messages = {};
+  useEffect(() => {
+    if (changed.length > 0) {
+      reactiveValidation();
+    }
+  }, [changed]);
 
-  const formValidation = () => {};
+  const messages = {
+    city_incorrect: "wpisz 3-30 znaków",
+    postCode_incorrect: "wpisz poprawny kod pocztowy (00-000)",
+    street_incorrect: "wpisz 3-60 znaków",
+    streetNumber_incorrect: "wpisz 1-4 znaków",
+  };
+
+  const formValidation = () => {
+    let city = false;
+    let postCode = false;
+    let street = false;
+    let streetNumber = false;
+    // let locationName = false;
+
+    if (
+      location.address.city.length > 2 &&
+      location.address.city.length <= 30
+    ) {
+      city = true;
+    }
+
+    //regex needed
+    if (location.address.postCode.length === 6) {
+      postCode = true;
+    }
+
+    if (
+      location.address.street.length > 2 &&
+      location.address.street.length < 60
+    ) {
+      street = true;
+    }
+
+    if (
+      location.address.streetNumber.length > 0 &&
+      location.address.streetNumber.length <= 4
+    ) {
+      streetNumber = true;
+    }
+
+    let correct = city && postCode && street && streetNumber;
+
+    return { city, postCode, street, streetNumber, correct };
+  };
 
   const reactiveValidation = () => {};
 
@@ -54,7 +107,23 @@ const NewLocation = () => {
     setProductType(e.target.value);
   };
 
-  const handleChange = (e) => {};
+  const handleChange = (e) => {
+    const name = e.target.name;
+    const type = e.target.type;
+    const value = e.target.value;
+    setChanged({ name });
+    if (name === "locationName") {
+      setLocation({ ...location, [name]: value });
+    } else {
+      setLocation({
+        ...location,
+        address: {
+          ...location.address,
+          [name]: value,
+        },
+      });
+    }
+  };
 
   const addProduct = (product) => {
     let prods = [...products];
@@ -63,13 +132,44 @@ const NewLocation = () => {
     setProducts(prods);
   };
 
-  const handleSubmit = (e) => {};
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!sending) {
+      setSending(true);
+      const validation = formValidation();
+      if (validation.correct) {
+        setLocation({
+          address: {
+            city: "",
+            postCode: "",
+            street: "",
+            streetNumber: "",
+          },
+          locationName: "",
+        });
+        setErrors({
+          city: false,
+          postCode: false,
+          street: false,
+          streetNumber: false,
+        });
+      } else {
+        setErrors({
+          city: !validation.city,
+          postCode: !validation.postCode,
+          street: !validation.street,
+          streetNumber: !validation.streetNumber,
+        });
+      }
+      setSending(false);
+    }
+  };
 
   return (
     <>
       <div className="content-container">
         <h1 className="content-title">Nowa Lokacja</h1>
-        <form onSubmit="">
+        <form onSubmit={handleSubmit}>
           <div className="new-premises-details">
             <label htmlFor="city">
               Miasto:
@@ -78,11 +178,11 @@ const NewLocation = () => {
                 type="text"
                 name="city"
                 value={location.address.city}
-                // onChange={handleChange}
+                onChange={handleChange}
               />
-              {/* {state.errors.city && (
+              {errors.city && (
                 <span className="error-msg">{messages.city_incorrect}</span>
-              )} */}
+              )}
             </label>
             <label htmlFor="postCode">
               Kod pocztowy:
@@ -91,11 +191,11 @@ const NewLocation = () => {
                 type="text"
                 name="postCode"
                 value={location.address.postCode}
-                // onChange={handleChange}
+                onChange={handleChange}
               />
-              {/* {state.errors.postCode && (
+              {errors.postCode && (
                 <span className="error-msg">{messages.postCode_incorrect}</span>
-              )} */}
+              )}
             </label>
             <label htmlFor="street">
               Ulica:
@@ -104,11 +204,11 @@ const NewLocation = () => {
                 type="text"
                 name="street"
                 value={location.address.street}
-                // onChange={handleChange}
+                onChange={handleChange}
               />
-              {/* {state.errors.street && (
+              {errors.street && (
                 <span className="error-msg">{messages.street_incorrect}</span>
-              )} */}
+              )}
             </label>
             <label htmlFor="streetNumber">
               Nr:
@@ -117,13 +217,13 @@ const NewLocation = () => {
                 type="text"
                 name="streetNumber"
                 value={location.address.streetNumber}
-                // onChange={handleChange}
+                onChange={handleChange}
               />
-              {/* {state.errors.streetNumber && (
+              {errors.streetNumber && (
                 <span className="error-msg">
                   {messages.streetNumber_incorrect}
                 </span>
-              )} */}
+              )}
             </label>
             <label htmlFor="locationName">
               Nazwa:
@@ -132,13 +232,14 @@ const NewLocation = () => {
                 type="text"
                 name="locationName"
                 value={location.address.locationName}
-                // onChange={handleChange}
+                onChange={handleChange}
+                placeholder="(opcjonalnie)"
               />
-              {/* {state.errors.locationName && (
+              {errors.locationName && (
                 <span className="error-msg">
                   {messages.locationName_incorrect}
                 </span>
-              )} */}
+              )}
             </label>
           </div>
           <h1>Produkty</h1>
@@ -157,6 +258,7 @@ const NewLocation = () => {
               ))}
             </select>
           </div>
+          <button type="submit">Dodaj</button>
         </form>
         {productFormRender(productType)}
       </div>
