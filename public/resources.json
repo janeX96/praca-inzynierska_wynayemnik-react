@@ -6,7 +6,15 @@
       "newPremises": "http://localhost:8080/owner/new-premises",
       "premisesTypes": "http://localhost:8080/premisesType/all",
       "premisesUpdate": "http://localhost:8080/owner/premises/",
-      "premisesDelete": "http://localhost:8080/owner/premises/"
+      "premisesDelete": "http://localhost:8080/owner/premises/",
+      "products": {
+        "prefix": "http://localhost:8080/owner/location/",
+        "add-calculated": "/product/calculated/add",
+        "add-disposable": "/product/disposable/add",
+        "add-miedia-quantity": "/product/miedia-quantity/add",
+        "add-media-standard": "/product/media-standard/add",
+        "add-state": "/product/state/add"
+      }
     },
     "user": "http://localhost:8080/user/",
     "register": "http://localhost:8080/auth/register"
