@@ -29,7 +29,56 @@ const NewLocation = () => {
     return resources;
   };
 
-  const getData = () => {};
+  const getData = () => {
+    let postURL = "";
+    let locations = [];
+    let types = [];
+    getResources().then((res) => {
+      //pobranie danych z wyciągniętego adresu url
+      postURL = res.urls.owner.newPremises;
+      fetch(res.urls.owner.locations, {
+        headers: { Authorization: " Bearer " + keycloak.token },
+      })
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          locations = data.map((location) => {
+            return {
+              value: location.locationId,
+              label: location.locationName,
+            };
+          });
+        })
+        .then(() => {
+          //pobranie dostępnych typów lokali
+          fetch(res.urls.owner.premisesTypes, {
+            headers: { Authorization: " Bearer " + keycloak.token },
+          })
+            .then((response) => {
+              return response.json();
+            })
+            .then((data) => {
+              types = data.map((type) => {
+                return {
+                  value: type.premisesTypeId,
+                  label: type.type,
+                };
+              });
+              setState({
+                ...state,
+                postURL: postURL,
+                locations: locations,
+                premisesTypes: types,
+              });
+            });
+        })
+        .catch((err) => {
+          console.log("Error Reading data " + err);
+        });
+      return res;
+    });
+  };
 
   useEffect(() => {
     if (changed.length > 0) {
