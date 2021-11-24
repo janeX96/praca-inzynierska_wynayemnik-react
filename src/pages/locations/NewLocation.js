@@ -93,6 +93,7 @@ const NewLocation = () => {
   };
 
   useEffect(() => {
+    console.log(keycloak.token);
     getData();
   }, []);
 
@@ -244,12 +245,40 @@ const NewLocation = () => {
     setProductType("");
   };
 
+  const sendPost = async () => {
+    let newLocation = location;
+
+    let json = JSON.stringify(newLocation);
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: " Bearer " + keycloak.token,
+      },
+      body: json,
+    };
+
+    const res = await fetch(urls.postURL, requestOptions)
+      .then((response) => {
+        return response.json();
+      })
+      .then((res) => {
+        // console.log("res", res);
+      })
+      .catch((err) => {
+        console.log("nie udane wysłanie żądania: ", err);
+        setSending(false);
+      });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!sending) {
       setSending(true);
       const validation = formValidation();
       if (validation.correct) {
+        sendPost();
         setLocation({
           address: {
             city: "",
