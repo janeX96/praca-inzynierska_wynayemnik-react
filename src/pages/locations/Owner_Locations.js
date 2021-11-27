@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import keycloak from "../../auth/keycloak";
 import LoadData from "../LoadData";
 import "../../styles/App.css";
-import { Link } from "react-router-dom";
+import LocationDetails from "./LocationDetails";
 
 const Owner_Locations = () => {
   const [locations, setLocations] = useState([]);
+  const [chosenId, setChosenId] = useState("");
 
   const getResources = async () => {
     const response = await fetch("/resources.json");
@@ -32,14 +33,17 @@ const Owner_Locations = () => {
 
   useEffect(() => {
     getData();
+    console.log(keycloak.token);
   }, []);
 
-  const handleAction = () => {};
+  const handleAction = (id) => {
+    setChosenId(id);
+  };
 
   const columns = [
     {
       Header: "Id",
-      accessor: "address.addressId",
+      accessor: "locationId",
     },
     {
       Header: "Nazwa",
@@ -68,33 +72,34 @@ const Owner_Locations = () => {
         <button
           className="action-button"
           value={cell.row.values.actions}
-          onClick={() => handleAction(cell.row.values.address.addressId)}
+          onClick={() => handleAction(cell.row.values.locationId)}
         >
           Szczegóły
         </button>
       ),
     },
   ];
-  const initialState = { pageSize: 5, hiddenColumns: "address.addressId" };
+  // hiddenColumns: "address.addressId"
+  const initialState = { pageSize: 5, hiddenColumns: "locationId" };
 
   return (
     <>
       <div className="content-container">
-        <h1 className="content-title">Moje Lokacje</h1>
-        <div>
-          <Link to="owner-new-location">
-            <button className="add-button">Dodaj nową</button>
-          </Link>
-        </div>
-
-        {locations.length > 0 ? (
-          <LoadData
-            data={locations}
-            columns={columns}
-            initialState={initialState}
-          />
+        {chosenId > 0 ? (
+          <LocationDetails key={chosenId} id={chosenId} />
         ) : (
-          "brak"
+          <>
+            <h1 className="content-title">Moje Lokacje</h1>
+            {locations.length > 0 ? (
+              <LoadData
+                data={locations}
+                columns={columns}
+                initialState={initialState}
+              />
+            ) : (
+              "brak"
+            )}
+          </>
         )}
       </div>
     </>

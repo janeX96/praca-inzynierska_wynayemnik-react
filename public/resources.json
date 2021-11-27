@@ -8,6 +8,7 @@
       "premisesUpdate": "http://localhost:8080/owner/premises/",
       "premisesDelete": "http://localhost:8080/owner/premises/",
       "newLocation": "http://localhost:8080/owner/location/new",
+      "locationDetails": "http://localhost:8080/owner/location/",
       "products": {
         "prefix": "http://localhost:8080/owner/location/",
         "addCalculated": "/product/calculated/add",
