@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import "../../styles/App.css";
-import CalculatedProductForm from "./CalculatedProductForm";
+import MediaQuantityProductForm from "./MediaQuantityProductForm";
 import keycloak from "../../auth/keycloak";
 
 const NewLocation = () => {
@@ -203,7 +203,7 @@ const NewLocation = () => {
     switch (type) {
       case "calculated":
         return (
-          <CalculatedProductForm
+          <MediaQuantityProductForm
             addProduct={addProduct}
             premisesTypes={premisesTypes}
           />

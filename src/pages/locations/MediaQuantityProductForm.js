@@ -1,9 +1,9 @@
 import "../../styles/App.css";
 import { useState, useEffect } from "react";
 
-const CalculatedProductForm = (props) => {
+const MediaQuantityProductForm = (props) => {
   const [data, setData] = useState({
-    type: "calculated",
+    type: "media-quantity",
     obj: {
       forAttribute: "",
       netto: true,
@@ -222,4 +222,4 @@ const CalculatedProductForm = (props) => {
   );
 };
 
-export default CalculatedProductForm;
+export default MediaQuantityProductForm;
