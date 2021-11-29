@@ -2,10 +2,18 @@ import "../../styles/App.css";
 import { Stepper } from "react-form-stepper";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
+import UserFormForRent from "./UserFormForRent";
 
 const Rent = () => {
   const location = useLocation();
   const { premisesId } = location.state;
+
+  const [activeStep, setActiveStep] = useState(0);
+  const [completedSteps, setCompletedSteps] = useState({
+    1: false,
+    2: false,
+    3: false,
+  });
 
   const [rent, setRent] = useState({
     bailValue: 0,
@@ -42,9 +50,29 @@ const Rent = () => {
     },
   });
 
+  const setUser = (email) => {
+    setRent({ ...rent, email });
+  };
+
+  const stepDone = (index) => {
+    setCompletedSteps({ [index]: true });
+    setActiveStep(activeStep + 1);
+  };
+
+  const renderForm = (step) => {
+    switch (step) {
+      case 0:
+        return <UserFormForRent stepDone={stepDone} setUser={setUser} />;
+        break;
+
+      default:
+        break;
+    }
+  };
+
   return (
     <>
-      <div class="content-container">
+      <div className="content-container">
         <h1 className="content-title">Wynajem lokalu id= {premisesId}</h1>
         <Stepper
           steps={[
@@ -52,8 +80,9 @@ const Rent = () => {
             { label: "Step 2" },
             { label: "Step 3" },
           ]}
-          activeStep={0}
+          activeStep={activeStep}
         />
+        {renderForm(activeStep)}
       </div>
     </>
   );
