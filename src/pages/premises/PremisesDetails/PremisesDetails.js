@@ -115,7 +115,13 @@ const PremisesDetails = ({
               <Link
                 to={{
                   pathname: "/owner-rent-new",
-                  state: { premisesId: premisesId },
+                  state: {
+                    premisesId: premisesId,
+                    premises: {
+                      name: location.locationName,
+                      premisesNumber: premisesNumber,
+                    },
+                  },
                 }}
               >
                 <button>Wynajmij</button>

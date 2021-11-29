@@ -3,10 +3,11 @@ import { Stepper } from "react-form-stepper";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import UserFormForRent from "./UserFormForRent";
+import RentForm from "./RentForm";
 
 const Rent = () => {
   const location = useLocation();
-  const { premisesId } = location.state;
+  const { premisesId, premises } = location.state;
 
   const [activeStep, setActiveStep] = useState(0);
   const [completedSteps, setCompletedSteps] = useState({
@@ -64,6 +65,8 @@ const Rent = () => {
       case 0:
         return <UserFormForRent stepDone={stepDone} setUser={setUser} />;
         break;
+      case 1:
+        return <RentForm premises={premises} user={rent.email} />;
 
       default:
         break;
