@@ -101,10 +101,33 @@ const LocationDetails = (props) => {
       });
   };
 
+  const getProducts = () => {
+    const url = urls.productURLPrefix + props.id + "/products?productType=";
+
+    console.log("url >>>:", url);
+    fetch(url, {
+      headers: { Authorization: " Bearer " + keycloak.token },
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        setProducts(data);
+      })
+      .catch((err) => {
+        console.log("Error Reading data " + err);
+      });
+  };
+
   useEffect(() => {
     getLocationData();
     getData();
+    getProducts();
   }, []);
+
+  useEffect(() => {
+    getProducts();
+  }, [productType]);
 
   const productTypes = [
     { value: "calculated", label: "Wyliczalny" },
@@ -115,11 +138,7 @@ const LocationDetails = (props) => {
   ];
 
   const addProduct = async (product) => {
-    // let prods = [...products];
-    // prods.push(product);
-
-    // setProducts(prods);
-    setProductType("");
+    setProductType("wybierz rodzaj");
 
     const url =
       urls.productURLPrefix + props.id + "/product/" + product.type + "/add";
@@ -149,7 +168,7 @@ const LocationDetails = (props) => {
 
   const productFormRender = (type) => {
     switch (type) {
-      case "calculated":
+      case "media-quantity":
         return (
           <MediaQuantityProductForm
             addProduct={addProduct}
@@ -172,7 +191,7 @@ const LocationDetails = (props) => {
       <h1 className="content-title">Lokacja:</h1>
 
       <form onSubmit="">
-        <button>Powrót</button>
+        <button onClick={() => props.handleAction(-1)}>Powrót</button>
         <div className="new-premises-details">
           <label htmlFor="city">
             Miasto:
@@ -257,7 +276,9 @@ const LocationDetails = (props) => {
             name="productType"
             onChange={handleProductTypeChange}
           >
-            <option key="" value=""></option>
+            <option key="" value="">
+              wybierz rodzaj
+            </option>
             {productTypes.map((option) => (
               <option key={option.value} value={option.value}>
                 {option.label}

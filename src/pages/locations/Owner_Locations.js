@@ -86,7 +86,11 @@ const Owner_Locations = () => {
     <>
       <div className="content-container">
         {chosenId > 0 ? (
-          <LocationDetails key={chosenId} id={chosenId} />
+          <LocationDetails
+            key={chosenId}
+            id={chosenId}
+            handleAction={handleAction}
+          />
         ) : (
           <>
             <h1 className="content-title">Moje Lokacje</h1>
