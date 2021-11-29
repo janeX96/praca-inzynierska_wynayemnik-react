@@ -3,6 +3,7 @@ import "./PremisesDetails.css";
 import "../../../styles/App.css";
 import PremisesEdit from "../PremisesEdit";
 import keycloak from "../../../auth/keycloak";
+import { Link } from "react-router-dom";
 
 const PremisesDetails = ({
   premisesId,
@@ -111,7 +112,14 @@ const PremisesDetails = ({
               <button className="return-button" onClick={() => action(-1)}>
                 Powrót
               </button>
-              <button>Wynajmij</button>
+              <Link
+                to={{
+                  pathname: "/owner-rent-new",
+                  state: { premisesId: premisesId },
+                }}
+              >
+                <button>Wynajmij</button>
+              </Link>
               <button onClick={() => setEdit(true)}>Edytuj</button>
               <button onClick={handleDelete}>Usuń</button>
             </div>

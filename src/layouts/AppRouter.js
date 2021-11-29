@@ -13,6 +13,7 @@ import Registration from "../auth/Registration/Registration";
 import UserProfile from "../pages/UserProfile/UserProfile";
 import Owner_Locations from "../pages/locations/Owner_Locations";
 import NewLocation from "../pages/locations/NewLocation";
+import Rent from "../pages/rent/Rent";
 const AppRouter = () => {
   const { initialized } = useKeycloak();
   if (!initialized) {
@@ -50,6 +51,11 @@ const AppRouter = () => {
                   roles={["owner"]}
                   path="/owner-new-location"
                   component={NewLocation}
+                />
+                <PrivateRoute
+                  roles={["owner"]}
+                  path="/owner-rent-new"
+                  component={Rent}
                 />
               </Switch>
             </section>
