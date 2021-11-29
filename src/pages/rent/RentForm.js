@@ -117,6 +117,50 @@ const RentForm = (props) => {
                 </span>
               )} */}
             </label>
+            <label htmlFor="carNumber">
+              carNumber:
+              <input type="text" id="carNumber" name="carNumber" />
+            </label>
+            <h1>Opłaty</h1>
+            <label htmlFor="rentValue">
+              Czynsz:
+              <input type="number" id="rentValue" name="rentValue" />
+            </label>
+            <label htmlFor="bailValue">
+              Kaucja:
+              <input type="number" id="bailValue" name="bailValue" />
+            </label>
+            <label htmlFor="counterMediaRent">
+              Udostępniania mediów najemcy:
+              <input
+                type="checkbox"
+                id="counterMediaRent"
+                name="counterMediaRent"
+              />
+            </label>
+            <label htmlFor="paymentDay">
+              Płatne do:
+              <input type="number" id="paymentDay" name="paymentDay" />
+            </label>
+            <label htmlFor="statePaymentValue">
+              Stała wartość czynszu:
+              <input
+                type="checkbox"
+                id="statePaymentValue"
+                name="statePaymentValue"
+              />
+            </label>
+            jak nie to tutaj dodajemy kolejne okresy z kowatami
+            <label htmlFor="description">
+              Uwagi:
+              <textarea
+                id="description"
+                name="description"
+                rows="4"
+                cols="10"
+                style={{ height: "150px", width: "250px" }}
+              ></textarea>
+            </label>
           </form>
         </div>
       </div>

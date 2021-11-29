@@ -14,6 +14,7 @@ const Rent = () => {
     1: false,
     2: false,
     3: false,
+    4: false,
   });
 
   const [rent, setRent] = useState({
@@ -79,9 +80,10 @@ const Rent = () => {
         <h1 className="content-title">Wynajem lokalu id= {premisesId}</h1>
         <Stepper
           steps={[
-            { label: "Step 1" },
-            { label: "Step 2" },
-            { label: "Step 3" },
+            { label: "Najemca" },
+            { label: "Wynajem" },
+            { label: "Produkty" },
+            { label: "Podsumowanie" },
           ]}
           activeStep={activeStep}
         />
