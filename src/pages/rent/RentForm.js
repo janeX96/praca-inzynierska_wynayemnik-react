@@ -1,5 +1,8 @@
+import { types } from "@babel/core";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import keycloak from "../../auth/keycloak";
+import RentBillingPeriods from "./RentBillingPeriods";
 
 const RentForm = (props) => {
   const getDateToday = () => {
@@ -17,18 +20,12 @@ const RentForm = (props) => {
   const [premisesTypes, setPremisesTypes] = useState({ types: [] });
   const [rentDetails, setRentDetails] = useState({
     bailValue: 0,
-    carNumber: "string",
+    carNumber: "",
     counterMediaRent: true,
-    description: "string",
+    description: "",
     endDate: "",
     paymentDay: 0,
-    paymentValues: [
-      {
-        endDate: "",
-        startDate: "",
-        value: 0,
-      },
-    ],
+    paymentValues: [],
 
     productWithQuantityList: [
       {
@@ -75,7 +72,29 @@ const RentForm = (props) => {
   useEffect(() => {
     getPremisesTypes();
   }, []);
-  const handleChange = (e) => {};
+  const handleChange = (e) => {
+    const type = e.target.type;
+    const name = e.target.name;
+
+    if (type === "checkbox") {
+      const checked = e.target.checked;
+      setRentDetails({ ...rentDetails, [name]: checked });
+    } else {
+      const value = e.target.value;
+      setRentDetails({ ...rentDetails, [name]: value });
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
+
+  const addBillingPeriod = (billingPeriod) => {
+    let billingPeriods = [...rentDetails.paymentValues];
+    billingPeriods.push(billingPeriod);
+
+    setRentDetails({ ...rentDetails, paymentValues: billingPeriods });
+  };
 
   return (
     <>
@@ -86,19 +105,33 @@ const RentForm = (props) => {
         <h1>Najemca: {props.user}</h1>
 
         <div>
-          <form onSubmit="">
+          <form onSubmit={handleSubmit}>
             <label htmlFor="startDate">
               Od:
-              <input type="date" id="startDate" name="startDate" min={today} />
+              <input
+                type="date"
+                id="startDate"
+                name="startDate"
+                min={today}
+                value={rentDetails.startDate}
+                onChange={handleChange}
+              />
             </label>
             <label htmlFor="endDate">
               Do:
-              <input type="date" id="endDate" name="endDate" />
+              <input
+                type="date"
+                id="endDate"
+                name="endDate"
+                min={today}
+                value={rentDetails.endDate}
+                onChange={handleChange}
+              />
             </label>
             <label htmlFor="premisesType">
               Rodzaj:
               <select
-                value={premisesType}
+                value={rentDetails.premisesType}
                 id="premisesType"
                 name="premisesType"
                 onChange={handleChange}
@@ -118,16 +151,24 @@ const RentForm = (props) => {
             </label>
             <label htmlFor="carNumber">
               carNumber:
-              <input type="text" id="carNumber" name="carNumber" />
+              <input
+                type="text"
+                id="carNumber"
+                name="carNumber"
+                value={rentDetails.carNumber}
+                onChange={handleChange}
+              />
             </label>
             <h1>Opłaty</h1>
-            <label htmlFor="rentValue">
-              Czynsz:
-              <input type="number" id="rentValue" name="rentValue" />
-            </label>
             <label htmlFor="bailValue">
               Kaucja:
-              <input type="number" id="bailValue" name="bailValue" />
+              <input
+                type="number"
+                id="bailValue"
+                name="bailValue"
+                value={rentDetails.bailValue}
+                onChange={handleChange}
+              />
             </label>
             <label htmlFor="counterMediaRent">
               Udostępniania mediów najemcy:
@@ -135,11 +176,9 @@ const RentForm = (props) => {
                 type="checkbox"
                 id="counterMediaRent"
                 name="counterMediaRent"
+                checked={rentDetails.counterMediaRent}
+                onChange={handleChange}
               />
-            </label>
-            <label htmlFor="paymentDay">
-              Płatne do:
-              <input type="number" id="paymentDay" name="paymentDay" />
             </label>
             <label htmlFor="statePaymentValue">
               Stała wartość czynszu:
@@ -147,10 +186,34 @@ const RentForm = (props) => {
                 type="checkbox"
                 id="statePaymentValue"
                 name="statePaymentValue"
+                checked={rentDetails.statePaymentValue}
+                onChange={handleChange}
               />
             </label>
-            jak nie to tutaj dodajemy kolejne okresy z kowatami
-            <label htmlFor="description">
+
+            <label htmlFor="rentValue">
+              Czynsz:
+              <input
+                type="number"
+                id="rentValue"
+                name="rentValue"
+                value={rentDetails.rentValue}
+                onChange={handleChange}
+                disabled={!rentDetails.statePaymentValue}
+              />
+            </label>
+            <label htmlFor="paymentDay">
+              Płatne do:
+              <input
+                type="number"
+                id="paymentDay"
+                name="paymentDay"
+                value={rentDetails.paymentDay}
+                onChange={handleChange}
+              />
+            </label>
+
+            {/* <label htmlFor="description">
               Uwagi:
               <textarea
                 id="description"
@@ -158,9 +221,24 @@ const RentForm = (props) => {
                 rows="4"
                 cols="10"
                 style={{ height: "150px", width: "250px" }}
+                value={rentDetails.description}
+                onChange={handleChange}
               ></textarea>
-            </label>
+            </label> */}
           </form>
+          {!rentDetails.statePaymentValue && (
+            <>
+              <h3>Okresy rozliczeniowe czynszu</h3>
+              <RentBillingPeriods addBillingPeriod={addBillingPeriod} />
+              <ul>
+                {rentDetails.paymentValues.map((payment) => (
+                  <li>
+                    {payment.startDate} - {payment.endDate} - {payment.value}
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
         </div>
       </div>
     </>

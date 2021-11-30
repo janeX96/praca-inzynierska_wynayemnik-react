@@ -1,7 +1,7 @@
 .content-container {
   background: url("../images/wynayemnik img1 transparent.jpg") center
     center/cover no-repeat;
-  height: 100vh;
+  height: 100%;
   width: 100%;
   display: flex;
   flex-direction: column;
