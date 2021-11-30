@@ -19,17 +19,17 @@ const Rent = () => {
 
   const [rent, setRent] = useState({
     bailValue: 0,
-    carNumber: "string",
+    carNumber: "",
     clientAccess: true,
     counterMediaRent: true,
-    description: "string",
-    email: "string",
-    endDate: "2021-11-29T10:22:18.231Z",
+    description: "",
+    email: "",
+    endDate: "",
     paymentDay: 0,
     paymentValues: [
       {
-        endDate: "2021-11-29T10:22:18.231Z",
-        startDate: "2021-11-29T10:22:18.231Z",
+        endDate: "",
+        startDate: "",
         value: 0,
       },
     ],
@@ -52,8 +52,12 @@ const Rent = () => {
     },
   });
 
-  const setUser = (email) => {
-    setRent({ ...rent, email });
+  const setUser = (userAccount) => {
+    setRent({ ...rent, userAccount });
+  };
+
+  const setEmail = (email, userAccount) => {
+    setRent({ ...rent, email, userAccount });
   };
 
   const stepDone = (index) => {
@@ -64,10 +68,16 @@ const Rent = () => {
   const renderForm = (step) => {
     switch (step) {
       case 0:
-        return <UserFormForRent stepDone={stepDone} setUser={setUser} />;
+        return (
+          <UserFormForRent
+            stepDone={stepDone}
+            setUser={setUser}
+            setEmail={setEmail}
+          />
+        );
         break;
       case 1:
-        return <RentForm premises={premises} user={rent.email} />;
+        return <RentForm premises={premises} user={rent.userAccount.email} />;
 
       default:
         break;
