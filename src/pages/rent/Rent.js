@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import UserFormForRent from "./UserFormForRent";
 import RentForm from "./RentForm";
-import ProductsForRent from "./ProductsForRent";
+import ProductsForRent from "./ProductsForRent/ProductsForRent";
 
 const Rent = () => {
   const location = useLocation();
