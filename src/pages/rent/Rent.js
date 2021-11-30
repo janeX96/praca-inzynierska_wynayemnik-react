@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import UserFormForRent from "./UserFormForRent";
 import RentForm from "./RentForm";
+import ProductsForRent from "./ProductsForRent";
 
 const Rent = () => {
   const location = useLocation();
@@ -35,19 +36,19 @@ const Rent = () => {
     ],
     premisesId: premisesId,
     productWithQuantityList: [
-      {
-        productId: 0,
-        quantity: 0,
-      },
+      // {
+      //   productId: 0,
+      //   quantity: 0,
+      // },
     ],
     rentValue: 0,
-    startDate: "2021-11-29T10:22:18.231Z",
+    startDate: "",
     statePaymentValue: true,
     userAccount: {
-      email: "string",
-      firstName: "string",
-      lastName: "string",
-      phoneNumber: "string",
+      email: "",
+      firstName: "",
+      lastName: "",
+      phoneNumber: "",
       sharing: true,
     },
   });
@@ -65,6 +66,30 @@ const Rent = () => {
     setActiveStep(activeStep + 1);
   };
 
+  //without products and descritpion
+  const setRentDetails = (details) => {
+    setRent({
+      bailValue: details.bailValue,
+      carNumber: details.carNumber,
+      clientAccess: details.clientAccess,
+      counterMediaRent: details.counterMediaRent,
+
+      endDate: details.endDate,
+      paymentDay: details.paymentDay,
+      paymentValues: details.paymentValues,
+      premisesId: premisesId,
+      productWithQuantityList: [
+        {
+          productId: 0,
+          quantity: 0,
+        },
+      ],
+      rentValue: details.rentValue,
+      startDate: details.startDate,
+      statePaymentValue: details.statePaymentValue,
+    });
+  };
+
   const renderForm = (step) => {
     switch (step) {
       case 0:
@@ -77,7 +102,22 @@ const Rent = () => {
         );
         break;
       case 1:
-        return <RentForm premises={premises} user={rent.userAccount.email} />;
+        return (
+          <RentForm
+            premises={premises}
+            user={rent.userAccount.email}
+            stepDone={stepDone}
+            setRentDetails={setRentDetails}
+          />
+        );
+        break;
+      case 2:
+        return (
+          <ProductsForRent
+            locationId={premises.locationId}
+            premisesType={premises.premisesType}
+          />
+        );
 
       default:
         break;

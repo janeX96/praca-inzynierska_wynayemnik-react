@@ -120,6 +120,8 @@ const PremisesDetails = ({
                     premises: {
                       name: location.locationName,
                       premisesNumber: premisesNumber,
+                      locationId: location.locationId,
+                      premisesType: premisesType.type,
                     },
                   },
                 }}

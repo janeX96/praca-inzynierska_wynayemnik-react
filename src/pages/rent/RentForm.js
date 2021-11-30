@@ -18,19 +18,13 @@ const RentForm = (props) => {
     bailValue: 0,
     carNumber: "",
     clientAccess: true,
-    description: "",
+    counterMediaRent: true,
     endDate: "",
     paymentDay: 0,
     paymentValues: [],
     premisesType: {
       type: "",
     },
-    productWithQuantityList: [
-      {
-        productId: 0,
-        quantity: 0,
-      },
-    ],
     rentValue: 0,
     startDate: "",
     statePaymentValue: true,
@@ -182,6 +176,8 @@ const RentForm = (props) => {
     const validation = formValidation();
 
     if (validation.correct) {
+      props.setRentDetails(rentDetails);
+      props.stepDone();
       setErrors({
         bailValueError: false,
         carNumberError: false,
@@ -303,8 +299,18 @@ const RentForm = (props) => {
                 </span>
               )}
             </label>
-            <label htmlFor="clientAccess">
+            <label htmlFor="counterMediaRent">
               Udostępniania mediów najemcy:
+              <input
+                type="checkbox"
+                id="counterMediaRent"
+                name="counterMediaRent"
+                checked={rentDetails.counterMediaRent}
+                onChange={handleChange}
+              />
+            </label>
+            <label htmlFor="clientAccess">
+              Udostępnianie danych wynajmu najemcy:
               <input
                 type="checkbox"
                 id="clientAccess"
