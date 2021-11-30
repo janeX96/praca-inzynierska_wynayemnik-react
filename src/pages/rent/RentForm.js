@@ -1,6 +1,4 @@
-import { types } from "@babel/core";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import keycloak from "../../auth/keycloak";
 import RentBillingPeriods from "./RentBillingPeriods";
 
@@ -15,18 +13,18 @@ const RentForm = (props) => {
   };
 
   const [today, setToday] = useState(getDateToday);
-
-  const [premisesType, setPremisesType] = useState("");
   const [premisesTypes, setPremisesTypes] = useState({ types: [] });
   const [rentDetails, setRentDetails] = useState({
     bailValue: 0,
     carNumber: "",
-    counterMediaRent: true,
+    clientAccess: true,
     description: "",
     endDate: "",
     paymentDay: 0,
     paymentValues: [],
-
+    premisesType: {
+      type: "",
+    },
     productWithQuantityList: [
       {
         productId: 0,
@@ -37,6 +35,92 @@ const RentForm = (props) => {
     startDate: "",
     statePaymentValue: true,
   });
+  const [errors, setErrors] = useState({
+    bailValueError: false,
+    carNumberError: false,
+    endDateError: false,
+    paymentDayError: false,
+    rentValueError: false,
+    startDateError: false,
+    premisesTypeError: false,
+  });
+
+  const messages = {
+    bailValue_incorrect: "Podaj wartość kaucji",
+    carNumber_incorrect: "Podaj wartość (7 znaków)",
+    endDate_incorrect: "Podaj wartość",
+    paymentDay_incorrect: "Podaj wartość 1-31",
+    rentValue_incorrect: "Podaj wartość",
+    startDate_incorrect: "Podaj wartość",
+    premisesType_incorrect: "Wybierz rodzaj wynajmu",
+  };
+
+  const formValidation = () => {
+    let bailValue = false;
+    let carNumber = false;
+    let endDate = false;
+    let paymentDay = false;
+    let rentValue = false;
+    let startDate = false;
+    let premisesType = false;
+
+    if (rentDetails.bailValue > 0) {
+      bailValue = true;
+    }
+
+    if (rentDetails.carNumber.length > 0) {
+      if (rentDetails.carNumber.length === 7) {
+        carNumber = true;
+      }
+    } else {
+      carNumber = true;
+    }
+
+    if (rentDetails.startDate.length > 0) {
+      startDate = true;
+    }
+
+    if (rentDetails.endDate.length > 0) {
+      endDate = true;
+    }
+
+    if (rentDetails.paymentDay > 0 && rentDetails.paymentDay <= 31) {
+      paymentDay = true;
+    }
+
+    if (rentDetails.statePaymentValue && rentDetails.rentValue > 0) {
+      rentValue = true;
+    } else if (
+      !rentDetails.statePaymentValue &&
+      rentDetails.paymentValues.length > 0
+    ) {
+      rentValue = true;
+    }
+
+    if (rentDetails.premisesType.type.length > 0) {
+      premisesType = true;
+    }
+
+    const correct =
+      bailValue &&
+      carNumber &&
+      endDate &&
+      paymentDay &&
+      rentValue &&
+      startDate &&
+      premisesType;
+
+    return {
+      correct,
+      bailValue,
+      carNumber,
+      endDate,
+      paymentDay,
+      rentValue,
+      startDate,
+      premisesType,
+    };
+  };
 
   const getResources = async () => {
     const response = await fetch("/resources.json");
@@ -72,6 +156,7 @@ const RentForm = (props) => {
   useEffect(() => {
     getPremisesTypes();
   }, []);
+
   const handleChange = (e) => {
     const type = e.target.type;
     const name = e.target.name;
@@ -79,6 +164,12 @@ const RentForm = (props) => {
     if (type === "checkbox") {
       const checked = e.target.checked;
       setRentDetails({ ...rentDetails, [name]: checked });
+    } else if (name === "premisesType") {
+      const value = e.target.value;
+      setRentDetails({
+        ...rentDetails,
+        premisesType: { type: value },
+      });
     } else {
       const value = e.target.value;
       setRentDetails({ ...rentDetails, [name]: value });
@@ -87,6 +178,30 @@ const RentForm = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const validation = formValidation();
+
+    if (validation.correct) {
+      setErrors({
+        bailValueError: false,
+        carNumberError: false,
+        endDateError: false,
+        paymentDayError: false,
+        rentValueError: false,
+        startDateError: false,
+        premisesTypeError: false,
+      });
+    } else {
+      setErrors({
+        bailValueError: !validation.bailValue,
+        carNumberError: !validation.carNumber,
+        endDateError: !validation.endDate,
+        paymentDayError: !validation.paymentDay,
+        rentValueError: !validation.rentValue,
+        startDateError: !validation.startDate,
+        premisesTypeError: !validation.premisesType,
+      });
+    }
   };
 
   const addBillingPeriod = (billingPeriod) => {
@@ -116,6 +231,11 @@ const RentForm = (props) => {
                 value={rentDetails.startDate}
                 onChange={handleChange}
               />
+              {errors.startDateError && (
+                <span className="error-msg">
+                  {messages.startDate_incorrect}
+                </span>
+              )}
             </label>
             <label htmlFor="endDate">
               Do:
@@ -127,11 +247,14 @@ const RentForm = (props) => {
                 value={rentDetails.endDate}
                 onChange={handleChange}
               />
+              {errors.endDateError && (
+                <span className="error-msg">{messages.endDate_incorrect}</span>
+              )}
             </label>
             <label htmlFor="premisesType">
               Rodzaj:
               <select
-                value={rentDetails.premisesType}
+                value={rentDetails.premisesType.type}
                 id="premisesType"
                 name="premisesType"
                 onChange={handleChange}
@@ -143,11 +266,11 @@ const RentForm = (props) => {
                   </option>
                 ))}
               </select>
-              {/* {state.errors.premisesType && (
+              {errors.premisesTypeError && (
                 <span className="error-msg">
                   {messages.premisesType_incorrect}
                 </span>
-              )} */}
+              )}
             </label>
             <label htmlFor="carNumber">
               carNumber:
@@ -158,6 +281,11 @@ const RentForm = (props) => {
                 value={rentDetails.carNumber}
                 onChange={handleChange}
               />
+              {errors.carNumberError && (
+                <span className="error-msg">
+                  {messages.carNumber_incorrect}
+                </span>
+              )}
             </label>
             <h1>Opłaty</h1>
             <label htmlFor="bailValue">
@@ -169,14 +297,19 @@ const RentForm = (props) => {
                 value={rentDetails.bailValue}
                 onChange={handleChange}
               />
+              {errors.bailValueError && (
+                <span className="error-msg">
+                  {messages.bailValue_incorrect}
+                </span>
+              )}
             </label>
-            <label htmlFor="counterMediaRent">
+            <label htmlFor="clientAccess">
               Udostępniania mediów najemcy:
               <input
                 type="checkbox"
-                id="counterMediaRent"
-                name="counterMediaRent"
-                checked={rentDetails.counterMediaRent}
+                id="clientAccess"
+                name="clientAccess"
+                checked={rentDetails.clientAccess}
                 onChange={handleChange}
               />
             </label>
@@ -201,6 +334,11 @@ const RentForm = (props) => {
                 onChange={handleChange}
                 disabled={!rentDetails.statePaymentValue}
               />
+              {errors.rentValueError && (
+                <span className="error-msg">
+                  {messages.rentValue_incorrect}
+                </span>
+              )}
             </label>
             <label htmlFor="paymentDay">
               Płatne do:
@@ -211,6 +349,11 @@ const RentForm = (props) => {
                 value={rentDetails.paymentDay}
                 onChange={handleChange}
               />
+              {errors.paymentDayError && (
+                <span className="error-msg">
+                  {messages.paymentDay_incorrect}
+                </span>
+              )}
             </label>
 
             {/* <label htmlFor="description">
@@ -239,6 +382,7 @@ const RentForm = (props) => {
               </ul>
             </>
           )}
+          <button onClick={handleSubmit}>Dalej</button>
         </div>
       </div>
     </>
