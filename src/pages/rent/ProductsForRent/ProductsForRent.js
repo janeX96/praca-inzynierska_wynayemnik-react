@@ -156,9 +156,14 @@ const ProductsForRent = (props) => {
     let products = selectedProducts.map((product) => {
       const mediaStandard =
         product.productType === "MEDIA" && product.subtypeMedia === "STANDARD";
+
       const counterValue = mediaStandard ? product.counter : null;
 
-      return { productId: product.productId, quantity: counterValue };
+      if (mediaStandard) {
+        return { productId: product.productId, counter: counterValue };
+      } else {
+        return { productId: product.productId, counter: "" };
+      }
     });
 
     props.addProductsAndDescritpion(products, description);

@@ -1,6 +1,13 @@
+import { useState, useEffect } from "react";
+import keycloak from "../../auth/keycloak";
+
 const RentSummary = ({
+  userEmail,
+  rentObj,
   products,
+  productWithCounterList,
   stepBack,
+  stepDone,
   bailValue,
   carNumber,
   clientAccess,
@@ -16,14 +23,84 @@ const RentSummary = ({
   statePaymentValue,
   userAccount: { email, firstName, lastName, phoneNumber, sharing },
 }) => {
+  const [sending, setSending] = useState(false);
+  const [createURL, setCreateURL] = useState();
+  const getResources = async () => {
+    const response = await fetch("/resources.json");
+    const resources = await response.json();
+    return resources;
+  };
+
+  useEffect(() => {
+    getResources().then((res) => {
+      const url = res.urls.owner.rent.new;
+      setCreateURL(url);
+    });
+  }, []);
+
+  const createRentRequest = async (obj) => {
+    if (!sending) {
+      setSending(true);
+
+      let json = JSON.stringify(obj);
+      const requestOptions = {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: " Bearer " + keycloak.token,
+        },
+        body: json,
+      };
+
+      const res = await fetch(createURL, requestOptions)
+        .then((response) => {
+          if (response.ok) {
+            console.log("UDAŁO SIE!!!");
+          } else {
+            console.log("NIE UDAŁO SIE... :(");
+          }
+          return response.json();
+        })
+        .catch((err) => {
+          console.log("Error: ", err);
+        });
+    }
+  };
+
   const handleConfirm = (e) => {
     const action = e.currentTarget.dataset.name;
     if (action === "next") {
-      //   props.stepDone(4);
+      let obj = {};
+      if (userEmail.length > 0) {
+        obj = {
+          bailValue: bailValue,
+          carNumber: carNumber,
+          clientAccess: clientAccess,
+          counterMediaRent: counterMediaRent,
+          description: description,
+          email: email,
+          endDate: endDate + "T20:44:36.263", //tymczasowe
+          paymentDay: paymentDay,
+          paymentValues: paymentValues,
+          premisesType: { type: premisesType.type },
+          premisesId: premisesId,
+          productWithCounterList: productWithCounterList,
+          rentValue: rentValue,
+          startDate: startDate + "T20:44:36.263", //tymczasowe
+          statePaymentValue: !statePaymentValue, //tymczasowe
+        };
+      } else {
+        obj = rentObj;
+      }
+
+      console.log("Objekt do wysłania: ", obj);
+      createRentRequest(obj);
     } else {
       stepBack();
     }
   };
+
   return (
     <div>
       <ul>
@@ -157,11 +234,11 @@ const RentSummary = ({
         </li>
       </ul>
 
-      <button onClick={handleConfirm} name="back">
+      <button onClick={handleConfirm} data-name="back">
         Powrót
       </button>
-      <button onClick={handleConfirm} name="next">
-        Dalej
+      <button onClick={handleConfirm} data-name="next">
+        Zapisz
       </button>
     </div>
   );

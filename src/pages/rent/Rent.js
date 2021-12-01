@@ -31,7 +31,7 @@ const Rent = () => {
     paymentValues: [],
     premisesType: { type: "" },
     premisesId: premisesId,
-    productWithQuantityList: [],
+    productWithCounterList: [],
     rentValue: 0,
     startDate: "",
     statePaymentValue: true,
@@ -85,7 +85,7 @@ const Rent = () => {
   };
 
   const addProductsAndDescritpion = (products, description) => {
-    setRent({ ...rent, description, productWithQuantityList: products });
+    setRent({ ...rent, description, productWithCounterList: products });
   };
 
   const saveSelectedProducts = (selected) => {
@@ -137,6 +137,7 @@ const Rent = () => {
             stepBack={stepBack}
             {...rent}
             userEmail={rent.email}
+            rentObj={rent}
             products={selectedProductsSave}
           />
         );
