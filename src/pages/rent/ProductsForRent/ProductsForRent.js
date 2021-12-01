@@ -6,7 +6,7 @@ const ProductsForRent = (props) => {
   const [allProducts, setAllProducts] = useState([]);
   const [availableProducts, setAvailableProducts] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState([]);
-  const [loaded, setLoaded] = useState(false);
+  const [counters, setCounters] = useState([]);
 
   const getResources = async () => {
     const response = await fetch("/resources.json");
@@ -137,19 +137,61 @@ const ProductsForRent = (props) => {
     setSelectedProducts([...selSet]);
   };
 
+  const handleConfirm = () => {
+    let products = selectedProducts.map((product) => {
+      return { productId: product.productId, quantity: 0 };
+    });
+
+    props.addProducts(products);
+    props.stepDone();
+  };
+
+  const handleCounterChange = (e) => {
+    const productId = e.target.name;
+    const counterVal = e.target.value;
+    // console.log("id", productId);
+    // console.log("val", counterVal);
+    const updatedProducts = selectedProducts.map((product) => {
+      console.log("productiddd: ", product.productId);
+      if ("" + product.productId === "" + productId) {
+        product.counter = counterVal;
+        // console.log("product:", product);
+      }
+
+      return product;
+    });
+
+    setSelectedProducts(updatedProducts);
+  };
+
   return (
     <div className="attach-products">
       <div className="products-list">
         <h3>Wybrane</h3>
         <ul>
           {selectedProducts.map((product) => (
-            <li
-              key={product.productId}
-              onClick={handleClick}
-              data-id={product.productId}
-              data-name="selected"
-            >
-              {product.productName}
+            <li key={product.productId}>
+              {product.productName}{" "}
+              {product.productType === "MEDIA" &&
+              product.subtypeMedia === "STANDARD" ? (
+                <input
+                  type="number"
+                  id={product.productId}
+                  name={product.productId}
+                  onChange={handleCounterChange}
+                  placeholder="podaj stan licznika"
+                />
+              ) : (
+                ""
+              )}
+              <button
+                className="select-product-button"
+                onClick={handleClick}
+                data-id={product.productId}
+                data-name="selected"
+              >
+                {">"}
+              </button>
             </li>
           ))}
         </ul>
@@ -158,24 +200,33 @@ const ProductsForRent = (props) => {
         <h3>Dostępne</h3>
         <ul>
           {availableProducts.map((product) => (
-            <li
-              key={product.productId}
-              onClick={handleClick}
-              data-id={product.productId}
-              data-name="available"
-            >
+            <li key={product.productId}>
+              <button
+                className="select-product-button"
+                onClick={handleClick}
+                data-id={product.productId}
+                data-name="available"
+              >
+                {"<"}
+              </button>
               {product.productName}
+              {product.productType === "MEDIA" &&
+              product.subtypeMedia === "STANDARD" ? (
+                <input
+                  type="number"
+                  id={product.productId}
+                  name={product.productId}
+                  onChange={handleCounterChange}
+                  placeholder="podaj stan licznika"
+                />
+              ) : (
+                ""
+              )}
             </li>
           ))}
         </ul>
       </div>
-      <button
-        onClick={() => {
-          setLoaded(!loaded);
-        }}
-      >
-        Dalej
-      </button>
+      <button onClick={handleConfirm}>Dalej</button>
     </div>
   );
 };

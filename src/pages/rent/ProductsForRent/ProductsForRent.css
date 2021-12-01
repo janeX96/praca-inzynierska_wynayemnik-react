@@ -17,5 +17,9 @@
 
 .products-list > ul > li:hover {
   background-color: azure;
+  cursor: default;
+}
+
+.select-product-button {
   cursor: pointer;
 }

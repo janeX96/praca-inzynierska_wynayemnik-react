@@ -35,12 +35,7 @@ const Rent = () => {
       },
     ],
     premisesId: premisesId,
-    productWithQuantityList: [
-      // {
-      //   productId: 0,
-      //   quantity: 0,
-      // },
-    ],
+    productWithQuantityList: [],
     rentValue: 0,
     startDate: "",
     statePaymentValue: true,
@@ -90,6 +85,10 @@ const Rent = () => {
     });
   };
 
+  const addProducts = (products) => {
+    setRent({ ...rent, productWithQuantityList: products });
+  };
+
   const renderForm = (step) => {
     switch (step) {
       case 0:
@@ -116,6 +115,8 @@ const Rent = () => {
           <ProductsForRent
             locationId={premises.locationId}
             premisesType={premises.premisesType}
+            stepDone={stepDone}
+            addProducts={addProducts}
           />
         );
 
