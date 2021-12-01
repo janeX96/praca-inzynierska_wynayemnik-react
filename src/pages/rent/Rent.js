@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import UserFormForRent from "./UserFormForRent";
 import RentForm from "./RentForm";
 import ProductsForRent from "./ProductsForRent/ProductsForRent";
+import RentSummary from "./RentSummary";
 
 const Rent = () => {
   const location = useLocation();
@@ -64,6 +65,7 @@ const Rent = () => {
   //without products and descritpion
   const setRentDetails = (details) => {
     setRent({
+      ...rent,
       bailValue: details.bailValue,
       carNumber: details.carNumber,
       clientAccess: details.clientAccess,
@@ -73,20 +75,15 @@ const Rent = () => {
       paymentDay: details.paymentDay,
       paymentValues: details.paymentValues,
       premisesId: premisesId,
-      productWithQuantityList: [
-        {
-          productId: 0,
-          quantity: 0,
-        },
-      ],
+      productWithQuantityList: [],
       rentValue: details.rentValue,
       startDate: details.startDate,
       statePaymentValue: details.statePaymentValue,
     });
   };
 
-  const addProducts = (products) => {
-    setRent({ ...rent, productWithQuantityList: products });
+  const addProductsAndDescritpion = (products, description) => {
+    setRent({ ...rent, description, productWithQuantityList: products });
   };
 
   const renderForm = (step) => {
@@ -116,9 +113,13 @@ const Rent = () => {
             locationId={premises.locationId}
             premisesType={premises.premisesType}
             stepDone={stepDone}
-            addProducts={addProducts}
+            addProductsAndDescritpion={addProductsAndDescritpion}
           />
         );
+        break;
+      case 3:
+        return <RentSummary />;
+        break;
 
       default:
         break;

@@ -6,8 +6,7 @@ const ProductsForRent = (props) => {
   const [allProducts, setAllProducts] = useState([]);
   const [availableProducts, setAvailableProducts] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState([]);
-  const [counters, setCounters] = useState([]);
-
+  const [description, setDescription] = useState("");
   const getResources = async () => {
     const response = await fetch("/resources.json");
     const resources = await response.json();
@@ -137,25 +136,30 @@ const ProductsForRent = (props) => {
     setSelectedProducts([...selSet]);
   };
 
-  const handleConfirm = () => {
+  const handleConfirm = (e) => {
+    e.preventDefault();
+
     let products = selectedProducts.map((product) => {
-      return { productId: product.productId, quantity: 0 };
+      const mediaStandard =
+        product.productType === "MEDIA" && product.subtypeMedia === "STANDARD";
+      const counterValue = mediaStandard ? product.counter : null;
+
+      return { productId: product.productId, quantity: counterValue };
     });
 
-    props.addProducts(products);
+    props.addProductsAndDescritpion(products, description);
+
     props.stepDone();
   };
 
   const handleCounterChange = (e) => {
     const productId = e.target.name;
     const counterVal = e.target.value;
-    // console.log("id", productId);
-    // console.log("val", counterVal);
+
     const updatedProducts = selectedProducts.map((product) => {
       console.log("productiddd: ", product.productId);
       if ("" + product.productId === "" + productId) {
         product.counter = counterVal;
-        // console.log("product:", product);
       }
 
       return product;
@@ -164,68 +168,87 @@ const ProductsForRent = (props) => {
     setSelectedProducts(updatedProducts);
   };
 
+  const handleDescriptionChange = (e) => {
+    setDescription(e.target.value);
+  };
+
   return (
-    <div className="attach-products">
-      <div className="products-list">
-        <h3>Wybrane</h3>
-        <ul>
-          {selectedProducts.map((product) => (
-            <li key={product.productId}>
-              {product.productName}{" "}
-              {product.productType === "MEDIA" &&
-              product.subtypeMedia === "STANDARD" ? (
-                <input
-                  type="number"
-                  id={product.productId}
-                  name={product.productId}
-                  onChange={handleCounterChange}
-                  placeholder="podaj stan licznika"
-                />
-              ) : (
-                ""
-              )}
-              <button
-                className="select-product-button"
-                onClick={handleClick}
-                data-id={product.productId}
-                data-name="selected"
-              >
-                {">"}
-              </button>
-            </li>
-          ))}
-        </ul>
+    <div className="rent-summary">
+      <div className="attach-products">
+        <div className="products-list">
+          <h3>Wybrane</h3>
+          <ul>
+            {selectedProducts.map((product) => (
+              <li key={product.productId}>
+                {product.productName}{" "}
+                {product.productType === "MEDIA" &&
+                product.subtypeMedia === "STANDARD" ? (
+                  <input
+                    type="number"
+                    id={product.productId}
+                    name={product.productId}
+                    onChange={handleCounterChange}
+                    placeholder="podaj stan licznika"
+                  />
+                ) : (
+                  ""
+                )}
+                <button
+                  className="select-product-button"
+                  onClick={handleClick}
+                  data-id={product.productId}
+                  data-name="selected"
+                >
+                  {">"}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="products-list">
+          <h3>Dostępne</h3>
+          <ul>
+            {availableProducts.map((product) => (
+              <li key={product.productId}>
+                <button
+                  className="select-product-button"
+                  onClick={handleClick}
+                  data-id={product.productId}
+                  data-name="available"
+                >
+                  {"<"}
+                </button>
+                {product.productName}
+                {product.productType === "MEDIA" &&
+                product.subtypeMedia === "STANDARD" ? (
+                  <input
+                    type="number"
+                    id={product.productId}
+                    name={product.productId}
+                    onChange={handleCounterChange}
+                    placeholder="podaj stan licznika"
+                  />
+                ) : (
+                  ""
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
-      <div className="products-list">
-        <h3>Dostępne</h3>
-        <ul>
-          {availableProducts.map((product) => (
-            <li key={product.productId}>
-              <button
-                className="select-product-button"
-                onClick={handleClick}
-                data-id={product.productId}
-                data-name="available"
-              >
-                {"<"}
-              </button>
-              {product.productName}
-              {product.productType === "MEDIA" &&
-              product.subtypeMedia === "STANDARD" ? (
-                <input
-                  type="number"
-                  id={product.productId}
-                  name={product.productId}
-                  onChange={handleCounterChange}
-                  placeholder="podaj stan licznika"
-                />
-              ) : (
-                ""
-              )}
-            </li>
-          ))}
-        </ul>
-      </div>
+
+      <label htmlFor="description">
+        Uwagi:
+        <textarea
+          id="description"
+          name="description"
+          rows="4"
+          cols="10"
+          style={{ height: "150px", width: "250px" }}
+          value={description}
+          onChange={handleDescriptionChange}
+        ></textarea>
+      </label>
       <button onClick={handleConfirm}>Dalej</button>
     </div>
   );
