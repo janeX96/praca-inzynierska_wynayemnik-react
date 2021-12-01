@@ -6,6 +6,7 @@ const ProductsForRent = (props) => {
   const [allProducts, setAllProducts] = useState([]);
   const [availableProducts, setAvailableProducts] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState([]);
+  const [loaded, setLoaded] = useState(false);
 
   const getResources = async () => {
     const response = await fetch("/resources.json");
@@ -13,35 +14,44 @@ const ProductsForRent = (props) => {
     return resources;
   };
 
-  const getProductsForType = (type) => {
-    getResources().then((res) => {
-      const url =
-        res.urls.owner.products.prefix +
-        props.locationId +
-        "/products?productType=" +
-        type;
-      fetch(url, {
-        headers: { Authorization: " Bearer " + keycloak.token },
+  //defaut selected
+  const getProductsForType = async (type) => {
+    // let selectedProds = [];
+    const response = await getResources()
+      .then((res) => {
+        const url =
+          res.urls.owner.products.prefix +
+          props.locationId +
+          "/products?productType=" +
+          type;
+        const prods = fetch(url, {
+          headers: { Authorization: " Bearer " + keycloak.token },
+        })
+          .then((res) => {
+            return res.json();
+          })
+          .then((res) => {
+            setSelectedProducts(res);
+            // selectedProds = res;
+            return res;
+          })
+          .catch((err) => {
+            console.log("Error Reading data " + err);
+          });
+        return prods;
       })
-        .then((res) => {
-          return res.json();
-        })
-        .then((res) => {
-          setSelectedProducts(res);
-        })
-        .catch((err) => {
-          console.log("Error Reading data " + err);
-        });
-    });
+      .then((res) => {
+        return res;
+      });
+
+    return response;
   };
 
-  const getAllProducts = () => {
-    getResources().then((res) => {
+  const getAllProducts = async () => {
+    const response = await getResources().then((res) => {
       const url =
-        res.urls.owner.products.prefix +
-        props.locationId +
-        "/products?productType=";
-      fetch(url, {
+        res.urls.owner.products.prefix + props.locationId + "/productGroupType";
+      const allProds = fetch(url, {
         headers: { Authorization: " Bearer " + keycloak.token },
       })
         .then((res) => {
@@ -49,31 +59,44 @@ const ProductsForRent = (props) => {
         })
         .then((res) => {
           setAllProducts(res);
+          return res;
         })
         .catch((err) => {
           console.log("Error Reading data " + err);
         });
+      return allProds;
     });
+
+    return response;
   };
 
   useEffect(() => {
-    getAllProducts();
-    getProductsForType(props.premisesType);
+    getProductsForType(props.premisesType)
+      .then((res) => {
+        return res;
+      })
+      .then((res) => {
+        const selected = res;
+        getAllProducts()
+          .then((r) => {
+            return r;
+          })
+          .then((r) => {
+            const allProds = r;
+            // console.log("all:", r);
+            // console.log("sel: ", selected);
+            selectAvailableProducts(allProds, selected);
+          });
+      });
   }, []);
 
-  useEffect(() => {
-    selectProductsByDefault();
-  }, []);
-
-  const selectProductsByDefault = () => {
+  const selectAvailableProducts = (allProds, selectedProds) => {
     let products = [];
 
-    allProducts.map((product) => {
+    allProds.map((product) => {
       let exists = false;
-      selectedProducts.map((selected) => {
+      selectedProds.map((selected) => {
         if (selected.productId === product.productId) {
-          console.log("prodid:", product.productId);
-          console.log("selid:", selected.productId);
           exists = true;
         }
       });
@@ -81,7 +104,7 @@ const ProductsForRent = (props) => {
         products.push(product);
       }
     });
-    console.log(products);
+
     setAvailableProducts(products);
   };
 
@@ -146,7 +169,13 @@ const ProductsForRent = (props) => {
           ))}
         </ul>
       </div>
-      <button>Dalej</button>
+      <button
+        onClick={() => {
+          setLoaded(!loaded);
+        }}
+      >
+        Dalej
+      </button>
     </div>
   );
 };
