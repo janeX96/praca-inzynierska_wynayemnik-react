@@ -4,16 +4,18 @@ import keycloak from "../../auth/keycloak";
 
 const UserFormForRent = (props) => {
   const [sending, setSending] = useState(false);
-  const [userEmail, setUserEmail] = useState("");
+  const [userEmail, setUserEmail] = useState(
+    props.defaultEmail.length > 0 ? props.defaultEmail : props.defaultUser.email
+  );
   const [emailSubmit, setEmailSubmit] = useState(false);
   const [user, setUser] = useState({
-    toCreate: false,
+    toCreate: !(props.defaultEmail.length > 0),
     userAccount: {
-      email: "",
-      firstName: "",
-      lastName: "",
-      phoneNumber: "",
-      sharing: true,
+      email: props.defaultUser.email,
+      firstName: props.defaultUser.firstName,
+      lastName: props.defaultUser.lastName,
+      phoneNumber: props.defaultUser.phoneNumber,
+      sharing: props.defaultUser.sharing,
     },
   });
 
@@ -36,8 +38,6 @@ const UserFormForRent = (props) => {
     lastName_incorrect: "Wpisz od 3 do 60 znaków",
     phoneNumber_incorrect: "Podaj prawidłowy numer telefonu (123456789)",
   };
-
-  //validation TODO
 
   const validateEmail = (email) => {
     return String(email)
@@ -121,7 +121,7 @@ const UserFormForRent = (props) => {
               phoneNumber: res.phoneNumber,
               sharing: true,
             });
-            props.stepDone(0);
+            props.stepDone(1);
           }
           return userExists;
         })
@@ -174,7 +174,7 @@ const UserFormForRent = (props) => {
 
       if (validation.correct) {
         props.setUser(user.userAccount);
-        props.stepDone(0);
+        props.stepDone(1);
       } else {
         setSending(false);
         setErrors({
@@ -199,6 +199,7 @@ const UserFormForRent = (props) => {
               id="email"
               name="email"
               onChange={handleChange}
+              value={userEmail}
             />
             {errors.emailError && (
               <span className="error-msg">{messages.email_incorrect}</span>

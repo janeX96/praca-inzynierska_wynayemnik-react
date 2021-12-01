@@ -5,8 +5,8 @@ import keycloak from "../../../auth/keycloak";
 const ProductsForRent = (props) => {
   const [allProducts, setAllProducts] = useState([]);
   const [availableProducts, setAvailableProducts] = useState([]);
-  const [selectedProducts, setSelectedProducts] = useState([]);
-  const [description, setDescription] = useState("");
+  const [selectedProducts, setSelectedProducts] = useState(props.selectedSave);
+  const [description, setDescription] = useState(props.default.description);
   const getResources = async () => {
     const response = await fetch("/resources.json");
     const resources = await response.json();
@@ -70,23 +70,37 @@ const ProductsForRent = (props) => {
   };
 
   useEffect(() => {
-    getProductsForType(props.premisesType)
-      .then((res) => {
-        return res;
-      })
-      .then((res) => {
-        const selected = res;
-        getAllProducts()
-          .then((r) => {
-            return r;
-          })
-          .then((r) => {
-            const allProds = r;
-            // console.log("all:", r);
-            // console.log("sel: ", selected);
-            selectAvailableProducts(allProds, selected);
-          });
-      });
+    if (selectedProducts.length > 0) {
+      //jeśli produkty były juz wcześniej wybrane
+      const selected = selectedProducts;
+      getAllProducts()
+        .then((r) => {
+          return r;
+        })
+        .then((r) => {
+          const allProds = r;
+
+          selectAvailableProducts(allProds, selected);
+        });
+    } else {
+      //jeśli nie były jeszcze wybierane produkty to ustawiane są domyślne
+      getProductsForType(props.premisesType)
+        .then((res) => {
+          return res;
+        })
+        .then((res) => {
+          const selected = res;
+          getAllProducts()
+            .then((r) => {
+              return r;
+            })
+            .then((r) => {
+              const allProds = r;
+
+              selectAvailableProducts(allProds, selected);
+            });
+        });
+    }
   }, []);
 
   const selectAvailableProducts = (allProds, selectedProds) => {
@@ -137,7 +151,7 @@ const ProductsForRent = (props) => {
   };
 
   const handleConfirm = (e) => {
-    e.preventDefault();
+    const action = e.currentTarget.dataset.name;
 
     let products = selectedProducts.map((product) => {
       const mediaStandard =
@@ -148,8 +162,13 @@ const ProductsForRent = (props) => {
     });
 
     props.addProductsAndDescritpion(products, description);
+    props.saveSelectedProducts(selectedProducts);
 
-    props.stepDone();
+    if (action === "next") {
+      props.stepDone(3);
+    } else {
+      props.stepBack();
+    }
   };
 
   const handleCounterChange = (e) => {
@@ -157,7 +176,6 @@ const ProductsForRent = (props) => {
     const counterVal = e.target.value;
 
     const updatedProducts = selectedProducts.map((product) => {
-      console.log("productiddd: ", product.productId);
       if ("" + product.productId === "" + productId) {
         product.counter = counterVal;
       }
@@ -180,7 +198,11 @@ const ProductsForRent = (props) => {
           <ul>
             {selectedProducts.map((product) => (
               <li key={product.productId}>
-                {product.productName}{" "}
+                {product.productName}
+                {product.productType === "MEDIA" &&
+                product.subtypeMedia === "STANDARD"
+                  ? ", stan: " + product.counter
+                  : ""}
                 {product.productType === "MEDIA" &&
                 product.subtypeMedia === "STANDARD" ? (
                   <input
@@ -220,17 +242,9 @@ const ProductsForRent = (props) => {
                 </button>
                 {product.productName}
                 {product.productType === "MEDIA" &&
-                product.subtypeMedia === "STANDARD" ? (
-                  <input
-                    type="number"
-                    id={product.productId}
-                    name={product.productId}
-                    onChange={handleCounterChange}
-                    placeholder="podaj stan licznika"
-                  />
-                ) : (
-                  ""
-                )}
+                product.subtypeMedia === "STANDARD"
+                  ? ", stan: " + product.counter
+                  : ""}
               </li>
             ))}
           </ul>
@@ -249,7 +263,12 @@ const ProductsForRent = (props) => {
           onChange={handleDescriptionChange}
         ></textarea>
       </label>
-      <button onClick={handleConfirm}>Dalej</button>
+      <button onClick={handleConfirm} data-name="back">
+        Powrót
+      </button>
+      <button onClick={handleConfirm} data-name="next">
+        Dalej
+      </button>
     </div>
   );
 };

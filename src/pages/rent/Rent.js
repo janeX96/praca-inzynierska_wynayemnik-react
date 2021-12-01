@@ -11,7 +11,7 @@ const Rent = () => {
   const location = useLocation();
   const { premisesId, premises } = location.state;
 
-  const [activeStep, setActiveStep] = useState(0);
+  const [activeStep, setActiveStep] = useState(1);
   const [completedSteps, setCompletedSteps] = useState({
     1: false,
     2: false,
@@ -28,13 +28,8 @@ const Rent = () => {
     email: "",
     endDate: "",
     paymentDay: 0,
-    paymentValues: [
-      {
-        endDate: "",
-        startDate: "",
-        value: 0,
-      },
-    ],
+    paymentValues: [],
+    premisesType: { type: "" },
     premisesId: premisesId,
     productWithQuantityList: [],
     rentValue: 0,
@@ -49,6 +44,8 @@ const Rent = () => {
     },
   });
 
+  const [selectedProductsSave, setSelectedProductsSave] = useState([]);
+
   const setUser = (userAccount) => {
     setRent({ ...rent, userAccount });
   };
@@ -58,8 +55,13 @@ const Rent = () => {
   };
 
   const stepDone = (index) => {
-    setCompletedSteps({ [index]: true });
+    setCompletedSteps({ ...completedSteps, [index]: true });
     setActiveStep(activeStep + 1);
+  };
+
+  const stepBack = (index) => {
+    setCompletedSteps({ [index]: true });
+    setActiveStep(activeStep - 1);
   };
 
   //without products and descritpion
@@ -70,7 +72,7 @@ const Rent = () => {
       carNumber: details.carNumber,
       clientAccess: details.clientAccess,
       counterMediaRent: details.counterMediaRent,
-
+      premisesType: details.premisesType,
       endDate: details.endDate,
       paymentDay: details.paymentDay,
       paymentValues: details.paymentValues,
@@ -86,39 +88,58 @@ const Rent = () => {
     setRent({ ...rent, description, productWithQuantityList: products });
   };
 
+  const saveSelectedProducts = (selected) => {
+    setSelectedProductsSave(selected);
+  };
+
   const renderForm = (step) => {
     switch (step) {
-      case 0:
+      case 1:
         return (
           <UserFormForRent
+            defaultEmail={rent.email}
+            defaultUser={rent.userAccount}
             stepDone={stepDone}
             setUser={setUser}
             setEmail={setEmail}
           />
         );
         break;
-      case 1:
+      case 2:
         return (
           <RentForm
+            default={rent}
             premises={premises}
             user={rent.userAccount.email}
             stepDone={stepDone}
+            stepBack={stepBack}
             setRentDetails={setRentDetails}
           />
         );
         break;
-      case 2:
+      case 3:
         return (
           <ProductsForRent
+            default={rent}
             locationId={premises.locationId}
             premisesType={premises.premisesType}
             stepDone={stepDone}
+            stepBack={stepBack}
             addProductsAndDescritpion={addProductsAndDescritpion}
+            saveSelectedProducts={saveSelectedProducts}
+            selectedSave={selectedProductsSave}
           />
         );
         break;
-      case 3:
-        return <RentSummary />;
+      case 4:
+        return (
+          <RentSummary
+            stepBack={stepBack}
+            {...rent}
+            userEmail={rent.email}
+            products={selectedProductsSave}
+          />
+        );
         break;
 
       default:
@@ -137,7 +158,7 @@ const Rent = () => {
             { label: "Produkty" },
             { label: "Podsumowanie" },
           ]}
-          activeStep={activeStep}
+          activeStep={activeStep - 1}
         />
         {renderForm(activeStep)}
       </div>

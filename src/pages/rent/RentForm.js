@@ -15,19 +15,19 @@ const RentForm = (props) => {
   const [today, setToday] = useState(getDateToday);
   const [premisesTypes, setPremisesTypes] = useState({ types: [] });
   const [rentDetails, setRentDetails] = useState({
-    bailValue: 0,
-    carNumber: "",
-    clientAccess: true,
-    counterMediaRent: true,
-    endDate: "",
-    paymentDay: 0,
-    paymentValues: [],
+    bailValue: props.default.bailValue,
+    carNumber: props.default.carNumber,
+    clientAccess: props.default.clientAccess,
+    counterMediaRent: props.default.counterMediaRent,
+    endDate: props.default.endDate,
+    paymentDay: props.default.paymentDay,
+    paymentValues: props.default.paymentValues,
     premisesType: {
-      type: "",
+      type: props.default.premisesType.type,
     },
-    rentValue: 0,
-    startDate: "",
-    statePaymentValue: true,
+    rentValue: props.default.rentValue,
+    startDate: props.default.startDate,
+    statePaymentValue: props.default.statePaymentValue,
   });
   const [errors, setErrors] = useState({
     bailValueError: false,
@@ -172,12 +172,18 @@ const RentForm = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    const action = e.currentTarget.dataset.name;
+    console.log(action);
     const validation = formValidation();
 
     if (validation.correct) {
       props.setRentDetails(rentDetails);
-      props.stepDone();
+      if (action === "next") {
+        props.stepDone(2);
+      } else {
+        props.stepBack();
+      }
+
       setErrors({
         bailValueError: false,
         carNumberError: false,
@@ -199,6 +205,7 @@ const RentForm = (props) => {
       });
     }
   };
+  const handleBack = () => {};
 
   const addBillingPeriod = (billingPeriod) => {
     let billingPeriods = [...rentDetails.paymentValues];
@@ -361,19 +368,6 @@ const RentForm = (props) => {
                 </span>
               )}
             </label>
-
-            {/* <label htmlFor="description">
-              Uwagi:
-              <textarea
-                id="description"
-                name="description"
-                rows="4"
-                cols="10"
-                style={{ height: "150px", width: "250px" }}
-                value={rentDetails.description}
-                onChange={handleChange}
-              ></textarea>
-            </label> */}
           </form>
           {!rentDetails.statePaymentValue && (
             <>
@@ -388,7 +382,12 @@ const RentForm = (props) => {
               </ul>
             </>
           )}
-          <button onClick={handleSubmit}>Dalej</button>
+          <button onClick={handleSubmit} data-name="back">
+            Powrót
+          </button>
+          <button onClick={handleSubmit} data-name="next">
+            Dalej
+          </button>
         </div>
       </div>
     </>
