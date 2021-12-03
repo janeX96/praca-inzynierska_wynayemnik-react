@@ -9,7 +9,8 @@ const UserFormForRent = (props) => {
   );
   const [emailSubmit, setEmailSubmit] = useState(false);
   const [user, setUser] = useState({
-    toCreate: !(props.defaultEmail.length > 0),
+    toCreate:
+      props.defaultUser.email.length > 0 && !props.defaultEmail.length > 0,
     userAccount: {
       email: props.defaultUser.email,
       firstName: props.defaultUser.firstName,
@@ -18,6 +19,13 @@ const UserFormForRent = (props) => {
       sharing: props.defaultUser.sharing,
     },
   });
+
+  // useEffect(() => {
+  //   setUser({
+  //     ...user,
+  //     toCreate: props.defaultUser.email > 0 && !props.defaultEmail.length > 0,
+  //   });
+  // }, []);
 
   const [errors, setErrors] = useState({
     emailError: false,
@@ -109,6 +117,13 @@ const UserFormForRent = (props) => {
                 sharing: true,
               },
             });
+            props.setEmail("", {
+              email: "",
+              firstName: "",
+              lastName: "",
+              phoneNumber: "",
+              sharing: "",
+            });
             return false;
           }
         })
@@ -145,6 +160,7 @@ const UserFormForRent = (props) => {
 
     if (name === "email") {
       setUserEmail(val);
+      setUser({ ...user, toCreate: false });
     } else if (type === "text") {
       setUser({
         ...user,
@@ -205,7 +221,13 @@ const UserFormForRent = (props) => {
               <span className="error-msg">{messages.email_incorrect}</span>
             )}
           </label>
-          <button type="submit">Dalej</button>
+          <button
+            type="submit"
+            className="action-button"
+            disabled={user.toCreate}
+          >
+            Dalej
+          </button>
         </form>
         {user.toCreate && (
           <div>
@@ -271,7 +293,9 @@ const UserFormForRent = (props) => {
                   checked={user.userAccount.sharing}
                 ></input>
               </label>
-              <button type="submit">Stwórz</button>
+              <button type="submit" className="action-button">
+                Stwórz
+              </button>
             </form>
           </div>
         )}

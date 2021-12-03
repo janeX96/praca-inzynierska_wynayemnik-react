@@ -256,24 +256,33 @@ const ProductsForRent = (props) => {
         </div>
       </div>
 
-      <label htmlFor="description">
-        Uwagi:
-        <textarea
-          id="description"
-          name="description"
-          rows="4"
-          cols="10"
-          style={{ height: "150px", width: "250px" }}
-          value={description}
-          onChange={handleDescriptionChange}
-        ></textarea>
-      </label>
-      <button onClick={handleConfirm} data-name="back">
-        Powrót
-      </button>
-      <button onClick={handleConfirm} data-name="next">
-        Dalej
-      </button>
+      <label htmlFor="description">Uwagi:</label>
+      <textarea
+        id="description"
+        name="description"
+        rows="4"
+        cols="10"
+        style={{ height: "150px", width: "250px" }}
+        value={description}
+        onChange={handleDescriptionChange}
+      ></textarea>
+      <div style={{ marginTop: "50px" }}>
+        <button
+          onClick={handleConfirm}
+          data-name="back"
+          className="action-button"
+          style={{ marginRight: "15px" }}
+        >
+          Powrót
+        </button>
+        <button
+          onClick={handleConfirm}
+          data-name="next"
+          className="action-button"
+        >
+          Dalej
+        </button>
+      </div>
     </div>
   );
 };

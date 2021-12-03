@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import keycloak from "../../auth/keycloak";
+import Confirmation from "./Confirmation";
 
 const RentSummary = ({
   userEmail,
@@ -25,6 +26,8 @@ const RentSummary = ({
 }) => {
   const [sending, setSending] = useState(false);
   const [createURL, setCreateURL] = useState();
+  const [success, setSuccess] = useState(false);
+
   const getResources = async () => {
     const response = await fetch("/resources.json");
     const resources = await response.json();
@@ -57,8 +60,12 @@ const RentSummary = ({
         .then((response) => {
           if (response.ok) {
             console.log("UDAŁO SIE!!!");
+            setSuccess(true);
+            setSending(false);
           } else {
             console.log("NIE UDAŁO SIE... :(");
+            setSending(false);
+            setSuccess(false);
           }
           return response.json();
         })
@@ -92,6 +99,9 @@ const RentSummary = ({
         };
       } else {
         obj = rentObj;
+        obj.startDate = obj.startDate + "T20:44:36.263";
+        obj.endDate = obj.endDate + "T20:44:36.263";
+        obj.statePaymentValue = !obj.statePaymentValue;
       }
 
       console.log("Objekt do wysłania: ", obj);
@@ -103,143 +113,158 @@ const RentSummary = ({
 
   return (
     <div>
-      <ul>
-        <li>
-          <label>
-            Najemca
-            <input
-              type="text"
-              value={email + " - " + firstName + ", " + lastName}
-              disabled
-            />
-          </label>
-        </li>
-        <li>
-          <label>
-            <input
-              type="text"
-              disabled
-              value={
-                clientAccess
-                  ? "Klient ma dostęp do konta"
-                  : "Klient nie ma dostępu do konta"
-              }
-            />
-          </label>
-        </li>
-        <li>
-          <label>
-            <input
-              type="text"
-              disabled
-              value={
-                counterMediaRent
-                  ? "Klient ma wgląd do liczników"
-                  : "Klient nie ma wglądu do liczników"
-              }
-            />
-          </label>
-        </li>
-
-        <li>
-          <label>
-            Okres wynajmu:
-            <input
-              type="text"
-              disabled
-              value={"od: " + startDate + " do: " + endDate}
-            />
-          </label>
-        </li>
-        <li>
-          <label>
-            Rodzaj wynajmu:
-            <input type="text" disabled value={premisesType.type} />
-          </label>
-        </li>
-        <li>
-          <label>
-            Kaucja:
-            <input type="text" disabled value={bailValue} />
-          </label>
-        </li>
-        <li>
-          <label>
-            Kwota czynszu:
-            {statePaymentValue ? (
-              <input type="text" disabled value={rentValue} />
-            ) : (
-              paymentValues.map((p) => {
+      {success ? (
+        <Confirmation />
+      ) : (
+        <>
+          {" "}
+          <ul>
+            <li>
+              <label>
+                Najemca
+                <input
+                  type="text"
+                  value={email + " - " + firstName + ", " + lastName}
+                  disabled
+                />
+              </label>
+            </li>
+            <li>
+              <label>
                 <input
                   type="text"
                   disabled
                   value={
-                    "od: " +
-                    p.startDate +
-                    " do: " +
-                    p.endDate +
-                    ", kwota: " +
-                    p.value
+                    clientAccess
+                      ? "Klient ma dostęp do konta"
+                      : "Klient nie ma dostępu do konta"
                   }
-                />;
-              })
-            )}
-          </label>
-        </li>
-        <li>
-          <label>
-            Dzień płatności:
-            <input type="text" disabled value={paymentDay} />
-          </label>
-        </li>
-        {carNumber.length > 0 && (
-          <li>
-            <label>
-              Nr rejestracyjny pojazdu:
-              <input type="text" disabled value={carNumber} />
-            </label>
-          </li>
-        )}
-        <li>
-          <label>
-            Uwagi:
-            <input
-              type="text"
-              disabled
-              value={description.length > 0 ? description : "brak"}
-            />
-          </label>
-        </li>
-        <li>
-          <label>
-            Załączone produkty:
-            <ul>
-              {products.map((product) => {
-                return (
-                  <li>
+                />
+              </label>
+            </li>
+            <li>
+              <label>
+                <input
+                  type="text"
+                  disabled
+                  value={
+                    counterMediaRent
+                      ? "Klient ma wgląd do liczników"
+                      : "Klient nie ma wglądu do liczników"
+                  }
+                />
+              </label>
+            </li>
+
+            <li>
+              <label>
+                Okres wynajmu:
+                <input
+                  type="text"
+                  disabled
+                  value={"od: " + startDate + " do: " + endDate}
+                />
+              </label>
+            </li>
+            <li>
+              <label>
+                Rodzaj wynajmu:
+                <input type="text" disabled value={premisesType.type} />
+              </label>
+            </li>
+            <li>
+              <label>
+                Kaucja:
+                <input type="text" disabled value={bailValue} />
+              </label>
+            </li>
+            <li>
+              <label>
+                Kwota czynszu:
+                {statePaymentValue ? (
+                  <input type="text" disabled value={rentValue} />
+                ) : (
+                  paymentValues.map((p) => {
                     <input
                       type="text"
                       disabled
                       value={
-                        product.productName +
-                        ", stan licznika: " +
-                        product.counter
+                        "od: " +
+                        p.startDate +
+                        " do: " +
+                        p.endDate +
+                        ", kwota: " +
+                        p.value
                       }
-                    />
-                  </li>
-                );
-              })}
-            </ul>
-          </label>
-        </li>
-      </ul>
-
-      <button onClick={handleConfirm} data-name="back">
-        Powrót
-      </button>
-      <button onClick={handleConfirm} data-name="next">
-        Zapisz
-      </button>
+                    />;
+                  })
+                )}
+              </label>
+            </li>
+            <li>
+              <label>
+                Dzień płatności:
+                <input type="text" disabled value={paymentDay} />
+              </label>
+            </li>
+            {carNumber.length > 0 && (
+              <li>
+                <label>
+                  Nr rejestracyjny pojazdu:
+                  <input type="text" disabled value={carNumber} />
+                </label>
+              </li>
+            )}
+            <li>
+              <label>
+                Uwagi:
+                <input
+                  type="text"
+                  disabled
+                  value={description.length > 0 ? description : "brak"}
+                />
+              </label>
+            </li>
+            <li>
+              <label>
+                Załączone produkty:
+                <ul>
+                  {products.map((product) => {
+                    return (
+                      <li>
+                        <input
+                          type="text"
+                          disabled
+                          value={
+                            product.productName +
+                            ", stan licznika: " +
+                            product.counter
+                          }
+                        />
+                      </li>
+                    );
+                  })}
+                </ul>
+              </label>
+            </li>
+          </ul>
+          <button
+            onClick={handleConfirm}
+            data-name="back"
+            className="action-button"
+            style={{ marginRight: "15px", marginTop: "30px" }}
+          >
+            Powrót
+          </button>
+          <button
+            onClick={handleConfirm}
+            data-name="next"
+            className="action-button"
+          >
+            Zapisz
+          </button>
+        </>
+      )}
     </div>
   );
 };

@@ -14,8 +14,9 @@
 }
 
 .products-list {
-  border-color: aliceblue;
-  border-style: dotted;
+  padding: 5px;
+  border-color: lightgrey;
+  border-style: solid;
   margin-right: 100px;
   width: 300px;
 }

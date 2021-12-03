@@ -382,10 +382,19 @@ const RentForm = (props) => {
               </ul>
             </>
           )}
-          <button onClick={handleSubmit} data-name="back">
+          <button
+            onClick={handleSubmit}
+            data-name="back"
+            className="action-button"
+            style={{ marginRight: "15px", marginTop: "30px" }}
+          >
             Powrót
           </button>
-          <button onClick={handleSubmit} data-name="next">
+          <button
+            onClick={handleSubmit}
+            data-name="next"
+            className="action-button"
+          >
             Dalej
           </button>
         </div>

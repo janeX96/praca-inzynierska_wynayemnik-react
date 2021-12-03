@@ -151,7 +151,7 @@ const Rent = () => {
   return (
     <>
       <div className="content-container">
-        <h1 className="content-title">Wynajem lokalu id= {premisesId}</h1>
+        <h1 className="content-title">Wynajem lokalu</h1>
         <Stepper
           steps={[
             { label: "Najemca" },
