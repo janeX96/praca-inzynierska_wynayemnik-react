@@ -59,11 +59,11 @@ const RentSummary = ({
       const res = await fetch(createURL, requestOptions)
         .then((response) => {
           if (response.ok) {
-            console.log("UDAŁO SIE!!!");
+            // console.log("UDAŁO SIE!!!");
             setSuccess(true);
             setSending(false);
           } else {
-            console.log("NIE UDAŁO SIE... :(");
+            // console.log("NIE UDAŁO SIE... :(");
             setSending(false);
             setSuccess(false);
           }
@@ -71,6 +71,8 @@ const RentSummary = ({
         })
         .catch((err) => {
           console.log("Error: ", err);
+          setSending(false);
+          setSuccess(false);
         });
     }
   };
@@ -87,7 +89,7 @@ const RentSummary = ({
           counterMediaRent: counterMediaRent,
           description: description,
           email: email,
-          endDate: endDate + "T20:44:36.263", //tymczasowe
+          endDate: endDate + "T20:44:36.263", //tymczasowe (czy potrzebna godzina ? )
           paymentDay: paymentDay,
           paymentValues: paymentValues,
           premisesType: { type: premisesType.type },
@@ -117,7 +119,6 @@ const RentSummary = ({
         <Confirmation />
       ) : (
         <>
-          {" "}
           <ul>
             <li>
               <label>
