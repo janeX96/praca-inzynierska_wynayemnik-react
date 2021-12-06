@@ -1,5 +1,17 @@
 body {
   margin: 0 !important;
+  font-family: Helvetica;
+  /* colors */
+  --light-color: #727178;
+  --dark-color: #363636;
+  --text-color: #f2f2f2;
+
+  --special-button-color: #4e47b5;
+  --special-button-dark-color: #2d277a;
+
+  --error-color: #941818;
+
+  color: var(--text-color);
 }
 
 .content-container {
@@ -11,47 +23,39 @@ body {
   flex-direction: column;
   /* align-items: center; */
   /* justify-content: center; */
-  box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.1);
   object-fit: contain;
-
-  /* colors */
-  --light-color: #727178;
-  --dark-color: #363636;
-  --text-color: #f2f2f2;
-
-  --special-button-color: #4e47b5;
-  --special-button-dark-color: #2d277a;
 }
 
 .content-container > .content-title {
-  color: #404142;
+  color: var(--light-color);
   font-size: 50px;
   padding-top: 20px;
   margin-left: 70px;
   margin-right: 70px;
-  border-color: #404142;
+  border-color: var(--light-color);
   border-bottom-style: solid;
 }
+
 .content-container > div {
   margin-left: 70px;
 }
 
 .content-container > p {
   margin-top: 8px;
-  color: #fff;
   font-size: 32px;
-  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
-    "Lucida Sans", Arial, sans-serif;
+  /* font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif; */
 }
 
 .content-container .add-button {
   font-size: large;
-  background-color: #4e47b5;
-  color: #e3e3e3;
+  background-color: var(--special-button-color);
+  color: var(--text-color);
 }
 
 .content-container .add-button:hover {
-  background-color: #2d277a;
+  background-color: var(--special-button-dark-color);
 }
 
 .content-btns {
@@ -63,9 +67,9 @@ body {
 }
 
 .action-button {
-  background-color: #87888a;
+  background-color: var(--light-color);
+  color: var(--text-color);
   font-size: large;
-  color: #e3e3e3;
 }
 
 .details-buttons {
@@ -79,17 +83,16 @@ body {
 
 .details-buttons button {
   margin-right: 10px;
-  background-color: #87888a;
+  background-color: var(--light-color);
   font-size: large;
-  color: #e3e3e3;
 }
 
 .details-buttons button:hover {
-  background-color: #404142;
+  background-color: var(--dark-color);
 }
 
 .action-button:hover {
-  background-color: #404142;
+  background-color: var(--dark-color);
 }
 
 /* forms */
@@ -116,7 +119,7 @@ select {
 
 .error-msg {
   margin-left: 10px;
-  color: #751c28;
+  color: var(--error-color);
 }
 
 .location-choose {
