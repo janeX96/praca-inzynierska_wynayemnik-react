@@ -1,5 +1,5 @@
 .navbar {
-  background: #6b6b6b;
+  background: #727178;
   /* #656566 */
   /* #878787 */
   height: 80px;
@@ -21,7 +21,7 @@
 }
 
 .navbar-logo {
-  color: #fff;
+  color: #f2f2f2;
   justify-self: start;
   margin-left: 5%;
   cursor: pointer;
@@ -188,7 +188,7 @@ a {
 }
 
 .dropdown__content > ul > li :hover {
-  color: #404142;
+  color: #363636;
 }
 
 .dropdown--active .dropdown__content {
