@@ -97,13 +97,13 @@ const RentSummary = ({
           productWithCounterList: productWithCounterList,
           rentValue: rentValue,
           startDate: startDate + "T20:44:36.263", //tymczasowe
-          statePaymentValue: !statePaymentValue, //tymczasowe
+          statePaymentValue: statePaymentValue, //tymczasowe
         };
       } else {
         obj = rentObj;
+        obj.email = null;
         obj.startDate = obj.startDate + "T20:44:36.263";
         obj.endDate = obj.endDate + "T20:44:36.263";
-        obj.statePaymentValue = !obj.statePaymentValue;
       }
 
       console.log("Objekt do wysłania: ", obj);

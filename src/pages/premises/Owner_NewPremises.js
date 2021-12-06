@@ -507,186 +507,250 @@ const Owner_NewPremises = () => {
   return (
     <div className="content-container">
       <h1 className="content-title">Nowy lokal</h1>
-      <form onSubmit={handleSubmit}>
-        <div className="location-choose">
-          <label style={{ fontWeight: "bold" }} htmlFor="choosenLocation">
-            Wybierz istniejący adres:
-            <select
-              value={state.locationId}
-              name="choosenLocation"
-              id="choosenLocation"
-              onChange={handleChange}
-            >
-              <option key="" value=""></option>
-              {state.locations.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-            {state.errors.location && (
-              <span className="error-msg">{messages.location_incorrect}</span>
-            )}
-          </label>
+      <div className="form-container">
+        <form onSubmit={handleSubmit}>
+          <div className="row">
+            <div className="col-25">
+              <label style={{ fontWeight: "bold" }} htmlFor="choosenLocation">
+                Wybierz istniejący adres:{" "}
+              </label>
+            </div>
+            <div className="col-75">
+              <select
+                value={state.locationId}
+                name="choosenLocation"
+                id="choosenLocation"
+                onChange={handleChange}
+              >
+                <option key="" value=""></option>
+                {state.locations.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+              {state.errors.location && (
+                <span className="error-msg">{messages.location_incorrect}</span>
+              )}
+            </div>
+          </div>
+
           <p style={{ fontWeight: "bold" }}>Lub dodaj nowy:</p>
-          <label htmlFor="city">
-            Miasto:
-            <input
-              id="city"
-              type="text"
-              name="city"
-              disabled={state.choosenLocation.length > 0 ? true : false}
-              value={state.newLocation.city}
-              onChange={handleChange}
-            />
-            {state.errors.city && (
-              <span className="error-msg">{messages.city_incorrect}</span>
+
+          <div className="row">
+            <div className="col-25"></div>
+            <div className="col-75"></div>
+          </div>
+
+          <div className="row">
+            <div className="col-25">
+              <label htmlFor="city">Miasto:</label>
+            </div>
+            <div className="col-75">
+              <input
+                id="city"
+                type="text"
+                name="city"
+                disabled={state.choosenLocation.length > 0 ? true : false}
+                value={state.newLocation.city}
+                onChange={handleChange}
+              />
+              {state.errors.city && (
+                <span className="error-msg">{messages.city_incorrect}</span>
+              )}
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-25">
+              <label htmlFor="street">Ulica: </label>
+            </div>
+            <div className="col-75">
+              <input
+                id="street"
+                type="text"
+                disabled={state.choosenLocation.length > 0 ? true : false}
+                value={state.newLocation.street}
+                onChange={handleChange}
+              />
+              {state.errors.street && (
+                <span className="error-msg">{messages.street_incorrect}</span>
+              )}
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-25">
+              <label htmlFor="streetNumber">Nr: </label>
+            </div>
+            <div className="col-75">
+              <input
+                id="streetNumber"
+                type="text"
+                name="streetNumber"
+                disabled={state.choosenLocation.length > 0 ? true : false}
+                value={state.newLocation.streetNumber}
+                onChange={handleChange}
+              />
+              {state.errors.streetNumber && (
+                <span className="error-msg">
+                  {messages.streetNumber_incorrect}
+                </span>
+              )}
+            </div>
+          </div>
+
+          <div className="row">
+            <div className="col-25">
+              <label htmlFor="postCode">Kod pocztowy: </label>
+            </div>
+            <div className="col-75">
+              <input
+                id="postCode"
+                type="text"
+                name="postCode"
+                disabled={state.choosenLocation.length > 0 ? true : false}
+                value={state.newLocation.postCode}
+                onChange={handleChange}
+              />
+              {state.errors.postCode && (
+                <span className="error-msg">{messages.postCode_incorrect}</span>
+              )}
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-25">
+              <label htmlFor="locationName">Nazwa:</label>
+            </div>
+            <div className="col-75">
+              <input
+                id="locationName"
+                type="text"
+                name="locationName"
+                disabled={state.choosenLocation.length > 0 ? true : false}
+                value={state.newLocation.locationName}
+                onChange={handleChange}
+              />
+              {state.errors.locationName && (
+                <span className="error-msg">
+                  {messages.locationName_incorrect}
+                </span>
+              )}
+            </div>
+          </div>
+          <br />
+          <br />
+          <br />
+          <div className="row">
+            <div className="col-25">
+              <label htmlFor="premisesNumber">Numer lokalu: </label>
+            </div>
+            <div className="col-75">
+              <input
+                id="premisesNumber"
+                type="text"
+                name="premisesNumber"
+                value={state.premisesNumber}
+                onChange={handleChange}
+              />
+              {state.errors.number && (
+                <span className="error-msg">{messages.number_incorrect}</span>
+              )}
+            </div>
+          </div>
+
+          <div className="row">
+            <div className="col-25">
+              <label htmlFor="area">Powierzchnia lokalu: </label>
+            </div>
+            <div className="col-75">
+              <input
+                id="area"
+                type="number"
+                name="area"
+                value={state.area}
+                onChange={handleChange}
+              />
+              {state.errors.area && (
+                <span className="error-msg">{messages.area_incorrect}</span>
+              )}
+            </div>
+          </div>
+
+          <div className="row">
+            <div className="col-25">
+              <label htmlFor="premisesLevel">Poziom: </label>
+            </div>
+            <div className="col-75">
+              <input
+                id="premisesLevel"
+                type="text"
+                name="premisesLevel"
+                value={state.premisesLevel}
+                onChange={handleChange}
+              />
+              {state.errors.premisesLevel && (
+                <span className="error-msg">
+                  {messages.premisesLevel_incorrect}
+                </span>
+              )}
+            </div>
+          </div>
+
+          <div className="row">
+            <div className="col-25">
+              <label htmlFor="premisesType">Rodzaj: </label>
+            </div>
+            <div className="col-75">
+              <select
+                value={state.premisesType.type}
+                id="premisesType"
+                name="premisesType"
+                onChange={handleChange}
+              >
+                <option key="" value=""></option>
+                {state.premisesTypes.map((option) => (
+                  <option key={option.value} value={option.label}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+              {state.errors.premisesType && (
+                <span className="error-msg">
+                  {messages.premisesType_incorrect}
+                </span>
+              )}
+            </div>
+          </div>
+
+          <div className="row">
+            <div className="col-25">
+              <label htmlFor="furnished">Umeblowany: </label>
+            </div>
+            <div className="col-75">
+              <input
+                onChange={handleChange}
+                type="checkbox"
+                id="furnished"
+                name="furnished"
+                checked={state.furnished}
+              />
+            </div>
+          </div>
+
+          <div className="form-buttons">
+            <Link to="owner-premises">
+              <button>Powrót</button>
+            </Link>
+            {state.isSending ? (
+              <img src={WaitIcon} alt="..." />
+            ) : (
+              <button type="submit" className="">
+                Zapisz
+              </button>
             )}
-          </label>
-          <label htmlFor="street">
-            Ulica:
-            <input
-              id="street"
-              type="text"
-              name="street"
-              disabled={state.choosenLocation.length > 0 ? true : false}
-              value={state.newLocation.street}
-              onChange={handleChange}
-            />
-            {state.errors.street && (
-              <span className="error-msg">{messages.street_incorrect}</span>
-            )}
-          </label>
-          <label htmlFor="streetNumber">
-            Nr:
-            <input
-              id="streetNumber"
-              type="text"
-              name="streetNumber"
-              disabled={state.choosenLocation.length > 0 ? true : false}
-              value={state.newLocation.streetNumber}
-              onChange={handleChange}
-            />
-            {state.errors.streetNumber && (
-              <span className="error-msg">
-                {messages.streetNumber_incorrect}
-              </span>
-            )}
-          </label>
-          <label htmlFor="postCode">
-            Kod pocztowy:
-            <input
-              id="postCode"
-              type="text"
-              name="postCode"
-              disabled={state.choosenLocation.length > 0 ? true : false}
-              value={state.newLocation.postCode}
-              onChange={handleChange}
-            />
-            {state.errors.postCode && (
-              <span className="error-msg">{messages.postCode_incorrect}</span>
-            )}
-          </label>
-          <label htmlFor="locationName">
-            Nazwa:
-            <input
-              id="locationName"
-              type="text"
-              name="locationName"
-              disabled={state.choosenLocation.length > 0 ? true : false}
-              value={state.newLocation.locationName}
-              onChange={handleChange}
-            />
-            {state.errors.locationName && (
-              <span className="error-msg">
-                {messages.locationName_incorrect}
-              </span>
-            )}
-          </label>
-        </div>
-        <div className="new-premises-details">
-          <label htmlFor="premisesNumber">
-            Numer lokalu:
-            <input
-              id="premisesNumber"
-              type="text"
-              name="premisesNumber"
-              value={state.premisesNumber}
-              onChange={handleChange}
-            />
-            {state.errors.number && (
-              <span className="error-msg">{messages.number_incorrect}</span>
-            )}
-          </label>
-          <label htmlFor="area">
-            Powierzchnia lokalu:
-            <input
-              id="area"
-              type="number"
-              name="area"
-              value={state.area}
-              onChange={handleChange}
-            />
-            {state.errors.area && (
-              <span className="error-msg">{messages.area_incorrect}</span>
-            )}
-          </label>
-          <label htmlFor="premisesLevel">
-            Poziom:
-            <input
-              id="premisesLevel"
-              type="text"
-              name="premisesLevel"
-              value={state.premisesLevel}
-              onChange={handleChange}
-            />
-            {state.errors.premisesLevel && (
-              <span className="error-msg">
-                {messages.premisesLevel_incorrect}
-              </span>
-            )}
-          </label>
-          <label htmlFor="premisesType">
-            Rodzaj:
-            <select
-              value={state.premisesType.type}
-              id="premisesType"
-              name="premisesType"
-              onChange={handleChange}
-            >
-              <option key="" value=""></option>
-              {state.premisesTypes.map((option) => (
-                <option key={option.value} value={option.label}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-            {state.errors.premisesType && (
-              <span className="error-msg">
-                {messages.premisesType_incorrect}
-              </span>
-            )}
-          </label>
-          <label htmlFor="furnished">
-            Umeblowany:
-            <input
-              onChange={handleChange}
-              type="checkbox"
-              id="furnished"
-              name="furnished"
-              checked={state.furnished}
-            />
-          </label>
-          <Link to="owner-premises">
-            <button>Powrót</button>
-          </Link>
-          {state.isSending ? (
-            <img src={WaitIcon} alt="..." />
-          ) : (
-            <button type="submit">Zapisz</button>
-          )}
-        </div>
-      </form>
+          </div>
+        </form>
+      </div>
+
       {state.submitMessage && (
         <h3 className="submit-message">{state.submitMessage}</h3>
       )}
