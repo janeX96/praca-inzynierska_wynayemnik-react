@@ -567,6 +567,7 @@ const Owner_NewPremises = () => {
             <div className="col-75">
               <input
                 id="street"
+                name="street"
                 type="text"
                 disabled={state.choosenLocation.length > 0 ? true : false}
                 value={state.newLocation.street}
