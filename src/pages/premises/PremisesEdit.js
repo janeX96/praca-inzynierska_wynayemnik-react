@@ -489,7 +489,7 @@ const PremisesEdit = (props) => {
   };
 
   return (
-    <div className="content-container">
+    <>
       <h1 className="content-title">Edycja lokalu</h1>
       <div className="form-container">
         <form onSubmit={handleSubmit}>
@@ -730,7 +730,7 @@ const PremisesEdit = (props) => {
           </div>
         </form>
       </div>
-    </div>
+    </>
   );
 };
 
