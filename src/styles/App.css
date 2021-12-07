@@ -113,7 +113,7 @@ button:hover {
 
 .form-container {
   border-radius: 5px;
-  background-color: #f2f2f2;
+  background-color: #f2f2f295;
   padding: 20px;
   box-sizing: border-box;
   max-width: 900px;
@@ -128,6 +128,7 @@ button:hover {
 input[type="text"],
 select,
 input[type="number"],
+input[type="checkbox"],
 textarea {
   width: 100%;
   padding: 12px;
@@ -141,7 +142,7 @@ label {
   display: inline-block;
 }
 
-input[type="submit"] {
+/* input[type="submit"] {
   background-color: #4caf50;
   color: white;
   padding: 12px 20px;
@@ -149,17 +150,22 @@ input[type="submit"] {
   border-radius: 4px;
   cursor: pointer;
   float: right;
+} */
+
+input[type="checkbox"] {
+  width: 30px;
+  height: 30px;
 }
 
-input[type="submit"]:hover {
+/* input[type="submit"]:hover {
   background-color: #45a049;
-}
+} */
 
-.container {
+/* .container {
   border-radius: 5px;
   background-color: #f2f2f2;
   padding: 20px;
-}
+} */
 
 .col-25 {
   float: left;
