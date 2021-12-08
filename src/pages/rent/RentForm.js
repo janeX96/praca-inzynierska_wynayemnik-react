@@ -222,152 +222,207 @@ const RentForm = (props) => {
         </h1>
         <h1>Najemca: {props.user}</h1>
 
-        <div>
+        <div className="form-container">
           <form onSubmit={handleSubmit}>
-            <label htmlFor="startDate">
-              Od:
-              <input
-                type="date"
-                id="startDate"
-                name="startDate"
-                min={today}
-                value={rentDetails.startDate}
-                onChange={handleChange}
-              />
-              {errors.startDateError && (
-                <span className="error-msg">
-                  {messages.startDate_incorrect}
-                </span>
-              )}
-            </label>
-            <label htmlFor="endDate">
-              Do:
-              <input
-                type="date"
-                id="endDate"
-                name="endDate"
-                min={today}
-                value={rentDetails.endDate}
-                onChange={handleChange}
-              />
-              {errors.endDateError && (
-                <span className="error-msg">{messages.endDate_incorrect}</span>
-              )}
-            </label>
-            <label htmlFor="premisesType">
-              Rodzaj:
-              <select
-                value={rentDetails.premisesType.type}
-                id="premisesType"
-                name="premisesType"
-                onChange={handleChange}
-              >
-                <option key="" value=""></option>
-                {premisesTypes.types.map((option) => (
-                  <option key={option.value} value={option.label}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-              {errors.premisesTypeError && (
-                <span className="error-msg">
-                  {messages.premisesType_incorrect}
-                </span>
-              )}
-            </label>
-            <label htmlFor="carNumber">
-              carNumber:
-              <input
-                type="text"
-                id="carNumber"
-                name="carNumber"
-                value={rentDetails.carNumber}
-                onChange={handleChange}
-              />
-              {errors.carNumberError && (
-                <span className="error-msg">
-                  {messages.carNumber_incorrect}
-                </span>
-              )}
-            </label>
-            <h1>Opłaty</h1>
-            <label htmlFor="bailValue">
-              Kaucja:
-              <input
-                type="number"
-                id="bailValue"
-                name="bailValue"
-                value={rentDetails.bailValue}
-                onChange={handleChange}
-              />
-              {errors.bailValueError && (
-                <span className="error-msg">
-                  {messages.bailValue_incorrect}
-                </span>
-              )}
-            </label>
-            <label htmlFor="counterMediaRent">
-              Udostępniania mediów najemcy:
-              <input
-                type="checkbox"
-                id="counterMediaRent"
-                name="counterMediaRent"
-                checked={rentDetails.counterMediaRent}
-                onChange={handleChange}
-              />
-            </label>
-            <label htmlFor="clientAccess">
-              Udostępnianie danych wynajmu najemcy:
-              <input
-                type="checkbox"
-                id="clientAccess"
-                name="clientAccess"
-                checked={rentDetails.clientAccess}
-                onChange={handleChange}
-              />
-            </label>
-            <label htmlFor="statePaymentValue">
-              Stała wartość czynszu:
-              <input
-                type="checkbox"
-                id="statePaymentValue"
-                name="statePaymentValue"
-                checked={rentDetails.statePaymentValue}
-                onChange={handleChange}
-              />
-            </label>
+            <div className="row">
+              <div className="col-25">
+                <label htmlFor="startDate">Od: </label>
+              </div>
+              <div className="col-75">
+                <input
+                  type="date"
+                  id="startDate"
+                  name="startDate"
+                  min={today}
+                  value={rentDetails.startDate}
+                  onChange={handleChange}
+                />
+                {errors.startDateError && (
+                  <span className="error-msg">
+                    {messages.startDate_incorrect}
+                  </span>
+                )}
+              </div>
+            </div>
 
-            <label htmlFor="rentValue">
-              Czynsz:
-              <input
-                type="number"
-                id="rentValue"
-                name="rentValue"
-                value={rentDetails.rentValue}
-                onChange={handleChange}
-                disabled={!rentDetails.statePaymentValue}
-              />
-              {errors.rentValueError && (
-                <span className="error-msg">
-                  {messages.rentValue_incorrect}
-                </span>
-              )}
-            </label>
-            <label htmlFor="paymentDay">
-              Płatne do:
-              <input
-                type="number"
-                id="paymentDay"
-                name="paymentDay"
-                value={rentDetails.paymentDay}
-                onChange={handleChange}
-              />
-              {errors.paymentDayError && (
-                <span className="error-msg">
-                  {messages.paymentDay_incorrect}
-                </span>
-              )}
-            </label>
+            <div className="row">
+              <div className="col-25">
+                <label htmlFor="endDate">Do: </label>
+              </div>
+              <div className="col-75">
+                <input
+                  type="date"
+                  id="endDate"
+                  name="endDate"
+                  min={today}
+                  value={rentDetails.endDate}
+                  onChange={handleChange}
+                />
+                {errors.endDateError && (
+                  <span className="error-msg">
+                    {messages.endDate_incorrect}
+                  </span>
+                )}
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="col-25">
+                <label htmlFor="premisesType">Rodzaj:</label>
+              </div>
+              <div className="col-75">
+                <select
+                  value={rentDetails.premisesType.type}
+                  id="premisesType"
+                  name="premisesType"
+                  onChange={handleChange}
+                >
+                  <option key="" value=""></option>
+                  {premisesTypes.types.map((option) => (
+                    <option key={option.value} value={option.label}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+                {errors.premisesTypeError && (
+                  <span className="error-msg">
+                    {messages.premisesType_incorrect}
+                  </span>
+                )}
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="col-25">
+                <label htmlFor="carNumber">carNumber: </label>
+              </div>
+              <div className="col-75">
+                <input
+                  type="text"
+                  id="carNumber"
+                  name="carNumber"
+                  value={rentDetails.carNumber}
+                  onChange={handleChange}
+                />
+                {errors.carNumberError && (
+                  <span className="error-msg">
+                    {messages.carNumber_incorrect}
+                  </span>
+                )}
+              </div>
+            </div>
+
+            <h1>Opłaty</h1>
+            <div className="row">
+              <div className="col-25">
+                <label htmlFor="bailValue">Kaucja:</label>
+              </div>
+              <div className="col-75">
+                <input
+                  type="number"
+                  id="bailValue"
+                  name="bailValue"
+                  value={rentDetails.bailValue}
+                  onChange={handleChange}
+                />
+                {errors.bailValueError && (
+                  <span className="error-msg">
+                    {messages.bailValue_incorrect}
+                  </span>
+                )}
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="col-25">
+                <label htmlFor="counterMediaRent">
+                  Udostępniania mediów najemcy:
+                </label>
+              </div>
+              <div className="col-75">
+                <input
+                  type="checkbox"
+                  id="counterMediaRent"
+                  name="counterMediaRent"
+                  checked={rentDetails.counterMediaRent}
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="col-25">
+                <label htmlFor="clientAccess">
+                  Udostępnianie danych wynajmu najemcy:
+                </label>
+              </div>
+              <div className="col-75">
+                <input
+                  type="checkbox"
+                  id="clientAccess"
+                  name="clientAccess"
+                  checked={rentDetails.clientAccess}
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="col-25">
+                <label htmlFor="statePaymentValue">
+                  Stała wartość czynszu:
+                </label>
+              </div>
+              <div className="col-75">
+                <input
+                  type="checkbox"
+                  id="statePaymentValue"
+                  name="statePaymentValue"
+                  checked={rentDetails.statePaymentValue}
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="col-25">
+                <label htmlFor="rentValue">Czynsz: </label>
+              </div>
+              <div className="col-75">
+                <input
+                  type="number"
+                  id="rentValue"
+                  name="rentValue"
+                  value={rentDetails.rentValue}
+                  onChange={handleChange}
+                  disabled={!rentDetails.statePaymentValue}
+                />
+                {errors.rentValueError && (
+                  <span className="error-msg">
+                    {messages.rentValue_incorrect}
+                  </span>
+                )}
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-25">
+                <label htmlFor="paymentDay">Płatne do:</label>
+              </div>
+              <div className="col-75">
+                <input
+                  type="number"
+                  id="paymentDay"
+                  name="paymentDay"
+                  value={rentDetails.paymentDay}
+                  onChange={handleChange}
+                />
+                {errors.paymentDayError && (
+                  <span className="error-msg">
+                    {messages.paymentDay_incorrect}
+                  </span>
+                )}
+              </div>
+            </div>
           </form>
           {!rentDetails.statePaymentValue && (
             <>
@@ -382,21 +437,23 @@ const RentForm = (props) => {
               </ul>
             </>
           )}
-          <button
-            onClick={handleSubmit}
-            data-name="back"
-            className="action-button"
-            style={{ marginRight: "15px", marginTop: "30px" }}
-          >
-            Powrót
-          </button>
-          <button
-            onClick={handleSubmit}
-            data-name="next"
-            className="action-button"
-          >
-            Dalej
-          </button>
+          <div className="form-buttons">
+            <button
+              onClick={handleSubmit}
+              data-name="back"
+              className="action-button"
+              style={{ marginRight: "15px", marginTop: "30px" }}
+            >
+              Powrót
+            </button>
+            <button
+              onClick={handleSubmit}
+              data-name="next"
+              className="action-button"
+            >
+              Dalej
+            </button>
+          </div>
         </div>
       </div>
     </>

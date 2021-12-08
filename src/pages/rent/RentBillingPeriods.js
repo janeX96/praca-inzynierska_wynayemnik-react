@@ -72,50 +72,63 @@ const RentBillingPeriods = (props) => {
   };
 
   return (
-    <div>
+    <div className="form-container">
       <form onSubmit={handleSubmit}>
-        <label>
-          Data rozpoczęcia:
-          <input
-            type="date"
-            id="startDate"
-            name="startDate"
-            onChange={handleChange}
-            value={billingPeriod.startDate}
-          />
-          {errors.startDateError && (
-            <span className="error-msg">{messages.startDate_incorrect}</span>
-          )}
-        </label>
+        <div className="row">
+          <div className="col-25">
+            <label>Data rozpoczęcia: </label>
+          </div>
+          <div className="col-75">
+            <input
+              type="date"
+              id="startDate"
+              name="startDate"
+              onChange={handleChange}
+              value={billingPeriod.startDate}
+            />
+            {errors.startDateError && (
+              <span className="error-msg">{messages.startDate_incorrect}</span>
+            )}
+          </div>
+        </div>
 
-        <label>
-          Data zakończenia:
-          <input
-            type="date"
-            id="endDate"
-            name="endDate"
-            onChange={handleChange}
-            value={billingPeriod.endDate}
-          />
-          {errors.endDateError && (
-            <span className="error-msg">{messages.endDate_incorrect}</span>
-          )}
-        </label>
-
-        <label>
-          Kwota:
-          <input
-            type="number"
-            id="value"
-            name="value"
-            onChange={handleChange}
-            value={billingPeriod.value}
-          />
-          {errors.valueError && (
-            <span className="error-msg">{messages.value_incorrect}</span>
-          )}
-        </label>
-        <button type="submit">Dodaj</button>
+        <div className="row">
+          <div className="col-25">
+            <label>Data zakończenia: </label>
+          </div>
+          <div className="col-75">
+            <input
+              type="date"
+              id="endDate"
+              name="endDate"
+              onChange={handleChange}
+              value={billingPeriod.endDate}
+            />
+            {errors.endDateError && (
+              <span className="error-msg">{messages.endDate_incorrect}</span>
+            )}
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-25">
+            <label>Kwota: </label>
+          </div>
+          <div className="col-75">
+            <input
+              type="number"
+              id="value"
+              name="value"
+              onChange={handleChange}
+              value={billingPeriod.value}
+            />
+            {errors.valueError && (
+              <span className="error-msg">{messages.value_incorrect}</span>
+            )}
+          </div>
+        </div>
+        <div className="form-buttons">
+          <button type="submit">Dodaj</button>
+        </div>
       </form>
     </div>
   );

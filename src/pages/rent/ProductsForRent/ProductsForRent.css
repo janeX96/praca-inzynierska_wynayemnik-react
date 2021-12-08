@@ -15,10 +15,12 @@
 
 .products-list {
   padding: 5px;
-  border-color: lightgrey;
-  border-style: solid;
+  background-color: #f2f2f295;
   margin-right: 100px;
   width: 300px;
+  border-radius: 5px;
+  background-color: #f2f2f295;
+  padding: 20px;
 }
 
 .products-list > ul > li:hover {
@@ -28,4 +30,12 @@
 
 .select-product-button {
   cursor: pointer;
+}
+
+@media screen and (max-width: 600px) {
+  .attach-products,
+  .products-list {
+    margin-top: 15px;
+    display: block;
+  }
 }

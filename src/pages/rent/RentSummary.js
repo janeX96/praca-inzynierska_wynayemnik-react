@@ -118,153 +118,197 @@ const RentSummary = ({
       {success ? (
         <Confirmation />
       ) : (
-        <>
+        <div className="form-container">
           <ul>
             <li>
-              <label>
-                Najemca
-                <input
-                  type="text"
-                  value={email + " - " + firstName + ", " + lastName}
-                  disabled
-                />
-              </label>
+              <div className="row">
+                <div className="col-25">
+                  <label>Najemca </label>
+                </div>
+                <div className="col-75">
+                  <input
+                    type="text"
+                    value={email + " - " + firstName + ", " + lastName}
+                    disabled
+                  />
+                </div>
+              </div>
             </li>
             <li>
-              <label>
-                <input
-                  type="text"
-                  disabled
-                  value={
-                    clientAccess
-                      ? "Klient ma dostęp do konta"
-                      : "Klient nie ma dostępu do konta"
-                  }
-                />
-              </label>
+              <div className="row">
+                <div className="col-25"></div>
+                <div className="col-75">
+                  <input
+                    type="text"
+                    disabled
+                    value={
+                      clientAccess
+                        ? "Klient ma dostęp do konta"
+                        : "Klient nie ma dostępu do konta"
+                    }
+                  />
+                </div>
+              </div>
             </li>
             <li>
-              <label>
-                <input
-                  type="text"
-                  disabled
-                  value={
-                    counterMediaRent
-                      ? "Klient ma wgląd do liczników"
-                      : "Klient nie ma wglądu do liczników"
-                  }
-                />
-              </label>
+              <div className="row">
+                <div className="col-25"></div>
+                <div className="col-75">
+                  {" "}
+                  <input
+                    type="text"
+                    disabled
+                    value={
+                      counterMediaRent
+                        ? "Klient ma wgląd do liczników"
+                        : "Klient nie ma wglądu do liczników"
+                    }
+                  />
+                </div>
+              </div>
             </li>
 
             <li>
-              <label>
-                Okres wynajmu:
-                <input
-                  type="text"
-                  disabled
-                  value={"od: " + startDate + " do: " + endDate}
-                />
-              </label>
+              <div className="row">
+                <div className="col-25">
+                  <label>Okres wynajmu: </label>
+                </div>
+                <div className="col-75">
+                  <input
+                    type="text"
+                    disabled
+                    value={"od: " + startDate + " do: " + endDate}
+                  />
+                </div>
+              </div>
             </li>
             <li>
-              <label>
-                Rodzaj wynajmu:
-                <input type="text" disabled value={premisesType.type} />
-              </label>
+              <div className="row">
+                <div className="col-25">
+                  <label>Rodzaj wynajmu: </label>
+                </div>
+                <div className="col-75">
+                  <input type="text" disabled value={premisesType.type} />
+                </div>
+              </div>
             </li>
             <li>
-              <label>
-                Kaucja:
-                <input type="text" disabled value={bailValue} />
-              </label>
+              <div className="row">
+                <div className="col-25">
+                  <label>Kaucja: </label>
+                </div>
+                <div className="col-75">
+                  <input type="text" disabled value={bailValue} />
+                </div>
+              </div>
             </li>
             <li>
-              <label>
-                Kwota czynszu:
-                {statePaymentValue ? (
-                  <input type="text" disabled value={rentValue} />
-                ) : (
-                  paymentValues.map((p) => {
-                    <input
-                      type="text"
-                      disabled
-                      value={
-                        "od: " +
-                        p.startDate +
-                        " do: " +
-                        p.endDate +
-                        ", kwota: " +
-                        p.value
-                      }
-                    />;
-                  })
-                )}
-              </label>
+              <div className="row">
+                <div className="col-25">
+                  <label>Kwota czynszu: </label>
+                </div>
+                <div className="col-75">
+                  {statePaymentValue ? (
+                    <input type="text" disabled value={rentValue} />
+                  ) : (
+                    paymentValues.map((p) => {
+                      <input
+                        type="text"
+                        disabled
+                        value={
+                          "od: " +
+                          p.startDate +
+                          " do: " +
+                          p.endDate +
+                          ", kwota: " +
+                          p.value
+                        }
+                      />;
+                    })
+                  )}
+                </div>
+              </div>
             </li>
             <li>
-              <label>
-                Dzień płatności:
-                <input type="text" disabled value={paymentDay} />
-              </label>
+              <div className="row">
+                <div className="col-25">
+                  <label>Dzień płatności: </label>
+                </div>
+                <div className="col-75">
+                  <input type="text" disabled value={paymentDay} />
+                </div>
+              </div>
             </li>
             {carNumber.length > 0 && (
               <li>
-                <label>
-                  Nr rejestracyjny pojazdu:
-                  <input type="text" disabled value={carNumber} />
-                </label>
+                <div className="row">
+                  <div className="col-25">
+                    <label>Nr rejestracyjny pojazdu: </label>
+                  </div>
+                  <div className="col-75">
+                    <input type="text" disabled value={carNumber} />
+                  </div>
+                </div>
               </li>
             )}
             <li>
-              <label>
-                Uwagi:
-                <input
-                  type="text"
-                  disabled
-                  value={description.length > 0 ? description : "brak"}
-                />
-              </label>
+              <div className="row">
+                <div className="col-25">
+                  <label>Uwagi: </label>
+                </div>
+                <div className="col-75">
+                  <input
+                    type="text"
+                    disabled
+                    value={description.length > 0 ? description : "brak"}
+                  />
+                </div>
+              </div>
             </li>
             <li>
-              <label>
-                Załączone produkty:
-                <ul>
-                  {products.map((product) => {
-                    return (
-                      <li>
-                        <input
-                          type="text"
-                          disabled
-                          value={
-                            product.productName +
-                            ", stan licznika: " +
-                            product.counter
-                          }
-                        />
-                      </li>
-                    );
-                  })}
-                </ul>
-              </label>
+              <div className="row">
+                <div className="col-25">
+                  <label>Załączone produkty: </label>
+                </div>
+                <div className="col-75">
+                  <ul>
+                    {products.map((product) => {
+                      return (
+                        <li>
+                          <input
+                            type="text"
+                            disabled
+                            value={
+                              product.productName +
+                              ", stan licznika: " +
+                              product.counter
+                            }
+                          />
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              </div>
             </li>
           </ul>
-          <button
-            onClick={handleConfirm}
-            data-name="back"
-            className="action-button"
-            style={{ marginRight: "15px", marginTop: "30px" }}
-          >
-            Powrót
-          </button>
-          <button
-            onClick={handleConfirm}
-            data-name="next"
-            className="action-button"
-          >
-            Zapisz
-          </button>
-        </>
+          <div className="form-buttons">
+            <button
+              onClick={handleConfirm}
+              data-name="back"
+              className="action-button"
+            >
+              Powrót
+            </button>
+            <button
+              onClick={handleConfirm}
+              data-name="next"
+              className="action-button"
+            >
+              Zapisz
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );

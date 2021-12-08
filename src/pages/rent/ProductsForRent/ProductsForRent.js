@@ -203,7 +203,11 @@ const ProductsForRent = (props) => {
           <ul>
             {selectedProducts.map((product) => (
               <li key={product.productId}>
-                {product.productName}
+                <div className="row">
+                  <div className="col-25"> {product.productName}</div>
+                  <div className="col-75"></div>
+                </div>
+
                 {product.productType === "MEDIA" &&
                 product.subtypeMedia === "STANDARD"
                   ? ", stan: " + product.counter
