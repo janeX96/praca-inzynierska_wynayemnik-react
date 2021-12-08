@@ -190,82 +190,116 @@ const LocationDetails = (props) => {
     <>
       <h1 className="content-title">Lokacja:</h1>
 
-      <form onSubmit="">
-        <button onClick={() => props.handleAction(-1)}>Powrót</button>
-        <div className="new-premises-details">
-          <label htmlFor="city">
-            Miasto:
-            <input
-              id="city"
-              type="text"
-              name="city"
-              value={location.address.city}
-              // onChange={handleChange}
-            />
-            {/* {errors.city && (
+      <div className="form-container">
+        <form onSubmit="">
+          <button onClick={() => props.handleAction(-1)}>Powrót</button>
+
+          <div className="row">
+            <div className="col-25"></div>
+            <div className="col-75"></div>
+          </div>
+
+          <div className="row">
+            <div className="col-25">
+              <label htmlFor="city">Miasto: </label>
+            </div>
+            <div className="col-75">
+              <input
+                id="city"
+                type="text"
+                name="city"
+                value={location.address.city}
+                // onChange={handleChange}
+              />
+              {/* {errors.city && (
                 <span className="error-msg">{messages.city_incorrect}</span>
               )} */}
-          </label>
-          <label htmlFor="postCode">
-            Kod pocztowy:
-            <input
-              id="postCode"
-              type="text"
-              name="postCode"
-              value={location.address.postCode}
-              // onChange={handleChange}
-            />
-            {/* {errors.postCode && (
+            </div>
+          </div>
+
+          <div className="row">
+            <div className="col-25">
+              {" "}
+              <label htmlFor="postCode">Kod pocztowy: </label>
+            </div>
+            <div className="col-75">
+              {" "}
+              <input
+                id="postCode"
+                type="text"
+                name="postCode"
+                value={location.address.postCode}
+                // onChange={handleChange}
+              />
+              {/* {errors.postCode && (
                 <span className="error-msg">{messages.postCode_incorrect}</span>
               )} */}
-          </label>
-          <label htmlFor="street">
-            Ulica:
-            <input
-              id="street"
-              type="text"
-              name="street"
-              value={location.address.street}
-              // onChange={handleChange}
-            />
-            {/* {errors.street && (
+            </div>
+          </div>
+
+          <div className="row">
+            <div className="col-25">
+              <label htmlFor="street">Ulica: </label>
+            </div>
+            <div className="col-75">
+              <input
+                id="street"
+                type="text"
+                name="street"
+                value={location.address.street}
+                // onChange={handleChange}
+              />
+              {/* {errors.street && (
                 <span className="error-msg">{messages.street_incorrect}</span>
               )} */}
-          </label>
-          <label htmlFor="streetNumber">
-            Nr:
-            <input
-              id="streetNumber"
-              type="text"
-              name="streetNumber"
-              value={location.address.streetNumber}
-              // onChange={handleChange}
-            />
-            {/* {errors.streetNumber && (
+            </div>
+          </div>
+
+          <div className="row">
+            <div className="col-25">
+              <label htmlFor="streetNumber">Nr: </label>
+            </div>
+            <div className="col-75">
+              <input
+                id="streetNumber"
+                type="text"
+                name="streetNumber"
+                value={location.address.streetNumber}
+                // onChange={handleChange}
+              />
+              {/* {errors.streetNumber && (
                 <span className="error-msg">
                   {messages.streetNumber_incorrect}
                 </span>
               )} */}
-          </label>
-          <label htmlFor="locationName">
-            Nazwa:
-            <input
-              id="locationName"
-              type="text"
-              name="locationName"
-              value={location.locationName}
-              // onChange={handleChange}
-              placeholder="(opcjonalnie)"
-            />
-            {/* {errors.locationName && (
+            </div>
+          </div>
+
+          <div className="row">
+            <div className="col-25">
+              <label htmlFor="locationName">Nazwa: </label>
+            </div>
+            <div className="col-75">
+              <input
+                id="locationName"
+                type="text"
+                name="locationName"
+                value={location.locationName}
+                // onChange={handleChange}
+                placeholder="(opcjonalnie)"
+              />
+              {/* {errors.locationName && (
                 <span className="error-msg">
                   {messages.locationName_incorrect}
                 </span>
               )} */}
-          </label>
-        </div>
-        <button type="submit">Zapisz</button>
-      </form>
+            </div>
+          </div>
+
+          <button type="submit">Zapisz</button>
+        </form>
+      </div>
+
       <h1>Produkty</h1>
       <div className="attach-products">
         <label htmlFor="productType">
