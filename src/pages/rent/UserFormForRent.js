@@ -207,98 +207,124 @@ const UserFormForRent = (props) => {
     <>
       <div>
         <h2>Dane użytkownika</h2>
-        <form onSubmit={handleSubmit}>
-          <label htmlFor="email">
-            Email najemcy:
-            <input
-              type="email"
-              id="email"
-              name="email"
-              onChange={handleChange}
-              value={userEmail}
-            />
-            {errors.emailError && (
-              <span className="error-msg">{messages.email_incorrect}</span>
-            )}
-          </label>
-          <button
-            type="submit"
-            className="action-button"
-            disabled={user.toCreate}
-          >
-            Dalej
-          </button>
-        </form>
-        {user.toCreate && (
-          <div>
-            <h1>Stwórz konto dla najemcy</h1>
-            <form onSubmit={handleCreateAccountSubmit}>
-              <label htmlFor="firstName">
-                Imię:
+        <div className="form-container">
+          <form onSubmit={handleSubmit}>
+            <div className="row">
+              <div className="col-25">
+                <label htmlFor="email">Email najemcy: </label>
+              </div>
+              <div className="col-75">
                 <input
-                  type="text"
-                  id="firstName"
-                  name="firstName"
+                  type="email"
+                  id="email"
+                  name="email"
                   onChange={handleChange}
-                  value={user.userAccount.firstName}
-                ></input>
-                {errors.firstNameError && (
-                  <span className="error-msg">
-                    {messages.firstName_incorrect}
-                  </span>
+                  value={userEmail}
+                />
+                {errors.emailError && (
+                  <span className="error-msg">{messages.email_incorrect}</span>
                 )}
-              </label>
+              </div>
+            </div>
 
-              <label htmlFor="lastName">
-                Nazwisko:
-                <input
-                  type="text"
-                  id="lastName"
-                  name="lastName"
-                  onChange={handleChange}
-                  value={user.userAccount.lastName}
-                ></input>
-                {errors.lastNameError && (
-                  <span className="error-msg">
-                    {messages.lastName_incorrect}
-                  </span>
-                )}
-              </label>
+            <button
+              type="submit"
+              className="action-button"
+              disabled={user.toCreate}
+            >
+              Dalej
+            </button>
+          </form>
+          {user.toCreate && (
+            <>
+              <h1>Stwórz konto dla najemcy</h1>
+              <form onSubmit={handleCreateAccountSubmit}>
+                <div className="row">
+                  <div className="col-25">
+                    <label htmlFor="firstName">Imię: </label>
+                  </div>
+                  <div className="col-75">
+                    <input
+                      type="text"
+                      id="firstName"
+                      name="firstName"
+                      onChange={handleChange}
+                      value={user.userAccount.firstName}
+                    ></input>
+                    {errors.firstNameError && (
+                      <span className="error-msg">
+                        {messages.firstName_incorrect}
+                      </span>
+                    )}
+                  </div>
+                </div>
 
-              <label htmlFor="phoneNumber">
-                Nr telefonu:
-                <input
-                  type="text"
-                  id="phoneNumber"
-                  name="phoneNumber"
-                  pattern="[0-9]{9}"
-                  placeholder="numer tel : 123456789"
-                  onChange={handleChange}
-                  value={user.userAccount.phoneNumber}
-                ></input>
-                {errors.phoneNumberError && (
-                  <span className="error-msg">
-                    {messages.phoneNumber_incorrect}
-                  </span>
-                )}
-              </label>
+                <div className="row">
+                  <div className="col-25">
+                    <label htmlFor="lastName">Nazwisko: </label>
+                  </div>
+                  <div className="col-75">
+                    <input
+                      type="text"
+                      id="lastName"
+                      name="lastName"
+                      onChange={handleChange}
+                      value={user.userAccount.lastName}
+                    ></input>
+                    {errors.lastNameError && (
+                      <span className="error-msg">
+                        {messages.lastName_incorrect}
+                      </span>
+                    )}
+                  </div>
+                </div>
 
-              <label htmlFor="sharing">
-                Udostępnianie konta najemcy:
-                <input
-                  type="checkbox"
-                  id="sharing"
-                  name="sharing"
-                  onChange={handleChange}
-                  checked={user.userAccount.sharing}
-                ></input>
-              </label>
-              <button type="submit" className="action-button">
-                Stwórz
-              </button>
-            </form>
-          </div>
-        )}
+                <div className="row">
+                  <div className="col-25">
+                    <label htmlFor="phoneNumber">Nr telefonu: </label>
+                  </div>
+                  <div className="col-75">
+                    <input
+                      type="text"
+                      id="phoneNumber"
+                      name="phoneNumber"
+                      pattern="[0-9]{9}"
+                      placeholder="numer tel : 123456789"
+                      onChange={handleChange}
+                      value={user.userAccount.phoneNumber}
+                    ></input>
+                    {errors.phoneNumberError && (
+                      <span className="error-msg">
+                        {messages.phoneNumber_incorrect}
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                <div className="row">
+                  <div className="col-25">
+                    <label htmlFor="sharing">
+                      Udostępnianie konta najemcy:{" "}
+                    </label>
+                  </div>
+                  <div className="col-75">
+                    <input
+                      type="checkbox"
+                      id="sharing"
+                      name="sharing"
+                      onChange={handleChange}
+                      checked={user.userAccount.sharing}
+                    ></input>
+                  </div>
+                </div>
+
+                <button type="submit" className="action-button">
+                  Stwórz
+                </button>
+              </form>
+            </>
+          )}
+        </div>
       </div>
     </>
   );

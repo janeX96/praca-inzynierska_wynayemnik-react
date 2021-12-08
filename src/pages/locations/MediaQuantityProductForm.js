@@ -84,138 +84,163 @@ const MediaQuantityProductForm = (props) => {
   const reactiveValidation = () => {};
 
   return (
-    <div className="new-premises-details">
+    <div className="form-container">
       <form onSubmit={handleSubmit}>
-        <label htmlFor="productName">
-          Nazwa:
-          <input
-            value={data.obj.productName}
-            id="productName"
-            type="text"
-            name="productName"
-            onChange={handleChange}
-          />
-        </label>
-        <label htmlFor="price">
-          Cena:
-          <input
-            value={data.obj.price}
-            id="price"
-            type="number"
-            min="1"
-            step="any"
-            name="price"
-            onChange={handleChange}
-          />
-        </label>
-        <label htmlFor="netto">
-          Netto:
-          <input
-            value={data.obj.netto}
-            id="netto"
-            type="checkbox"
-            name="netto"
-            onChange={handleChange}
-          />
-        </label>
-        <label htmlFor="vat">
-          Vat:
-          <input
-            value={data.obj.vat}
-            id="vat"
-            type="number"
-            min="1"
-            step="any"
-            name="vat"
-            onChange={handleChange}
-          />
-        </label>
-        <label htmlFor="quantity">
-          Ilość:
-          <input
-            value={data.obj.quantity}
-            id="quantity"
-            type="number"
-            name="quantity"
-            onChange={handleChange}
-          />
-        </label>
-        <label htmlFor="quantityUnit">
-          Jednostka miary:
-          <input
-            value={data.obj.quantityUnit}
-            id="quantityUnit"
-            type="text"
-            name="quantityUnit"
-            onChange={handleChange}
-          />
-        </label>
+        <div className="row">
+          <div className="col-25">
+            <label htmlFor="productName">Nazwa: </label>
+          </div>
+          <div className="col-75">
+            <input
+              value={data.obj.productName}
+              id="productName"
+              type="text"
+              name="productName"
+              onChange={handleChange}
+            />
+          </div>
+        </div>
 
-        <label htmlFor="forAttribute">
-          Wzór:
-          <input
-            value={pattern.attr1}
-            id="attr1"
-            type="text"
-            name="attr1"
-            style={{ width: "40px" }}
-            onChange={handleChange}
-          />
-          <input
-            value={pattern.arithm}
-            id="arithm"
-            type="text"
-            name="arithm"
-            style={{ width: "15px" }}
-            onChange={handleChange}
-          />
-          <input
-            value={pattern.attr2}
-            id="attr2"
-            type="text"
-            name="attr2"
-            style={{ width: "40px" }}
-            onChange={handleChange}
-          />
-        </label>
-        <label htmlFor="premisesType">
-          Domyślne dla rodzaju lokalu:
-          {/* <select
-            value={data.obj.premisesTypes}
-            id="premisesType"
-            name="premisesType"
-            onChange={handleChange}
-            multiple
-          >
-            <option key="" value=""></option>
-            {premisesTypes.map((option) => (
-              <option key={option.value} value={option.label}>
-                {option.label}
-              </option>
-            ))}
-          </select> */}
-          {
-            <ul>
-              {premisesTypes.map((option) => (
-                <li>
-                  {option.label}
-                  <input
-                    key={option.value}
-                    id={option.label}
-                    name="premisesType"
-                    type="checkbox"
-                    onChange={handleChange}
-                  />
-                </li>
-              ))}
-            </ul>
-          }
-          {/* {state.errors.premisesType && (
+        <div className="row">
+          <div className="col-25">
+            <label htmlFor="price">Cena: </label>
+          </div>
+          <div className="col-75">
+            <input
+              value={data.obj.price}
+              id="price"
+              type="number"
+              min="1"
+              step="any"
+              name="price"
+              onChange={handleChange}
+            />
+          </div>
+        </div>
+
+        <div className="row">
+          <div className="col-25">
+            <label htmlFor="netto">Netto: </label>
+          </div>
+          <div className="col-75">
+            <input
+              value={data.obj.netto}
+              id="netto"
+              type="checkbox"
+              name="netto"
+              onChange={handleChange}
+            />
+          </div>
+        </div>
+
+        <div className="row">
+          <div className="col-25">
+            <label htmlFor="vat">Vat: </label>
+          </div>
+          <div className="col-75">
+            <input
+              value={data.obj.vat}
+              id="vat"
+              type="number"
+              min="1"
+              step="any"
+              name="vat"
+              onChange={handleChange}
+            />
+          </div>
+        </div>
+
+        <div className="row">
+          <div className="col-25">
+            <label htmlFor="quantity">Ilość: </label>
+          </div>
+          <div className="col-75">
+            <input
+              value={data.obj.quantity}
+              id="quantity"
+              type="number"
+              name="quantity"
+              onChange={handleChange}
+            />
+          </div>
+        </div>
+
+        <div className="row">
+          <div className="col-25">
+            <label htmlFor="quantityUnit">Jednostka miary: </label>
+          </div>
+          <div className="col-75">
+            <input
+              value={data.obj.quantityUnit}
+              id="quantityUnit"
+              type="text"
+              name="quantityUnit"
+              onChange={handleChange}
+            />
+          </div>
+        </div>
+
+        <div className="row">
+          <div className="col-25">
+            <label htmlFor="forAttribute">Wzór: </label>
+          </div>
+          <div className="col-75">
+            <input
+              value={pattern.attr1}
+              id="attr1"
+              type="text"
+              name="attr1"
+              style={{ width: "40px" }}
+              onChange={handleChange}
+            />
+            <input
+              value={pattern.arithm}
+              id="arithm"
+              type="text"
+              name="arithm"
+              style={{ width: "15px" }}
+              onChange={handleChange}
+            />
+            <input
+              value={pattern.attr2}
+              id="attr2"
+              type="text"
+              name="attr2"
+              style={{ width: "40px" }}
+              onChange={handleChange}
+            />
+          </div>
+        </div>
+
+        <div className="row">
+          <div className="col-25">
+            <label htmlFor="premisesType">Domyślne dla rodzaju lokalu: </label>
+          </div>
+          <div className="col-75">
+            {
+              <ul>
+                {premisesTypes.map((option) => (
+                  <li>
+                    {option.label}
+                    <input
+                      key={option.value}
+                      id={option.label}
+                      name="premisesType"
+                      type="checkbox"
+                      onChange={handleChange}
+                    />
+                  </li>
+                ))}
+              </ul>
+            }
+            {/* {state.errors.premisesType && (
               <span className="error-msg">
                 {messages.premisesType_incorrect}
               </span>
             )} */}
-        </label>
+          </div>
+        </div>
+
         <button type="submit">Dodaj</button>
       </form>
     </div>
