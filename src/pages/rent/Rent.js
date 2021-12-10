@@ -153,6 +153,11 @@ const Rent = () => {
       <div className="content-container">
         <h1 className="content-title">Wynajem lokalu</h1>
         <Stepper
+          styleConfig={{
+            activeBgColor: "#48bd4c",
+            inactiveBgColor: "#727178",
+            completedBgColor: "#417843",
+          }}
           steps={[
             { label: "Najemca" },
             { label: "Wynajem" },
