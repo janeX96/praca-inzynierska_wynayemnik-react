@@ -125,7 +125,9 @@ button:hover {
   box-sizing: border-box;
 }
 
+input[type="date"],
 input[type="text"],
+input[type="email"],
 select,
 input[type="number"],
 input[type="checkbox"],
