@@ -22,8 +22,8 @@ const Rent = () => {
   const [rent, setRent] = useState({
     bailValue: 0,
     carNumber: "",
-    clientAccess: true,
-    counterMediaRent: true,
+    clientAccess: false,
+    counterMediaRent: false,
     description: "",
     email: "",
     endDate: "",
@@ -40,7 +40,7 @@ const Rent = () => {
       firstName: "",
       lastName: "",
       phoneNumber: "",
-      sharing: true,
+      sharing: false,
     },
   });
 
