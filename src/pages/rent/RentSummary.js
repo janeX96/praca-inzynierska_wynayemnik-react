@@ -59,11 +59,11 @@ const RentSummary = ({
       const res = await fetch(createURL, requestOptions)
         .then((response) => {
           if (response.ok) {
-            // console.log("UDAŁO SIE!!!");
+            console.log("UDAŁO SIE!!!");
             setSuccess(true);
             setSending(false);
           } else {
-            // console.log("NIE UDAŁO SIE... :(");
+            console.log("NIE UDAŁO SIE... :(");
             setSending(false);
             setSuccess(false);
           }
@@ -89,21 +89,19 @@ const RentSummary = ({
           counterMediaRent: counterMediaRent,
           description: description,
           email: email,
-          endDate: endDate + "T20:44:36.263", //tymczasowe (czy potrzebna godzina ? )
+          endDate: endDate,
           paymentDay: paymentDay,
           paymentValues: paymentValues,
           premisesType: { type: premisesType.type },
           premisesId: premisesId,
           productWithCounterList: productWithCounterList,
           rentValue: rentValue,
-          startDate: startDate + "T20:44:36.263", //tymczasowe
-          statePaymentValue: !statePaymentValue, //tymczasowe
+          startDate: startDate,
+          statePaymentValue: statePaymentValue,
         };
       } else {
         obj = rentObj;
-        obj.startDate = obj.startDate + "T20:44:36.263";
-        obj.endDate = obj.endDate + "T20:44:36.263";
-        obj.statePaymentValue = !obj.statePaymentValue;
+        obj.email = null;
       }
 
       console.log("Objekt do wysłania: ", obj);

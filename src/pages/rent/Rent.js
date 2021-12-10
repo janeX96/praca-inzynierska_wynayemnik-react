@@ -60,7 +60,7 @@ const Rent = () => {
   };
 
   const stepBack = (index) => {
-    setCompletedSteps({ [index]: true });
+    // setCompletedSteps({ [index]: true });
     setActiveStep(activeStep - 1);
   };
 
