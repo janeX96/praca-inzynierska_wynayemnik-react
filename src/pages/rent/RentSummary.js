@@ -27,6 +27,7 @@ const RentSummary = ({
   const [sending, setSending] = useState(false);
   const [createURL, setCreateURL] = useState();
   const [success, setSuccess] = useState(false);
+  const [error, setError] = useState("");
 
   const getResources = async () => {
     const response = await fetch("/resources.json");
@@ -60,10 +61,13 @@ const RentSummary = ({
         .then((response) => {
           if (response.ok) {
             console.log("UDAŁO SIE!!!");
+
             setSuccess(true);
             setSending(false);
           } else {
             console.log("NIE UDAŁO SIE... :(");
+
+            setError("Błąd: ", res.error); // potrzeba error msg od serwera
             setSending(false);
             setSuccess(false);
           }
@@ -71,8 +75,6 @@ const RentSummary = ({
         })
         .catch((err) => {
           console.log("Error: ", err);
-          setSending(false);
-          setSuccess(false);
         });
     }
   };
@@ -246,7 +248,13 @@ const RentSummary = ({
                 </ul>
               </label>
             </li>
+            {error && (
+              <span className="error-msg" style={{ fontSize: "25px" }}>
+                {error}
+              </span>
+            )}
           </ul>
+
           <button
             onClick={handleConfirm}
             data-name="back"
