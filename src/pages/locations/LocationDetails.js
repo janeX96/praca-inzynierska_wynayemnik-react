@@ -102,7 +102,7 @@ const LocationDetails = (props) => {
   };
 
   const getProducts = () => {
-    const url = urls.productURLPrefix + props.id + "/products?productType=";
+    const url = `${urls.productURLPrefix + props.id}/products?productType=`;
 
     console.log("url >>>:", url);
     fetch(url, {
@@ -178,7 +178,7 @@ const LocationDetails = (props) => {
         break;
 
       default:
-        break;
+        return null;
     }
   };
 
