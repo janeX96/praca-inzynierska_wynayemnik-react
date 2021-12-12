@@ -1,14 +1,13 @@
 body {
   margin: 0 !important;
-  font-family: Helvetica;
+  font-family: "Lato", sans-serif;
+  font-family: "Noto Sans Display", sans-serif;
   /* colors */
   --light-color: #727178;
   --dark-color: #363636;
   --text-color: #f2f2f2;
-
   --special-button-color: #4e47b5;
   --special-button-dark-color: #2d277a;
-
   --error-color: #941818;
 
   color: var(--dark-color);
