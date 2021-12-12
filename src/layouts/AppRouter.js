@@ -5,12 +5,16 @@ import "../styles/App.css";
 import Navbar from "./Navbar/Navbar";
 import Footer from "./Footer/Footer";
 import Home from "../pages/Home/Home";
-import Owner_Premises from "../pages/Owner_Premises";
+import Owner_Premises from "../pages/premises/Owner_Premises";
 import Login from "../components/Login/Login";
 import { PrivateRoute } from "../utilities/PrivateRoute";
-import Owner_NewPremises from "../pages/Owner_NewPremises";
+import Owner_NewPremises from "../pages/premises/Owner_NewPremises";
 import Registration from "../auth/Registration/Registration";
 import UserProfile from "../pages/UserProfile/UserProfile";
+import Owner_Locations from "../pages/locations/Owner_Locations";
+import NewLocation from "../pages/locations/NewLocation";
+import Rent from "../pages/rent/Rent";
+import roles from "../resources/roles";
 const AppRouter = () => {
   const { initialized } = useKeycloak();
   if (!initialized) {
@@ -30,14 +34,29 @@ const AppRouter = () => {
                 <Route path="/registration" component={Registration} />
                 <Route path="/user-profile" component={UserProfile} />
                 <PrivateRoute
-                  roles={["owner"]}
+                  roles={[roles.OWNER]}
                   path="/owner-premises"
                   component={Owner_Premises}
                 />
                 <PrivateRoute
-                  roles={["owner"]}
+                  roles={[roles.OWNER]}
                   path="/owner-premises-new"
                   component={Owner_NewPremises}
+                />
+                <PrivateRoute
+                  roles={[roles.OWNER]}
+                  path="/owner-locations"
+                  component={Owner_Locations}
+                />
+                <PrivateRoute
+                  roles={[roles.OWNER]}
+                  path="/owner-new-location"
+                  component={NewLocation}
+                />
+                <PrivateRoute
+                  roles={[roles.OWNER]}
+                  path="/owner-rent-new"
+                  component={Rent}
                 />
               </Switch>
             </section>

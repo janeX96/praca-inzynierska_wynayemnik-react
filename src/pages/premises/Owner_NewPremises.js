@@ -1,9 +1,12 @@
-import "../styles/App.css";
+import "../../styles/App.css";
 import { useState, useEffect } from "react";
-import keycloak from "../auth/keycloak";
+import keycloak from "../../auth/keycloak";
+import { Link } from "react-router-dom";
+import WaitIcon from "../../images/icons/wait-icon.png";
 
-const PremisesEdit = (props) => {
+const Owner_NewPremises = () => {
   const [state, setState] = useState({
+    isSending: false,
     newLocation: {
       city: "",
       postCode: "",
@@ -11,16 +14,15 @@ const PremisesEdit = (props) => {
       streetNumber: "",
       locationName: "",
     },
-    premisesId: props.premisesId,
-    premisesNumber: props.data.premisesNumber,
-    area: props.data.area,
-    premisesLevel: props.data.premisesLevel,
+    premisesNumber: "",
+    area: "",
+    premisesLevel: "",
     premisesType: {
-      type: props.data.premisesType.type,
+      type: "",
     },
-    furnished: props.data.furnished,
-    choosenLocation: props.data.location.locationName,
-    locationId: props.data.location.locationName,
+    furnished: false,
+    choosenLocation: "",
+    locationId: "",
     locations: [],
     premisesTypes: [],
     errors: {
@@ -35,25 +37,25 @@ const PremisesEdit = (props) => {
       streetNumber: false,
       locationName: false,
     },
-    putURL: "",
+    lastAdded: -1,
+    postURL: "",
     changed: "",
+    submitMessage: "",
   });
-
-  // const [changed, setChanged] = useState("");
 
   const getResources = async () => {
     const response = await fetch("/resources.json");
     const resources = await response.json();
-
     return resources;
   };
 
   const getData = () => {
+    let postURL = "";
+    let locations = [];
+    let types = [];
     getResources().then((res) => {
       //pobranie danych z wyciągniętego adresu url
-      let putURL = res.urls.owner.premisesUpdate;
-      let locations = [];
-      let types = [];
+      postURL = res.urls.owner.newPremises;
       fetch(res.urls.owner.locations, {
         headers: { Authorization: " Bearer " + keycloak.token },
       })
@@ -61,13 +63,12 @@ const PremisesEdit = (props) => {
           return response.json();
         })
         .then((data) => {
-          const options = data.map((location) => {
+          locations = data.map((location) => {
             return {
               value: location.locationId,
               label: location.locationName,
             };
           });
-          locations = options;
         })
         .then(() => {
           //pobranie dostępnych typów lokali
@@ -78,24 +79,24 @@ const PremisesEdit = (props) => {
               return response.json();
             })
             .then((data) => {
-              const options = data.map((type) => {
+              types = data.map((type) => {
                 return {
                   value: type.premisesTypeId,
                   label: type.type,
                 };
               });
-              types = options;
               setState({
                 ...state,
-                premisesTypes: types,
+                postURL: postURL,
                 locations: locations,
-                putURL: putURL,
+                premisesTypes: types,
               });
             });
         })
         .catch((err) => {
           console.log("Error Reading data " + err);
         });
+      return res;
     });
   };
 
@@ -105,10 +106,18 @@ const PremisesEdit = (props) => {
 
   useEffect(() => {
     if (state.changed.length > 0) {
-      setState({ ...state, changed: "" });
       reactiveValidation();
     }
-  }, [state.changed]);
+
+    if (state.submitMessage !== "") {
+      setTimeout(() => {
+        setState({
+          ...state,
+          submitMessage: "",
+        });
+      }, 3000);
+    }
+  }, [state.changed, state.submitMessage]);
 
   const messages = {
     number_incorrect: "Numer lokalu ma nieprawidłową formę",
@@ -157,7 +166,7 @@ const PremisesEdit = (props) => {
         setState({
           ...state,
           newLocation: {
-            ...this.state.newLocation,
+            ...state.newLocation,
             [name]: value,
           },
         });
@@ -187,8 +196,8 @@ const PremisesEdit = (props) => {
     if (state.newLocation.city.length >= 3) {
       city = true;
     }
-    //tutaj regex
-    if (state.newLocation.postCode.length > 3) {
+
+    if (/^[0-9]{2}-[0-9]{3}$/.test(state.newLocation.postCode)) {
       postCode = true;
     }
     if (state.newLocation.street.length > 3) {
@@ -300,7 +309,7 @@ const PremisesEdit = (props) => {
         validationErrorSetter("city", city.length > 0 && city.length <= 30);
         break;
       case "postCode":
-        validationErrorSetter("postCode", /[0-9]{2}-[0-9]{3}/.test(postCode));
+        validationErrorSetter("postCode", /^[0-9]{2}-[0-9]{3}$/.test(postCode));
         break;
       case "street":
         validationErrorSetter(
@@ -346,90 +355,96 @@ const PremisesEdit = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!state.isSending) {
+      setState({ ...state, isSending: true });
+      const validation = formValidation();
 
-    const validation = formValidation();
+      if (validation.correct) {
+        sendPost()
+          .then((res) => {
+            const message =
+              res > 0
+                ? "Lokal został dodany"
+                : "Wystąpił problem przy dodawaniu lokalu...";
 
-    if (validation.correct) {
-      sendPut().then((res) => {
-        //na podstawie odpowiedzi od serwera określam komunikat (nie)powodzenia
+            setState({
+              ...state,
+              submitMessage: message,
+              lastAdded: -1,
+              newLocation: {
+                city: "",
+                postCode: "",
+                street: "",
+                streetNumber: "",
+                locationName: "",
+              },
+              premisesNumber: "",
+              area: "",
+              premisesLevel: "",
+              state: "",
+              premisesType: {
+                type: "",
+              },
+              locationId: "",
+              furnished: false,
 
-        const message = res
-          ? "Zmiany zostały zapisane"
-          : "Nie udało się zapisać zmian...";
-
-        setState({
-          ...state,
-          newLocation: {
-            city: "",
-            postCode: "",
-            street: "",
-            streetNumber: "",
-            locationName: "",
-          },
-          premisesNumber: "",
-          area: "",
-          premisesLevel: "",
-          state: "",
-          premisesType: {
-            type: "",
-          },
-          locationId: "",
-          furnished: false,
-
-          errors: {
-            number: false,
-            area: false,
-            premisesLevel: false,
-            location: false,
-            premisesType: false,
-            city: false,
-            postCode: false,
-            street: false,
-            streetNumber: false,
-            locationName: false,
-          },
-        });
-        // console.log("wustawim odpowiedz na : ", message);
-        props.edited(message);
-      });
-    } else {
-      if (state.choosenLocation.length === 0) {
-        setState({
-          ...state,
-          errors: {
-            number: !validation.number,
-            area: !validation.area,
-            premisesLevel: !validation.premisesLevel,
-            premisesType: !validation.premisesType,
-            city: !validation.city,
-            postCode: !validation.postCode,
-            street: !validation.street,
-            streetNumber: !validation.streetNumber,
-            locationName: !validation.locationName,
-          },
-        });
+              errors: {
+                number: false,
+                area: false,
+                premisesLevel: false,
+                location: false,
+                premisesType: false,
+                city: false,
+                postCode: false,
+                street: false,
+                streetNumber: false,
+                locationName: false,
+              },
+            });
+          })
+          .catch((err) => {
+            setState({ ...state, isSending: false });
+          });
       } else {
-        setState({
-          ...state,
-          errors: {
-            number: !validation.number,
-            area: !validation.area,
-            premisesLevel: !validation.premisesLevel,
-            location: !validation.location,
-            premisesType: !validation.premisesType,
-          },
-        });
+        if (state.choosenLocation.length === 0) {
+          setState({
+            ...state,
+            isSending: false,
+            errors: {
+              number: !validation.number,
+              area: !validation.area,
+              premisesLevel: !validation.premisesLevel,
+              premisesType: !validation.premisesType,
+              city: !validation.city,
+              postCode: !validation.postCode,
+              street: !validation.street,
+              streetNumber: !validation.streetNumber,
+              locationName: !validation.locationName,
+            },
+          });
+        } else {
+          setState({
+            ...state,
+            isSending: false,
+            errors: {
+              number: !validation.number,
+              area: !validation.area,
+              premisesLevel: !validation.premisesLevel,
+              location: !validation.location,
+              premisesType: !validation.premisesType,
+            },
+          });
+        }
       }
     }
   };
 
-  const sendPut = async () => {
+  const sendPost = async () => {
     let newPremises = {};
-    const isFurnished = state.furnished === "tak" ? true : false;
     if (state.choosenLocation.length > 0) {
       newPremises = {
         area: state.area,
-        furnished: isFurnished,
+        furnished: state.furnished,
         location: {
           address: null,
           locationName: state.choosenLocation,
@@ -443,7 +458,7 @@ const PremisesEdit = (props) => {
     } else {
       newPremises = {
         area: state.area,
-        furnished: isFurnished,
+        furnished: state.furnished,
         location: {
           address: {
             city: state.newLocation.city,
@@ -463,34 +478,35 @@ const PremisesEdit = (props) => {
 
     let json = JSON.stringify(newPremises);
     const requestOptions = {
-      method: "PUT",
+      method: "POST",
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json", //"application/json",
+        "Content-Type": "application/json",
         Authorization: " Bearer " + keycloak.token,
       },
       body: json,
     };
 
-    let ok = false;
-    const res = await fetch(
-      state.putURL + `${state.premisesId}`,
-      requestOptions
-    )
+    const res = await fetch(state.postURL, requestOptions)
+      .then((response) => {
+        return response.json();
+      })
       .then((data) => {
-        if (data.ok) {
-          ok = true;
-        }
+        setState({ ...state, lastAdded: data.premisesId });
+
         return data;
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log("nie udane wysłanie żądania: ", err);
+        setState({ ...state, isSending: false });
+      });
 
-    return ok;
+    return res;
   };
 
   return (
     <div className="content-container">
-      <h1 className="content-title">Edycja lokalu</h1>
+      <h1 className="content-title">Nowy lokal</h1>
       <form onSubmit={handleSubmit}>
         <div className="location-choose">
           <label style={{ fontWeight: "bold" }} htmlFor="choosenLocation">
@@ -501,9 +517,11 @@ const PremisesEdit = (props) => {
               id="choosenLocation"
               onChange={handleChange}
             >
-              <option value=""></option>
+              <option key="" value=""></option>
               {state.locations.map((option) => (
-                <option value={option.value}>{option.label}</option>
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
               ))}
             </select>
             {state.errors.location && (
@@ -586,82 +604,94 @@ const PremisesEdit = (props) => {
             )}
           </label>
         </div>
-
-        <label htmlFor="premisesNumber">
-          Numer lokalu:
-          <input
-            id="premisesNumber"
-            type="text"
-            name="premisesNumber"
-            value={state.premisesNumber}
-            onChange={handleChange}
-          />
-          {state.errors.number && (
-            <span className="error-msg">{messages.number_incorrect}</span>
+        <div className="new-premises-details">
+          <label htmlFor="premisesNumber">
+            Numer lokalu:
+            <input
+              id="premisesNumber"
+              type="text"
+              name="premisesNumber"
+              value={state.premisesNumber}
+              onChange={handleChange}
+            />
+            {state.errors.number && (
+              <span className="error-msg">{messages.number_incorrect}</span>
+            )}
+          </label>
+          <label htmlFor="area">
+            Powierzchnia lokalu:
+            <input
+              id="area"
+              type="number"
+              name="area"
+              value={state.area}
+              onChange={handleChange}
+            />
+            {state.errors.area && (
+              <span className="error-msg">{messages.area_incorrect}</span>
+            )}
+          </label>
+          <label htmlFor="premisesLevel">
+            Poziom:
+            <input
+              id="premisesLevel"
+              type="text"
+              name="premisesLevel"
+              value={state.premisesLevel}
+              onChange={handleChange}
+            />
+            {state.errors.premisesLevel && (
+              <span className="error-msg">
+                {messages.premisesLevel_incorrect}
+              </span>
+            )}
+          </label>
+          <label htmlFor="premisesType">
+            Rodzaj:
+            <select
+              value={state.premisesType.type}
+              id="premisesType"
+              name="premisesType"
+              onChange={handleChange}
+            >
+              <option key="" value=""></option>
+              {state.premisesTypes.map((option) => (
+                <option key={option.value} value={option.label}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+            {state.errors.premisesType && (
+              <span className="error-msg">
+                {messages.premisesType_incorrect}
+              </span>
+            )}
+          </label>
+          <label htmlFor="furnished">
+            Umeblowany:
+            <input
+              onChange={handleChange}
+              type="checkbox"
+              id="furnished"
+              name="furnished"
+              checked={state.furnished}
+            />
+          </label>
+          <Link to="owner-premises">
+            <button>Powrót</button>
+          </Link>
+          {state.isSending ? (
+            <img src={WaitIcon} alt="..." />
+          ) : (
+            <button type="submit">Zapisz</button>
           )}
-        </label>
-        <label htmlFor="area">
-          Powierzchnia lokalu:
-          <input
-            id="area"
-            type="number"
-            name="area"
-            value={state.area}
-            onChange={handleChange}
-          />
-          {state.errors.area && (
-            <span className="error-msg">{messages.area_incorrect}</span>
-          )}
-        </label>
-        <label htmlFor="premisesLevel">
-          Poziom:
-          <input
-            id="premisesLevel"
-            type="text"
-            name="premisesLevel"
-            value={state.premisesLevel}
-            onChange={handleChange}
-          />
-          {state.errors.premisesLevel && (
-            <span className="error-msg">
-              {messages.premisesLevel_incorrect}
-            </span>
-          )}
-        </label>
-        <label htmlFor="premisesType">
-          Rodzaj:
-          <select
-            value={state.premisesType.type}
-            id="premisesType"
-            name="premisesType"
-            onChange={handleChange}
-          >
-            <option value=""></option>
-            {state.premisesTypes.map((option) => (
-              <option value={option.label}>{option.label}</option>
-            ))}
-          </select>
-          {state.errors.premisesType && (
-            <span className="error-msg">{messages.premisesType_incorrect}</span>
-          )}
-        </label>
-        <label htmlFor="furnished">
-          Umeblowany:
-          <input
-            onChange={handleChange}
-            type="checkbox"
-            id="furnished"
-            name="furnished"
-            checked={state.furnished}
-          />
-        </label>
-
-        <button onClick={props.return}>Powrót</button>
-
-        <button type="submit">Zapisz</button>
+        </div>
       </form>
+      {state.submitMessage && (
+        <h3 className="submit-message">{state.submitMessage}</h3>
+      )}
     </div>
   );
 };
 
-export default PremisesEdit;
+export default Owner_NewPremises;

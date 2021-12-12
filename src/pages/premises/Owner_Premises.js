@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import LoadData from "./LoadData";
-import keycloak from "../auth/keycloak";
-import "../styles/App.css";
+import LoadData from "../LoadData";
+import keycloak from "../../auth/keycloak";
+import "../../styles/App.css";
 import PremisesDetails from "./PremisesDetails/PremisesDetails";
 import { Link } from "react-router-dom";
 
@@ -60,7 +60,7 @@ const Owner_Premises = () => {
   };
 
   const findDataById = (id) => {
-    console.log("Odczyt: ", state.data);
+    // console.log("Odczyt: ", state.data);
     const res = state.data.find((premises) => {
       return premises.premisesId === id;
     });
@@ -89,7 +89,6 @@ const Owner_Premises = () => {
     setState({
       ...state,
       deletedMessage: msg,
-      // toReload: true,
     });
 
     setTimeout(() => {
@@ -99,6 +98,51 @@ const Owner_Premises = () => {
       });
     }, 3000);
   };
+
+  const columns = [
+    {
+      Header: "Id",
+      accessor: "premisesId",
+    },
+    {
+      Header: "Adres",
+      accessor: "location.locationName",
+    },
+    {
+      Header: "Numer",
+      accessor: "premisesNumber",
+    },
+    {
+      Header: "m2",
+      accessor: "area",
+    },
+    {
+      Header: "Poziom",
+      accessor: "premisesLevel",
+    },
+    {
+      Header: "Stan",
+      accessor: "state",
+    },
+    {
+      Header: "Rodzaj",
+      accessor: "premisesType.type",
+    },
+    {
+      Header: "Akcja",
+      accessor: "action",
+      Cell: ({ cell }) => (
+        <button
+          className="action-button"
+          value={cell.row.values.actions}
+          onClick={() => handleAction(cell.row.values.premisesId)}
+        >
+          Szczegóły
+        </button>
+      ),
+    },
+  ];
+  const initialState = { pageSize: 5, hiddenColumns: "premisesId" };
 
   return (
     <div className="content-container">
@@ -120,7 +164,11 @@ const Owner_Premises = () => {
             </Link>
           </div>
           {state.data.length > 0 ? (
-            <LoadData data={state.data} action={handleAction} />
+            <LoadData
+              data={state.data}
+              columns={columns}
+              initialState={initialState}
+            />
           ) : (
             "brak"
           )}

@@ -1,7 +1,7 @@
 .content-container {
   background: url("../images/wynayemnik img1 transparent.jpg") center
     center/cover no-repeat;
-  height: 100vh;
+  height: 1000px;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -104,7 +104,7 @@ select {
 
 .error-msg {
   margin-left: 10px;
-  color: red;
+  color: #751c28;
 }
 
 .location-choose {

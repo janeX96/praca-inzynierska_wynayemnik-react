@@ -6,7 +6,20 @@
       "newPremises": "http://localhost:8080/owner/new-premises",
       "premisesTypes": "http://localhost:8080/premisesType/all",
       "premisesUpdate": "http://localhost:8080/owner/premises/",
-      "premisesDelete": "http://localhost:8080/owner/premises/"
+      "premisesDelete": "http://localhost:8080/owner/premises/",
+      "newLocation": "http://localhost:8080/owner/location/new",
+      "locationDetails": "http://localhost:8080/owner/location/",
+      "products": {
+        "prefix": "http://localhost:8080/owner/location/",
+        "addCalculated": "/product/calculated/add",
+        "addDisposable": "/product/disposable/add",
+        "addMiediaQuantity": "/product/miedia-quantity/add",
+        "addMediaStandard": "/product/media-standard/add",
+        "addState": "/product/state/add"
+      },
+      "rent": {
+        "new": "http://localhost:8080/owner/new-rent"
+      }
     },
     "user": "http://localhost:8080/user/",
     "register": "http://localhost:8080/auth/register"

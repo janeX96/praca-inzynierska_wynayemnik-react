@@ -9,7 +9,7 @@ import Dropdown, {
 import AuthorizedFunction from "../../auth/AuthorizedFunction";
 import UserIcon from "../../images/icons/icon_user1.png";
 import keycloak from "../../auth/keycloak";
-import dropdown from "react-simple-dropdown";
+import roles from "../../resources/roles";
 
 function Navbar() {
   const [click, setClick] = useState(false);
@@ -54,7 +54,7 @@ function Navbar() {
                 Strona główna
               </Link>
             </li>
-            {role === "Owner" ? (
+            {role === roles.OWNER ? (
               <>
                 <li className="nav-item">
                   <Link
@@ -63,6 +63,15 @@ function Navbar() {
                     onClick={closeMobileMenu}
                   >
                     Moje lokale
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link
+                    to="/owner-locations"
+                    className="nav-links"
+                    onClick={closeMobileMenu}
+                  >
+                    Moje Lokacje
                   </Link>
                 </li>
                 <li className="nav-item">
@@ -76,7 +85,7 @@ function Navbar() {
                   </Link>
                 </li>
               </>
-            ) : role === "Admin" ? (
+            ) : role === roles.ADMIN ? (
               <>
                 <li className="nav-item">
                   <Link to="/" className="nav-links" onClick={closeMobileMenu}>
@@ -89,7 +98,7 @@ function Navbar() {
                   </Link>
                 </li>
               </>
-            ) : role === "Client" ? (
+            ) : role === roles.CLIENT ? (
               <li className="nav-item">
                 <Link to="/" className="nav-links" onClick={closeMobileMenu}>
                   Moje wynajęcia
@@ -119,12 +128,12 @@ function Navbar() {
                       <p>Profil</p>
                     </Link>
                   </li>
-                  {AuthorizedFunction(["owner"]) && (
+                  {AuthorizedFunction([roles.OWNER]) && (
                     <li>
                       <Link to="/owner-premises">
                         <p
                           onClick={() => {
-                            changeRole("Owner");
+                            changeRole(roles.OWNER);
                             dropdown.hide();
                           }}
                         >
@@ -133,12 +142,12 @@ function Navbar() {
                       </Link>
                     </li>
                   )}
-                  {AuthorizedFunction(["administrator"]) && (
+                  {AuthorizedFunction([roles.ADMIN]) && (
                     <li>
                       <Link to="/">
                         <p
                           onClick={() => {
-                            changeRole("Admin");
+                            changeRole(roles.ADMIN);
                             dropdown.hide();
                           }}
                         >
@@ -151,7 +160,7 @@ function Navbar() {
                     <Link to="/">
                       <p
                         onClick={() => {
-                          changeRole("Client");
+                          changeRole(roles.CLIENT);
                           dropdown.hide();
                         }}
                       >
