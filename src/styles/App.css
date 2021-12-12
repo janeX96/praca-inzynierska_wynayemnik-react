@@ -16,7 +16,8 @@ body {
 .content-container {
   background: url("../images/wynayemnik img1 transparent.jpg") center
     center/cover no-repeat;
-  height: 1500px;
+  height: 100%;
+  padding-bottom: 150px;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -36,11 +37,9 @@ body {
 }
 
 .content-container > div {
-  /* margin-left: 150px; */
   margin-top: 30px;
   margin-left: auto;
   margin-right: auto;
-
   width: 70%;
 }
 
@@ -121,9 +120,9 @@ button:hover {
 }
 
 /* ====== */
-* {
+/* * {
   box-sizing: border-box;
-}
+} */
 
 input[type="date"],
 input[type="text"],
