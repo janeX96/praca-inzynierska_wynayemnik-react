@@ -3,7 +3,7 @@ body {
   font-family: "Lato", sans-serif;
   font-family: "Noto Sans Display", sans-serif;
   /* colors */
-  --light-color: #727178;
+  --light-color: hsl(249, 3%, 46%);
   --dark-color: #363636;
   --text-color: #f2f2f2;
   --special-button-color: #4e47b5;
@@ -43,6 +43,10 @@ body {
   width: 70%;
 }
 
+.content-container > .table-container {
+  margin-top: 0px;
+}
+
 .content-container > p {
   margin-top: 8px;
   font-size: 32px;
@@ -54,6 +58,8 @@ button {
   background-color: var(--light-color);
   font-size: large;
   color: var(--text-color);
+  border-radius: 0.4vw;
+  padding: 5px 15px 5px 15px;
 }
 
 button:hover {
@@ -85,6 +91,16 @@ button:hover {
   font-size: large;
 }
 
+/* detials section */
+.details-container {
+  font-size: 24px;
+}
+
+.details-container > ul {
+  list-style-type: none;
+  color: var(--dark-color);
+}
+
 .details-buttons {
   margin-left: 50px;
   margin-bottom: 20px;
@@ -98,6 +114,10 @@ button:hover {
   margin-right: 10px;
   background-color: var(--light-color);
   font-size: large;
+  float: left;
+}
+.details-buttons .icon-container {
+  float: left;
 }
 
 .details-buttons button:hover {
@@ -110,6 +130,7 @@ button:hover {
 
 /* forms */
 
+.details-container,
 .form-container {
   border-radius: 5px;
   background-color: #f2f2f295;

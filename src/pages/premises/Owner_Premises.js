@@ -4,6 +4,8 @@ import keycloak from "../../auth/keycloak";
 import "../../styles/App.css";
 import PremisesDetails from "./PremisesDetails/PremisesDetails";
 import { Link } from "react-router-dom";
+import { BsPlusSquareFill } from "react-icons/bs";
+import Icons from "../../styles/Icons.css";
 
 const Owner_Premises = () => {
   const [state, setState] = useState({
@@ -158,11 +160,13 @@ const Owner_Premises = () => {
       ) : (
         <>
           <h1 className="content-title">Moje lokale</h1>
-          <div>
+
+          <div className="icon-container">
             <Link to="/owner-premises-new">
-              <button className="add-button">Dodaj nowy</button>
+              <BsPlusSquareFill className="new" />
             </Link>
           </div>
+
           {state.data.length > 0 ? (
             <LoadData
               data={state.data}

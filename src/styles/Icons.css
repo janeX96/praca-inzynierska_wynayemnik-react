@@ -1,0 +1,26 @@
+.icon-container {
+  font-size: 35px;
+  --light-color: #727178;
+  --error-color: #941818;
+  --accept-color: #2e7526;
+  --edit-color: #324aa8;
+  height: 40;
+  width: 40;
+}
+
+.edit,
+.delete,
+.new {
+  color: var(--light-color);
+}
+.new:hover {
+  color: var(--accept-color);
+}
+
+.delete:hover {
+  color: var(--error-color);
+}
+
+.edit:hover {
+  color: var(--edit-color);
+}

@@ -10,7 +10,7 @@ const LoadData = (props) => {
   const fetchedData = React.useMemo(() => data, []);
 
   return (
-    <div>
+    <>
       {data && (
         <Table
           columns={columns}
@@ -18,7 +18,7 @@ const LoadData = (props) => {
           initialState={props.initialState}
         />
       )}
-    </div>
+    </>
   );
 };
 

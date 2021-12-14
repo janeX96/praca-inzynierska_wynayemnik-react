@@ -23,7 +23,7 @@ function Table({ columns, data, initialState }) {
   );
 
   return (
-    <div>
+    <div className="table-container">
       <table {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup) => (

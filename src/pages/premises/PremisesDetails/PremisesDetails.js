@@ -1,9 +1,12 @@
 import React, { useState } from "react";
-import "./PremisesDetails.css";
+// import "./PremisesDetails.css";
 import "../../../styles/App.css";
 import PremisesEdit from "../PremisesEdit";
 import keycloak from "../../../auth/keycloak";
 import { Link } from "react-router-dom";
+import { BsTrashFill } from "react-icons/bs";
+import { AiFillEdit } from "react-icons/ai";
+import Icons from "../../../styles/Icons.css";
 
 const PremisesDetails = ({
   premisesId,
@@ -95,18 +98,34 @@ const PremisesDetails = ({
           </button>
         </div>
       ) : (
-        <div>
+        <>
           <h1 className="content-title">Szczegóły lokalu</h1>
-          <div className="premises-details">
+          <div className="details-container">
             <ul>
-              <li>Adres lokalu: {location.locationName}</li>
-              <li>Numer lokalu: {premisesNumber}</li>
-              <li>Powierzchnia (m2): {area}</li>
-              <li>Rodzaj lokalu: {premisesType.type}</li>
-              <li>Umeblowanie: {furnished}</li>
-              <li>Poziom: {premisesLevel}</li>
-              <li>Dodano: {createdDate}</li>
-              <li>Status: {state}</li>
+              <li>
+                Adres lokalu: <b>{location.locationName}</b>
+              </li>
+              <li>
+                Numer lokalu: <b>{premisesNumber}</b>
+              </li>
+              <li>
+                Powierzchnia (m2): <b>{area}</b>
+              </li>
+              <li>
+                Rodzaj lokalu: <b>{premisesType.type}</b>
+              </li>
+              <li>
+                Umeblowanie: <b>{furnished}</b>
+              </li>
+              <li>
+                Poziom: <b>{premisesLevel}</b>
+              </li>
+              <li>
+                Dodano: <b>{createdDate}</b>
+              </li>
+              <li>
+                Status: <b>{state}</b>
+              </li>
             </ul>
             <div className="details-buttons">
               <button className="return-button" onClick={() => action(-1)}>
@@ -128,12 +147,17 @@ const PremisesDetails = ({
               >
                 <button>Wynajmij</button>
               </Link>
-              <button onClick={() => setEdit(true)}>Edytuj</button>
-              <button onClick={handleDelete}>Usuń</button>
+
+              <div className="icon-container">
+                <AiFillEdit className="edit" onClick={() => setEdit(true)} />
+              </div>
+              <div className="icon-container">
+                <BsTrashFill className="delete" onClick={handleDelete} />
+              </div>
             </div>
           </div>
           {submitMessage && <h1 className="submit-message">{submitMessage}</h1>}
-        </div>
+        </>
       )}
     </>
   );
