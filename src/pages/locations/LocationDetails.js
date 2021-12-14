@@ -148,32 +148,35 @@ const LocationDetails = (props) => {
   ];
 
   const addProduct = async (product) => {
-    setProductType("wybierz rodzaj");
+    if (!sending) {
+      setSending(true);
+      const url =
+        urls.productURLPrefix + props.id + "/product/" + product.type + "/add";
 
-    const url =
-      urls.productURLPrefix + props.id + "/product/" + product.type + "/add";
+      let json = JSON.stringify(product.obj);
+      const requestOptions = {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: " Bearer " + keycloak.token,
+        },
+        body: json,
+      };
+      const res = await fetch(url, requestOptions)
+        .then((response) => {
+          if (response.ok) {
+            setProductType("wybierz rodzaj");
+            setSending(false);
+          }
+          return response.json();
+        })
 
-    let json = JSON.stringify(product.obj);
-    const requestOptions = {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: " Bearer " + keycloak.token,
-      },
-      body: json,
-    };
-    const res = await fetch(url, requestOptions)
-      .then((response) => {
-        if (response.ok) {
-          alert("ok");
-        }
-        return response.json();
-      })
-
-      .catch((err) => {
-        console.log("nie udane wysłanie żądania: ", err);
-      });
+        .catch((err) => {
+          console.log("nie udane wysłanie żądania: ", err);
+          setSending(false);
+        });
+    }
   };
 
   const productFormRender = (type) => {
