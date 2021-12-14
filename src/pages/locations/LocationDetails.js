@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react";
 import keycloak from "../../auth/keycloak";
+import CalculatedProductForm from "./product_forms/CalculatedProductForm";
+import DisposableProductForm from "./product_forms/DisposableProductForm";
 import MediaQuantityProductForm from "./product_forms/MediaQuantityProductForm";
+import MediaStandardProductForm from "./product_forms/MediaStandardProductForm";
+import StateProductForm from "./product_forms/StateProductForm";
 
 const LocationDetails = (props) => {
   const [location, setLocation] = useState({
@@ -178,7 +182,44 @@ const LocationDetails = (props) => {
         );
         break;
 
+      case "state":
+        return (
+          <StateProductForm
+            addProduct={addProduct}
+            premisesTypes={premisesTypes}
+          />
+        );
+        break;
+
+      case "calculated":
+        return (
+          <CalculatedProductForm
+            addProduct={addProduct}
+            premisesTypes={premisesTypes}
+          />
+        );
+        break;
+
+      case "disposable":
+        return (
+          <DisposableProductForm
+            addProduct={addProduct}
+            premisesTypes={premisesTypes}
+          />
+        );
+        break;
+
+      case "media-standard":
+        return (
+          <MediaStandardProductForm
+            addProduct={addProduct}
+            premisesTypes={premisesTypes}
+          />
+        );
+        break;
+
       default:
+        return null;
         break;
     }
   };
