@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import keycloak from "../../auth/keycloak";
-import MediaQuantityProductForm from "./MediaQuantityProductForm";
+import MediaQuantityProductForm from "./product_forms/MediaQuantityProductForm";
 
 const LocationDetails = (props) => {
   const [location, setLocation] = useState({
@@ -102,7 +102,8 @@ const LocationDetails = (props) => {
   };
 
   const getProducts = () => {
-    const url = urls.productURLPrefix + props.id + "/products?productType=";
+    const url =
+      "http://localhost:8080/owner/location/" + props.id + "/productGroupType";
 
     console.log("url >>>:", url);
     fetch(url, {
@@ -125,9 +126,9 @@ const LocationDetails = (props) => {
     getProducts();
   }, []);
 
-  useEffect(() => {
-    getProducts();
-  }, [productType]);
+  // useEffect(() => {
+  //   getProducts();
+  // }, [productType]);
 
   const productTypes = [
     { value: "calculated", label: "Wyliczalny" },
@@ -266,7 +267,17 @@ const LocationDetails = (props) => {
         </div>
         <button type="submit">Zapisz</button>
       </form>
+
       <h1>Produkty</h1>
+      {productType.length === 0 && (
+        <div>
+          <ul>
+            {products.map((product) => (
+              <li key={product.productName}>- {product.productName}</li>
+            ))}
+          </ul>
+        </div>
+      )}
       <div className="attach-products">
         <label htmlFor="productType">
           Dodaj nowy:
@@ -289,15 +300,6 @@ const LocationDetails = (props) => {
 
         {productFormRender(productType)}
       </div>
-      {productType.length === 0 && (
-        <div>
-          <ul>
-            {products.map((product) => (
-              <li key={product.obj.productName}>- {product.obj.productName}</li>
-            ))}
-          </ul>
-        </div>
-      )}
     </>
   );
 };
