@@ -16,6 +16,9 @@
         "addMiediaQuantity": "/product/miedia-quantity/add",
         "addMediaStandard": "/product/media-standard/add",
         "addState": "/product/state/add"
+      },
+      "rent": {
+        "new": "http://localhost:8080/owner/new-rent"
       }
     },
     "user": "http://localhost:8080/user/",

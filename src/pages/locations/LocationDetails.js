@@ -229,6 +229,7 @@ const LocationDetails = (props) => {
       default:
         return null;
         break;
+
     }
   };
 

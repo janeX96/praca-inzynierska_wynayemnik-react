@@ -60,7 +60,7 @@ const Owner_Premises = () => {
   };
 
   const findDataById = (id) => {
-    console.log("Odczyt: ", state.data);
+    // console.log("Odczyt: ", state.data);
     const res = state.data.find((premises) => {
       return premises.premisesId === id;
     });
