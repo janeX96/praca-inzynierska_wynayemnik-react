@@ -28,6 +28,13 @@ const LocationDetails = (props) => {
     mediaStandProdPostURL: "",
     stateProdPostURL: "",
   });
+  const [errors, setErrors] = useState({
+    city: false,
+    postCode: false,
+    street: false,
+    streetNumber: false,
+  });
+  const [sending, setSending] = useState(false);
 
   const getResources = async () => {
     const response = await fetch("/resources.json");
@@ -226,11 +233,127 @@ const LocationDetails = (props) => {
     setProductType(e.target.value);
   };
 
+  const formValidation = () => {
+    let city = false;
+    let postCode = false;
+    let street = false;
+    let streetNumber = false;
+    // let locationName = false;
+
+    if (
+      location.address.city.length > 2 &&
+      location.address.city.length <= 30
+    ) {
+      city = true;
+    }
+
+    if (/^[0-9]{2}-[0-9]{3}$/.test(location.address.postCode)) {
+      postCode = true;
+    }
+
+    if (
+      location.address.street.length > 2 &&
+      location.address.street.length < 60
+    ) {
+      street = true;
+    }
+
+    if (
+      location.address.streetNumber.length > 0 &&
+      location.address.streetNumber.length <= 4
+    ) {
+      streetNumber = true;
+    }
+
+    let correct = city && postCode && street && streetNumber;
+
+    return { city, postCode, street, streetNumber, correct };
+  };
+  const messages = {
+    city_incorrect: "wpisz 3-30 znaków",
+    postCode_incorrect: "wpisz poprawny kod pocztowy (00-000)",
+    street_incorrect: "wpisz 3-60 znaków",
+    streetNumber_incorrect: "wpisz 1-4 znaków",
+  };
+
+  const handleChange = (e) => {
+    const name = e.target.name;
+    const type = e.target.type;
+    const value = e.target.value;
+
+    if (name === "locationName") {
+      setLocation({ ...location, [name]: value });
+    } else {
+      setLocation({
+        ...location,
+        address: {
+          ...location.address,
+          [name]: value,
+        },
+      });
+    }
+  };
+
+  const sendPost = async () => {
+    let json = JSON.stringify(location);
+    const requestOptions = {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: " Bearer " + keycloak.token,
+      },
+      body: json,
+    };
+
+    const res = await fetch(
+      `http://localhost:8080/owner/location/${props.id}`,
+      requestOptions
+    )
+      .then((response) => {
+        if (response.ok) {
+          console.log("OK");
+          setSending(false);
+        }
+        return response.json();
+      })
+      .catch((err) => {
+        console.error("nie udane wysłanie żądania: ", err);
+        setSending(false);
+      });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!sending) {
+      setSending(true);
+      const validation = formValidation();
+      if (validation.correct) {
+        sendPost();
+
+        setErrors({
+          city: false,
+          postCode: false,
+          street: false,
+          streetNumber: false,
+        });
+      } else {
+        setErrors({
+          city: !validation.city,
+          postCode: !validation.postCode,
+          street: !validation.street,
+          streetNumber: !validation.streetNumber,
+        });
+      }
+      setSending(false);
+    }
+  };
+
   return (
     <>
       <h1 className="content-title">Lokacja:</h1>
 
-      <form onSubmit="">
+      <form onSubmit={handleSubmit}>
         <button onClick={() => props.handleAction(-1)}>Powrót</button>
         <div className="new-premises-details">
           <label htmlFor="city">
@@ -240,11 +363,11 @@ const LocationDetails = (props) => {
               type="text"
               name="city"
               value={location.address.city}
-              // onChange={handleChange}
+              onChange={handleChange}
             />
-            {/* {errors.city && (
-                <span className="error-msg">{messages.city_incorrect}</span>
-              )} */}
+            {errors.city && (
+              <span className="error-msg">{messages.city_incorrect}</span>
+            )}
           </label>
           <label htmlFor="postCode">
             Kod pocztowy:
@@ -253,11 +376,11 @@ const LocationDetails = (props) => {
               type="text"
               name="postCode"
               value={location.address.postCode}
-              // onChange={handleChange}
+              onChange={handleChange}
             />
-            {/* {errors.postCode && (
-                <span className="error-msg">{messages.postCode_incorrect}</span>
-              )} */}
+            {errors.postCode && (
+              <span className="error-msg">{messages.postCode_incorrect}</span>
+            )}
           </label>
           <label htmlFor="street">
             Ulica:
@@ -266,11 +389,11 @@ const LocationDetails = (props) => {
               type="text"
               name="street"
               value={location.address.street}
-              // onChange={handleChange}
+              onChange={handleChange}
             />
-            {/* {errors.street && (
-                <span className="error-msg">{messages.street_incorrect}</span>
-              )} */}
+            {errors.street && (
+              <span className="error-msg">{messages.street_incorrect}</span>
+            )}
           </label>
           <label htmlFor="streetNumber">
             Nr:
@@ -279,13 +402,13 @@ const LocationDetails = (props) => {
               type="text"
               name="streetNumber"
               value={location.address.streetNumber}
-              // onChange={handleChange}
+              onChange={handleChange}
             />
-            {/* {errors.streetNumber && (
-                <span className="error-msg">
-                  {messages.streetNumber_incorrect}
-                </span>
-              )} */}
+            {errors.streetNumber && (
+              <span className="error-msg">
+                {messages.streetNumber_incorrect}
+              </span>
+            )}
           </label>
           <label htmlFor="locationName">
             Nazwa:
@@ -294,29 +417,29 @@ const LocationDetails = (props) => {
               type="text"
               name="locationName"
               value={location.locationName}
-              // onChange={handleChange}
+              onChange={handleChange}
               placeholder="(opcjonalnie)"
             />
-            {/* {errors.locationName && (
-                <span className="error-msg">
-                  {messages.locationName_incorrect}
-                </span>
-              )} */}
+            {errors.locationName && (
+              <span className="error-msg">
+                {messages.locationName_incorrect}
+              </span>
+            )}
           </label>
         </div>
         <button type="submit">Zapisz</button>
       </form>
 
       <h1>Produkty</h1>
-      {productType.length === 0 && (
-        <div>
-          <ul>
-            {products.map((product) => (
-              <li key={product.productName}>- {product.productName}</li>
-            ))}
-          </ul>
-        </div>
-      )}
+
+      <div>
+        <ul>
+          {products.map((product) => (
+            <li key={product.productName}>- {product.productName}</li>
+          ))}
+        </ul>
+      </div>
+
       <div className="attach-products">
         <label htmlFor="productType">
           Dodaj nowy:
