@@ -86,9 +86,7 @@ const LocationDetails = (props) => {
                 label: type.type,
               };
             });
-            setPremisesTypes({
-              premisesTypes,
-            });
+            setPremisesTypes(premisesTypes);
             setUrls({
               postURL,
               productURLPrefix,
@@ -130,9 +128,9 @@ const LocationDetails = (props) => {
     getProducts();
   }, []);
 
-  // useEffect(() => {
-  //   getProducts();
-  // }, [productType]);
+  useEffect(() => {
+    getProducts();
+  }, [productType]);
 
   const productTypes = [
     { value: "calculated", label: "Wyliczalny" },
