@@ -134,7 +134,7 @@ const Owner_Premises = () => {
       accessor: "action",
       Cell: ({ cell }) => (
         <button
-          className="action-button"
+          className="content-container__button"
           value={cell.row.values.actions}
           onClick={() => handleAction(cell.row.values.premisesId)}
         >
@@ -158,11 +158,13 @@ const Owner_Premises = () => {
         />
       ) : (
         <>
-          <h1 className="content-title">Moje lokale</h1>
+          <h1 className="content-container__title">Moje lokale</h1>
 
-          <div className="icon-container">
+          <div>
             <Link to="/owner-premises-new">
-              <BsPlusSquareFill className="new" />
+              <div className="icon-container">
+                <BsPlusSquareFill className="icon-container__new-icon" />
+              </div>
             </Link>
           </div>
 

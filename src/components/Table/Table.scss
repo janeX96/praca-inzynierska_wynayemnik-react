@@ -1,40 +1,40 @@
-// @import "../../styles/colors";
+.table-container {
+  margin-top: 0;
+  table {
+    border-spacing: 0;
+    border: 1px solid var(--dark-color);
+    --light-color: #727178;
+    --dark-color: #363636;
+    --text-color: #f2f2f2;
+  }
 
-table {
-  margin: 20px 0px;
-  border-spacing: 0;
-  border: 1px solid var(--dark-color);
-  --light-color: #727178;
-  --dark-color: #363636;
-  --text-color: #f2f2f2;
-}
+  th,
+  td {
+    padding: 0.5rem;
+    border-bottom: 1px solid var(--dark-color);
+    border-right: 1px solid var(--dark-color);
+    color: var(--dark-color);
+  }
 
-th,
-td {
-  padding: 0.5rem;
-  border-bottom: 1px solid var(--dark-color);
-  border-right: 1px solid var(--dark-color);
-  color: var(--dark-color);
-}
+  th {
+    background: grey;
+    border-bottom: 3px solid var(--dark-color);
+    color: var(--text-color);
+    font-style: bold;
+  }
 
-th {
-  background: grey;
-  border-bottom: 3px solid var(--dark-color);
-  color: var(--text-color);
-  font-style: bold;
-}
+  .table-buttons button:hover {
+    background-color: var(--dark-color);
+  }
 
-.table-buttons button:hover {
-  background-color: var(--dark-color);
-}
+  .table-buttons button:disabled {
+    background-color: #b8b8b8;
+  }
 
-.table-buttons button:disabled {
-  background-color: #b8b8b8;
-}
-
-.page-button {
-  background-color: var(--light-color);
-  font-size: large;
-  color: var(--text-color);
-  margin-right: 10px;
+  .page-button {
+    background-color: var(--light-color);
+    font-size: large;
+    color: var(--text-color);
+    margin-right: 10px;
+  }
 }

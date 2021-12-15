@@ -20,13 +20,6 @@ const UserFormForRent = (props) => {
     },
   });
 
-  // useEffect(() => {
-  //   setUser({
-  //     ...user,
-  //     toCreate: props.defaultUser.email > 0 && !props.defaultEmail.length > 0,
-  //   });
-  // }, []);
-
   const [errors, setErrors] = useState({
     emailError: false,
     firstNameError: false,
@@ -230,7 +223,7 @@ const UserFormForRent = (props) => {
 
             <button
               type="submit"
-              className="action-button"
+              className="form-container__buttons"
               disabled={user.toCreate}
             >
               Dalej
@@ -323,7 +316,7 @@ const UserFormForRent = (props) => {
                   </div>
                 </div>
 
-                <button type="submit" className="action-button">
+                <button type="submit" className="form-container__buttons">
                   Stwórz
                 </button>
               </form>
