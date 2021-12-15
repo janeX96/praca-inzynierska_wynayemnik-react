@@ -209,12 +209,13 @@ const UserFormForRent = (props) => {
         <h2>Dane użytkownika</h2>
         <div className="form-container">
           <form onSubmit={handleSubmit}>
-            <div className="row">
-              <div className="col-25">
+            <div className="form-container__row">
+              <div className="row__col-25">
                 <label htmlFor="email">Email najemcy: </label>
               </div>
-              <div className="col-75">
+              <div className="row__col-75">
                 <input
+                  className="form-container__input"
                   type="email"
                   id="email"
                   name="email"
@@ -239,12 +240,13 @@ const UserFormForRent = (props) => {
             <>
               <h1>Stwórz konto dla najemcy</h1>
               <form onSubmit={handleCreateAccountSubmit}>
-                <div className="row">
-                  <div className="col-25">
+                <div className="form-container__row">
+                  <div className="row__col-25">
                     <label htmlFor="firstName">Imię: </label>
                   </div>
-                  <div className="col-75">
+                  <div className="row__col-75">
                     <input
+                      className="form-container__input"
                       type="text"
                       id="firstName"
                       name="firstName"
@@ -259,12 +261,13 @@ const UserFormForRent = (props) => {
                   </div>
                 </div>
 
-                <div className="row">
-                  <div className="col-25">
+                <div className="form-container__row">
+                  <div className="row__col-25">
                     <label htmlFor="lastName">Nazwisko: </label>
                   </div>
-                  <div className="col-75">
+                  <div className="row__col-75">
                     <input
+                      className="form-container__input"
                       type="text"
                       id="lastName"
                       name="lastName"
@@ -279,12 +282,13 @@ const UserFormForRent = (props) => {
                   </div>
                 </div>
 
-                <div className="row">
-                  <div className="col-25">
+                <div className="form-container__row">
+                  <div className="row__col-25">
                     <label htmlFor="phoneNumber">Nr telefonu: </label>
                   </div>
-                  <div className="col-75">
+                  <div className="row__col-75">
                     <input
+                      className="form-container__input"
                       type="text"
                       id="phoneNumber"
                       name="phoneNumber"
@@ -301,14 +305,15 @@ const UserFormForRent = (props) => {
                   </div>
                 </div>
 
-                <div className="row">
-                  <div className="col-25">
+                <div className="form-container__row">
+                  <div className="row__col-25">
                     <label htmlFor="sharing">
                       Udostępnianie konta najemcy:{" "}
                     </label>
                   </div>
-                  <div className="col-75">
+                  <div className="row__col-75">
                     <input
+                      className="form-container__input--checkbox"
                       type="checkbox"
                       id="sharing"
                       name="sharing"
