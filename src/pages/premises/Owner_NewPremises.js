@@ -506,17 +506,18 @@ const Owner_NewPremises = () => {
 
   return (
     <div className="content-container">
-      <h1 className="content-title">Nowy lokal</h1>
+      <h1 className="content-container__title">Nowy lokal</h1>
       <div className="form-container">
         <form onSubmit={handleSubmit}>
-          <div className="row">
-            <div className="col-25">
+          <div className="form-container__row">
+            <div className="row__col-25">
               <label style={{ fontWeight: "bold" }} htmlFor="choosenLocation">
                 Wybierz istniejący adres:{" "}
               </label>
             </div>
-            <div className="col-75">
+            <div className="row__col-75">
               <select
+                className="form-container__input"
                 value={state.locationId}
                 name="choosenLocation"
                 id="choosenLocation"
@@ -537,17 +538,13 @@ const Owner_NewPremises = () => {
 
           <p style={{ fontWeight: "bold" }}>Lub dodaj nowy:</p>
 
-          <div className="row">
-            <div className="col-25"></div>
-            <div className="col-75"></div>
-          </div>
-
-          <div className="row">
-            <div className="col-25">
+          <div className="form-container__row">
+            <div className="row__col-25">
               <label htmlFor="city">Miasto:</label>
             </div>
-            <div className="col-75">
+            <div className="row__col-75">
               <input
+                className="form-container__input"
                 id="city"
                 type="text"
                 name="city"
@@ -560,12 +557,13 @@ const Owner_NewPremises = () => {
               )}
             </div>
           </div>
-          <div className="row">
-            <div className="col-25">
+          <div className="form-container__row">
+            <div className="row__col-25">
               <label htmlFor="street">Ulica: </label>
             </div>
-            <div className="col-75">
+            <div className="row__col-75">
               <input
+                className="form-container__input"
                 id="street"
                 name="street"
                 type="text"
@@ -578,12 +576,13 @@ const Owner_NewPremises = () => {
               )}
             </div>
           </div>
-          <div className="row">
-            <div className="col-25">
+          <div className="form-container__row">
+            <div className="row__col-25">
               <label htmlFor="streetNumber">Nr: </label>
             </div>
-            <div className="col-75">
+            <div className="row__col-75">
               <input
+                className="form-container__input"
                 id="streetNumber"
                 type="text"
                 name="streetNumber"
@@ -599,12 +598,13 @@ const Owner_NewPremises = () => {
             </div>
           </div>
 
-          <div className="row">
-            <div className="col-25">
+          <div className="form-container__row">
+            <div className="row__col-25">
               <label htmlFor="postCode">Kod pocztowy: </label>
             </div>
-            <div className="col-75">
+            <div className="row__col-75">
               <input
+                className="form-container__input"
                 id="postCode"
                 type="text"
                 name="postCode"
@@ -617,12 +617,13 @@ const Owner_NewPremises = () => {
               )}
             </div>
           </div>
-          <div className="row">
-            <div className="col-25">
+          <div className="form-container__row">
+            <div className="row__col-25">
               <label htmlFor="locationName">Nazwa:</label>
             </div>
-            <div className="col-75">
+            <div className="row__col-75">
               <input
+                className="form-container__input"
                 id="locationName"
                 type="text"
                 name="locationName"
@@ -640,12 +641,13 @@ const Owner_NewPremises = () => {
           <br />
           <br />
           <br />
-          <div className="row">
-            <div className="col-25">
+          <div className="form-container__row">
+            <div className="row__col-25">
               <label htmlFor="premisesNumber">Numer lokalu: </label>
             </div>
-            <div className="col-75">
+            <div className="row__col-75">
               <input
+                className="form-container__input"
                 id="premisesNumber"
                 type="text"
                 name="premisesNumber"
@@ -658,12 +660,13 @@ const Owner_NewPremises = () => {
             </div>
           </div>
 
-          <div className="row">
-            <div className="col-25">
+          <div className="form-container__row">
+            <div className="row__col-25">
               <label htmlFor="area">Powierzchnia lokalu: </label>
             </div>
-            <div className="col-75">
+            <div className="row__col-75">
               <input
+                className="form-container__input"
                 id="area"
                 type="number"
                 name="area"
@@ -676,12 +679,13 @@ const Owner_NewPremises = () => {
             </div>
           </div>
 
-          <div className="row">
-            <div className="col-25">
+          <div className="form-container__row">
+            <div className="row__col-25">
               <label htmlFor="premisesLevel">Poziom: </label>
             </div>
-            <div className="col-75">
+            <div className="row__col-75">
               <input
+                className="form-container__input"
                 id="premisesLevel"
                 type="text"
                 name="premisesLevel"
@@ -696,12 +700,13 @@ const Owner_NewPremises = () => {
             </div>
           </div>
 
-          <div className="row">
-            <div className="col-25">
+          <div className="form-container__row">
+            <div className="row__col-25">
               <label htmlFor="premisesType">Rodzaj: </label>
             </div>
-            <div className="col-75">
+            <div className="row__col-75">
               <select
+                className="form-container__input"
                 value={state.premisesType.type}
                 id="premisesType"
                 name="premisesType"
@@ -722,12 +727,13 @@ const Owner_NewPremises = () => {
             </div>
           </div>
 
-          <div className="row">
-            <div className="col-25">
+          <div className="form-container__row">
+            <div className="row__col-25">
               <label htmlFor="furnished">Umeblowany: </label>
             </div>
-            <div className="col-75">
+            <div className="row__col-75">
               <input
+                className="form-container__input--checkbox"
                 onChange={handleChange}
                 type="checkbox"
                 id="furnished"
@@ -737,7 +743,7 @@ const Owner_NewPremises = () => {
             </div>
           </div>
 
-          <div className="form-buttons">
+          <div className="form-container__buttons">
             <Link to="owner-premises">
               <button>Powrót</button>
             </Link>
