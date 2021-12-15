@@ -1,0 +1,50 @@
+.registration-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 5%;
+  margin-left: 5%;
+  margin-bottom: 15%;
+}
+
+.registration-container .error-msg {
+  margin-left: 10%;
+  font-size: larger;
+}
+
+.register-input {
+  display: block;
+  width: 20%;
+  height: 30px;
+  margin-top: 10px;
+}
+
+.register-button {
+  font-size: large;
+  margin-top: 10px;
+  margin-left: 7%;
+}
+
+.reCaptcha {
+  margin-left: 1%;
+}
+
+.confirm-container {
+  padding-top: 5%;
+  padding-left: 5%;
+  text-align: center;
+  padding-right: 60%;
+  color: #404142;
+}
+
+.confirm-container > h1 {
+  font-size: xx-large;
+}
+.confirm-container > p {
+  font-size: large;
+  cursor: pointer;
+}
+
+.confirm-container > p :hover {
+  text-decoration: underline;
+  color: white;
+}
