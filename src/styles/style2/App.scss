@@ -1,0 +1,156 @@
+@import "_colors";
+@import "_mixins";
+body {
+  margin: 0 !important;
+  font-family: "Lato", sans-serif;
+  font-family: "Noto Sans Display", sans-serif;
+  color: $main-color-dark;
+}
+
+.content-container {
+  background: url("../images/wynayemnik img1 transparent.jpg") center
+    center/cover no-repeat;
+  height: 100%;
+  padding-bottom: 150px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.1);
+  object-fit: contain;
+
+  &__title {
+    color: $main-color-light;
+    font-size: 50px;
+    padding-top: 20px;
+    margin-left: max(150px);
+    margin-right: max(150px);
+    border-color: $main-color-light;
+    border-bottom-style: solid;
+
+    /* mobile */
+    @media screen and (max-width: 600px) {
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+
+  div {
+    margin-top: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+  }
+
+  p {
+    margin-top: 8px;
+    font-size: 32px;
+  }
+
+  &__table {
+    margin-top: 0px;
+  }
+
+  // buttons
+  &__button {
+    @include button($main-color-light, $text-color-light, $main-color-dark);
+  }
+
+  &__content-btns {
+    margin-top: 32px;
+    button {
+      margin: 6px;
+    }
+  }
+
+  //details section
+  .details-container {
+    ul {
+      list-style-type: none;
+      color: $main-color-dark;
+    }
+  }
+
+  .details-container__buttons {
+    margin-left: 50px;
+    margin-bottom: 20px;
+  }
+  .details-container__button {
+    @include button($main-color-light, $text-color-light, $main-color-dark);
+    float: left;
+  }
+  .details-container__button--return {
+    @include button($main-color-light, $text-color-light, $main-color-dark);
+    margin-right: 100px;
+  }
+
+  //icons
+  &__icon-container {
+    float: left;
+  }
+
+  //forms
+  .details-container,
+  .form-container {
+    border-radius: 5px;
+    background-color: #f2f2f295;
+    padding: 50px;
+    box-sizing: border-box;
+    max-width: 900px;
+    margin-right: 10%;
+  }
+
+  .row__col-25 {
+    float: left;
+    width: 25%;
+    margin-top: 6px;
+  }
+
+  .row__col-75 {
+    float: left;
+    width: 40%;
+    margin-top: 6px;
+  }
+
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  .form-container__input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+  }
+
+  .form-container__input--checkbox {
+    width: 30px;
+    height: 30px;
+  }
+
+  .form-container__label {
+    padding: 12px 12px 12px 0;
+    display: inline-block;
+  }
+
+  .form-container__buttons {
+    margin-top: 50px;
+  }
+
+  .form-container__error-msg {
+    margin-left: 10px;
+    color: $error-color;
+  }
+
+  /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+  @media screen and (max-width: 600px) {
+    .row__col-25,
+    .row__col-75 {
+      width: 100%;
+      margin-top: 0;
+    }
+  }
+}
