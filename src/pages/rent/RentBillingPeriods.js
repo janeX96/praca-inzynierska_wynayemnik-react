@@ -74,12 +74,13 @@ const RentBillingPeriods = (props) => {
   return (
     <div className="form-container">
       <form onSubmit={handleSubmit}>
-        <div className="row">
-          <div className="col-25">
+        <div className="form-container__row">
+          <div className="row__col-25">
             <label>Data rozpoczęcia: </label>
           </div>
-          <div className="col-75">
+          <div className="row__col-75">
             <input
+              className="form-container__input"
               type="date"
               id="startDate"
               name="startDate"
@@ -92,12 +93,13 @@ const RentBillingPeriods = (props) => {
           </div>
         </div>
 
-        <div className="row">
-          <div className="col-25">
+        <div className="form-container__row">
+          <div className="row__col-25">
             <label>Data zakończenia: </label>
           </div>
-          <div className="col-75">
+          <div className="row__col-75">
             <input
+              className="form-container__input"
               type="date"
               id="endDate"
               name="endDate"
@@ -109,12 +111,13 @@ const RentBillingPeriods = (props) => {
             )}
           </div>
         </div>
-        <div className="row">
-          <div className="col-25">
+        <div className="form-container__row">
+          <div className="row__col-25">
             <label>Kwota: </label>
           </div>
-          <div className="col-75">
+          <div className="row__col-75">
             <input
+              className="form-container__input"
               type="number"
               id="value"
               name="value"
@@ -126,7 +129,7 @@ const RentBillingPeriods = (props) => {
             )}
           </div>
         </div>
-        <div className="form-buttons">
+        <div className="form-container__buttons">
           <button type="submit">Dodaj</button>
         </div>
       </form>
