@@ -224,12 +224,13 @@ const RentForm = (props) => {
 
         <div className="form-container">
           <form onSubmit={handleSubmit}>
-            <div className="row">
-              <div className="col-25">
+            <div className="form-container__row">
+              <div className="row__col-25">
                 <label htmlFor="startDate">Od: </label>
               </div>
-              <div className="col-75">
+              <div className="row__col-75">
                 <input
+                  className="form-container__input"
                   type="date"
                   id="startDate"
                   name="startDate"
@@ -245,12 +246,13 @@ const RentForm = (props) => {
               </div>
             </div>
 
-            <div className="row">
-              <div className="col-25">
+            <div className="form-container__row">
+              <div className="row__col-25">
                 <label htmlFor="endDate">Do: </label>
               </div>
-              <div className="col-75">
+              <div className="row__col-75">
                 <input
+                  className="form-container__input"
                   type="date"
                   id="endDate"
                   name="endDate"
@@ -266,12 +268,13 @@ const RentForm = (props) => {
               </div>
             </div>
 
-            <div className="row">
-              <div className="col-25">
+            <div className="form-container__row">
+              <div className="row__col-25">
                 <label htmlFor="premisesType">Rodzaj:</label>
               </div>
-              <div className="col-75">
+              <div className="row__col-75">
                 <select
+                  className="form-container__input"
                   value={rentDetails.premisesType.type}
                   id="premisesType"
                   name="premisesType"
@@ -292,12 +295,13 @@ const RentForm = (props) => {
               </div>
             </div>
 
-            <div className="row">
-              <div className="col-25">
+            <div className="form-container__row">
+              <div className="row__col-25">
                 <label htmlFor="carNumber">carNumber: </label>
               </div>
-              <div className="col-75">
+              <div className="row__col-75">
                 <input
+                  className="form-container__input"
                   type="text"
                   id="carNumber"
                   name="carNumber"
@@ -313,12 +317,13 @@ const RentForm = (props) => {
             </div>
 
             <h1>Opłaty</h1>
-            <div className="row">
-              <div className="col-25">
+            <div className="form-container__row">
+              <div className="row__col-25">
                 <label htmlFor="bailValue">Kaucja:</label>
               </div>
-              <div className="col-75">
+              <div className="row__col-75">
                 <input
+                  className="form-container__input"
                   type="number"
                   id="bailValue"
                   name="bailValue"
@@ -333,14 +338,15 @@ const RentForm = (props) => {
               </div>
             </div>
 
-            <div className="row">
-              <div className="col-25">
+            <div className="form-container__row">
+              <div className="row__col-25">
                 <label htmlFor="counterMediaRent">
                   Udostępniania mediów najemcy:
                 </label>
               </div>
-              <div className="col-75">
+              <div className="row__col-75">
                 <input
+                  className="form-container__input--checkbox"
                   type="checkbox"
                   id="counterMediaRent"
                   name="counterMediaRent"
@@ -350,14 +356,15 @@ const RentForm = (props) => {
               </div>
             </div>
 
-            <div className="row">
-              <div className="col-25">
+            <div className="form-container__row">
+              <div className="row__col-25">
                 <label htmlFor="clientAccess">
                   Udostępnianie danych wynajmu najemcy:
                 </label>
               </div>
-              <div className="col-75">
+              <div className="row__col-75">
                 <input
+                  className="form-container__input--checkbox"
                   type="checkbox"
                   id="clientAccess"
                   name="clientAccess"
@@ -367,14 +374,15 @@ const RentForm = (props) => {
               </div>
             </div>
 
-            <div className="row">
-              <div className="col-25">
+            <div className="form-container__row">
+              <div className="row__col-25">
                 <label htmlFor="statePaymentValue">
                   Stała wartość czynszu:
                 </label>
               </div>
-              <div className="col-75">
+              <div className="row__col-75">
                 <input
+                  className="form-container__input--checkbox"
                   type="checkbox"
                   id="statePaymentValue"
                   name="statePaymentValue"
@@ -384,12 +392,13 @@ const RentForm = (props) => {
               </div>
             </div>
 
-            <div className="row">
-              <div className="col-25">
+            <div className="form-container__row">
+              <div className="row__col-25">
                 <label htmlFor="rentValue">Czynsz: </label>
               </div>
-              <div className="col-75">
+              <div className="row__col-75">
                 <input
+                  className="form-container__input"
                   type="number"
                   id="rentValue"
                   name="rentValue"
@@ -404,12 +413,13 @@ const RentForm = (props) => {
                 )}
               </div>
             </div>
-            <div className="row">
-              <div className="col-25">
+            <div className="form-container__row">
+              <div className="row__col-25">
                 <label htmlFor="paymentDay">Płatne do:</label>
               </div>
-              <div className="col-75">
+              <div className="row__col-75">
                 <input
+                  className="form-container__input"
                   type="number"
                   id="paymentDay"
                   name="paymentDay"
@@ -437,20 +447,15 @@ const RentForm = (props) => {
               </ul>
             </>
           )}
-          <div className="form-buttons">
+          <div className="form-container__buttons">
             <button
               onClick={handleSubmit}
               data-name="back"
-              className="action-button"
               style={{ marginRight: "15px", marginTop: "30px" }}
             >
               Powrót
             </button>
-            <button
-              onClick={handleSubmit}
-              data-name="next"
-              className="action-button"
-            >
+            <button onClick={handleSubmit} data-name="next">
               Dalej
             </button>
           </div>

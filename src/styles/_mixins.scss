@@ -2,7 +2,7 @@
   background-color: $bg-color;
   color: $txt-color;
   //   border-color: $bdr-color;
-  :hover {
+  &:hover {
     background-color: $hvr-color;
   }
   margin-right: 10px;
