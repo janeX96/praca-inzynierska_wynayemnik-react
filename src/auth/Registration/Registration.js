@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../../styles/App.scss";
-import "./Registration.css";
+// import "./Registration.css";
 import ReCAPTCHA from "react-google-recaptcha";
 import RegistrationComplete from "./RegistrationComplete";
 import WaitIcon from "../../images/icons/wait-icon.png";
@@ -195,7 +195,7 @@ const Registration = () => {
             <div className="form-container__row">
               <div className="row__col-75">
                 <input
-                  className="register-input"
+                  className="form-container__input"
                   type="firstName"
                   name="firstName"
                   placeholder="imię"
@@ -210,7 +210,7 @@ const Registration = () => {
             <div className="form-container__row">
               <div className="row__col-75">
                 <input
-                  className="register-input"
+                  className="form-container__input"
                   type="lastName"
                   name="lastName"
                   minLength="2"
@@ -225,7 +225,7 @@ const Registration = () => {
             <div className="form-container__row">
               <div className="row__col-75">
                 <input
-                  className="register-input"
+                  className="form-container__input"
                   type="email"
                   name="email"
                   placeholder="Email"
@@ -239,7 +239,7 @@ const Registration = () => {
             <div className="form-container__row">
               <div className="row__col-75">
                 <input
-                  className="register-input"
+                  className="form-container__input"
                   type="tel"
                   name="phoneNumber"
                   pattern="[0-9]{9}"
@@ -254,7 +254,7 @@ const Registration = () => {
             <div className="form-container__row">
               <div className="row__col-75">
                 <input
-                  className="register-input"
+                  className="form-container__input"
                   type="password"
                   name="password"
                   placeholder="hasło"
@@ -272,7 +272,7 @@ const Registration = () => {
             <div className="form-container__row">
               <div className="row__col-75">
                 <input
-                  className="register-input"
+                  className="form-container__input"
                   type="password"
                   name="checkPassword"
                   placeholder="powtórz hasło"
@@ -289,24 +289,24 @@ const Registration = () => {
             </div>
             <div className="form-container__row">
               <div className="row__col-75">
-                <div className="reCaptcha">
-                  <ReCAPTCHA
-                    sitekey="6LdYUw0dAAAAAPtkwRE9qReUtokW_mjQyH71PQgT"
-                    name="reCaptcha"
-                    onChange={handleReCAPTCHA}
-                  />
-                  {data.errors.reCaptchaError && (
-                    <span className="error-msg">{messages.reCaptchaErr}</span>
-                  )}
-                </div>
+                <ReCAPTCHA
+                  sitekey="6LdYUw0dAAAAAPtkwRE9qReUtokW_mjQyH71PQgT"
+                  name="reCaptcha"
+                  onChange={handleReCAPTCHA}
+                />
+                {data.errors.reCaptchaError && (
+                  <span className="error-msg">{messages.reCaptchaErr}</span>
+                )}
               </div>
             </div>
 
-            {data.sending ? (
-              <img className="register-button" src={WaitIcon} alt="..." />
-            ) : (
-              <button type="submit">Zarejestruj</button>
-            )}
+            <div className="form-container__buttons">
+              {data.sending ? (
+                <img className="register-button" src={WaitIcon} alt="..." />
+              ) : (
+                <button type="submit">Zarejestruj</button>
+              )}
+            </div>
           </form>
         </div>
       )}
