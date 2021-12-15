@@ -6,6 +6,7 @@ import keycloak from "../../../auth/keycloak";
 import { Link } from "react-router-dom";
 import { BsTrashFill } from "react-icons/bs";
 import { AiFillEdit } from "react-icons/ai";
+import { FaKey } from "react-icons/fa";
 
 const PremisesDetails = ({
   premisesId,
@@ -98,7 +99,7 @@ const PremisesDetails = ({
         </div>
       ) : (
         <>
-          <h1 className="content-title">Szczegóły lokalu</h1>
+          <h1 className="content-container__title">Szczegóły lokalu</h1>
           <div className="details-container">
             <ul>
               <li>
@@ -126,8 +127,11 @@ const PremisesDetails = ({
                 Status: <b>{state}</b>
               </li>
             </ul>
-            <div className="details-buttons">
-              <button className="return-button" onClick={() => action(-1)}>
+            <div className="details-container__buttons">
+              <button
+                className="details-container__button--return"
+                onClick={() => action(-1)}
+              >
                 Powrót
               </button>
               <Link
@@ -144,14 +148,25 @@ const PremisesDetails = ({
                   },
                 }}
               >
-                <button>Wynajmij</button>
+                <div className="icon-container">
+                  <FaKey className="icon-container__new-icon" />
+                  <p>Wynajmij</p>
+                </div>
               </Link>
 
               <div className="icon-container">
-                <AiFillEdit className="edit" onClick={() => setEdit(true)} />
+                <AiFillEdit
+                  className="icon-container__edit-icon"
+                  onClick={() => setEdit(true)}
+                />
+                <p>Edycja</p>
               </div>
               <div className="icon-container">
-                <BsTrashFill className="delete" onClick={handleDelete} />
+                <BsTrashFill
+                  className="icon-container__delete-icon"
+                  onClick={handleDelete}
+                />
+                <p>Usuń</p>
               </div>
             </div>
           </div>

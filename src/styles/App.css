@@ -90,7 +90,7 @@ body {
   font-size: large;
   border-radius: 0.4vw;
   padding: 5px 15px 5px 15px;
-  float: left;
+  display: inline;
 }
 
 .content-container .details-container__button:hover {
@@ -105,15 +105,42 @@ body {
   border-radius: 0.4vw;
   padding: 5px 15px 5px 15px;
   margin-right: 100px;
+  display: inline;
 }
 
 .content-container .details-container__button--return:hover {
   background-color: #363636;
 }
 
-.content-container__icon-container {
+.content-container .icon-container {
   font-size: 35px;
-  float: left;
+  padding: 5px;
+  display: inline;
+  color: #363636;
+}
+
+.content-container .icon-container p {
+  display: none;
+}
+
+.content-container .icon-container:hover p {
+  display: inline;
+  font-size: 10px;
+}
+
+.content-container .icon-container__edit-icon:hover {
+  color: #324aa8;
+  cursor: pointer;
+}
+
+.content-container .icon-container__new-icon:hover {
+  color: #2e7526;
+  cursor: pointer;
+}
+
+.content-container .icon-container__delete-icon:hover {
+  color: #941818;
+  cursor: pointer;
 }
 
 .content-container .details-container,

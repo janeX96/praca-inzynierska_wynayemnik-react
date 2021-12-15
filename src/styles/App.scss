@@ -73,38 +73,52 @@ body {
   .details-container__buttons {
     margin-left: 50px;
     margin-bottom: 20px;
+    // display: inline-block;
+    // box-sizing: border-box;
   }
   .details-container__button {
     @include button($main-color-light, $text-color-light, $main-color-dark);
-    float: left;
+    display: inline;
   }
   .details-container__button--return {
     @include button($main-color-light, $text-color-light, $main-color-dark);
     margin-right: 100px;
+    display: inline;
   }
 
   //icons
-  &__icon-container {
+  .icon-container {
     font-size: 35px;
-    float: left;
+    padding: 5px;
+    display: inline;
+    color: $main-color-dark;
+    p {
+      display: none;
+    }
+    &:hover p {
+      display: inline;
+      font-size: 10px;
+    }
+
+    &__edit-icon {
+      &:hover {
+        color: $edit-color;
+        cursor: pointer;
+      }
+    }
+    &__new-icon {
+      &:hover {
+        color: $create-color;
+        cursor: pointer;
+      }
+    }
+    &__delete-icon {
+      &:hover {
+        color: $delete-color;
+        cursor: pointer;
+      }
+    }
   }
-
-  //   .edit,
-  // .delete,
-  // .new {
-  //   color: var(--light-color);
-  // }
-  // .new:hover {
-  //   color: var(--accept-color);
-  // }
-
-  // .delete:hover {
-  //   color: var(--error-color);
-  // }
-
-  // .edit:hover {
-  //   color: var(--edit-color);
-  // }
 
   //forms
   .details-container,
