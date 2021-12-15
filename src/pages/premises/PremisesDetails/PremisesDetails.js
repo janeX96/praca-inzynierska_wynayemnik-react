@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 // import "./PremisesDetails.css";
-import "../../../styles/App.css";
+import "../../../styles/App.scss";
 import PremisesEdit from "../PremisesEdit";
 import keycloak from "../../../auth/keycloak";
 import { Link } from "react-router-dom";
 import { BsTrashFill } from "react-icons/bs";
 import { AiFillEdit } from "react-icons/ai";
-import Icons from "../../../styles/Icons.css";
 
 const PremisesDetails = ({
   premisesId,

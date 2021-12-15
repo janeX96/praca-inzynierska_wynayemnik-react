@@ -1,4 +1,4 @@
-import "../../styles/App.css";
+import "../../styles/App.scss";
 import { useState, useEffect } from "react";
 import keycloak from "../../auth/keycloak";
 

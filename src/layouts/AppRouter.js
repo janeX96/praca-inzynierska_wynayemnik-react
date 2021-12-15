@@ -1,7 +1,7 @@
 import React from "react";
 import { useKeycloak } from "@react-keycloak/web";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import "../styles/App.css";
+import "../styles/App.scss";
 import Navbar from "./Navbar/Navbar";
 import Footer from "./Footer/Footer";
 import Home from "../pages/Home/Home";
@@ -12,7 +12,6 @@ import Owner_NewPremises from "../pages/premises/Owner_NewPremises";
 import Registration from "../auth/Registration/Registration";
 import UserProfile from "../pages/UserProfile/UserProfile";
 import Owner_Locations from "../pages/locations/Owner_Locations";
-import NewLocation from "../pages/locations/NewLocation";
 import Rent from "../pages/rent/Rent";
 const AppRouter = () => {
   const { initialized } = useKeycloak();
@@ -46,11 +45,6 @@ const AppRouter = () => {
                   roles={["owner"]}
                   path="/owner-locations"
                   component={Owner_Locations}
-                />
-                <PrivateRoute
-                  roles={["owner"]}
-                  path="/owner-new-location"
-                  component={NewLocation}
                 />
                 <PrivateRoute
                   roles={["owner"]}

@@ -1,4 +1,4 @@
-import "../../styles/App.css";
+import "../../styles/App.scss";
 import { Stepper } from "react-form-stepper";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";

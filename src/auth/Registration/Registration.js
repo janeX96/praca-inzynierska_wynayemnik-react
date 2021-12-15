@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../../styles/App.css";
+import "../../styles/App.scss";
 import "./Registration.css";
 import ReCAPTCHA from "react-google-recaptcha";
 import RegistrationComplete from "./RegistrationComplete";
@@ -189,106 +189,123 @@ const Registration = () => {
       {data.success ? (
         <RegistrationComplete />
       ) : (
-        <div className="registration-container">
+        <div className="form-container">
           <span className="error-msg">{data.registrationError}</span>
-          <form className="register-form" onSubmit={handleSubmit}>
-            <input
-              className="register-input"
-              type="firstName"
-              name="firstName"
-              placeholder="imię"
-              minLength="2"
-              maxLength="30"
-              value={data.firstName}
-              onChange={handleChange}
-              required
-            />
+          <form onSubmit={handleSubmit}>
+            <div className="form-container__row">
+              <div className="row__col-75">
+                <input
+                  className="register-input"
+                  type="firstName"
+                  name="firstName"
+                  placeholder="imię"
+                  minLength="2"
+                  maxLength="30"
+                  value={data.firstName}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </div>
+            <div className="form-container__row">
+              <div className="row__col-75">
+                <input
+                  className="register-input"
+                  type="lastName"
+                  name="lastName"
+                  minLength="2"
+                  maxLength="30"
+                  placeholder="nazwisko"
+                  value={data.lastName}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </div>
+            <div className="form-container__row">
+              <div className="row__col-75">
+                <input
+                  className="register-input"
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  maxLength="60"
+                  value={data.email}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </div>
+            <div className="form-container__row">
+              <div className="row__col-75">
+                <input
+                  className="register-input"
+                  type="tel"
+                  name="phoneNumber"
+                  pattern="[0-9]{9}"
+                  placeholder="numer tel : 123456789"
+                  value={data.phoneNumber}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </div>
 
-            <input
-              className="register-input"
-              type="lastName"
-              name="lastName"
-              minLength="2"
-              maxLength="30"
-              placeholder="nazwisko"
-              value={data.lastName}
-              onChange={handleChange}
-              required
-            />
-
-            <input
-              className="register-input"
-              type="email"
-              name="email"
-              placeholder="Email"
-              maxLength="60"
-              value={data.email}
-              onChange={handleChange}
-              required
-            />
-
-            <input
-              className="register-input"
-              type="tel"
-              name="phoneNumber"
-              pattern="[0-9]{9}"
-              placeholder="numer tel : 123456789"
-              value={data.phoneNumber}
-              onChange={handleChange}
-              required
-            />
-
-            <label htmlFor="password">
-              <input
-                className="register-input"
-                type="password"
-                name="password"
-                placeholder="hasło"
-                minLength="6"
-                maxLength="25"
-                value={data.password}
-                onChange={handleChange}
-                required
-              />
-              {data.errors.passwordsNotSameError && (
-                <span className="error-msg">{messages.notSamePass}</span>
-              )}
-            </label>
-
-            <label htmlFor="checkPassword">
-              <input
-                className="register-input"
-                type="password"
-                name="checkPassword"
-                placeholder="powtórz hasło"
-                minLength="6"
-                maxLength="25"
-                value={data.checkPassword}
-                onChange={handleChange}
-                required
-              />
-              {data.errors.passwordsNotSameError && (
-                <span className="error-msg">{messages.notSamePass}</span>
-              )}
-            </label>
-
-            <div className="reCaptcha">
-              <ReCAPTCHA
-                sitekey="6LdYUw0dAAAAAPtkwRE9qReUtokW_mjQyH71PQgT"
-                name="reCaptcha"
-                onChange={handleReCAPTCHA}
-              />
-              {data.errors.reCaptchaError && (
-                <span className="error-msg">{messages.reCaptchaErr}</span>
-              )}
+            <div className="form-container__row">
+              <div className="row__col-75">
+                <input
+                  className="register-input"
+                  type="password"
+                  name="password"
+                  placeholder="hasło"
+                  minLength="6"
+                  maxLength="25"
+                  value={data.password}
+                  onChange={handleChange}
+                  required
+                />
+                {data.errors.passwordsNotSameError && (
+                  <span className="error-msg">{messages.notSamePass}</span>
+                )}
+              </div>
+            </div>
+            <div className="form-container__row">
+              <div className="row__col-75">
+                <input
+                  className="register-input"
+                  type="password"
+                  name="checkPassword"
+                  placeholder="powtórz hasło"
+                  minLength="6"
+                  maxLength="25"
+                  value={data.checkPassword}
+                  onChange={handleChange}
+                  required
+                />
+                {data.errors.passwordsNotSameError && (
+                  <span className="error-msg">{messages.notSamePass}</span>
+                )}
+              </div>
+            </div>
+            <div className="form-container__row">
+              <div className="row__col-75">
+                <div className="reCaptcha">
+                  <ReCAPTCHA
+                    sitekey="6LdYUw0dAAAAAPtkwRE9qReUtokW_mjQyH71PQgT"
+                    name="reCaptcha"
+                    onChange={handleReCAPTCHA}
+                  />
+                  {data.errors.reCaptchaError && (
+                    <span className="error-msg">{messages.reCaptchaErr}</span>
+                  )}
+                </div>
+              </div>
             </div>
 
             {data.sending ? (
               <img className="register-button" src={WaitIcon} alt="..." />
             ) : (
-              <button type="submit" className="register-button">
-                Zarejestruj
-              </button>
+              <button type="submit">Zarejestruj</button>
             )}
           </form>
         </div>

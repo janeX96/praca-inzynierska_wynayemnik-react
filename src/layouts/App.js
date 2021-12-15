@@ -1,4 +1,4 @@
-import "../styles/App.css";
+import "../styles/App.scss";
 import { ReactKeycloakProvider } from "@react-keycloak/web";
 import keycloak from "../auth/keycloak";
 import AppRouter from "./AppRouter";

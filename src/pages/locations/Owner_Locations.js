@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import keycloak from "../../auth/keycloak";
 import LoadData from "../LoadData";
-import "../../styles/App.css";
+import "../../styles/App.scss";
 import LocationDetails from "./LocationDetails";
 
 const Owner_Locations = () => {

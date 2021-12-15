@@ -85,8 +85,26 @@ body {
 
   //icons
   &__icon-container {
+    font-size: 35px;
     float: left;
   }
+
+  //   .edit,
+  // .delete,
+  // .new {
+  //   color: var(--light-color);
+  // }
+  // .new:hover {
+  //   color: var(--accept-color);
+  // }
+
+  // .delete:hover {
+  //   color: var(--error-color);
+  // }
+
+  // .edit:hover {
+  //   color: var(--edit-color);
+  // }
 
   //forms
   .details-container,
@@ -96,7 +114,10 @@ body {
     padding: 50px;
     box-sizing: border-box;
     max-width: 900px;
-    margin-right: 10%;
+    label {
+      padding: 12px 12px 12px 0;
+      display: inline-block;
+    }
   }
 
   .row__col-25 {
@@ -112,7 +133,7 @@ body {
   }
 
   /* Clear floats after the columns */
-  .row:after {
+  .form-container__row:after {
     content: "";
     display: table;
     clear: both;
@@ -131,13 +152,11 @@ body {
     height: 30px;
   }
 
-  .form-container__label {
-    padding: 12px 12px 12px 0;
-    display: inline-block;
-  }
-
   .form-container__buttons {
     margin-top: 50px;
+    button {
+      @include button($main-color-light, $text-color-light, $main-color-dark);
+    }
   }
 
   .form-container__error-msg {

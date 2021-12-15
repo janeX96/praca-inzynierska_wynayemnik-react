@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import "../styles/App.css";
+import "../styles/App.scss";
 import Table from "../components/Table/Table";
 
 const LoadData = (props) => {

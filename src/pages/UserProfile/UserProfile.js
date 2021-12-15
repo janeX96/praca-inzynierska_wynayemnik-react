@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import keycloak from "../../auth/keycloak";
-import "../../styles/App.css";
+import "../../styles/App.scss";
 import "./UserProfile.css";
 const UserProfile = () => {
   const [user, setUser] = useState({

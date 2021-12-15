@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import LoadData from "../LoadData";
 import keycloak from "../../auth/keycloak";
-import "../../styles/App.css";
+import "../../styles/App.scss";
 import PremisesDetails from "./PremisesDetails/PremisesDetails";
 import { Link } from "react-router-dom";
 import { BsPlusSquareFill } from "react-icons/bs";
-import Icons from "../../styles/Icons.css";
 
 const Owner_Premises = () => {
   const [state, setState] = useState({
