@@ -61,7 +61,7 @@ body {
   padding: 5px 15px 5px 15px;
 }
 
-.content-container__button :hover {
+.content-container__button:hover {
   background-color: #363636;
 }
 
@@ -93,7 +93,7 @@ body {
   float: left;
 }
 
-.content-container .details-container__button :hover {
+.content-container .details-container__button:hover {
   background-color: #363636;
 }
 
@@ -107,7 +107,7 @@ body {
   margin-right: 100px;
 }
 
-.content-container .details-container__button--return :hover {
+.content-container .details-container__button--return:hover {
   background-color: #363636;
 }
 
@@ -129,6 +129,11 @@ body {
 .content-container .form-container label {
   padding: 12px 12px 12px 0;
   display: inline-block;
+}
+
+.content-container .details-container ul,
+.content-container .form-container ul {
+  list-style-type: none;
 }
 
 .content-container .row__col-25 {
@@ -175,7 +180,7 @@ body {
   padding: 5px 15px 5px 15px;
 }
 
-.content-container .form-container__buttons button :hover {
+.content-container .form-container__buttons button:hover {
   background-color: #363636;
 }
 

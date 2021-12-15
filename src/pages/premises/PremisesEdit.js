@@ -729,9 +729,8 @@ const PremisesEdit = (props) => {
               />
             </div>
           </div>
-          <div className="form-container__buttons ">
+          <div className="form-container__buttons">
             <button onClick={props.return}>Powrót</button>
-
             <button type="submit">Zapisz</button>
           </div>
         </form>

@@ -121,12 +121,13 @@ const RentSummary = ({
         <div className="form-container">
           <ul>
             <li>
-              <div className="row">
-                <div className="col-25">
+              <div className="form-container__row">
+                <div className="row__col-25">
                   <label>Najemca </label>
                 </div>
-                <div className="col-75">
+                <div className="row__col-75">
                   <input
+                    className="form-container__input"
                     type="text"
                     value={email + " - " + firstName + ", " + lastName}
                     disabled
@@ -135,10 +136,11 @@ const RentSummary = ({
               </div>
             </li>
             <li>
-              <div className="row">
-                <div className="col-25"></div>
-                <div className="col-75">
+              <div className="form-container__row">
+                <div className="row__col-25"></div>
+                <div className="row__col-75">
                   <input
+                    className="form-container__input"
                     type="text"
                     disabled
                     value={
@@ -151,11 +153,12 @@ const RentSummary = ({
               </div>
             </li>
             <li>
-              <div className="row">
-                <div className="col-25"></div>
-                <div className="col-75">
+              <div className="form-container__row">
+                <div className="row__col-25"></div>
+                <div className="row__col-75">
                   {" "}
                   <input
+                    className="form-container__input"
                     type="text"
                     disabled
                     value={
@@ -169,12 +172,13 @@ const RentSummary = ({
             </li>
 
             <li>
-              <div className="row">
-                <div className="col-25">
+              <div className="form-container__row">
+                <div className="row__col-25">
                   <label>Okres wynajmu: </label>
                 </div>
-                <div className="col-75">
+                <div className="row__col-75">
                   <input
+                    className="form-container__input"
                     type="text"
                     disabled
                     value={"od: " + startDate + " do: " + endDate}
@@ -183,36 +187,52 @@ const RentSummary = ({
               </div>
             </li>
             <li>
-              <div className="row">
-                <div className="col-25">
+              <div className="form-container__row">
+                <div className="row__col-25">
                   <label>Rodzaj wynajmu: </label>
                 </div>
-                <div className="col-75">
-                  <input type="text" disabled value={premisesType.type} />
+                <div className="row__col-75">
+                  <input
+                    className="form-container__input"
+                    type="text"
+                    disabled
+                    value={premisesType.type}
+                  />
                 </div>
               </div>
             </li>
             <li>
-              <div className="row">
-                <div className="col-25">
+              <div className="form-container__row">
+                <div className="row__col-25">
                   <label>Kaucja: </label>
                 </div>
-                <div className="col-75">
-                  <input type="text" disabled value={bailValue} />
+                <div className="row__col-75">
+                  <input
+                    className="form-container__input"
+                    type="text"
+                    disabled
+                    value={bailValue}
+                  />
                 </div>
               </div>
             </li>
             <li>
-              <div className="row">
-                <div className="col-25">
+              <div className="form-container__row">
+                <div className="row__col-25">
                   <label>Kwota czynszu: </label>
                 </div>
-                <div className="col-75">
+                <div className="row__col-75">
                   {statePaymentValue ? (
-                    <input type="text" disabled value={rentValue} />
+                    <input
+                      className="form-container__input"
+                      type="text"
+                      disabled
+                      value={rentValue}
+                    />
                   ) : (
                     paymentValues.map((p) => {
                       <input
+                        className="form-container__input"
                         type="text"
                         disabled
                         value={
@@ -230,34 +250,45 @@ const RentSummary = ({
               </div>
             </li>
             <li>
-              <div className="row">
-                <div className="col-25">
+              <div className="form-container__row">
+                <div className="row__col-25">
                   <label>Dzień płatności: </label>
                 </div>
-                <div className="col-75">
-                  <input type="text" disabled value={paymentDay} />
+                <div className="row__col-75">
+                  <input
+                    className="form-container__input"
+                    type="text"
+                    disabled
+                    value={paymentDay}
+                  />
                 </div>
               </div>
             </li>
             {carNumber.length > 0 && (
               <li>
-                <div className="row">
-                  <div className="col-25">
+                <div className="form-container__row">
+                  <div className="row__col-25">
                     <label>Nr rejestracyjny pojazdu: </label>
                   </div>
-                  <div className="col-75">
-                    <input type="text" disabled value={carNumber} />
+                  <div className="row__col-75">
+                    <input
+                      className="form-container__input"
+                      type="text"
+                      disabled
+                      value={carNumber}
+                    />
                   </div>
                 </div>
               </li>
             )}
             <li>
-              <div className="row">
-                <div className="col-25">
+              <div className="form-container__row">
+                <div className="row__col-25">
                   <label>Uwagi: </label>
                 </div>
-                <div className="col-75">
+                <div className="row__col-75">
                   <input
+                    className="form-container__input"
                     type="text"
                     disabled
                     value={description.length > 0 ? description : "brak"}
@@ -266,16 +297,17 @@ const RentSummary = ({
               </div>
             </li>
             <li>
-              <div className="row">
-                <div className="col-25">
+              <div className="form-container__row">
+                <div className="row__col-25">
                   <label>Załączone produkty: </label>
                 </div>
-                <div className="col-75">
+                <div className="row__col-75">
                   <ul>
                     {products.map((product) => {
                       return (
                         <li>
                           <input
+                            className="form-container__input"
                             type="text"
                             disabled
                             value={
@@ -292,19 +324,11 @@ const RentSummary = ({
               </div>
             </li>
           </ul>
-          <div className="form-buttons">
-            <button
-              onClick={handleConfirm}
-              data-name="back"
-              className="action-button"
-            >
+          <div className="form-container__buttons">
+            <button onClick={handleConfirm} data-name="back">
               Powrót
             </button>
-            <button
-              onClick={handleConfirm}
-              data-name="next"
-              className="action-button"
-            >
+            <button onClick={handleConfirm} data-name="next">
               Zapisz
             </button>
           </div>
