@@ -1,5 +1,9 @@
 @import "../../styles/_colors";
 
+.test {
+  color: $correct-color;
+}
+
 .table-container {
   margin-top: 0;
   table {

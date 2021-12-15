@@ -5,6 +5,7 @@ import "../../styles/App.scss";
 import PremisesDetails from "./PremisesDetails/PremisesDetails";
 import { Link } from "react-router-dom";
 import { BsPlusSquareFill } from "react-icons/bs";
+import Table from '../../components/Table/Table'
 
 const Owner_Premises = () => {
   const [state, setState] = useState({
@@ -147,6 +148,7 @@ const Owner_Premises = () => {
 
   return (
     <div className="content-container">
+      <Table />
       {state.choosenId >= 0 ? (
         <PremisesDetails
           key={state.choosenId}
