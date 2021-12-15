@@ -49,11 +49,7 @@ const AppRouter = () => {
                   component={Owner_Locations}
                 />
                 <PrivateRoute
-<<<<<<< HEAD
-                  roles={["owner"]}
-=======
                   roles={[roles.OWNER]}
->>>>>>> 6096f83ba526a3629d0e387961b988861985c10b
                   path="/owner-rent-new"
                   component={Rent}
                 />

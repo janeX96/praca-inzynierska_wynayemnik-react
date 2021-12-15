@@ -98,22 +98,12 @@ const RentSummary = ({
           premisesId: premisesId,
           productWithCounterList: productWithCounterList,
           rentValue: rentValue,
-<<<<<<< HEAD
-          startDate: startDate + "T20:44:36.263", //tymczasowe
-          statePaymentValue: statePaymentValue, //tymczasowe
-=======
           startDate: startDate,
           statePaymentValue: statePaymentValue,
->>>>>>> 6096f83ba526a3629d0e387961b988861985c10b
         };
       } else {
         obj = rentObj;
         obj.email = null;
-<<<<<<< HEAD
-        obj.startDate = obj.startDate + "T20:44:36.263";
-        obj.endDate = obj.endDate + "T20:44:36.263";
-=======
->>>>>>> 6096f83ba526a3629d0e387961b988861985c10b
       }
 
       console.log("Objekt do wysłania: ", obj);
@@ -339,7 +329,6 @@ const RentSummary = ({
               </span>
             )}
           </ul>
-<<<<<<< HEAD
           <div className="form-container__buttons">
             <button onClick={handleConfirm} data-name="back">
               Powrót
@@ -349,25 +338,6 @@ const RentSummary = ({
             </button>
           </div>
         </div>
-=======
-
-          <button
-            onClick={handleConfirm}
-            data-name="back"
-            className="action-button"
-            style={{ marginRight: "15px", marginTop: "30px" }}
-          >
-            Powrót
-          </button>
-          <button
-            onClick={handleConfirm}
-            data-name="next"
-            className="action-button"
-          >
-            Zapisz
-          </button>
-        </>
->>>>>>> 6096f83ba526a3629d0e387961b988861985c10b
       )}
     </div>
   );

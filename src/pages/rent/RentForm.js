@@ -236,7 +236,6 @@ const RentForm = (props) => {
 
         <div className="form-container">
           <form onSubmit={handleSubmit}>
-<<<<<<< HEAD
             <div className="form-container__row">
               <div className="row__col-25">
                 <label htmlFor="startDate">Od: </label>
@@ -329,74 +328,6 @@ const RentForm = (props) => {
               </div>
             </div>
 
-=======
-            <label htmlFor="startDate">
-              Od:
-              <input
-                type="datetime-local"
-                id="startDate"
-                name="startDate"
-                min={today}
-                value={rentDetails.startDate}
-                onChange={handleChange}
-              />
-              {errors.startDateError && (
-                <span className="error-msg">
-                  {messages.startDate_incorrect}
-                </span>
-              )}
-            </label>
-            <label htmlFor="endDate">
-              Do:
-              <input
-                type="datetime-local"
-                id="endDate"
-                name="endDate"
-                min={today}
-                value={rentDetails.endDate}
-                onChange={handleChange}
-              />
-              {errors.endDateError && (
-                <span className="error-msg">{messages.endDate_incorrect}</span>
-              )}
-            </label>
-            <label htmlFor="premisesType">
-              Rodzaj:
-              <select
-                value={rentDetails.premisesType.type}
-                id="premisesType"
-                name="premisesType"
-                onChange={handleChange}
-              >
-                <option key="" value=""></option>
-                {premisesTypes.types.map((option) => (
-                  <option key={option.value} value={option.label}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-              {errors.premisesTypeError && (
-                <span className="error-msg">
-                  {messages.premisesType_incorrect}
-                </span>
-              )}
-            </label>
-            <label htmlFor="carNumber">
-              carNumber:
-              <input
-                type="text"
-                id="carNumber"
-                name="carNumber"
-                value={rentDetails.carNumber}
-                onChange={handleChange}
-              />
-              {errors.carNumberError && (
-                <span className="error-msg">
-                  {messages.carNumber_incorrect}
-                </span>
-              )}
-            </label>
->>>>>>> 6096f83ba526a3629d0e387961b988861985c10b
             <h1>Opłaty</h1>
             <div className="form-container__row">
               <div className="row__col-25">

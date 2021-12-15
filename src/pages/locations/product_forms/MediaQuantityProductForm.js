@@ -1,8 +1,4 @@
-<<<<<<< HEAD:src/pages/locations/MediaQuantityProductForm.js
-import "../../styles/App.scss";
-=======
-import "../../../styles/App.css";
->>>>>>> 6096f83ba526a3629d0e387961b988861985c10b:src/pages/locations/product_forms/MediaQuantityProductForm.js
+import "../../../styles/App.scss";
 import { useState, useEffect } from "react";
 
 const MediaQuantityProductForm = (props) => {

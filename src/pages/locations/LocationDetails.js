@@ -229,7 +229,6 @@ const LocationDetails = (props) => {
       default:
         return null;
         break;
-
     }
   };
 
@@ -357,7 +356,6 @@ const LocationDetails = (props) => {
     <>
       <h1 className="content-title">Lokacja:</h1>
 
-<<<<<<< HEAD
       <div className="form-container">
         <form onSubmit="">
           <button onClick={() => props.handleAction(-1)}>Powrót</button>
@@ -467,84 +465,6 @@ const LocationDetails = (props) => {
           <button type="submit">Zapisz</button>
         </form>
       </div>
-=======
-      <form onSubmit={handleSubmit}>
-        <button onClick={() => props.handleAction(-1)}>Powrót</button>
-        <div className="new-premises-details">
-          <label htmlFor="city">
-            Miasto:
-            <input
-              id="city"
-              type="text"
-              name="city"
-              value={location.address.city}
-              onChange={handleChange}
-            />
-            {errors.city && (
-              <span className="error-msg">{messages.city_incorrect}</span>
-            )}
-          </label>
-          <label htmlFor="postCode">
-            Kod pocztowy:
-            <input
-              id="postCode"
-              type="text"
-              name="postCode"
-              value={location.address.postCode}
-              onChange={handleChange}
-            />
-            {errors.postCode && (
-              <span className="error-msg">{messages.postCode_incorrect}</span>
-            )}
-          </label>
-          <label htmlFor="street">
-            Ulica:
-            <input
-              id="street"
-              type="text"
-              name="street"
-              value={location.address.street}
-              onChange={handleChange}
-            />
-            {errors.street && (
-              <span className="error-msg">{messages.street_incorrect}</span>
-            )}
-          </label>
-          <label htmlFor="streetNumber">
-            Nr:
-            <input
-              id="streetNumber"
-              type="text"
-              name="streetNumber"
-              value={location.address.streetNumber}
-              onChange={handleChange}
-            />
-            {errors.streetNumber && (
-              <span className="error-msg">
-                {messages.streetNumber_incorrect}
-              </span>
-            )}
-          </label>
-          <label htmlFor="locationName">
-            Nazwa:
-            <input
-              id="locationName"
-              type="text"
-              name="locationName"
-              value={location.locationName}
-              onChange={handleChange}
-              placeholder="(opcjonalnie)"
-            />
-            {errors.locationName && (
-              <span className="error-msg">
-                {messages.locationName_incorrect}
-              </span>
-            )}
-          </label>
-        </div>
-        <button type="submit">Zapisz</button>
-      </form>
->>>>>>> 6096f83ba526a3629d0e387961b988861985c10b
 
       <h1>Produkty</h1>
 
