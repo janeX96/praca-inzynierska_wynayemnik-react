@@ -107,7 +107,7 @@ const UserFormForRent = (props) => {
                 firstName: "",
                 lastName: "",
                 phoneNumber: "",
-                sharing: true,
+                sharing: false,
               },
             });
             props.setEmail("", {
@@ -115,7 +115,7 @@ const UserFormForRent = (props) => {
               firstName: "",
               lastName: "",
               phoneNumber: "",
-              sharing: "",
+              sharing: false,
             });
             return false;
           }

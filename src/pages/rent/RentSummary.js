@@ -27,6 +27,7 @@ const RentSummary = ({
   const [sending, setSending] = useState(false);
   const [createURL, setCreateURL] = useState();
   const [success, setSuccess] = useState(false);
+  const [error, setError] = useState("");
 
   const getResources = async () => {
     const response = await fetch("/resources.json");
@@ -59,11 +60,14 @@ const RentSummary = ({
       const res = await fetch(createURL, requestOptions)
         .then((response) => {
           if (response.ok) {
-            // console.log("UDAŁO SIE!!!");
+            console.log("UDAŁO SIE!!!");
+
             setSuccess(true);
             setSending(false);
           } else {
-            // console.log("NIE UDAŁO SIE... :(");
+            console.log("NIE UDAŁO SIE... :(");
+
+            setError("Błąd: ", res.error); // potrzeba error msg od serwera
             setSending(false);
             setSuccess(false);
           }
@@ -71,8 +75,6 @@ const RentSummary = ({
         })
         .catch((err) => {
           console.log("Error: ", err);
-          setSending(false);
-          setSuccess(false);
         });
     }
   };
@@ -89,21 +91,29 @@ const RentSummary = ({
           counterMediaRent: counterMediaRent,
           description: description,
           email: email,
-          endDate: endDate + "T20:44:36.263", //tymczasowe (czy potrzebna godzina ? )
+          endDate: endDate,
           paymentDay: paymentDay,
           paymentValues: paymentValues,
           premisesType: { type: premisesType.type },
           premisesId: premisesId,
           productWithCounterList: productWithCounterList,
           rentValue: rentValue,
+<<<<<<< HEAD
           startDate: startDate + "T20:44:36.263", //tymczasowe
           statePaymentValue: statePaymentValue, //tymczasowe
+=======
+          startDate: startDate,
+          statePaymentValue: statePaymentValue,
+>>>>>>> 6096f83ba526a3629d0e387961b988861985c10b
         };
       } else {
         obj = rentObj;
         obj.email = null;
+<<<<<<< HEAD
         obj.startDate = obj.startDate + "T20:44:36.263";
         obj.endDate = obj.endDate + "T20:44:36.263";
+=======
+>>>>>>> 6096f83ba526a3629d0e387961b988861985c10b
       }
 
       console.log("Objekt do wysłania: ", obj);
@@ -323,7 +333,13 @@ const RentSummary = ({
                 </div>
               </div>
             </li>
+            {error && (
+              <span className="error-msg" style={{ fontSize: "25px" }}>
+                {error}
+              </span>
+            )}
           </ul>
+<<<<<<< HEAD
           <div className="form-container__buttons">
             <button onClick={handleConfirm} data-name="back">
               Powrót
@@ -333,6 +349,25 @@ const RentSummary = ({
             </button>
           </div>
         </div>
+=======
+
+          <button
+            onClick={handleConfirm}
+            data-name="back"
+            className="action-button"
+            style={{ marginRight: "15px", marginTop: "30px" }}
+          >
+            Powrót
+          </button>
+          <button
+            onClick={handleConfirm}
+            data-name="next"
+            className="action-button"
+          >
+            Zapisz
+          </button>
+        </>
+>>>>>>> 6096f83ba526a3629d0e387961b988861985c10b
       )}
     </div>
   );

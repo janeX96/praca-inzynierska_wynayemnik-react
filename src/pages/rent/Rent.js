@@ -22,8 +22,8 @@ const Rent = () => {
   const [rent, setRent] = useState({
     bailValue: 0,
     carNumber: "",
-    clientAccess: true,
-    counterMediaRent: true,
+    clientAccess: false,
+    counterMediaRent: false,
     description: "",
     email: "",
     endDate: "",
@@ -40,7 +40,7 @@ const Rent = () => {
       firstName: "",
       lastName: "",
       phoneNumber: "",
-      sharing: true,
+      sharing: false,
     },
   });
 
@@ -60,7 +60,7 @@ const Rent = () => {
   };
 
   const stepBack = (index) => {
-    setCompletedSteps({ [index]: true });
+    // setCompletedSteps({ [index]: true });
     setActiveStep(activeStep - 1);
   };
 
@@ -153,6 +153,11 @@ const Rent = () => {
       <div className="content-container">
         <h1 className="content-title">Wynajem lokalu</h1>
         <Stepper
+          styleConfig={{
+            activeBgColor: "#48bd4c",
+            inactiveBgColor: "#727178",
+            completedBgColor: "#417843",
+          }}
           steps={[
             { label: "Najemca" },
             { label: "Wynajem" },

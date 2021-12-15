@@ -8,7 +8,10 @@ const RentForm = (props) => {
     var dd = String(today.getDate()).padStart(2, "0");
     var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
     var yyyy = today.getFullYear();
-    today = yyyy + "-" + mm + "-" + dd;
+    var time =
+      today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+
+    today = yyyy + "-" + mm + "-" + dd + "T" + time;
     return today;
   };
 
@@ -42,10 +45,12 @@ const RentForm = (props) => {
   const messages = {
     bailValue_incorrect: "Podaj wartość kaucji",
     carNumber_incorrect: "Podaj wartość (7 znaków)",
-    endDate_incorrect: "Podaj wartość",
+    endDate_incorrect:
+      "Wybierz właściwą datę (data zakończenia musi być późniejsza niż data rozpoczęcia)",
     paymentDay_incorrect: "Podaj wartość 1-31",
     rentValue_incorrect: "Podaj wartość",
-    startDate_incorrect: "Podaj wartość",
+    startDate_incorrect:
+      "Wybierz właściwą datę (data rozpoczęcia musi poprzedzać datę zakończenia)",
     premisesType_incorrect: "Wybierz rodzaj wynajmu",
   };
 
@@ -70,11 +75,17 @@ const RentForm = (props) => {
       carNumber = true;
     }
 
-    if (rentDetails.startDate.length > 0) {
+    if (
+      rentDetails.startDate.length > 0 &&
+      rentDetails.startDate < rentDetails.endDate
+    ) {
       startDate = true;
     }
 
-    if (rentDetails.endDate.length > 0) {
+    if (
+      rentDetails.endDate.length > 0 &&
+      rentDetails.startDate < rentDetails.endDate
+    ) {
       endDate = true;
     }
 
@@ -176,33 +187,34 @@ const RentForm = (props) => {
     console.log(action);
     const validation = formValidation();
 
-    if (validation.correct) {
-      props.setRentDetails(rentDetails);
-      if (action === "next") {
-        props.stepDone(2);
-      } else {
-        props.stepBack();
-      }
+    if (action === "next") {
+      if (validation.correct) {
+        props.setRentDetails(rentDetails);
 
-      setErrors({
-        bailValueError: false,
-        carNumberError: false,
-        endDateError: false,
-        paymentDayError: false,
-        rentValueError: false,
-        startDateError: false,
-        premisesTypeError: false,
-      });
+        props.stepDone(2);
+
+        setErrors({
+          bailValueError: false,
+          carNumberError: false,
+          endDateError: false,
+          paymentDayError: false,
+          rentValueError: false,
+          startDateError: false,
+          premisesTypeError: false,
+        });
+      } else {
+        setErrors({
+          bailValueError: !validation.bailValue,
+          carNumberError: !validation.carNumber,
+          endDateError: !validation.endDate,
+          paymentDayError: !validation.paymentDay,
+          rentValueError: !validation.rentValue,
+          startDateError: !validation.startDate,
+          premisesTypeError: !validation.premisesType,
+        });
+      }
     } else {
-      setErrors({
-        bailValueError: !validation.bailValue,
-        carNumberError: !validation.carNumber,
-        endDateError: !validation.endDate,
-        paymentDayError: !validation.paymentDay,
-        rentValueError: !validation.rentValue,
-        startDateError: !validation.startDate,
-        premisesTypeError: !validation.premisesType,
-      });
+      props.stepBack();
     }
   };
   const handleBack = () => {};
@@ -224,6 +236,7 @@ const RentForm = (props) => {
 
         <div className="form-container">
           <form onSubmit={handleSubmit}>
+<<<<<<< HEAD
             <div className="form-container__row">
               <div className="row__col-25">
                 <label htmlFor="startDate">Od: </label>
@@ -316,6 +329,74 @@ const RentForm = (props) => {
               </div>
             </div>
 
+=======
+            <label htmlFor="startDate">
+              Od:
+              <input
+                type="datetime-local"
+                id="startDate"
+                name="startDate"
+                min={today}
+                value={rentDetails.startDate}
+                onChange={handleChange}
+              />
+              {errors.startDateError && (
+                <span className="error-msg">
+                  {messages.startDate_incorrect}
+                </span>
+              )}
+            </label>
+            <label htmlFor="endDate">
+              Do:
+              <input
+                type="datetime-local"
+                id="endDate"
+                name="endDate"
+                min={today}
+                value={rentDetails.endDate}
+                onChange={handleChange}
+              />
+              {errors.endDateError && (
+                <span className="error-msg">{messages.endDate_incorrect}</span>
+              )}
+            </label>
+            <label htmlFor="premisesType">
+              Rodzaj:
+              <select
+                value={rentDetails.premisesType.type}
+                id="premisesType"
+                name="premisesType"
+                onChange={handleChange}
+              >
+                <option key="" value=""></option>
+                {premisesTypes.types.map((option) => (
+                  <option key={option.value} value={option.label}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+              {errors.premisesTypeError && (
+                <span className="error-msg">
+                  {messages.premisesType_incorrect}
+                </span>
+              )}
+            </label>
+            <label htmlFor="carNumber">
+              carNumber:
+              <input
+                type="text"
+                id="carNumber"
+                name="carNumber"
+                value={rentDetails.carNumber}
+                onChange={handleChange}
+              />
+              {errors.carNumberError && (
+                <span className="error-msg">
+                  {messages.carNumber_incorrect}
+                </span>
+              )}
+            </label>
+>>>>>>> 6096f83ba526a3629d0e387961b988861985c10b
             <h1>Opłaty</h1>
             <div className="form-container__row">
               <div className="row__col-25">

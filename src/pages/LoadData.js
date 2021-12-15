@@ -4,21 +4,16 @@ import "../styles/App.scss";
 import Table from "../components/Table/Table";
 
 const LoadData = (props) => {
-  const [data, setData] = useState(props.data);
-
-  const columns = React.useMemo(() => props.columns, []);
-  const fetchedData = React.useMemo(() => data, []);
-
   return (
-    <>
-      {data && (
+    <div>
+      {props.data && (
         <Table
-          columns={columns}
-          data={fetchedData}
+          columns={props.columns}
+          data={props.data}
           initialState={props.initialState}
         />
       )}
-    </>
+    </div>
   );
 };
 

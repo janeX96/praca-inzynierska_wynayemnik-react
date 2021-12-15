@@ -1,4 +1,8 @@
+<<<<<<< HEAD:src/pages/locations/MediaQuantityProductForm.js
 import "../../styles/App.scss";
+=======
+import "../../../styles/App.css";
+>>>>>>> 6096f83ba526a3629d0e387961b988861985c10b:src/pages/locations/product_forms/MediaQuantityProductForm.js
 import { useState, useEffect } from "react";
 
 const MediaQuantityProductForm = (props) => {
@@ -15,9 +19,7 @@ const MediaQuantityProductForm = (props) => {
       vat: "",
     },
   });
-  const [premisesTypes, setPremisesTypes] = useState(
-    props.premisesTypes.premisesTypes
-  );
+  const [premisesTypes, setPremisesTypes] = useState(props.premisesTypes);
 
   const [pattern, setPattern] = useState({
     attr1: "",
@@ -42,7 +44,7 @@ const MediaQuantityProductForm = (props) => {
   const handleChange = (e) => {
     const name = e.target.name;
     const type = e.target.type;
-    console.log(name);
+
     if (type === "text" || type === "number" || type === "select-one") {
       const value = e.target.value;
 
@@ -55,13 +57,10 @@ const MediaQuantityProductForm = (props) => {
       if (name === "premisesType") {
         var set = new Set(data.obj.premisesTypes);
         const value = e.target.id;
-        console.log(">>>>", value);
         if (set.has(value)) {
           set.delete(value);
-          console.log("usunieto:", value);
         } else {
           set.add(value);
-          console.log("dodano:", value);
         }
 
         let arr = Array.from(set);
@@ -71,9 +70,7 @@ const MediaQuantityProductForm = (props) => {
         const checked = e.target.checked;
         setData({ ...data, obj: { ...data.obj, [name]: checked } });
       }
-    } // else if (type === "select-multiple") {
-
-    // }
+    }
   };
 
   //todo

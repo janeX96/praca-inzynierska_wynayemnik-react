@@ -13,6 +13,8 @@ import Registration from "../auth/Registration/Registration";
 import UserProfile from "../pages/UserProfile/UserProfile";
 import Owner_Locations from "../pages/locations/Owner_Locations";
 import Rent from "../pages/rent/Rent";
+import roles from "../resources/roles";
+
 const AppRouter = () => {
   const { initialized } = useKeycloak();
   if (!initialized) {
@@ -32,22 +34,26 @@ const AppRouter = () => {
                 <Route path="/registration" component={Registration} />
                 <Route path="/user-profile" component={UserProfile} />
                 <PrivateRoute
-                  roles={["owner"]}
+                  roles={[roles.OWNER]}
                   path="/owner-premises"
                   component={Owner_Premises}
                 />
                 <PrivateRoute
-                  roles={["owner"]}
+                  roles={[roles.OWNER]}
                   path="/owner-premises-new"
                   component={Owner_NewPremises}
                 />
                 <PrivateRoute
-                  roles={["owner"]}
+                  roles={[roles.OWNER]}
                   path="/owner-locations"
                   component={Owner_Locations}
                 />
                 <PrivateRoute
+<<<<<<< HEAD
                   roles={["owner"]}
+=======
+                  roles={[roles.OWNER]}
+>>>>>>> 6096f83ba526a3629d0e387961b988861985c10b
                   path="/owner-rent-new"
                   component={Rent}
                 />
