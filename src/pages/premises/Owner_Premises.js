@@ -5,6 +5,7 @@ import "../../styles/App.scss";
 import PremisesDetails from "./PremisesDetails/PremisesDetails";
 import { Link } from "react-router-dom";
 import { BsPlusSquareFill } from "react-icons/bs";
+import { owner } from "../../resources/urls";
 
 const Owner_Premises = () => {
   const [state, setState] = useState({
@@ -20,44 +21,43 @@ const Owner_Premises = () => {
   // }, []);
 
   // pobranie danych dot. endpointów
-  const getResources = async () => {
-    const response = await fetch("/resources.json");
-    const resources = await response.json();
-    return resources;
-  };
+  // const getResources = async () => {
+  //   const response = await fetch("/resources.json");
+  //   const resources = await response.json();
+  //   return resources;
+  // };
 
   const getData = async () => {
     let deleteURL = "";
-    getResources().then((res) => {
-      deleteURL = res.urls.owner.premisesDelete;
 
-      //pobranie danych z wyciągniętego adresu url
-      fetch(res.urls.owner.premises, {
-        headers: { Authorization: " Bearer " + keycloak.token },
+    deleteURL = owner.premisesDelete;
+
+    //pobranie danych z wyciągniętego adresu url
+    fetch(owner.premises, {
+      headers: { Authorization: " Bearer " + keycloak.token },
+    })
+      .then((response) => {
+        return response.json();
       })
-        .then((response) => {
-          return response.json();
-        })
-        .then((data) => {
-          data.map((prem) => {
-            if (prem.state === "HIRED") {
-              prem.state = "wynajęty";
-            } else {
-              prem.state = "wolny";
-            }
+      .then((data) => {
+        data.map((prem) => {
+          if (prem.state === "HIRED") {
+            prem.state = "wynajęty";
+          } else {
+            prem.state = "wolny";
+          }
 
-            if (prem.furnished) {
-              prem.furnished = "tak";
-            } else {
-              prem.furnished = "nie";
-            }
-          });
-          setState({ ...state, deleteURL: deleteURL, data: data });
-        })
-        .catch((err) => {
-          console.log("Error Reading data " + err);
+          if (prem.furnished) {
+            prem.furnished = "tak";
+          } else {
+            prem.furnished = "nie";
+          }
         });
-    });
+        setState({ ...state, deleteURL: deleteURL, data: data });
+      })
+      .catch((err) => {
+        console.log("Error Reading data " + err);
+      });
   };
 
   const findDataById = (id) => {
