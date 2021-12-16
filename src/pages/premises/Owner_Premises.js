@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import LoadData from "../LoadData";
-import keycloak from "../../auth/keycloak";
 import "../../styles/App.scss";
 import PremisesDetails from "./PremisesDetails/PremisesDetails";
 import { Link } from "react-router-dom";
@@ -12,15 +11,10 @@ const Owner_Premises = () => {
   const [state, setState] = useState({
     data: [],
     choosenId: -1,
-    deleteURL: "",
     deletedMessage: "",
   });
 
   const getData = async () => {
-    let deleteURL = "";
-
-    deleteURL = owner.premisesDelete;
-
     GET(owner.premises).then((res) => {
       res.map((prem) => {
         if (prem.state === "HIRED") {
@@ -35,12 +29,11 @@ const Owner_Premises = () => {
           prem.furnished = "nie";
         }
       });
-      setState({ ...state, deleteURL: deleteURL, data: res });
+      setState({ ...state, data: res });
     });
   };
 
   const findDataById = (id) => {
-    // console.log("Odczyt: ", state.data);
     const res = state.data.find((premises) => {
       return premises.premisesId === id;
     });
@@ -130,7 +123,6 @@ const Owner_Premises = () => {
         <PremisesDetails
           key={state.choosenId}
           action={handleAction}
-          deleteURL={state.deleteURL}
           deleteShowMessage={(res) => deleteShowMessage(res)}
           reloadData={() => getData()}
           {...findDataById(state.choosenId)}

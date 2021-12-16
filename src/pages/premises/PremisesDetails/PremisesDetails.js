@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-// import "./PremisesDetails.css";
 import "../../../styles/App.scss";
 import PremisesEdit from "../PremisesEdit";
-import keycloak from "../../../auth/keycloak";
 import { Link } from "react-router-dom";
 import { BsTrashFill } from "react-icons/bs";
 import { AiFillEdit } from "react-icons/ai";
 import { FaKey } from "react-icons/fa";
+import { owner } from "../../../resources/urls";
+import { PATCH } from "../../../utilities/Request";
 
 const PremisesDetails = ({
   premisesId,
@@ -20,7 +20,6 @@ const PremisesDetails = ({
   location,
   deleteShowMessage,
   action,
-  deleteURL,
   reloadData,
 }) => {
   const [edit, setEdit] = useState(false);
@@ -49,30 +48,18 @@ const PremisesDetails = ({
 
   const handleDelete = () => {
     if (window.confirm("Czy na pewno chcesz usunąć ten lokal?")) {
-      const requestOptions = {
-        method: "PATCH",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json", //"application/json",
-          Authorization: " Bearer " + keycloak.token,
-        },
-      };
-
-      fetch(deleteURL + `${premisesId}`, requestOptions)
+      PATCH(`${owner.premisesDelete}${premisesId}`)
         .then((response) => {
           setDeleted(true);
-
-          const msg = response.ok
+          const msg = response
             ? "Lokal został usunięty"
             : "Nie udało się usunąć lokalu...";
           setSubmitMessage(msg);
           reloadData();
-
-          return response;
         })
         .catch((err) => {
           deleteShowMessage(false);
-          console.log(err);
+          console.log("Error :", err);
         });
     }
   };
