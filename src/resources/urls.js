@@ -1,4 +1,4 @@
-const httpPrefix = "http//";
+const httpPrefix = "http://";
 const port = "localhost:8080";
 
 const paths = {
