@@ -6,6 +6,7 @@ import PremisesDetails from "./PremisesDetails/PremisesDetails";
 import { Link } from "react-router-dom";
 import { BsPlusSquareFill } from "react-icons/bs";
 import { owner } from "../../resources/urls";
+import { GET } from "../../utilities/Request";
 
 const Owner_Premises = () => {
   const [state, setState] = useState({
@@ -15,49 +16,27 @@ const Owner_Premises = () => {
     deletedMessage: "",
   });
 
-  //pobiernie danych
-  // useEffect(() => {
-  //   getData();
-  // }, []);
-
-  // pobranie danych dot. endpointów
-  // const getResources = async () => {
-  //   const response = await fetch("/resources.json");
-  //   const resources = await response.json();
-  //   return resources;
-  // };
-
   const getData = async () => {
     let deleteURL = "";
 
     deleteURL = owner.premisesDelete;
 
-    //pobranie danych z wyciągniętego adresu url
-    fetch(owner.premises, {
-      headers: { Authorization: " Bearer " + keycloak.token },
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        data.map((prem) => {
-          if (prem.state === "HIRED") {
-            prem.state = "wynajęty";
-          } else {
-            prem.state = "wolny";
-          }
+    GET(owner.premises).then((res) => {
+      res.map((prem) => {
+        if (prem.state === "HIRED") {
+          prem.state = "wynajęty";
+        } else {
+          prem.state = "wolny";
+        }
 
-          if (prem.furnished) {
-            prem.furnished = "tak";
-          } else {
-            prem.furnished = "nie";
-          }
-        });
-        setState({ ...state, deleteURL: deleteURL, data: data });
-      })
-      .catch((err) => {
-        console.log("Error Reading data " + err);
+        if (prem.furnished) {
+          prem.furnished = "tak";
+        } else {
+          prem.furnished = "nie";
+        }
       });
+      setState({ ...state, deleteURL: deleteURL, data: res });
+    });
   };
 
   const findDataById = (id) => {
