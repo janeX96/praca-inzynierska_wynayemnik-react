@@ -4,6 +4,8 @@ import "../../styles/App.scss";
 import ReCAPTCHA from "react-google-recaptcha";
 import RegistrationComplete from "./RegistrationComplete";
 import WaitIcon from "../../images/icons/wait-icon.png";
+import { POST } from "../../utilities/Request";
+import { user } from "../../resources/urls";
 
 const Registration = () => {
   const [data, setData] = useState({
@@ -91,7 +93,7 @@ const Registration = () => {
     reCaptchaErr: "Potwierdź że nie jesteś robotem (no chyba że jesteś...)",
   };
 
-  async function handleSubmit(event) {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (!data.sending) {
@@ -120,36 +122,16 @@ const Registration = () => {
         };
 
         let jsonData = JSON.stringify(userData);
-        console.log(jsonData);
-
-        const requestOptions = {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: jsonData,
-        };
-
-        let responseOk = false;
+        // console.log(jsonData);
         let errorMsg = "";
-        await fetch("http://localhost:8080/auth/register", requestOptions)
-          .then((response) => {
-            if (response.ok) {
-              // console.log("REJESTRACJA POMYŚLNA");
-              responseOk = true;
-            }
-            return response.json();
-          })
+        await POST(user.register, jsonData)
           .then((res) => {
-            if (!res.ok) {
-              // console.log("error: ", res.error);
-              errorMsg = res.error;
-            }
-
-            if (responseOk) {
+            console.log("Otrzymalem: ", res);
+            if (res.ok) {
+              console.log("REJESTRACJA POMYŚLNA");
               setData({ ...data, success: true });
             } else {
+              errorMsg = res.error;
               setData({
                 ...data,
                 registrationError: errorMsg,
@@ -160,9 +142,42 @@ const Registration = () => {
             }
           })
           .catch((err) => {
-            // console.log("Błąd: ", err.message);
+            console.log("Błąd: ", err.message);
             setData({ ...data, sending: false });
           });
+
+        // let responseOk = false;
+        // let errorMsg = "";
+        // await fetch("http://localhost:8080/auth/register", requestOptions)
+        //   .then((response) => {
+        //     if (response.ok) {
+        //       // console.log("REJESTRACJA POMYŚLNA");
+        //       responseOk = true;
+        //     }
+        //     return response.json();
+        //   })
+        //   .then((res) => {
+        //     if (!res.ok) {
+        //       // console.log("error: ", res.error);
+        //       errorMsg = res.error;
+        //     }
+
+        //     if (responseOk) {
+        //       setData({ ...data, success: true });
+        //     } else {
+        //       setData({
+        //         ...data,
+        //         registrationError: errorMsg,
+        //         sending: false,
+        //         token: "",
+        //       });
+        //       window.grecaptcha.reset();
+        //     }
+        //   })
+        //   .catch((err) => {
+        //     // console.log("Błąd: ", err.message);
+        //     setData({ ...data, sending: false });
+        //   });
       } else {
         setData({
           ...data,
@@ -173,7 +188,7 @@ const Registration = () => {
         });
       }
     }
-  }
+  };
 
   const handleReCAPTCHA = (value) => {
     // console.log("Captcha value:", value);

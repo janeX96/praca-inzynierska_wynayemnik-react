@@ -1,14 +1,29 @@
 import keycloak from "../auth/keycloak";
 
-const requestOptions = (method) => {
-  return {
-    method: method,
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-      Authorization: " Bearer " + keycloak.token,
-    },
-  };
+const token = keycloak.token;
+
+const requestOptions = (method, obj = null) => {
+  if (obj != null) {
+    console.log("Token: ", token);
+    return {
+      method: method,
+      headers: {
+        // Accept: "application/json",
+        // "Content-Type": "application/json",
+        Authorization: " Bearer " + keycloak.token,
+      },
+      body: obj,
+    };
+  } else {
+    return {
+      method: method,
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: " Bearer " + keycloak.token,
+      },
+    };
+  }
 };
 
 const GET = async (url) => {
@@ -28,7 +43,34 @@ const GET = async (url) => {
   return response;
 };
 
-const POST = () => {};
+const POST = async (url, obj) => {
+  // console.log("Token: ", token);
+  let response = {};
+  const opt = {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      // Authorization: " Bearer " + keycloak.token,
+    },
+    body: obj,
+  };
+  console.log("optionsssssss: ", opt);
+  await fetch(url, opt)
+    .then((res) => {
+      console.log(res);
+
+      res.json().then((res) => {
+        response = res;
+        return response;
+      });
+    })
+    .catch((err) => {
+      console.error("Request error: ", err);
+    });
+
+  return response;
+};
 
 const PUT = () => {};
 
