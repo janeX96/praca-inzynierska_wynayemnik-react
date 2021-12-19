@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import keycloak from "../../auth/keycloak";
 import { Link } from "react-router-dom";
 import WaitIcon from "../../images/icons/wait-icon.png";
+import { GET, POST } from "../../utilities/Request";
+import { owner, general } from "../../resources/urls";
 
 const Owner_NewPremises = () => {
   const [state, setState] = useState({
@@ -43,61 +45,41 @@ const Owner_NewPremises = () => {
     submitMessage: "",
   });
 
-  const getResources = async () => {
-    const response = await fetch("/resources.json");
-    const resources = await response.json();
-    return resources;
-  };
-
   const getData = () => {
-    let postURL = "";
+    // let postURL = "";
     let locations = [];
     let types = [];
-    getResources().then((res) => {
-      //pobranie danych z wyciągniętego adresu url
-      postURL = res.urls.owner.newPremises;
-      fetch(res.urls.owner.locations, {
-        headers: { Authorization: " Bearer " + keycloak.token },
+
+    GET(owner.locations)
+      .then((data) => {
+        // console.log("Odbieram: ", data);
+        locations = data.map((location) => {
+          return {
+            value: location.locationId,
+            label: location.locationName,
+          };
+        });
       })
-        .then((response) => {
-          return response.json();
-        })
-        .then((data) => {
-          locations = data.map((location) => {
+      .then(() => {
+        //pobranie dostępnych typów lokali
+        GET(general.premises.premisesTypes).then((data) => {
+          // console.log("Odebrałem :", data);
+          types = data.map((type) => {
             return {
-              value: location.locationId,
-              label: location.locationName,
+              value: type.premisesTypeId,
+              label: type.type,
             };
           });
-        })
-        .then(() => {
-          //pobranie dostępnych typów lokali
-          fetch(res.urls.owner.premisesTypes, {
-            headers: { Authorization: " Bearer " + keycloak.token },
-          })
-            .then((response) => {
-              return response.json();
-            })
-            .then((data) => {
-              types = data.map((type) => {
-                return {
-                  value: type.premisesTypeId,
-                  label: type.type,
-                };
-              });
-              setState({
-                ...state,
-                postURL: postURL,
-                locations: locations,
-                premisesTypes: types,
-              });
-            });
-        })
-        .catch((err) => {
-          console.log("Error Reading data " + err);
+          setState({
+            ...state,
+            locations: locations,
+            premisesTypes: types,
+          });
         });
-      return res;
-    });
+      })
+      .catch((err) => {
+        console.log("Error Reading data " + err);
+      });
   };
 
   useEffect(() => {

@@ -24,20 +24,17 @@ const requestOptions = (method, obj = null) => {
 };
 
 const GET = async (url) => {
-  let response = {};
-  await fetch(url, {
+  return await fetch(url, {
     headers: { Authorization: " Bearer " + keycloak.token },
   })
+    .then((res) => res.json())
     .then((res) => {
-      if (res.ok) {
-        response = res.json();
-      }
+      console.log("Przekazuję: ", res);
+      return res;
     })
     .catch((err) => {
       console.error("Request error: ", err);
     });
-
-  return response;
 };
 
 const POST = async (url, obj, noAuth = false) => {
