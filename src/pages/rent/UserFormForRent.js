@@ -28,12 +28,6 @@ const UserFormForRent = (props) => {
     phoneNumberError: false,
   });
 
-  // const getResources = async () => {
-  //   const response = await fetch("/resources.json");
-  //   const resources = await response.json();
-  //   return resources;
-  // };
-
   const messages = {
     email_incorrect: "Podaj prawidłowy adres email",
     firstName_incorrect: "Wpisz od 3 do 30 znaków",
@@ -94,7 +88,7 @@ const UserFormForRent = (props) => {
     await GET(`${userReq.findByEmail}?email=${userEmail}`)
       .then((res) => {
         console.log("ODP: ", res);
-        if (res.ok) {
+        if (res != null) {
           userExists = true;
           return res;
         } else {

@@ -30,11 +30,13 @@ const GET = async (url) => {
   })
     .then((res) => res.json())
     .then((res) => {
-      // console.log("Przekazuję: ", res);
+      console.log("Przekazuję: ", res);
+
       return res;
     })
     .catch((err) => {
       console.error("Request error: ", err);
+      return null;
     });
 };
 
