@@ -52,7 +52,6 @@ const Owner_NewPremises = () => {
 
     GET(owner.locations)
       .then((data) => {
-        // console.log("Odbieram: ", data);
         locations = data.map((location) => {
           return {
             value: location.locationId,
@@ -63,7 +62,6 @@ const Owner_NewPremises = () => {
       .then(() => {
         //pobranie dostępnych typów lokali
         GET(general.premises.premisesTypes).then((data) => {
-          // console.log("Odebrałem :", data);
           types = data.map((type) => {
             return {
               value: type.premisesTypeId,
@@ -459,17 +457,8 @@ const Owner_NewPremises = () => {
     }
 
     let json = JSON.stringify(newPremises);
-    const requestOptions = {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: " Bearer " + keycloak.token,
-      },
-      body: json,
-    };
 
-    const res = await fetch(state.postURL, requestOptions)
+    const res = await POST(owner.newPremises, json)
       .then((response) => {
         return response.json();
       })
@@ -482,6 +471,20 @@ const Owner_NewPremises = () => {
         console.log("nie udane wysłanie żądania: ", err);
         setState({ ...state, isSending: false });
       });
+
+    // const res = await fetch(state.postURL, requestOptions)
+    //   .then((response) => {
+    //     return response.json();
+    //   })
+    //   .then((data) => {
+    //     setState({ ...state, lastAdded: data.premisesId });
+
+    //     return data;
+    //   })
+    //   .catch((err) => {
+    //     console.log("nie udane wysłanie żądania: ", err);
+    //     setState({ ...state, isSending: false });
+    //   });
 
     return res;
   };
