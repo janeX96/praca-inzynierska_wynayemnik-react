@@ -1,5 +1,6 @@
 import keycloak from "../auth/keycloak";
 
+//choose if we pass some body
 const requestOptions = (method, obj = null) => {
   if (obj != null) {
     return {
@@ -29,7 +30,7 @@ const GET = async (url) => {
   })
     .then((res) => res.json())
     .then((res) => {
-      console.log("Przekazuję: ", res);
+      // console.log("Przekazuję: ", res);
       return res;
     })
     .catch((err) => {
@@ -37,6 +38,7 @@ const GET = async (url) => {
     });
 };
 
+//add noAuth=true if user has no account (for example register method)
 const POST = async (url, obj, noAuth = false) => {
   let requestOpt = {};
   if (noAuth) {
