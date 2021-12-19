@@ -45,6 +45,7 @@ const owner = {
 const user = {
   info: `${httpPrefix}${port}/user`,
   register: `${httpPrefix}${port}/auth/register`,
+  findByEmail: `${httpPrefix}${port}/user/`,
 };
 
 //for all roles
