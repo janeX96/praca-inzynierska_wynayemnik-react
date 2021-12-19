@@ -440,30 +440,12 @@ const PremisesEdit = (props) => {
     }
 
     let json = JSON.stringify(newPremises);
-    const requestOptions = {
-      method: "PUT",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json", //"application/json",
-        Authorization: " Bearer " + keycloak.token,
-      },
-      body: json,
-    };
 
-    let ok = false;
-    const res = await fetch(
-      state.putURL + `${state.premisesId}`,
-      requestOptions
-    )
+    return await PUT(`${owner.premisesUpdate}${state.premisesId}`, json)
       .then((data) => {
-        if (data.ok) {
-          ok = true;
-        }
-        return data;
+        return data.ok;
       })
-      .catch((err) => console.log(err));
-
-    return ok;
+      .catch((err) => console.error(err));
   };
 
   return (

@@ -62,7 +62,18 @@ const POST = async (url, obj, noAuth = false) => {
     });
 };
 
-const PUT = () => {};
+const PUT = async (url, obj) => {
+  const requestOpt = requestOptions("PUT", obj);
+
+  return await fetch(url, requestOpt)
+    .then((res) => {
+      // console.log("Przekazuję: ", res);
+      return res;
+    })
+    .catch((err) => {
+      console.error("Request error: ", err);
+    });
+};
 
 const PATCH = async (url) => {
   let response = {};
