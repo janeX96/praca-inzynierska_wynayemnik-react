@@ -1,72 +1,39 @@
 import { useState, useEffect } from "react";
 import "./ProductsForRent.css";
 import keycloak from "../../../auth/keycloak";
-
+import { GET } from "../../../utilities/Request";
+import { owner } from "../../../resources/urls";
 const ProductsForRent = (props) => {
   const [allProducts, setAllProducts] = useState([]);
   const [availableProducts, setAvailableProducts] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState(props.selectedSave);
   const [description, setDescription] = useState(props.default.description);
-  const getResources = async () => {
-    const response = await fetch("/resources.json");
-    const resources = await response.json();
-    return resources;
-  };
 
   //defaut selected
   const getProductsForType = async (type) => {
-    // let selectedProds = [];
-    const response = await getResources()
+    return await GET(
+      `${owner.productsForLocation.prefix}${props.locationId}${owner.productsForLocation.productsForType}${type}`
+    )
       .then((res) => {
-        const url =
-          res.urls.owner.products.prefix +
-          props.locationId +
-          "/products?productType=" +
-          type;
-        const prods = fetch(url, {
-          headers: { Authorization: " Bearer " + keycloak.token },
-        })
-          .then((res) => {
-            return res.json();
-          })
-          .then((res) => {
-            setSelectedProducts(res);
-            // selectedProds = res;
-            return res;
-          })
-          .catch((err) => {
-            console.log("Error Reading data " + err);
-          });
-        return prods;
-      })
-      .then((res) => {
+        setSelectedProducts(res);
         return res;
+      })
+      .catch((err) => {
+        console.log("Error Reading data " + err);
       });
-
-    return response;
   };
 
   const getAllProducts = async () => {
-    const response = await getResources().then((res) => {
-      const url =
-        res.urls.owner.products.prefix + props.locationId + "/productGroupType";
-      const allProds = fetch(url, {
-        headers: { Authorization: " Bearer " + keycloak.token },
+    return await GET(
+      `${owner.productsForLocation.prefix}${props.locationId}${owner.productsForLocation.allProductsSuffix}`
+    )
+      .then((res) => {
+        setAllProducts(res);
+        return res;
       })
-        .then((res) => {
-          return res.json();
-        })
-        .then((res) => {
-          setAllProducts(res);
-          return res;
-        })
-        .catch((err) => {
-          console.log("Error Reading data " + err);
-        });
-      return allProds;
-    });
-
-    return response;
+      .catch((err) => {
+        console.log("Error Reading data " + err);
+      });
   };
 
   useEffect(() => {

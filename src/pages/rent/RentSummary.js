@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import keycloak from "../../auth/keycloak";
+import { POST } from "../../utilities/Request";
 import Confirmation from "./Confirmation";
+import { owner } from "../../resources/urls";
 
 const RentSummary = ({
   userEmail,
@@ -25,39 +27,30 @@ const RentSummary = ({
   userAccount: { email, firstName, lastName, phoneNumber, sharing },
 }) => {
   const [sending, setSending] = useState(false);
-  const [createURL, setCreateURL] = useState();
+  // const [createURL, setCreateURL] = useState();
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
 
-  const getResources = async () => {
-    const response = await fetch("/resources.json");
-    const resources = await response.json();
-    return resources;
-  };
+  // const getResources = async () => {
+  //   const response = await fetch("/resources.json");
+  //   const resources = await response.json();
+  //   return resources;
+  // };
 
-  useEffect(() => {
-    getResources().then((res) => {
-      const url = res.urls.owner.rent.new;
-      setCreateURL(url);
-    });
-  }, []);
+  // useEffect(() => {
+  //   getResources().then((res) => {
+  //     const url = res.urls.owner.rent.new;
+  //     setCreateURL(url);
+  //   });
+  // }, []);
 
   const createRentRequest = async (obj) => {
     if (!sending) {
       setSending(true);
 
       let json = JSON.stringify(obj);
-      const requestOptions = {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: " Bearer " + keycloak.token,
-        },
-        body: json,
-      };
 
-      const res = await fetch(createURL, requestOptions)
+      POST(owner.rent.new, json)
         .then((response) => {
           if (response.ok) {
             console.log("UDAŁO SIE!!!");
@@ -67,7 +60,7 @@ const RentSummary = ({
           } else {
             console.log("NIE UDAŁO SIE... :(");
 
-            setError("Błąd: ", res.error); // potrzeba error msg od serwera
+            setError("Błąd: ", response.error); // potrzeba error msg od serwera
             setSending(false);
             setSuccess(false);
           }
@@ -76,6 +69,36 @@ const RentSummary = ({
         .catch((err) => {
           console.log("Error: ", err);
         });
+
+      // const requestOptions = {
+      //   method: "POST",
+      //   headers: {
+      //     Accept: "application/json",
+      //     "Content-Type": "application/json",
+      //     Authorization: " Bearer " + keycloak.token,
+      //   },
+      //   body: json,
+      // };
+
+      // const res = await fetch(createURL, requestOptions)
+      //   .then((response) => {
+      //     if (response.ok) {
+      //       console.log("UDAŁO SIE!!!");
+
+      //       setSuccess(true);
+      //       setSending(false);
+      //     } else {
+      //       console.log("NIE UDAŁO SIE... :(");
+
+      //       setError("Błąd: ", res.error); // potrzeba error msg od serwera
+      //       setSending(false);
+      //       setSuccess(false);
+      //     }
+      //     return response.json();
+      //   })
+      //   .catch((err) => {
+      //     console.log("Error: ", err);
+      //   });
     }
   };
 

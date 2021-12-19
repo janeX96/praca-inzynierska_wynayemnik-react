@@ -1,6 +1,7 @@
 import "../../styles/App.scss";
 import { useState, useEffect } from "react";
-import keycloak from "../../auth/keycloak";
+import { GET } from "../../utilities/Request";
+import { user as userReq } from "../../resources/urls";
 
 const UserFormForRent = (props) => {
   const [sending, setSending] = useState(false);
@@ -27,11 +28,11 @@ const UserFormForRent = (props) => {
     phoneNumberError: false,
   });
 
-  const getResources = async () => {
-    const response = await fetch("/resources.json");
-    const resources = await response.json();
-    return resources;
-  };
+  // const getResources = async () => {
+  //   const response = await fetch("/resources.json");
+  //   const resources = await response.json();
+  //   return resources;
+  // };
 
   const messages = {
     email_incorrect: "Podaj prawidłowy adres email",
@@ -89,54 +90,50 @@ const UserFormForRent = (props) => {
 
   const findUserByEmail = async () => {
     let userExists = false;
-    getResources().then((res) => {
-      const userUrl = res.urls.user + "?email=" + userEmail;
 
-      fetch(userUrl, {
-        headers: { Authorization: " Bearer " + keycloak.token },
-      })
-        .then((res) => {
-          if (res.ok) {
-            userExists = true;
-            return res.json();
-          } else {
-            setUser({
-              toCreate: true,
-              userAccount: {
-                email: userEmail,
-                firstName: "",
-                lastName: "",
-                phoneNumber: "",
-                sharing: false,
-              },
-            });
-            props.setEmail("", {
-              email: "",
+    await GET(`${userReq.findByEmail}?email=${userEmail}`)
+      .then((res) => {
+        console.log("ODP: ", res);
+        if (res.ok) {
+          userExists = true;
+          return res;
+        } else {
+          setUser({
+            toCreate: true,
+            userAccount: {
+              email: userEmail,
               firstName: "",
               lastName: "",
               phoneNumber: "",
               sharing: false,
-            });
-            return false;
-          }
-        })
-        .then((res) => {
-          if (userExists) {
-            props.setEmail(userEmail, {
-              email: userEmail,
-              firstName: res.firstName,
-              lastName: res.lastName,
-              phoneNumber: res.phoneNumber,
-              sharing: true,
-            });
-            props.stepDone(1);
-          }
-          return userExists;
-        })
-        .catch((err) => {
-          console.log("Error Reading data " + err);
-        });
-    });
+            },
+          });
+          props.setEmail("", {
+            email: "",
+            firstName: "",
+            lastName: "",
+            phoneNumber: "",
+            sharing: false,
+          });
+          return false;
+        }
+      })
+      .then((res) => {
+        if (userExists) {
+          props.setEmail(userEmail, {
+            email: userEmail,
+            firstName: res.firstName,
+            lastName: res.lastName,
+            phoneNumber: res.phoneNumber,
+            sharing: true,
+          });
+          props.stepDone(1);
+        }
+        return userExists;
+      })
+      .catch((err) => {
+        console.log("Error Reading data " + err);
+      });
 
     return userExists;
   };

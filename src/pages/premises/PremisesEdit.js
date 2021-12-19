@@ -1,6 +1,8 @@
 import "../../styles/App.scss";
 import { useState, useEffect } from "react";
 import keycloak from "../../auth/keycloak";
+import { owner, general } from "../../resources/urls";
+import { GET, PUT } from "../../utilities/Request";
 
 const PremisesEdit = (props) => {
   const [state, setState] = useState({
@@ -41,62 +43,38 @@ const PremisesEdit = (props) => {
 
   // const [changed, setChanged] = useState("");
 
-  const getResources = async () => {
-    const response = await fetch("/resources.json");
-    const resources = await response.json();
-
-    return resources;
-  };
-
+  let locations = [];
+  let types = [];
   const getData = () => {
-    getResources().then((res) => {
-      //pobranie danych z wyciągniętego adresu url
-      let putURL = res.urls.owner.premisesUpdate;
-      let locations = [];
-      let types = [];
-      fetch(res.urls.owner.locations, {
-        headers: { Authorization: " Bearer " + keycloak.token },
+    GET(owner.locations)
+      .then((data) => {
+        const options = data.map((location) => {
+          return {
+            value: location.locationId,
+            label: location.locationName,
+          };
+        });
+        locations = options;
       })
-        .then((response) => {
-          return response.json();
-        })
-        .then((data) => {
-          const options = data.map((location) => {
+      .then(() => {
+        GET(general.premises.premisesTypes).then((data) => {
+          const options = data.map((type) => {
             return {
-              value: location.locationId,
-              label: location.locationName,
+              value: type.premisesTypeId,
+              label: type.type,
             };
           });
-          locations = options;
-        })
-        .then(() => {
-          //pobranie dostępnych typów lokali
-          fetch(res.urls.owner.premisesTypes, {
-            headers: { Authorization: " Bearer " + keycloak.token },
-          })
-            .then((response) => {
-              return response.json();
-            })
-            .then((data) => {
-              const options = data.map((type) => {
-                return {
-                  value: type.premisesTypeId,
-                  label: type.type,
-                };
-              });
-              types = options;
-              setState({
-                ...state,
-                premisesTypes: types,
-                locations: locations,
-                putURL: putURL,
-              });
-            });
-        })
-        .catch((err) => {
-          console.log("Error Reading data " + err);
+          types = options;
+          setState({
+            ...state,
+            premisesTypes: types,
+            locations: locations,
+          });
         });
-    });
+      })
+      .catch((err) => {
+        console.log("Error Reading data " + err);
+      });
   };
 
   useEffect(() => {
@@ -462,30 +440,12 @@ const PremisesEdit = (props) => {
     }
 
     let json = JSON.stringify(newPremises);
-    const requestOptions = {
-      method: "PUT",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json", //"application/json",
-        Authorization: " Bearer " + keycloak.token,
-      },
-      body: json,
-    };
 
-    let ok = false;
-    const res = await fetch(
-      state.putURL + `${state.premisesId}`,
-      requestOptions
-    )
+    return await PUT(`${owner.premisesUpdate}${state.premisesId}`, json)
       .then((data) => {
-        if (data.ok) {
-          ok = true;
-        }
-        return data;
+        return data.ok;
       })
-      .catch((err) => console.log(err));
-
-    return ok;
+      .catch((err) => console.error(err));
   };
 
   return (

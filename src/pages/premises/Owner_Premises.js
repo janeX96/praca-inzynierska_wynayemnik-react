@@ -1,67 +1,39 @@
 import React, { useState, useEffect } from "react";
 import LoadData from "../LoadData";
-import keycloak from "../../auth/keycloak";
 import "../../styles/App.scss";
 import PremisesDetails from "./PremisesDetails/PremisesDetails";
 import { Link } from "react-router-dom";
 import { BsPlusSquareFill } from "react-icons/bs";
+import { owner } from "../../resources/urls";
+import { GET } from "../../utilities/Request";
 
 const Owner_Premises = () => {
   const [state, setState] = useState({
     data: [],
     choosenId: -1,
-    deleteURL: "",
     deletedMessage: "",
   });
 
-  //pobiernie danych
-  // useEffect(() => {
-  //   getData();
-  // }, []);
-
-  // pobranie danych dot. endpointów
-  const getResources = async () => {
-    const response = await fetch("/resources.json");
-    const resources = await response.json();
-    return resources;
-  };
-
   const getData = async () => {
-    let deleteURL = "";
-    getResources().then((res) => {
-      deleteURL = res.urls.owner.premisesDelete;
+    GET(owner.premises).then((res) => {
+      res.map((prem) => {
+        if (prem.state === "HIRED") {
+          prem.state = "wynajęty";
+        } else {
+          prem.state = "wolny";
+        }
 
-      //pobranie danych z wyciągniętego adresu url
-      fetch(res.urls.owner.premises, {
-        headers: { Authorization: " Bearer " + keycloak.token },
-      })
-        .then((response) => {
-          return response.json();
-        })
-        .then((data) => {
-          data.map((prem) => {
-            if (prem.state === "HIRED") {
-              prem.state = "wynajęty";
-            } else {
-              prem.state = "wolny";
-            }
-
-            if (prem.furnished) {
-              prem.furnished = "tak";
-            } else {
-              prem.furnished = "nie";
-            }
-          });
-          setState({ ...state, deleteURL: deleteURL, data: data });
-        })
-        .catch((err) => {
-          console.log("Error Reading data " + err);
-        });
+        if (prem.furnished) {
+          prem.furnished = "tak";
+        } else {
+          prem.furnished = "nie";
+        }
+      });
+      setState({ ...state, data: res });
     });
   };
 
   const findDataById = (id) => {
-    // console.log("Odczyt: ", state.data);
     const res = state.data.find((premises) => {
       return premises.premisesId === id;
     });
@@ -151,7 +123,6 @@ const Owner_Premises = () => {
         <PremisesDetails
           key={state.choosenId}
           action={handleAction}
-          deleteURL={state.deleteURL}
           deleteShowMessage={(res) => deleteShowMessage(res)}
           reloadData={() => getData()}
           {...findDataById(state.choosenId)}

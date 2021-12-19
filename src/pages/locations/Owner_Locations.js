@@ -3,32 +3,21 @@ import keycloak from "../../auth/keycloak";
 import LoadData from "../LoadData";
 import "../../styles/App.scss";
 import LocationDetails from "./LocationDetails";
+import { GET } from "../../utilities/Request";
+import { owner } from "../../resources/urls";
 
 const Owner_Locations = () => {
   const [locations, setLocations] = useState([]);
   const [chosenId, setChosenId] = useState("");
 
-  const getResources = async () => {
-    const response = await fetch("/resources.json");
-    const resources = await response.json();
-    return resources;
-  };
-
   const getData = async () => {
-    getResources().then((res) => {
-      fetch(res.urls.owner.locations, {
-        headers: { Authorization: " Bearer " + keycloak.token },
+    GET(owner.locations)
+      .then((data) => {
+        setLocations(data);
       })
-        .then((response) => {
-          return response.json();
-        })
-        .then((data) => {
-          setLocations(data);
-        })
-        .catch((err) => {
-          console.log("Error Reading data " + err);
-        });
-    });
+      .catch((err) => {
+        console.log("Error Reading data " + err);
+      });
   };
 
   useEffect(() => {

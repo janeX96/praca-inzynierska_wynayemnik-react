@@ -5,6 +5,8 @@ import DisposableProductForm from "./product_forms/DisposableProductForm";
 import MediaQuantityProductForm from "./product_forms/MediaQuantityProductForm";
 import MediaStandardProductForm from "./product_forms/MediaStandardProductForm";
 import StateProductForm from "./product_forms/StateProductForm";
+import { GET, POST, PUT } from "../../utilities/Request";
+import { owner, general } from "../../resources/urls";
 
 const LocationDetails = (props) => {
   const [location, setLocation] = useState({
@@ -36,74 +38,28 @@ const LocationDetails = (props) => {
   });
   const [sending, setSending] = useState(false);
 
-  const getResources = async () => {
-    const response = await fetch("/resources.json");
-    const resources = await response.json();
-    return resources;
-  };
-
   const getLocationData = async () => {
-    getResources().then((res) => {
-      const url = res.urls.owner.locationDetails + props.id;
-      fetch(url, {
-        headers: { Authorization: " Bearer " + keycloak.token },
+    GET(`${owner.locationDetails}${props.id}`)
+      .then((data) => {
+        setLocation(data);
       })
-        .then((response) => {
-          return response.json();
-        })
-        .then((data) => {
-          setLocation(data);
-        })
-        .catch((err) => {
-          console.log("Error Reading data " + err);
-        });
-    });
+      .catch((err) => {
+        console.log("Error Reading data " + err);
+      });
   };
 
   const getData = () => {
-    let postURL = "";
-    let productURLPrefix = "";
-    let calculatedProdPostURL = "";
-    let disposableProdPostURL = "";
-    let mediaQuantProdPostURL = "";
-    let mediaStandProdPostURL = "";
-    let stateProdPostURL = "";
     let premisesTypes = [];
-    getResources()
-      .then((res) => {
-        console.log(res.urls.owner.newLocation);
-        postURL = res.urls.owner.newLocation;
-        productURLPrefix = res.urls.owner.products.prefix;
-        calculatedProdPostURL = res.urls.owner.products.addCalculated;
-        disposableProdPostURL = res.urls.owner.products.addDisposable;
-        mediaQuantProdPostURL = res.urls.owner.products.addMiediaQuantity;
-        mediaStandProdPostURL = res.urls.owner.products.addMediaStandard;
-        stateProdPostURL = res.urls.owner.products.addState;
 
-        fetch(res.urls.owner.premisesTypes, {
-          headers: { Authorization: " Bearer " + keycloak.token },
-        })
-          .then((response) => {
-            return response.json();
-          })
-          .then((data) => {
-            premisesTypes = data.map((type) => {
-              return {
-                value: type.premisesTypeId,
-                label: type.type,
-              };
-            });
-            setPremisesTypes(premisesTypes);
-            setUrls({
-              postURL,
-              productURLPrefix,
-              calculatedProdPostURL,
-              disposableProdPostURL,
-              mediaQuantProdPostURL,
-              mediaStandProdPostURL,
-              stateProdPostURL,
-            });
-          });
+    GET(general.premises.premisesTypes)
+      .then((data) => {
+        premisesTypes = data.map((type) => {
+          return {
+            value: type.premisesTypeId,
+            label: type.type,
+          };
+        });
+        setPremisesTypes(premisesTypes);
       })
       .catch((err) => {
         console.log("Error Reading data " + err);
@@ -111,16 +67,9 @@ const LocationDetails = (props) => {
   };
 
   const getProducts = () => {
-    const url =
-      "http://localhost:8080/owner/location/" + props.id + "/productGroupType";
-
-    console.log("url >>>:", url);
-    fetch(url, {
-      headers: { Authorization: " Bearer " + keycloak.token },
-    })
-      .then((response) => {
-        return response.json();
-      })
+    GET(
+      `${owner.productsForLocation.prefix}${props.id}${owner.productsForLocation.allProductsSuffix}`
+    )
       .then((data) => {
         setProducts(data);
       })
@@ -150,32 +99,60 @@ const LocationDetails = (props) => {
   const addProduct = async (product) => {
     if (!sending) {
       setSending(true);
-      const url =
-        urls.productURLPrefix + props.id + "/product/" + product.type + "/add";
+      let suffix = "";
+      switch (product) {
+        case "media-quantity":
+          suffix = owner.productsForLocation.addMiediaQuantity;
+          break;
+        case "media-standard":
+          suffix = owner.productsForLocation.addMediaStandard;
+          break;
+        case "calculated":
+          suffix = owner.productsForLocation.addCalculated;
+          break;
+        case "disposable":
+          suffix = owner.productsForLocation.addDisposable;
+          break;
+
+        case "state":
+          suffix = owner.productsForLocation.addState;
+          break;
+
+        default:
+          suffix = "";
+          break;
+      }
+
+      const url = `${owner.productsForLocation.prefix}${props.id}${suffix}`;
 
       let json = JSON.stringify(product.obj);
-      const requestOptions = {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: " Bearer " + keycloak.token,
-        },
-        body: json,
-      };
-      const res = await fetch(url, requestOptions)
+
+      PUT(url, json)
         .then((response) => {
           if (response.ok) {
             setProductType("wybierz rodzaj");
             setSending(false);
           }
-          return response.json();
+          // return response.json();
         })
-
         .catch((err) => {
           console.log("nie udane wysłanie żądania: ", err);
           setSending(false);
         });
+
+      // const res = await fetch(url, requestOptions)
+      //   .then((response) => {
+      //     if (response.ok) {
+      //       setProductType("wybierz rodzaj");
+      //       setSending(false);
+      //     }
+      //     return response.json();
+      //   })
+
+      //   .catch((err) => {
+      //     console.log("nie udane wysłanie żądania: ", err);
+      //     setSending(false);
+      //   });
     }
   };
 

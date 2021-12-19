@@ -16,6 +16,7 @@ const paths = {
     addMiediaQuantityPath: "/product/miedia-quantity/add",
     addMediaStandardPath: "/product/media-standard/add",
     addStatePath: "/product/state/add",
+    productsForType: "/products?productType=",
   },
 };
 
@@ -30,11 +31,13 @@ const owner = {
   locationDetails: `${httpPrefix}${port}${ownerPrefix}${paths.locationDetailsPath}`, //location id at the end
   productsForLocation: {
     prefix: `${httpPrefix}${port}${ownerPrefix}/location/`, // location id must be after /location/
+    allProductsSuffix: "/productGroupType",
     addCalculated: `${paths.productsForLocation.addCalculatedPath}`,
     addDisposable: `${paths.productsForLocation.addDisposablePath}`,
     addMiediaQuantity: `${paths.productsForLocation.addMiediaQuantityPath}`,
     addMediaStandard: `${paths.productsForLocation.addMediaStandardPath}`,
     addState: `${paths.productsForLocation.addStatePath}`,
+    productsForType: `${paths.productsForLocation.productsForType}`,
   },
   rent: {
     new: `${httpPrefix}${port}${ownerPrefix}${paths.newRentPath}`,
@@ -44,6 +47,7 @@ const owner = {
 const user = {
   info: `${httpPrefix}${port}/user`,
   register: `${httpPrefix}${port}/auth/register`,
+  findByEmail: `${httpPrefix}${port}/user/`,
 };
 
 //for all roles
