@@ -1,8 +1,8 @@
 import "../../styles/App.scss";
 import { useState, useEffect } from "react";
 import keycloak from "../../auth/keycloak";
-import { GET, POST } from "../../utilities/Request";
-import { owner, user as userReq } from "../../resources/urls";
+import { GET } from "../../utilities/Request";
+import { user as userReq } from "../../resources/urls";
 
 const UserFormForRent = (props) => {
   const [sending, setSending] = useState(false);
