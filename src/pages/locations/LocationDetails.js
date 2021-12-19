@@ -5,6 +5,8 @@ import DisposableProductForm from "./product_forms/DisposableProductForm";
 import MediaQuantityProductForm from "./product_forms/MediaQuantityProductForm";
 import MediaStandardProductForm from "./product_forms/MediaStandardProductForm";
 import StateProductForm from "./product_forms/StateProductForm";
+import { GET, PUT } from "../../utilities/Request";
+import { owner, general } from "../../resources/urls";
 
 const LocationDetails = (props) => {
   const [location, setLocation] = useState({
@@ -36,74 +38,57 @@ const LocationDetails = (props) => {
   });
   const [sending, setSending] = useState(false);
 
-  const getResources = async () => {
-    const response = await fetch("/resources.json");
-    const resources = await response.json();
-    return resources;
-  };
+  // const getResources = async () => {
+  //   const response = await fetch("/resources.json");
+  //   const resources = await response.json();
+  //   return resources;
+  // };
 
   const getLocationData = async () => {
-    getResources().then((res) => {
-      const url = res.urls.owner.locationDetails + props.id;
-      fetch(url, {
-        headers: { Authorization: " Bearer " + keycloak.token },
+    GET(`${owner.locationDetails}${props.id}`)
+      .then((data) => {
+        setLocation(data);
       })
-        .then((response) => {
-          return response.json();
-        })
-        .then((data) => {
-          setLocation(data);
-        })
-        .catch((err) => {
-          console.log("Error Reading data " + err);
-        });
-    });
+      .catch((err) => {
+        console.log("Error Reading data " + err);
+      });
+
+    // getResources().then((res) => {
+    //   const url = res.urls.owner.locationDetails + props.id;
+    //   fetch(url, {
+    //     headers: { Authorization: " Bearer " + keycloak.token },
+    //   })
+    //     .then((response) => {
+    //       return response.json();
+    //     })
+    //     .then((data) => {
+    //       setLocation(data);
+    //     })
+    //     .catch((err) => {
+    //       console.log("Error Reading data " + err);
+    //     });
+    // });
   };
 
   const getData = () => {
-    let postURL = "";
-    let productURLPrefix = "";
-    let calculatedProdPostURL = "";
-    let disposableProdPostURL = "";
-    let mediaQuantProdPostURL = "";
-    let mediaStandProdPostURL = "";
-    let stateProdPostURL = "";
+    // let postURL = "";
+    // let productURLPrefix = "";
+    // let calculatedProdPostURL = "";
+    // let disposableProdPostURL = "";
+    // let mediaQuantProdPostURL = "";
+    // let mediaStandProdPostURL = "";
+    // let stateProdPostURL = "";
     let premisesTypes = [];
-    getResources()
-      .then((res) => {
-        console.log(res.urls.owner.newLocation);
-        postURL = res.urls.owner.newLocation;
-        productURLPrefix = res.urls.owner.products.prefix;
-        calculatedProdPostURL = res.urls.owner.products.addCalculated;
-        disposableProdPostURL = res.urls.owner.products.addDisposable;
-        mediaQuantProdPostURL = res.urls.owner.products.addMiediaQuantity;
-        mediaStandProdPostURL = res.urls.owner.products.addMediaStandard;
-        stateProdPostURL = res.urls.owner.products.addState;
 
-        fetch(res.urls.owner.premisesTypes, {
-          headers: { Authorization: " Bearer " + keycloak.token },
-        })
-          .then((response) => {
-            return response.json();
-          })
-          .then((data) => {
-            premisesTypes = data.map((type) => {
-              return {
-                value: type.premisesTypeId,
-                label: type.type,
-              };
-            });
-            setPremisesTypes(premisesTypes);
-            setUrls({
-              postURL,
-              productURLPrefix,
-              calculatedProdPostURL,
-              disposableProdPostURL,
-              mediaQuantProdPostURL,
-              mediaStandProdPostURL,
-              stateProdPostURL,
-            });
-          });
+    GET(general.premises.premisesTypes)
+      .then((data) => {
+        premisesTypes = data.map((type) => {
+          return {
+            value: type.premisesTypeId,
+            label: type.type,
+          };
+        });
+        setPremisesTypes(premisesTypes);
       })
       .catch((err) => {
         console.log("Error Reading data " + err);
@@ -111,16 +96,9 @@ const LocationDetails = (props) => {
   };
 
   const getProducts = () => {
-    const url =
-      "http://localhost:8080/owner/location/" + props.id + "/productGroupType";
-
-    console.log("url >>>:", url);
-    fetch(url, {
-      headers: { Authorization: " Bearer " + keycloak.token },
-    })
-      .then((response) => {
-        return response.json();
-      })
+    GET(
+      `${owner.productsForLocation.prefix}${props.id}${owner.productsForLocation.allProductsSuffix}`
+    )
       .then((data) => {
         setProducts(data);
       })

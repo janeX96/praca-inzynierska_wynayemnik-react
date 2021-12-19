@@ -30,6 +30,7 @@ const owner = {
   locationDetails: `${httpPrefix}${port}${ownerPrefix}${paths.locationDetailsPath}`, //location id at the end
   productsForLocation: {
     prefix: `${httpPrefix}${port}${ownerPrefix}/location/`, // location id must be after /location/
+    allProductsSuffix: "/productGroupType",
     addCalculated: `${paths.productsForLocation.addCalculatedPath}`,
     addDisposable: `${paths.productsForLocation.addDisposablePath}`,
     addMiediaQuantity: `${paths.productsForLocation.addMiediaQuantityPath}`,
