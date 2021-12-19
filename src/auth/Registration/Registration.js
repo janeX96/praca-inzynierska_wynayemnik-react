@@ -124,60 +124,29 @@ const Registration = () => {
         let jsonData = JSON.stringify(userData);
         // console.log(jsonData);
         let errorMsg = "";
-        await POST(user.register, jsonData)
+        await POST(user.register, jsonData, true)
           .then((res) => {
             console.log("Otrzymalem: ", res);
             if (res.ok) {
               console.log("REJESTRACJA POMYŚLNA");
               setData({ ...data, success: true });
             } else {
-              errorMsg = res.error;
-              setData({
-                ...data,
-                registrationError: errorMsg,
-                sending: false,
-                token: "",
+              res.json().then((res) => {
+                errorMsg = res.error;
+                setData({
+                  ...data,
+                  registrationError: errorMsg,
+                  sending: false,
+                  token: "",
+                });
+                window.grecaptcha.reset();
               });
-              window.grecaptcha.reset();
             }
           })
           .catch((err) => {
             console.log("Błąd: ", err.message);
             setData({ ...data, sending: false });
           });
-
-        // let responseOk = false;
-        // let errorMsg = "";
-        // await fetch("http://localhost:8080/auth/register", requestOptions)
-        //   .then((response) => {
-        //     if (response.ok) {
-        //       // console.log("REJESTRACJA POMYŚLNA");
-        //       responseOk = true;
-        //     }
-        //     return response.json();
-        //   })
-        //   .then((res) => {
-        //     if (!res.ok) {
-        //       // console.log("error: ", res.error);
-        //       errorMsg = res.error;
-        //     }
-
-        //     if (responseOk) {
-        //       setData({ ...data, success: true });
-        //     } else {
-        //       setData({
-        //         ...data,
-        //         registrationError: errorMsg,
-        //         sending: false,
-        //         token: "",
-        //       });
-        //       window.grecaptcha.reset();
-        //     }
-        //   })
-        //   .catch((err) => {
-        //     // console.log("Błąd: ", err.message);
-        //     setData({ ...data, sending: false });
-        //   });
       } else {
         setData({
           ...data,
