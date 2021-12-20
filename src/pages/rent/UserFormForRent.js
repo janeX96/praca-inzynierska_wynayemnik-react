@@ -554,13 +554,11 @@ const UserFormForRent = (props) => {
             </div>
             {ownSettings ? <>{addressForm()}</> : ""}
 
-            <button
-              type="submit"
-              className="form-container__buttons"
-              disabled={user.toCreate}
-            >
-              Dalej
-            </button>
+            <div className="form-container__buttons">
+              <button type="submit" disabled={user.toCreate}>
+                Dalej
+              </button>
+            </div>
           </form>
           {user.toCreate && (
             <>
@@ -649,9 +647,9 @@ const UserFormForRent = (props) => {
                   </div>
                 </div>
                 {addressForm()}
-                <button type="submit" className="form-container__buttons">
-                  Stwórz
-                </button>
+                <div className="form-container__buttons">
+                  <button type="submit">Stwórz</button>
+                </div>
               </form>
             </>
           )}

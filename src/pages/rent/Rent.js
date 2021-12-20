@@ -225,8 +225,14 @@ const Rent = () => {
   return (
     <>
       <div className="content-container">
-        <h1 className="content-title">Wynajem lokalu</h1>
+        <h1 className="content-container__title">Wynajem lokalu</h1>
         <Stepper
+          style={{
+            marginTop: "0",
+            marginBottom: "0",
+            paddingTop: "0",
+            paddingBottom: "0",
+          }}
           styleConfig={{
             activeBgColor: "#48bd4c",
             inactiveBgColor: "#727178",

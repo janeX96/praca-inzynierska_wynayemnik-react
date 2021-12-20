@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import "./ProductsForRent.css";
-import keycloak from "../../../auth/keycloak";
 import { GET } from "../../../utilities/Request";
 import { owner } from "../../../resources/urls";
 const ProductsForRent = (props) => {
@@ -227,30 +226,34 @@ const ProductsForRent = (props) => {
         </div>
       </div>
 
-      <label htmlFor="description">Uwagi:</label>
-      <textarea
-        id="description"
-        name="description"
-        rows="4"
-        cols="10"
-        style={{ height: "150px", width: "250px" }}
-        value={description}
-        onChange={handleDescriptionChange}
-      ></textarea>
-      <div style={{ marginTop: "50px" }}>
+      <div className="form-container">
+        <div className="form-container__row">
+          <div className="row__col-25 ">
+            <label htmlFor="description">Uwagi:</label>
+          </div>
+          <div className="row__col-75">
+            <textarea
+              id="description"
+              name="description"
+              rows="4"
+              cols="10"
+              style={{ height: "150px", width: "250px" }}
+              value={description}
+              onChange={handleDescriptionChange}
+            ></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div className="form-container__buttons" style={{ marginTop: "50px" }}>
         <button
           onClick={handleConfirm}
           data-name="back"
-          className="action-button"
           style={{ marginRight: "15px" }}
         >
           Powrót
         </button>
-        <button
-          onClick={handleConfirm}
-          data-name="next"
-          className="action-button"
-        >
+        <button onClick={handleConfirm} data-name="next">
           Dalej
         </button>
       </div>
