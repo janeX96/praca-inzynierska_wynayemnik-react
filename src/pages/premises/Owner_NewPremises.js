@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import WaitIcon from "../../images/icons/wait-icon.png";
 import { GET, POST } from "../../utilities/Request";
 import { owner, general } from "../../resources/urls";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Owner_NewPremises = () => {
   const [state, setState] = useState({
@@ -342,14 +344,20 @@ const Owner_NewPremises = () => {
       if (validation.correct) {
         sendPost()
           .then((res) => {
-            const message =
-              res > 0
-                ? "Lokal został dodany"
-                : "Wystąpił problem przy dodawaniu lokalu...";
+            // const message =
+            //   res > 0
+            //     ? "Lokal został dodany"
+            //     : "Wystąpił problem przy dodawaniu lokalu...";
+
+            if (res > 0) {
+              toast("Lokal został dodany");
+            } else {
+              toast("Wystąpił problem przy dodawaniu lokalu...");
+            }
 
             setState({
               ...state,
-              submitMessage: message,
+              // submitMessage: message,
               lastAdded: -1,
               newLocation: {
                 city: "",
@@ -491,7 +499,9 @@ const Owner_NewPremises = () => {
 
   return (
     <div className="content-container">
+      <ToastContainer />
       <h1 className="content-container__title">Nowy lokal</h1>
+      {/* <button onClick={() => toast("test")}>test</button> */}
       <div className="form-container">
         <form onSubmit={handleSubmit}>
           <div className="form-container__row">
