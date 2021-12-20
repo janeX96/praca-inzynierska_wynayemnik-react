@@ -53,6 +53,11 @@ const AppRouter = () => {
                   path="/owner-rent-new"
                   component={Rent}
                 />
+                <PrivateRoute
+                  roles={[roles.OWNER]}
+                  path="/owner-rents"
+                  component={Home} //todo
+                />
               </Switch>
             </section>
           </main>

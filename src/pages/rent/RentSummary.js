@@ -10,7 +10,6 @@ const RentSummary = ({
   products,
   productWithCounterList,
   stepBack,
-  stepDone,
   bailValue,
   carNumber,
   clientAccess,
@@ -27,22 +26,8 @@ const RentSummary = ({
   userAccount: { email, firstName, lastName, phoneNumber, sharing },
 }) => {
   const [sending, setSending] = useState(false);
-  // const [createURL, setCreateURL] = useState();
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
-
-  // const getResources = async () => {
-  //   const response = await fetch("/resources.json");
-  //   const resources = await response.json();
-  //   return resources;
-  // };
-
-  // useEffect(() => {
-  //   getResources().then((res) => {
-  //     const url = res.urls.owner.rent.new;
-  //     setCreateURL(url);
-  //   });
-  // }, []);
 
   const createRentRequest = async (obj) => {
     if (!sending) {
@@ -58,9 +43,12 @@ const RentSummary = ({
             setSuccess(true);
             setSending(false);
           } else {
-            console.log("NIE UDAŁO SIE... :(");
+            response.json().then((res) => {
+              const err = res.error;
+              // console.log("BLAD: ", res.error);
+              setError(err);
+            });
 
-            setError("Błąd: ", response.error); // potrzeba error msg od serwera
             setSending(false);
             setSuccess(false);
           }
@@ -69,63 +57,15 @@ const RentSummary = ({
         .catch((err) => {
           console.log("Error: ", err);
         });
-
-      // const requestOptions = {
-      //   method: "POST",
-      //   headers: {
-      //     Accept: "application/json",
-      //     "Content-Type": "application/json",
-      //     Authorization: " Bearer " + keycloak.token,
-      //   },
-      //   body: json,
-      // };
-
-      // const res = await fetch(createURL, requestOptions)
-      //   .then((response) => {
-      //     if (response.ok) {
-      //       console.log("UDAŁO SIE!!!");
-
-      //       setSuccess(true);
-      //       setSending(false);
-      //     } else {
-      //       console.log("NIE UDAŁO SIE... :(");
-
-      //       setError("Błąd: ", res.error); // potrzeba error msg od serwera
-      //       setSending(false);
-      //       setSuccess(false);
-      //     }
-      //     return response.json();
-      //   })
-      //   .catch((err) => {
-      //     console.log("Error: ", err);
-      //   });
     }
   };
 
   const handleConfirm = (e) => {
     const action = e.currentTarget.dataset.name;
     if (action === "next") {
-      let obj = {};
-      if (userEmail.length > 0) {
-        obj = {
-          bailValue: bailValue,
-          carNumber: carNumber,
-          clientAccess: clientAccess,
-          counterMediaRent: counterMediaRent,
-          description: description,
-          email: email,
-          endDate: endDate,
-          paymentDay: paymentDay,
-          paymentValues: paymentValues,
-          premisesType: { type: premisesType.type },
-          premisesId: premisesId,
-          productWithCounterList: productWithCounterList,
-          rentValue: rentValue,
-          startDate: startDate,
-          statePaymentValue: statePaymentValue,
-        };
-      } else {
-        obj = rentObj;
+      let obj = rentObj;
+
+      if (userEmail.length === 0) {
         obj.email = null;
       }
 
@@ -347,7 +287,10 @@ const RentSummary = ({
               </div>
             </li>
             {error && (
-              <span className="error-msg" style={{ fontSize: "25px" }}>
+              <span
+                className="form-container__error-msg"
+                style={{ fontSize: "25px" }}
+              >
                 {error}
               </span>
             )}
