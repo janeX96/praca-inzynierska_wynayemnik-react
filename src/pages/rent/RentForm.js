@@ -243,7 +243,7 @@ const RentForm = (props) => {
               <div className="row__col-75">
                 <input
                   className="form-container__input"
-                  type="date"
+                  type="datetime-local"
                   id="startDate"
                   name="startDate"
                   min={today}
@@ -265,7 +265,7 @@ const RentForm = (props) => {
               <div className="row__col-75">
                 <input
                   className="form-container__input"
-                  type="date"
+                  type="datetime-local"
                   id="endDate"
                   name="endDate"
                   min={today}
