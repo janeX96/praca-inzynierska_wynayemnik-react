@@ -20,6 +20,24 @@ const Rent = () => {
   });
 
   const [rent, setRent] = useState({
+    address: {
+      city: "",
+      postCode: "",
+      street: "",
+      streetNumber: "",
+    },
+    company: {
+      address: {
+        city: "",
+        postCode: "",
+        street: "",
+        streetNumber: "",
+      },
+      companyName: "",
+      nip: "",
+    },
+    naturalPerson: true,
+    ownSettings: false,
     bailValue: 0,
     carNumber: "",
     clientAccess: false,
