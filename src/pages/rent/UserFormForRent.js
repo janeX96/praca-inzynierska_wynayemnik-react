@@ -252,7 +252,9 @@ const UserFormForRent = (props) => {
       });
     } else if (type === "checkbox") {
       const checked = e.target.checked;
-      if (name === "isCompany") {
+      if (name === "ownSettings") {
+        setOwnSettings(true);
+      } else if (name === "isCompany") {
         setIsCompany(checked);
       } else {
         setUser({
@@ -310,6 +312,143 @@ const UserFormForRent = (props) => {
     setCompany({ ...company, [name]: val });
   };
 
+  const addressForm = () => {
+    return (
+      <>
+        <div className="form-container__row">
+          <div className="row__col-25">
+            <label htmlFor="lastName">Miasto: </label>
+          </div>
+          <div className="row__col-75">
+            <input
+              className="form-container__input"
+              type="text"
+              id="city"
+              name="city"
+              onChange={addressHandleChange}
+              value={address.city}
+            ></input>
+            {errors.cityError && (
+              <span className="error-msg">{messages.city_incorrect}</span>
+            )}
+          </div>
+        </div>
+        <div className="form-container__row">
+          <div className="row__col-25">
+            <label htmlFor="lastName">Kod Pocztowy: </label>
+          </div>
+          <div className="row__col-75">
+            <input
+              className="form-container__input"
+              type="text"
+              id="postCode"
+              name="postCode"
+              onChange={addressHandleChange}
+              value={address.postCode}
+            ></input>
+            {errors.postCodeError && (
+              <span className="error-msg">{messages.postCode_incorrect}</span>
+            )}
+          </div>
+        </div>
+        <div className="form-container__row">
+          <div className="row__col-25">
+            <label htmlFor="lastName">Ulica: </label>
+          </div>
+          <div className="row__col-75">
+            <input
+              className="form-container__input"
+              type="text"
+              id="street"
+              name="street"
+              onChange={addressHandleChange}
+              value={address.street}
+            ></input>
+            {errors.streetError && (
+              <span className="error-msg">{messages.street_incorrect}</span>
+            )}
+          </div>
+        </div>
+        <div className="form-container__row">
+          <div className="row__col-25">
+            <label htmlFor="lastName">Numer: </label>
+          </div>
+          <div className="row__col-75">
+            <input
+              className="form-container__input"
+              type="text"
+              id="streetNumber"
+              name="streetNumber"
+              onChange={addressHandleChange}
+              value={address.streetNumber}
+            ></input>
+            {errors.streetNumberError && (
+              <span className="error-msg">
+                {messages.streetNumber_incorrect}
+              </span>
+            )}
+          </div>
+        </div>
+        <div className="form-container__row">
+          <div className="row__col-25">Firma:</div>
+          <div className="row__col-75">
+            <input
+              className="form-container__input--checkbox"
+              type="checkbox"
+              id="isCompany"
+              name="isCompany"
+              onChange={handleChange}
+              checked={isCompany}
+            ></input>
+          </div>
+        </div>
+        {isCompany ? (
+          <>
+            <div className="form-container__row">
+              <div className="row__col-25">
+                <label htmlFor="lastName">Nazwa firmy: </label>
+              </div>
+              <div className="row__col-75">
+                <input
+                  className="form-container__input"
+                  type="text"
+                  id="companyName"
+                  name="companyName"
+                  onChange={companyHandleChange}
+                  value={company.companyName}
+                ></input>
+                {errors.companyNameError && (
+                  <span className="error-msg">
+                    {messages.companyName_incorrect}
+                  </span>
+                )}
+              </div>
+            </div>
+            <div className="form-container__row">
+              <div className="row__col-25">
+                <label htmlFor="lastName">NIP: </label>
+              </div>
+              <div className="row__col-75">
+                <input
+                  className="form-container__input"
+                  type="text"
+                  id="nip"
+                  name="nip"
+                  onChange={companyHandleChange}
+                  value={company.nip}
+                ></input>
+                {errors.nipError && (
+                  <span className="error-msg">{messages.nip_incorrect}</span>
+                )}
+              </div>
+            </div>
+          </>
+        ) : (
+          ""
+        )}
+      </>
+    );
+  };
   return (
     <>
       <div>
@@ -334,6 +473,20 @@ const UserFormForRent = (props) => {
                 )}
               </div>
             </div>
+            <div className="form-container__row">
+              <div className="row__col-25">Dodaj adres do faktury:</div>
+              <div className="row__col-75">
+                <input
+                  className="form-container__input--checkbox"
+                  type="checkbox"
+                  id="ownSettings"
+                  name="ownSettings"
+                  onChange={handleChange}
+                  checked={ownSettings}
+                ></input>
+              </div>
+            </div>
+            {ownSettings ? <>{addressForm()}</> : ""}
 
             <button
               type="submit"
@@ -429,146 +582,7 @@ const UserFormForRent = (props) => {
                     ></input>
                   </div>
                 </div>
-                <div className="form-container__row">
-                  <div className="row__col-25">
-                    <label htmlFor="lastName">Miasto: </label>
-                  </div>
-                  <div className="row__col-75">
-                    <input
-                      className="form-container__input"
-                      type="text"
-                      id="city"
-                      name="city"
-                      onChange={addressHandleChange}
-                      value={address.city}
-                    ></input>
-                    {errors.cityError && (
-                      <span className="error-msg">
-                        {messages.city_incorrect}
-                      </span>
-                    )}
-                  </div>
-                </div>
-                <div className="form-container__row">
-                  <div className="row__col-25">
-                    <label htmlFor="lastName">Kod Pocztowy: </label>
-                  </div>
-                  <div className="row__col-75">
-                    <input
-                      className="form-container__input"
-                      type="text"
-                      id="postCode"
-                      name="postCode"
-                      onChange={addressHandleChange}
-                      value={address.postCode}
-                    ></input>
-                    {errors.postCodeError && (
-                      <span className="error-msg">
-                        {messages.postCode_incorrect}
-                      </span>
-                    )}
-                  </div>
-                </div>
-                <div className="form-container__row">
-                  <div className="row__col-25">
-                    <label htmlFor="lastName">Ulica: </label>
-                  </div>
-                  <div className="row__col-75">
-                    <input
-                      className="form-container__input"
-                      type="text"
-                      id="street"
-                      name="street"
-                      onChange={addressHandleChange}
-                      value={address.street}
-                    ></input>
-                    {errors.streetError && (
-                      <span className="error-msg">
-                        {messages.street_incorrect}
-                      </span>
-                    )}
-                  </div>
-                </div>
-                <div className="form-container__row">
-                  <div className="row__col-25">
-                    <label htmlFor="lastName">Numer: </label>
-                  </div>
-                  <div className="row__col-75">
-                    <input
-                      className="form-container__input"
-                      type="text"
-                      id="streetNumber"
-                      name="streetNumber"
-                      onChange={addressHandleChange}
-                      value={address.streetNumber}
-                    ></input>
-                    {errors.streetNumberError && (
-                      <span className="error-msg">
-                        {messages.streetNumber_incorrect}
-                      </span>
-                    )}
-                  </div>
-                </div>
-                <div className="form-container__row">
-                  <div className="row__col-25">Firma:</div>
-                  <div className="row__col-75">
-                    <input
-                      className="form-container__input--checkbox"
-                      type="checkbox"
-                      id="isCompany"
-                      name="isCompany"
-                      onChange={handleChange}
-                      checked={isCompany}
-                    ></input>
-                  </div>
-                </div>
-                {isCompany ? (
-                  <>
-                    <div className="form-container__row">
-                      <div className="row__col-25">
-                        <label htmlFor="lastName">Nazwa firmy: </label>
-                      </div>
-                      <div className="row__col-75">
-                        <input
-                          className="form-container__input"
-                          type="text"
-                          id="companyName"
-                          name="companyName"
-                          onChange={companyHandleChange}
-                          value={company.companyName}
-                        ></input>
-                        {errors.companyNameError && (
-                          <span className="error-msg">
-                            {messages.companyName_incorrect}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                    <div className="form-container__row">
-                      <div className="row__col-25">
-                        <label htmlFor="lastName">NIP: </label>
-                      </div>
-                      <div className="row__col-75">
-                        <input
-                          className="form-container__input"
-                          type="text"
-                          id="nip"
-                          name="nip"
-                          onChange={companyHandleChange}
-                          value={company.nip}
-                        ></input>
-                        {errors.nipError && (
-                          <span className="error-msg">
-                            {messages.nip_incorrect}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  </>
-                ) : (
-                  ""
-                )}
-
+                {addressForm()}
                 <button type="submit" className="form-container__buttons">
                   Stwórz
                 </button>
