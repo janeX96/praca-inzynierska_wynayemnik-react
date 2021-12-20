@@ -41,6 +41,12 @@ const UserFormForRent = (props) => {
     firstNameError: false,
     lastNameError: false,
     phoneNumberError: false,
+    cityError: false,
+    streetError: false,
+    streetNumberError: false,
+    postCodeError: false,
+    companyNameError: false,
+    nipError: false,
   });
 
   const messages = {
@@ -48,6 +54,12 @@ const UserFormForRent = (props) => {
     firstName_incorrect: "Wpisz od 3 do 30 znaków",
     lastName_incorrect: "Wpisz od 3 do 60 znaków",
     phoneNumber_incorrect: "Podaj prawidłowy numer telefonu (123456789)",
+    city_incorrect: "Podaj nazwę miasta",
+    street_incorrect: "Podaj nazwę ulicy",
+    streetNumber_incorrect: "Podaj numer ulicy",
+    companyName_incorrect: "Podaj nazwę firmy",
+    postCode_incorrect: "Podaj prawidłowy kod pocztowy",
+    nip_incorrect: "Podaj prawidłowy numer NIP",
   };
 
   const validateEmail = (email) => {
@@ -63,6 +75,10 @@ const UserFormForRent = (props) => {
     let firstName = false;
     let lastName = false;
     let phoneNumber = false;
+    let city = false;
+    let street = false;
+    let streetNumber = false;
+    let postCode = false;
 
     if (validateEmail(userEmail)) {
       email = true;
@@ -86,15 +102,81 @@ const UserFormForRent = (props) => {
       phoneNumber = true;
     }
 
-    const correct = email && firstName && lastName && phoneNumber;
+    if (address.city.length >= 3) {
+      city = true;
+    }
+    if (/^[0-9]{2}-[0-9]{3}$/.test(address.postCode)) {
+      postCode = true;
+    }
+    if (address.street.length > 3) {
+      street = true;
+    }
+    if (address.streetNumber.length > 0) {
+      streetNumber = true;
+    }
 
-    return {
-      correct,
-      firstName,
-      lastName,
-      phoneNumber,
-      email,
-    };
+    let companyName = false;
+    let nip = false;
+    if (isCompany) {
+      if (company.companyName.length > 1 && company.companyName.length <= 60) {
+        companyName = true;
+      }
+      if (company.nip.length === 10) {
+        nip = true;
+      }
+    }
+
+    let correct = false;
+
+    if (isCompany) {
+      correct =
+        email &&
+        firstName &&
+        lastName &&
+        phoneNumber &&
+        city &&
+        postCode &&
+        street &&
+        streetNumber &&
+        companyName &&
+        nip;
+
+      return {
+        correct,
+        firstName,
+        lastName,
+        phoneNumber,
+        email,
+        city,
+        postCode,
+        street,
+        streetNumber,
+        companyName,
+        nip,
+      };
+    } else {
+      correct =
+        email &&
+        firstName &&
+        lastName &&
+        phoneNumber &&
+        city &&
+        postCode &&
+        street &&
+        streetNumber;
+
+      return {
+        correct,
+        firstName,
+        lastName,
+        phoneNumber,
+        email,
+        city,
+        postCode,
+        street,
+        streetNumber,
+      };
+    }
   };
 
   const findUserByEmail = async () => {
@@ -201,6 +283,12 @@ const UserFormForRent = (props) => {
           firstNameError: !validation.firstName,
           lastNameError: !validation.lastName,
           phoneNumberError: !validation.phoneNumber,
+          cityError: !validation.city,
+          streetError: !validation.street,
+          streetNumberError: !validation.streetNumber,
+          postCodeError: !validation.postCode,
+          companyNameError: !validation.companyName,
+          nipError: !validation.nip,
         });
       }
     }
@@ -354,11 +442,11 @@ const UserFormForRent = (props) => {
                       onChange={addressHandleChange}
                       value={address.city}
                     ></input>
-                    {/* {errors.lastNameError && (
-                          <span className="error-msg">
-                            {messages.lastName_incorrect}
-                          </span>
-                        )} */}
+                    {errors.cityError && (
+                      <span className="error-msg">
+                        {messages.city_incorrect}
+                      </span>
+                    )}
                   </div>
                 </div>
                 <div className="form-container__row">
@@ -374,11 +462,11 @@ const UserFormForRent = (props) => {
                       onChange={addressHandleChange}
                       value={address.postCode}
                     ></input>
-                    {/* {errors.lastNameError && (
-                          <span className="error-msg">
-                            {messages.lastName_incorrect}
-                          </span>
-                        )} */}
+                    {errors.postCodeError && (
+                      <span className="error-msg">
+                        {messages.postCode_incorrect}
+                      </span>
+                    )}
                   </div>
                 </div>
                 <div className="form-container__row">
@@ -394,11 +482,11 @@ const UserFormForRent = (props) => {
                       onChange={addressHandleChange}
                       value={address.street}
                     ></input>
-                    {/* {errors.lastNameError && (
-                          <span className="error-msg">
-                            {messages.lastName_incorrect}
-                          </span>
-                        )} */}
+                    {errors.streetError && (
+                      <span className="error-msg">
+                        {messages.street_incorrect}
+                      </span>
+                    )}
                   </div>
                 </div>
                 <div className="form-container__row">
@@ -414,11 +502,11 @@ const UserFormForRent = (props) => {
                       onChange={addressHandleChange}
                       value={address.streetNumber}
                     ></input>
-                    {/* {errors.lastNameError && (
-                          <span className="error-msg">
-                            {messages.lastName_incorrect}
-                          </span>
-                        )} */}
+                    {errors.streetNumberError && (
+                      <span className="error-msg">
+                        {messages.streetNumber_incorrect}
+                      </span>
+                    )}
                   </div>
                 </div>
                 <div className="form-container__row">
@@ -449,11 +537,11 @@ const UserFormForRent = (props) => {
                           onChange={companyHandleChange}
                           value={company.companyName}
                         ></input>
-                        {/* {errors.lastNameError && (
+                        {errors.companyNameError && (
                           <span className="error-msg">
-                            {messages.lastName_incorrect}
+                            {messages.companyName_incorrect}
                           </span>
-                        )} */}
+                        )}
                       </div>
                     </div>
                     <div className="form-container__row">
@@ -469,11 +557,11 @@ const UserFormForRent = (props) => {
                           onChange={companyHandleChange}
                           value={company.nip}
                         ></input>
-                        {/* {errors.lastNameError && (
+                        {errors.nipError && (
                           <span className="error-msg">
-                            {messages.lastName_incorrect}
+                            {messages.nip_incorrect}
                           </span>
-                        )} */}
+                        )}
                       </div>
                     </div>
                   </>
