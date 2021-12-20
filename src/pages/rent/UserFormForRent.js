@@ -272,6 +272,7 @@ const UserFormForRent = (props) => {
               phoneNumber: res.phoneNumber,
               sharing: true,
             });
+            props.setAddress(null);
             props.stepDone(1);
           }
         }

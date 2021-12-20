@@ -110,7 +110,10 @@ const Rent = () => {
   };
 
   const setAddress = (address, company = false) => {
-    if (!company) {
+    if (address === null) {
+      console.log("JEST NULL");
+      setRent((prevRent) => ({ ...prevRent, ownSettings: false }));
+    } else if (!company) {
       setRent((prevRent) => ({
         ...prevRent,
         address: address,
