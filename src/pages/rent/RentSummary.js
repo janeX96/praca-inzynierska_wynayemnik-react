@@ -43,9 +43,9 @@ const RentSummary = ({
             setSuccess(true);
             setSending(false);
           } else {
-            console.log("NIE UDAŁO SIE... :(");
+            console.log("BŁĄD: ", response);
 
-            setError("Błąd: ", response.error); // potrzeba error msg od serwera
+            setError("Błąd: ", response); // potrzeba error msg od serwera
             setSending(false);
             setSuccess(false);
           }
