@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import keycloak from "../../auth/keycloak";
 import CalculatedProductForm from "./product_forms/CalculatedProductForm";
 import DisposableProductForm from "./product_forms/DisposableProductForm";
@@ -331,23 +331,17 @@ const LocationDetails = (props) => {
 
   return (
     <>
-      <h1 className="content-title">Lokacja:</h1>
+      <h1 className="content-container__title">Lokacja:</h1>
 
       <div className="form-container">
         <form onSubmit="">
-          <button onClick={() => props.handleAction(-1)}>Powrót</button>
-
-          <div className="row">
-            <div className="col-25"></div>
-            <div className="col-75"></div>
-          </div>
-
-          <div className="row">
-            <div className="col-25">
+          <div className="form-container__row">
+            <div className="row__col-25">
               <label htmlFor="city">Miasto: </label>
             </div>
-            <div className="col-75">
+            <div className="row__col-75">
               <input
+                  className="form-container__input"
                 id="city"
                 type="text"
                 name="city"
@@ -360,14 +354,15 @@ const LocationDetails = (props) => {
             </div>
           </div>
 
-          <div className="row">
-            <div className="col-25">
+          <div className="form-container__row">
+            <div className="row__col-25">
               {" "}
               <label htmlFor="postCode">Kod pocztowy: </label>
             </div>
-            <div className="col-75">
+            <div className="row__col-75">
               {" "}
               <input
+                  className="form-container__input"
                 id="postCode"
                 type="text"
                 name="postCode"
@@ -380,12 +375,13 @@ const LocationDetails = (props) => {
             </div>
           </div>
 
-          <div className="row">
-            <div className="col-25">
+          <div className="form-container__row">
+            <div className="row__col-25">
               <label htmlFor="street">Ulica: </label>
             </div>
-            <div className="col-75">
+            <div className="row__col-75">
               <input
+                  className="form-container__input"
                 id="street"
                 type="text"
                 name="street"
@@ -398,12 +394,13 @@ const LocationDetails = (props) => {
             </div>
           </div>
 
-          <div className="row">
-            <div className="col-25">
+          <div className="form-container__row">
+            <div className="row__col-25">
               <label htmlFor="streetNumber">Nr: </label>
             </div>
-            <div className="col-75">
+            <div className="row__col-75">
               <input
+                  className="form-container__input"
                 id="streetNumber"
                 type="text"
                 name="streetNumber"
@@ -418,12 +415,13 @@ const LocationDetails = (props) => {
             </div>
           </div>
 
-          <div className="row">
-            <div className="col-25">
+          <div className="form-container__row">
+            <div className="row__col-25">
               <label htmlFor="locationName">Nazwa: </label>
             </div>
-            <div className="col-75">
+            <div className="row__col-75">
               <input
+                  className="form-container__input"
                 id="locationName"
                 type="text"
                 name="locationName"
@@ -438,12 +436,15 @@ const LocationDetails = (props) => {
               )} */}
             </div>
           </div>
+          <div className="form-container__buttons">
+            <button onClick={() => props.handleAction(-1)}>Powrót</button>
+            <button type="submit">Zapisz</button>
+          </div>
 
-          <button type="submit">Zapisz</button>
         </form>
       </div>
 
-      <h1>Produkty</h1>
+      <h1 style={{"margin-left": "150px", color: "#737279", "padding-top": "20px", "font-size": "30px"}}>Produkty</h1>
 
       <div>
         <ul>
@@ -457,6 +458,7 @@ const LocationDetails = (props) => {
         <label htmlFor="productType">
           Dodaj nowy:
           <select
+            className="form-container__input"
             value={productType}
             id="productType"
             name="productType"
