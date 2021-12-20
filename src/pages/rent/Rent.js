@@ -1,6 +1,6 @@
 import "../../styles/App.scss";
 import { Stepper } from "react-form-stepper";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import UserFormForRent from "./UserFormForRent";
 import RentForm from "./RentForm";
@@ -64,13 +64,20 @@ const Rent = () => {
 
   const [selectedProductsSave, setSelectedProductsSave] = useState([]);
 
+  const [emailChanged, setEmailChanged] = useState("");
+
   const setUser = (userAccount) => {
     setRent({ ...rent, userAccount });
   };
 
   const setEmail = (email, userAccount) => {
     setRent({ ...rent, email, userAccount });
+    // setEmailChanged(email);
   };
+
+  // useEffect(() => {
+  //   setRent({ ...rent, email: emailChanged });
+  // }, [emailChanged]);
 
   const stepDone = (index) => {
     setCompletedSteps({ ...completedSteps, [index]: true });
@@ -102,6 +109,40 @@ const Rent = () => {
     });
   };
 
+  const setAddress = (address, company = false) => {
+    if (!company) {
+      setRent((prevRent) => ({
+        ...prevRent,
+        address: address,
+        ownSettings: true,
+        naturalPerson: true,
+        company: {
+          address: {
+            city: "",
+            postCode: "",
+            street: "",
+            streetNumber: "",
+          },
+          companyName: "",
+          nip: "",
+        },
+      }));
+    } else {
+      setRent((prevRent) => ({
+        ...prevRent,
+        company: address,
+        ownSettings: true,
+        naturalPerson: false,
+        address: {
+          city: "",
+          postCode: "",
+          street: "",
+          streetNumber: "",
+        },
+      }));
+    }
+  };
+
   const addProductsAndDescritpion = (products, description) => {
     setRent({ ...rent, description, productWithCounterList: products });
   };
@@ -117,9 +158,21 @@ const Rent = () => {
           <UserFormForRent
             defaultEmail={rent.email}
             defaultUser={rent.userAccount}
+            defaultAddress={
+              rent.naturalPerson ? rent.address : rent.company.address
+            }
+            defaultCompany={{
+              companyName: rent.company.companyName,
+              nip: rent.company.nip,
+            }}
+            defaultAddressSettings={{
+              ownSettings: rent.ownSettings,
+              isCompany: !rent.naturalPerson,
+            }}
             stepDone={stepDone}
             setUser={setUser}
             setEmail={setEmail}
+            setAddress={setAddress}
           />
         );
         break;

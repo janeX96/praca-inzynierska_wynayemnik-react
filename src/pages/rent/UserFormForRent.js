@@ -21,20 +21,16 @@ const UserFormForRent = (props) => {
     },
   });
 
-  const [ownSettings, setOwnSettings] = useState(false);
+  const [ownSettings, setOwnSettings] = useState(
+    props.defaultAddressSettings.ownSettings
+  );
 
-  const [address, setAddress] = useState({
-    city: "",
-    postCode: "",
-    street: "",
-    streetNumber: "",
-  });
+  const [address, setAddress] = useState(props.defaultAddress);
 
-  const [isCompany, setIsCompany] = useState(false);
-  const [company, setCompany] = useState({
-    companyName: "",
-    nip: "",
-  });
+  const [isCompany, setIsCompany] = useState(
+    props.defaultAddressSettings.isCompany
+  );
+  const [company, setCompany] = useState(props.defaultCompany);
 
   const [errors, setErrors] = useState({
     emailError: false,
@@ -129,53 +125,79 @@ const UserFormForRent = (props) => {
     let correct = false;
 
     if (isCompany) {
-      correct =
-        email &&
-        firstName &&
-        lastName &&
-        phoneNumber &&
-        city &&
-        postCode &&
-        street &&
-        streetNumber &&
-        companyName &&
-        nip;
+      if (user.toCreate) {
+        correct =
+          email &&
+          firstName &&
+          lastName &&
+          phoneNumber &&
+          city &&
+          postCode &&
+          street &&
+          streetNumber &&
+          companyName &&
+          nip;
 
-      return {
-        correct,
-        firstName,
-        lastName,
-        phoneNumber,
-        email,
-        city,
-        postCode,
-        street,
-        streetNumber,
-        companyName,
-        nip,
-      };
+        return {
+          correct,
+          firstName,
+          lastName,
+          phoneNumber,
+          email,
+          city,
+          postCode,
+          street,
+          streetNumber,
+          companyName,
+          nip,
+        };
+      } else if (ownSettings) {
+        correct =
+          city && postCode && street && streetNumber && companyName && nip;
+        return {
+          correct,
+          city,
+          postCode,
+          street,
+          streetNumber,
+          companyName,
+          nip,
+        };
+      }
     } else {
-      correct =
-        email &&
-        firstName &&
-        lastName &&
-        phoneNumber &&
-        city &&
-        postCode &&
-        street &&
-        streetNumber;
+      if (user.toCreate) {
+        correct =
+          email &&
+          firstName &&
+          lastName &&
+          phoneNumber &&
+          city &&
+          postCode &&
+          street &&
+          streetNumber;
 
-      return {
-        correct,
-        firstName,
-        lastName,
-        phoneNumber,
-        email,
-        city,
-        postCode,
-        street,
-        streetNumber,
-      };
+        return {
+          correct,
+          firstName,
+          lastName,
+          phoneNumber,
+          email,
+          city,
+          postCode,
+          street,
+          streetNumber,
+        };
+      } else if (ownSettings) {
+        correct = city && postCode && street && streetNumber;
+
+        return {
+          correct,
+          city,
+          postCode,
+          street,
+          streetNumber,
+        };
+      }
     }
   };
 
@@ -211,14 +233,47 @@ const UserFormForRent = (props) => {
       })
       .then((res) => {
         if (userExists) {
-          props.setEmail(userEmail, {
-            email: userEmail,
-            firstName: res.firstName,
-            lastName: res.lastName,
-            phoneNumber: res.phoneNumber,
-            sharing: true,
-          });
-          props.stepDone(1);
+          if (ownSettings) {
+            const validation = formValidation();
+            if (validation.correct) {
+              props.setEmail(userEmail, {
+                email: userEmail,
+                firstName: res.firstName,
+                lastName: res.lastName,
+                phoneNumber: res.phoneNumber,
+                sharing: true,
+              });
+              if (isCompany) {
+                const companyAddr = {
+                  address: address,
+                  companyName: company.companyName,
+                  nip: company.nip,
+                };
+                props.setAddress(companyAddr, true);
+              } else {
+                props.setAddress(address, false);
+              }
+              props.stepDone(1);
+            } else {
+              setErrors({
+                cityError: !validation.city,
+                streetError: !validation.street,
+                streetNumberError: !validation.streetNumber,
+                postCodeError: !validation.postCode,
+                companyNameError: !validation.companyName,
+                nipError: !validation.nip,
+              });
+            }
+          } else {
+            props.setEmail(userEmail, {
+              email: userEmail,
+              firstName: res.firstName,
+              lastName: res.lastName,
+              phoneNumber: res.phoneNumber,
+              sharing: true,
+            });
+            props.stepDone(1);
+          }
         }
         return userExists;
       })
@@ -253,7 +308,7 @@ const UserFormForRent = (props) => {
     } else if (type === "checkbox") {
       const checked = e.target.checked;
       if (name === "ownSettings") {
-        setOwnSettings(true);
+        setOwnSettings(checked);
       } else if (name === "isCompany") {
         setIsCompany(checked);
       } else {
