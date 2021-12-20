@@ -332,6 +332,16 @@ const UserFormForRent = (props) => {
 
       if (validation.correct) {
         props.setUser(user.userAccount);
+        if (isCompany) {
+          const companyAddr = {
+            address: address,
+            companyName: company.companyName,
+            nip: company.nip,
+          };
+          props.setAddress(companyAddr, true);
+        } else {
+          props.setAddress(address, false);
+        }
         props.stepDone(1);
       } else {
         setSending(false);
