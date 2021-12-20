@@ -43,9 +43,12 @@ const RentSummary = ({
             setSuccess(true);
             setSending(false);
           } else {
-            console.log("BŁĄD: ", response);
+            response.json().then((res) => {
+              const err = res.error;
+              // console.log("BLAD: ", res.error);
+              setError(err);
+            });
 
-            setError("Błąd: ", response); // potrzeba error msg od serwera
             setSending(false);
             setSuccess(false);
           }
@@ -284,7 +287,10 @@ const RentSummary = ({
               </div>
             </li>
             {error && (
-              <span className="error-msg" style={{ fontSize: "25px" }}>
+              <span
+                className="form-container__error-msg"
+                style={{ fontSize: "25px" }}
+              >
                 {error}
               </span>
             )}
