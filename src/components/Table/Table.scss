@@ -3,40 +3,48 @@
 .table-container {
   margin-top: 0;
   table {
-    border-spacing: 0;
-    border: 1px solid var(--dark-color);
-    --light-color: #727178;
-    --dark-color: #363636;
-    --text-color: #f2f2f2;
+    border-spacing: 0px;
+    // border: 1px solid $main-color-dark;
+  }
+
+  thead > tr > th {
+    background-color: $main-color-light;
   }
 
   th,
   td {
     padding: 0.5rem;
-    border-bottom: 1px solid var(--dark-color);
-    border-right: 1px solid var(--dark-color);
-    color: var(--dark-color);
+    border-bottom: 1px solid $main-color-dark;
+    // border-right: 1px solid $main-color-dark;
+    color: $main-color-dark;
+    background-color: $transparent-background-color;
   }
 
   th {
-    background: grey;
-    border-bottom: 3px solid var(--dark-color);
-    color: var(--text-color);
+    background: $main-color-light;
+    border-bottom: 3px solid $main-color-dark;
+    color: $main-color-dark;
     font-style: bold;
   }
 
+  .table-buttons {
+    margin-left: 0px;
+  }
+
   .table-buttons button:hover {
-    background-color: var(--dark-color);
+    background-color: $main-color-dark;
+    cursor: pointer;
   }
 
   .table-buttons button:disabled {
-    background-color: #b8b8b8;
+    background-color: $main-color-light;
+    cursor: initial;
   }
 
   .page-button {
-    background-color: var(--light-color);
+    background-color: $main-color-light;
     font-size: large;
-    color: var(--text-color);
+    color: $main-color-dark;
     margin-right: 10px;
   }
 }

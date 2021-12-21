@@ -5,7 +5,7 @@ import Table from "../components/Table/Table";
 
 const LoadData = (props) => {
   return (
-    <div>
+    <>
       {props.data && (
         <Table
           columns={props.columns}
@@ -13,7 +13,7 @@ const LoadData = (props) => {
           initialState={props.initialState}
         />
       )}
-    </div>
+    </>
   );
 };
 
