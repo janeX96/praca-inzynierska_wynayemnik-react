@@ -8,6 +8,7 @@ const paths = {
   premisesUpdatePath: "/premises/",
   premisesDeletePath: "/premises/",
   newLocationPath: "/location/new",
+  updateLocationPath: "/location/",
   locationDetailsPath: "/location/",
   newRentPath: "/new-rent",
   productsForLocation: {
@@ -28,6 +29,7 @@ const owner = {
   premisesUpdate: `${httpPrefix}${port}${ownerPrefix}${paths.premisesUpdatePath}`, //premises id at the end
   premisesDelete: `${httpPrefix}${port}${ownerPrefix}${paths.premisesDeletePath}`, //premises id at the end
   newLocation: `${httpPrefix}${port}${ownerPrefix}${paths.newLocationPath}`,
+  updateLocation: `${httpPrefix}${port}${ownerPrefix}${paths.updateLocationPath}`,
   locationDetails: `${httpPrefix}${port}${ownerPrefix}${paths.locationDetailsPath}`, //location id at the end
   productsForLocation: {
     prefix: `${httpPrefix}${port}${ownerPrefix}/location/`, // location id must be after /location/
