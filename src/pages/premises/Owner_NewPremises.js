@@ -499,11 +499,6 @@ const Owner_NewPremises = () => {
   return (
     <div className="content-container">
       <h1 className="content-container__title">Nowy lokal</h1>
-      <button
-        onClick={() => toast.error("Wystąpił problem przy dodawaniu lokalu...")}
-      >
-        test
-      </button>
       <div className="form-container">
         <form onSubmit={handleSubmit}>
           <div className="form-container__row">

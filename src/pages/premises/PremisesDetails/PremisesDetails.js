@@ -7,6 +7,8 @@ import { AiFillEdit } from "react-icons/ai";
 import { FaKey } from "react-icons/fa";
 import { owner } from "../../../resources/urls";
 import { PATCH } from "../../../utilities/Request";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const PremisesDetails = ({
   premisesId,
@@ -36,12 +38,13 @@ const PremisesDetails = ({
   const [submitMessage, setSubmitMessage] = useState("");
   const [deleted, setDeleted] = useState(false);
 
-  const handleEdited = (msg) => {
+  const handleEdited = (success) => {
     setEdit(false);
-    setSubmitMessage(msg);
-    setTimeout(() => {
-      setSubmitMessage("");
-    }, 3000);
+
+    let msg = "";
+    success
+      ? toast.success("Zmiany zostały zapisane")
+      : toast.error("Nie udało się zapisać zmian...");
 
     reloadData();
   };
