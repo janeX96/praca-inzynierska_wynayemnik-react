@@ -59,6 +59,7 @@ const PremisesDetails = ({
       : toast.error("Nie udało się zapisać zmian...");
 
     reloadData();
+    getData();
   };
 
   const handleDelete = () => {
