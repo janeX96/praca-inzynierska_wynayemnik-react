@@ -1,11 +1,10 @@
 import "../../styles/App.scss";
 import { useState, useEffect } from "react";
-import keycloak from "../../auth/keycloak";
 import { Link } from "react-router-dom";
 import WaitIcon from "../../images/icons/wait-icon.png";
 import { GET, POST } from "../../utilities/Request";
 import { owner, general } from "../../resources/urls";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Owner_NewPremises = () => {
@@ -91,15 +90,15 @@ const Owner_NewPremises = () => {
       reactiveValidation();
     }
 
-    if (state.submitMessage !== "") {
-      setTimeout(() => {
-        setState({
-          ...state,
-          submitMessage: "",
-        });
-      }, 3000);
-    }
-  }, [state.changed, state.submitMessage]);
+    // if (state.submitMessage !== "") {
+    //   setTimeout(() => {
+    //     setState({
+    //       ...state,
+    //       submitMessage: "",
+    //     });
+    //   }, 3000);
+    // }
+  }, [state.changed]);
 
   const messages = {
     number_incorrect: "Numer lokalu ma nieprawidłową formę",
@@ -350,9 +349,9 @@ const Owner_NewPremises = () => {
             //     : "Wystąpił problem przy dodawaniu lokalu...";
 
             if (res > 0) {
-              toast("Lokal został dodany");
+              toast.success("Lokal został dodany");
             } else {
-              toast("Wystąpił problem przy dodawaniu lokalu...");
+              toast.error("Wystąpił problem przy dodawaniu lokalu...");
             }
 
             setState({
@@ -499,9 +498,12 @@ const Owner_NewPremises = () => {
 
   return (
     <div className="content-container">
-      <ToastContainer />
       <h1 className="content-container__title">Nowy lokal</h1>
-      {/* <button onClick={() => toast("test")}>test</button> */}
+      <button
+        onClick={() => toast.error("Wystąpił problem przy dodawaniu lokalu...")}
+      >
+        test
+      </button>
       <div className="form-container">
         <form onSubmit={handleSubmit}>
           <div className="form-container__row">
