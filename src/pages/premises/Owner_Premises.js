@@ -6,13 +6,14 @@ import { Link } from "react-router-dom";
 import { BsPlusSquareFill } from "react-icons/bs";
 import { owner } from "../../resources/urls";
 import { GET } from "../../utilities/Request";
+import { toast } from "react-toastify";
 
 const Owner_Premises = () => {
   const [state, setState] = useState({
     data: [],
-    choosenId: -1,
-    deletedMessage: "",
   });
+
+  const [chosenId, setChosenId] = useState(-1);
 
   const getData = async () => {
     GET(owner.premises).then((res) => {
@@ -33,43 +34,23 @@ const Owner_Premises = () => {
     });
   };
 
-  const findDataById = (id) => {
-    const res = state.data.find((premises) => {
-      return premises.premisesId === id;
-    });
-
-    return res;
-  };
-
   //wybierając dany lokal zaamiętuję jego id, jeśi id jest >=0
   // to wyświetlam info, jeśli nie to pokazuje liste lokali
   const handleAction = (id) => {
-    setState({
-      ...state,
-      choosenId: id,
-    });
+    setChosenId(id);
   };
 
   useEffect(() => {
     getData();
-  }, [state.choosenId]);
+  }, [chosenId]);
 
   const deleteShowMessage = (res) => {
     handleAction(-1);
-    const msg = res
-      ? "Lokal został usunięty"
-      : "Nie udało się usunąć lokalu...";
-    setState({
-      ...state,
-      deletedMessage: msg,
-    });
-
-    setTimeout(() => {
-      setState({
-        ...state,
-        deletedMessage: "",
-      });
-    }, 3000);
+    res
+      ? toast.success("Lokal został usunięty")
+      : toast.error("Nie udało się usunąć lokalu...");
+    console.log("Przeladowanie: ", chosenId);
+    getData();
   };
 
   const columns = [
@@ -119,13 +100,13 @@ const Owner_Premises = () => {
 
   return (
     <div className="content-container">
-      {state.choosenId >= 0 ? (
+      {chosenId >= 0 ? (
         <PremisesDetails
-          key={state.choosenId}
+          key={chosenId}
           action={handleAction}
           deleteShowMessage={(res) => deleteShowMessage(res)}
           reloadData={() => getData()}
-          {...findDataById(state.choosenId)}
+          premisesId={chosenId}
         />
       ) : (
         <>
@@ -149,9 +130,6 @@ const Owner_Premises = () => {
             "brak"
           )}
         </>
-      )}
-      {state.deletedMessage && (
-        <h2 className="submit-message">{state.deletedMessage}</h2>
       )}
     </div>
   );

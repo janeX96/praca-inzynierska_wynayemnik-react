@@ -76,6 +76,13 @@ body {
       list-style-type: none;
       color: $main-color-dark;
     }
+
+    &__field-avb {
+      color: $correct-color;
+    }
+    &__field-hired {
+      color: $error-color;
+    }
   }
 
   .details-container__buttons {

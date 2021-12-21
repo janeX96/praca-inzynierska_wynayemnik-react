@@ -84,6 +84,14 @@ body {
   color: #363636;
 }
 
+.content-container .details-container__field-avb {
+  color: #2e7526;
+}
+
+.content-container .details-container__field-hired {
+  color: #941818;
+}
+
 .content-container .details-container__buttons {
   margin-left: 50px;
   margin-bottom: 20px;

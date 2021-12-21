@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../../styles/App.scss";
 import PremisesEdit from "../PremisesEdit";
 import { Link } from "react-router-dom";
@@ -6,42 +6,54 @@ import { BsTrashFill } from "react-icons/bs";
 import { AiFillEdit } from "react-icons/ai";
 import { FaKey } from "react-icons/fa";
 import { owner } from "../../../resources/urls";
-import { PATCH } from "../../../utilities/Request";
+import { GET, PATCH } from "../../../utilities/Request";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const PremisesDetails = ({
   premisesId,
-  premisesNumber,
-  area,
-  state,
-  createdDate,
-  furnished,
-  premisesLevel,
-  premisesType,
-  location,
   deleteShowMessage,
   action,
   reloadData,
 }) => {
   const [edit, setEdit] = useState(false);
-  const data = {
-    premisesNumber,
-    area,
-    state,
-    furnished,
-    premisesLevel,
-    premisesType,
-    location,
+  const [data, setData] = useState({
+    premisesId: 0,
+    premisesNumber: "",
+    area: 0,
+    premisesLevel: "",
+    state: "",
+    createdDate: "",
+    premisesType: {
+      premisesTypeId: 0,
+      type: "",
+    },
+    location: {
+      locationId: 0,
+      locationName: "",
+      address: {
+        addressId: 0,
+        street: "",
+        postCode: "",
+        city: "",
+        streetNumber: "",
+      },
+    },
+    furnished: false,
+  });
+
+  const getData = () => {
+    GET(`${owner.premisesDetails}${premisesId}`).then((res) => {
+      setData(res);
+    });
   };
 
-  const [submitMessage, setSubmitMessage] = useState("");
-  const [deleted, setDeleted] = useState(false);
+  useEffect(() => {
+    getData();
+  }, []);
 
   const handleEdited = (success) => {
     setEdit(false);
-
-    let msg = "";
     success
       ? toast.success("Zmiany zostały zapisane")
       : toast.error("Nie udało się zapisać zmian...");
@@ -53,15 +65,9 @@ const PremisesDetails = ({
     if (window.confirm("Czy na pewno chcesz usunąć ten lokal?")) {
       PATCH(`${owner.premisesDelete}${premisesId}`)
         .then((response) => {
-          setDeleted(true);
-          const msg = response
-            ? "Lokal został usunięty"
-            : "Nie udało się usunąć lokalu...";
-          setSubmitMessage(msg);
-          reloadData();
+          deleteShowMessage(response);
         })
         .catch((err) => {
-          deleteShowMessage(false);
           console.log("Error :", err);
         });
     }
@@ -80,41 +86,43 @@ const PremisesDetails = ({
             setEdit(false);
           }}
         />
-      ) : deleted ? (
-        <div className="deleted-msg">
-          <h2>{submitMessage}</h2>
-          <button className="action-button" onClick={() => action(-1)}>
-            Powrót
-          </button>
-        </div>
       ) : (
         <>
           <h1 className="content-container__title">Szczegóły lokalu</h1>
           <div className="details-container">
             <ul>
               <li>
-                Adres lokalu: <b>{location.locationName}</b>
+                Adres lokalu: <b>{data.location.locationName}</b>
               </li>
               <li>
-                Numer lokalu: <b>{premisesNumber}</b>
+                Numer lokalu: <b>{data.premisesNumber}</b>
               </li>
               <li>
-                Powierzchnia (m2): <b>{area}</b>
+                Powierzchnia (m2): <b>{data.area}</b>
               </li>
               <li>
-                Rodzaj lokalu: <b>{premisesType.type}</b>
+                Rodzaj lokalu: <b>{data.premisesType.type}</b>
               </li>
               <li>
-                Umeblowanie: <b>{furnished}</b>
+                Umeblowanie: <b>{data.furnished}</b>
               </li>
               <li>
-                Poziom: <b>{premisesLevel}</b>
+                Poziom: <b>{data.premisesLevel}</b>
               </li>
               <li>
-                Dodano: <b>{createdDate}</b>
+                Dodano: <b>{data.createdDate}</b>
               </li>
               <li>
-                Status: <b>{state}</b>
+                Status:
+                <b
+                  className={
+                    data.state === "AVAILABLE"
+                      ? "details-container__field-avb"
+                      : "details-container__field-hired"
+                  }
+                >
+                  {data.state === "AVAILABLE" ? "dostępny" : "zajęty"}
+                </b>
               </li>
             </ul>
             <div className="details-container__buttons">
@@ -130,10 +138,10 @@ const PremisesDetails = ({
                   state: {
                     premisesId: premisesId,
                     premises: {
-                      name: location.locationName,
-                      premisesNumber: premisesNumber,
-                      locationId: location.locationId,
-                      premisesType: premisesType.type,
+                      name: data.location.locationName,
+                      premisesNumber: data.premisesNumber,
+                      locationId: data.location.locationId,
+                      premisesType: data.premisesType.type,
                     },
                   },
                 }}
@@ -160,7 +168,6 @@ const PremisesDetails = ({
               </div>
             </div>
           </div>
-          {submitMessage && <h1 className="submit-message">{submitMessage}</h1>}
         </>
       )}
     </>
