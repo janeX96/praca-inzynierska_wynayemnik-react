@@ -14,6 +14,7 @@ import UserProfile from "../pages/UserProfile/UserProfile";
 import Owner_Locations from "../pages/locations/Owner_Locations";
 import Rent from "../pages/rent/Rent";
 import roles from "../resources/roles";
+import { ToastContainer } from "react-toastify";
 
 const AppRouter = () => {
   const { initialized } = useKeycloak();
@@ -27,6 +28,7 @@ const AppRouter = () => {
         <div>
           <main>
             {<Navbar />}
+            {<ToastContainer />}
             <section>
               <Switch>
                 <Route path="/" exact component={Home} />

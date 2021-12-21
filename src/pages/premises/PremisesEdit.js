@@ -331,9 +331,7 @@ const PremisesEdit = (props) => {
       sendPut().then((res) => {
         //na podstawie odpowiedzi od serwera określam komunikat (nie)powodzenia
 
-        const message = res
-          ? "Zmiany zostały zapisane"
-          : "Nie udało się zapisać zmian...";
+        const success = res;
 
         setState({
           ...state,
@@ -367,8 +365,8 @@ const PremisesEdit = (props) => {
             locationName: false,
           },
         });
-        // console.log("wustawim odpowiedz na : ", message);
-        props.edited(message);
+
+        props.edited(success);
       });
     } else {
       if (state.choosenLocation.length === 0) {

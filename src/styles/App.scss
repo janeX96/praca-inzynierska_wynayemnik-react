@@ -1,10 +1,18 @@
 @import "_colors";
 @import "_mixins";
+
 body {
   margin: 0 !important;
   font-family: "Lato", sans-serif;
   font-family: "Noto Sans Display", sans-serif;
   color: $main-color-dark;
+}
+
+.Toastify__toast-container {
+  margin-top: 70px;
+  margin-right: 0;
+
+  --toastify-color-light: $text-color-light;
 }
 
 .content-container {
@@ -68,6 +76,13 @@ body {
       list-style-type: none;
       color: $main-color-dark;
     }
+
+    &__field-avb {
+      color: $correct-color;
+    }
+    &__field-hired {
+      color: $error-color;
+    }
   }
 
   .details-container__buttons {
@@ -124,7 +139,7 @@ body {
   .details-container,
   .form-container {
     border-radius: 5px;
-    background-color: #f2f2f295;
+    background-color: $transparent-background-color;
     padding: 50px;
     box-sizing: border-box;
     max-width: 900px;

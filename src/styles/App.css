@@ -5,6 +5,12 @@ body {
   color: #363636;
 }
 
+.Toastify__toast-container {
+  margin-top: 70px;
+  margin-right: 0;
+  --toastify-color-light: #f2f2f2;
+}
+
 .content-container {
   background: url("../images/wynayemnik img1 transparent.jpg") center center/cover no-repeat;
   height: 100%;
@@ -76,6 +82,14 @@ body {
 .content-container .details-container ul {
   list-style-type: none;
   color: #363636;
+}
+
+.content-container .details-container__field-avb {
+  color: #2e7526;
+}
+
+.content-container .details-container__field-hired {
+  color: #941818;
 }
 
 .content-container .details-container__buttons {
