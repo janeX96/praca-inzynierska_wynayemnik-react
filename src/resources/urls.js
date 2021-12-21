@@ -3,6 +3,7 @@ const port = "localhost:8080";
 
 const paths = {
   premisesPath: "/premises",
+  premisesDetails: "/premises/",
   locationsPath: "/locations",
   newPremisesPath: "/new-premises",
   premisesUpdatePath: "/premises/",
@@ -23,6 +24,7 @@ const paths = {
 const ownerPrefix = "/owner";
 const owner = {
   premises: `${httpPrefix}${port}${ownerPrefix}${paths.premisesPath}`,
+  premisesDetails: `${httpPrefix}${port}${ownerPrefix}${paths.premisesDetails}`, // +id
   locations: `${httpPrefix}${port}${ownerPrefix}${paths.locationsPath}`,
   newPremises: `${httpPrefix}${port}${ownerPrefix}${paths.newPremisesPath}`,
   premisesUpdate: `${httpPrefix}${port}${ownerPrefix}${paths.premisesUpdatePath}`, //premises id at the end
