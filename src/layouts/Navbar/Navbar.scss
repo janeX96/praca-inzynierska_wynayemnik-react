@@ -20,10 +20,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-right: 100px;
 }
 .logo {
-  width: 45px;
-  height: 45px;
+  // width: 100px;
+  // height: 45px;
 }
 .nav-options {
   padding-left: 25px;
@@ -37,7 +38,9 @@
 }
 
 .option :hover {
-  color: white;
+  color: $main-color-dark;
+  border-bottom: solid 5px $main-color-dark;
+  padding-bottom: 10px;
 }
 // .signin-up {
 //   display: flex;
@@ -63,6 +66,14 @@
 .mobile-menu {
   display: none;
 }
+
+.user-menu {
+  margin-right: 0px;
+  padding-right: 0;
+  height: 69px;
+  width: 64px;
+}
+
 @media (max-width: 648px) {
   /*Mobile View */
   .header {
@@ -99,6 +110,11 @@
     width: 45px;
     height: 45px;
   }
+
+  .menu-icon :hover {
+    cursor: pointer;
+  }
+
   .option {
     display: flex;
     align-items: center;

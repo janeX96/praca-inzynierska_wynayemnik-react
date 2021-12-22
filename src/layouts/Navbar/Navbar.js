@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { ReactComponent as MenuItem } from "../../images/icons/menu-svgrepo-com.svg";
 import "./Navbar.scss";
 import logo from "../../images/logo wynayemnik.png";
+import close from "../../images/icons/close.png";
 import Login from "../../components/Login/Login.js";
 import Dropdown, {
   DropdownTrigger,
@@ -25,16 +26,11 @@ const Navbar = () => {
     <div className="header">
       <div className="logo-nav">
         <div className="logo-container">
-          <a href="#">
+          <Link to="/" className="nav-links" onClick={closeMobileMenu}>
             <img src={logo} alt="" style={{ height: "50px" }} />
-          </a>
+          </Link>
         </div>
         <ul className={click ? "nav-options active" : "nav-options"}>
-          <li className="option">
-            <Link to="/" className="nav-links" onClick={closeMobileMenu}>
-              Strona główna
-            </Link>
-          </li>
           {role === roles.OWNER ? (
             <>
               <li className="option">
@@ -92,8 +88,8 @@ const Navbar = () => {
       </div>
 
       {keycloak.authenticated ? (
-        <>
-          <a>{keycloak.tokenParsed.preferred_username}</a>
+        <div className="user-menu">
+          {/* <a>{keycloak.tokenParsed.preferred_username}</a> */}
           <Dropdown ref={(foo) => (dropdown = foo)}>
             <DropdownTrigger>
               <img src={UserIcon} alt="" />
@@ -158,7 +154,7 @@ const Navbar = () => {
               </ul>
             </DropdownContent>
           </Dropdown>
-        </>
+        </div>
       ) : (
         <div className="login-btns">
           <a>
@@ -171,10 +167,12 @@ const Navbar = () => {
         </div>
       )}
 
-      {/* <ul className="signin-up"> */}
-      {/* </ul> */}
       <div className="mobile-menu" onClick={handleClick}>
-        {click ? "X" : <MenuItem className="menu-icon" />}
+        {click ? (
+          <img src={close} className="menu-icon" />
+        ) : (
+          <MenuItem className="menu-icon" />
+        )}
       </div>
     </div>
   );
