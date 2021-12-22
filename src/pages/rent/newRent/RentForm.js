@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import keycloak from "../../auth/keycloak";
+import keycloak from "../../../auth/keycloak";
 import RentBillingPeriods from "./RentBillingPeriods";
 
 const RentForm = (props) => {
