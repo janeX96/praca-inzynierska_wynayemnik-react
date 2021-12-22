@@ -52,7 +52,7 @@ const Rents = () => {
         <button
           className="content-container__button"
           value={cell.row.values.actions}
-          onClick={() => handleAction(cell.row.values.premisesId)}
+          // onClick={() => handleAction(cell.row.values.premisesId)}
         >
           Szczegóły
         </button>
