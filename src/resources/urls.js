@@ -16,7 +16,7 @@ const paths = {
   productsForLocation: {
     addCalculatedPath: "/product/calculated/add",
     addDisposablePath: "/product/disposable/add",
-    addMiediaQuantityPath: "/product/miedia-quantity/add",
+    addMiediaQuantityPath: "/product/media-quantity/add",
     addMediaStandardPath: "/product/media-standard/add",
     addStatePath: "/product/state/add",
     productsForTypePath: "/products?productType=",

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import keycloak from "../../auth/keycloak";
 import CalculatedProductForm from "./product_forms/CalculatedProductForm";
 import DisposableProductForm from "./product_forms/DisposableProductForm";
 import MediaQuantityProductForm from "./product_forms/MediaQuantityProductForm";
@@ -21,6 +20,7 @@ const LocationDetails = (props) => {
   const [productType, setProductType] = useState("");
   const [products, setProducts] = useState([]);
   const [premisesTypes, setPremisesTypes] = useState([]);
+  const [mediaStandardProducts, setMediaStandardProducts] = useState();
 
   const [errors, setErrors] = useState({
     city: false,
@@ -38,6 +38,15 @@ const LocationDetails = (props) => {
       .catch((err) => {
         console.log("Error Reading data " + err);
       });
+  };
+
+  const getProductsMediaStandard = () => {
+    const url = `${owner.productsForLocation.prefix}${props.id}${owner.productsForLocation.getAllMediaStandard}`;
+
+    GET(url).then((res) => {
+      console.log("mediastand: ", res);
+      setMediaStandardProducts(res);
+    });
   };
 
   const getData = () => {
@@ -74,6 +83,7 @@ const LocationDetails = (props) => {
     getLocationData();
     getData();
     getProducts();
+    getProductsMediaStandard();
   }, []);
 
   useEffect(() => {
@@ -117,7 +127,7 @@ const LocationDetails = (props) => {
 
       const url = `${owner.productsForLocation.prefix}${props.id}${suffix}`;
       let json = JSON.stringify(product.obj);
-
+      console.log("Dodaję: ", product.obj);
       POST(url, json)
         .then((response) => {
           if (response.ok) {
@@ -140,6 +150,8 @@ const LocationDetails = (props) => {
           <MediaQuantityProductForm
             addProduct={addProduct}
             premisesTypes={premisesTypes}
+            locationId={props.id}
+            mediaStandardProducts={mediaStandardProducts}
           />
         );
         break;
@@ -429,7 +441,7 @@ const LocationDetails = (props) => {
         </ul>
       </div>
 
-      <div className="attach-products">
+      <div className="content-container__attach-products">
         <label htmlFor="productType">
           Dodaj nowy:
           <select

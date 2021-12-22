@@ -12,7 +12,7 @@ const MediaQuantityProductForm = (props) => {
       premisesTypes: [],
       price: 0,
       productName: "",
-      quantity: "",
+      // quantity: "",
       quantityUnit: "",
       vat: "",
     },
@@ -20,23 +20,26 @@ const MediaQuantityProductForm = (props) => {
 
   const [premisesTypes, setPremisesTypes] = useState(props.premisesTypes);
 
-  const [mediaStandardProducts, setMediaStandardProducts] = useState([]);
+  // const [mediaStandardProducts, setMediaStandardProducts] = useState();
 
   const [pattern, setPattern] = useState({
     attr1: "",
-    arithm: "",
+    arithm: "-",
     attr2: "",
   });
 
-  const getProductsMediaStandard = () => {
-    GET(owner.productsForLocation.getAllMediaStandard).then((res) => {
-      setMediaStandardProducts(res);
-    });
-  };
+  // const getProductsMediaStandard = () => {
+  //   const url = `${owner.productsForLocation.prefix}${props.locationId}${owner.productsForLocation.getAllMediaStandard}`;
 
-  useEffect(() => {
-    getProductsMediaStandard();
-  }, []);
+  //   GET(url).then((res) => {
+  //     console.log("mediastand: ", res);
+  //     setMediaStandardProducts(res);
+  //   });
+  // };
+
+  // useEffect(() => {
+  //   getProductsMediaStandard();
+  // }, []);
 
   useEffect(() => {
     const forAttribute =
@@ -49,6 +52,7 @@ const MediaQuantityProductForm = (props) => {
     const forAttribute =
       pattern.attr1 + " " + pattern.arithm + " " + pattern.attr2;
     setData({ ...data, obj: { ...data.obj, forAttribute } });
+
     props.addProduct(data);
   };
 
@@ -162,7 +166,7 @@ const MediaQuantityProductForm = (props) => {
           </div>
         </div>
 
-        <div className="form-container__row">
+        {/* <div className="form-container__row">
           <div className="row__col-25">
             <label htmlFor="quantity">Ilość: </label>
           </div>
@@ -176,7 +180,7 @@ const MediaQuantityProductForm = (props) => {
               onChange={handleChange}
             />
           </div>
-        </div>
+        </div> */}
 
         <div className="form-container__row">
           <div className="row__col-25">
@@ -199,33 +203,44 @@ const MediaQuantityProductForm = (props) => {
             <label htmlFor="forAttribute">Wzór: </label>
           </div>
           <div className="row__col-75">
-            <input
+            <select
               className="form-container__input"
               value={pattern.attr1}
               id="attr1"
-              type="text"
               name="attr1"
-              style={{ width: "40px" }}
               onChange={handleChange}
-            />
+            >
+              <option key="" value=""></option>
+              {props.mediaStandardProducts.map((option) => (
+                <option key={option.productId} value={option.productName}>
+                  {option.productName}
+                </option>
+              ))}
+            </select>
             <input
               className="form-container__input"
               value={pattern.arithm}
               id="arithm"
               type="text"
               name="arithm"
+              disabled="true"
               style={{ width: "15px" }}
               onChange={handleChange}
             />
-            <input
+            <select
               className="form-container__input"
               value={pattern.attr2}
               id="attr2"
-              type="text"
               name="attr2"
-              style={{ width: "40px" }}
               onChange={handleChange}
-            />
+            >
+              <option key="" value=""></option>
+              {props.mediaStandardProducts.map((option) => (
+                <option key={option.productId} value={option.productName}>
+                  {option.productName}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
 
