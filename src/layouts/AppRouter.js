@@ -12,7 +12,7 @@ import Owner_NewPremises from "../pages/premises/Owner_NewPremises";
 import Registration from "../auth/Registration/Registration";
 import UserProfile from "../pages/UserProfile/UserProfile";
 import Owner_Locations from "../pages/locations/Owner_Locations";
-import Rent from "../pages/rent/Rent";
+import Rent from "../pages/rent/newRent/Rent";
 import roles from "../resources/roles";
 import { ToastContainer } from "react-toastify";
 

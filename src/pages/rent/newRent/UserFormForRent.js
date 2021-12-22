@@ -1,7 +1,7 @@
-import "../../styles/App.scss";
+import "../../../styles/App.scss";
 import { useState, useEffect } from "react";
-import { GET } from "../../utilities/Request";
-import { user as userReq } from "../../resources/urls";
+import { GET } from "../../../utilities/Request";
+import { user as userReq } from "../../../resources/urls";
 
 const UserFormForRent = (props) => {
   const [sending, setSending] = useState(false);

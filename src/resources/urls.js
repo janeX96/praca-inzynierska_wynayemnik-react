@@ -12,6 +12,7 @@ const paths = {
   updateLocationPath: "/location/",
   locationDetailsPath: "/location/",
   newRentPath: "/new-rent",
+  rentsPath: "/rents",
   productsForLocation: {
     addCalculatedPath: "/product/calculated/add",
     addDisposablePath: "/product/disposable/add",
@@ -33,6 +34,7 @@ const owner = {
   newLocation: `${httpPrefix}${port}${ownerPrefix}${paths.newLocationPath}`,
   updateLocation: `${httpPrefix}${port}${ownerPrefix}${paths.updateLocationPath}`,
   locationDetails: `${httpPrefix}${port}${ownerPrefix}${paths.locationDetailsPath}`, //location id at the end
+  rents: `${httpPrefix}${port}${ownerPrefix}${paths.rentsPath}`,
   productsForLocation: {
     prefix: `${httpPrefix}${port}${ownerPrefix}/location/`, // location id must be after /location/
     allProductsSuffix: "/productGroupType",

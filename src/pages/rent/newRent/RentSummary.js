@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
-import keycloak from "../../auth/keycloak";
-import { POST } from "../../utilities/Request";
+import { POST } from "../../../utilities/Request";
 import Confirmation from "./Confirmation";
-import { owner } from "../../resources/urls";
+import { owner } from "../../../resources/urls";
 
 const RentSummary = ({
   userEmail,

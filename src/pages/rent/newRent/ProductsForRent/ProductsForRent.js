@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "./ProductsForRent.css";
-import { GET } from "../../../utilities/Request";
-import { owner } from "../../../resources/urls";
+import { GET } from "../../../../utilities/Request";
+import { owner } from "../../../../resources/urls";
 const ProductsForRent = (props) => {
   const [allProducts, setAllProducts] = useState([]);
   const [availableProducts, setAvailableProducts] = useState([]);
