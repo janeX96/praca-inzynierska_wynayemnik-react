@@ -1,0 +1,205 @@
+@import "../../styles/_colors";
+
+.header {
+  display: flex;
+  background: $main-color-light;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 40px;
+  height: 80px;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+.logo-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 100px;
+}
+.logo {
+  // width: 100px;
+  // height: 45px;
+}
+.nav-options {
+  padding-left: 25px;
+  display: grid;
+  grid-template-columns: repeat(6, auto);
+  grid-gap: 50px;
+  list-style-type: none;
+}
+.mobile-option {
+  display: none;
+}
+
+.option {
+  font-size: 18px;
+}
+.option :hover {
+  color: $main-color-dark;
+  border-bottom: solid 5px $main-color-dark;
+  padding-bottom: 10px;
+}
+// .signin-up {
+//   display: flex;
+//   padding: 0px 5px;
+//   list-style-type: none;
+// }
+// .sign-in {
+//   padding-right: 50px;
+//   align-self: center;
+// }
+// .sign-in :hover {
+//   color: white;
+// }
+// .signup-btn {
+//   padding: 10px 10px;
+//   height: 2.4rem;
+//   border-radius: 3px;
+//   background: rgb(222, 9, 241);
+//   color: white;
+//   cursor: pointer;
+//   align-items: center;
+// }
+.mobile-menu {
+  display: none;
+}
+
+.user-menu {
+  margin-right: 0px;
+  padding-right: 0;
+  height: 69px;
+  width: 64px;
+}
+
+@media (max-width: 648px) {
+  /*Mobile View */
+  .header {
+    padding: 0px 10px;
+  }
+  .logo {
+    width: 45px;
+    height: 45px;
+  }
+  .nav-options {
+    display: flex;
+    width: 100%;
+    height: 450px;
+    position: absolute;
+    top: 80px;
+    left: -100%;
+    opacity: 0;
+    transition: all 0.5s ease;
+    flex-direction: column;
+    list-style-type: none;
+    grid-gap: 0px;
+  }
+  .nav-options.active {
+    background: $main-color-light;
+    left: 0;
+    opacity: 0.9;
+    transition: all 0.5s ease;
+    z-index: 1;
+    align-content: center;
+    padding-left: 0px;
+  }
+
+  .menu-icon {
+    width: 45px;
+    height: 45px;
+  }
+
+  .menu-icon :hover {
+    cursor: pointer;
+  }
+
+  .option {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 10vw;
+    padding: 30px 0px;
+  }
+
+  .option :hover {
+    color: $main-color-dark;
+  }
+  // .sign-up {
+  //   background: rgb(222, 9, 241);
+  //   border-radius: 3px;
+  //   color: white;
+  //   padding: 20px 0px;
+  //   width: 80%;
+  //   align-self: center;
+  //   border-radius: 3px;
+  // }
+
+  // .signin-up {
+  //   display: none;
+  // }
+}
+.mobile-menu {
+  display: block;
+}
+
+.dropdown {
+  display: inline-block;
+  margin-right: 145px;
+}
+
+.dropdown__content {
+  display: none;
+  position: absolute;
+  background-color: $main-color-light;
+  margin-top: -6px;
+  /* margin-right: 20%; */
+  text-align: left;
+  padding-right: 23px;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  width: 150px;
+}
+
+.dropdown__content > ul {
+  list-style-type: none;
+  /* padding-right: 0%; */
+  padding-left: 10%;
+  /* margin-right: 40px; */
+}
+
+.dropdown__content > ul > li > p,
+a {
+  color: $text-color-light;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.dropdown__content > ul > li :hover {
+  color: $main-color-dark;
+}
+
+.dropdown--active .dropdown__content {
+  display: block;
+}
+
+.dropdown__trigger :hover {
+  // background-color: $main-color-dark;
+}
+
+.login-btns {
+  font-size: 20px;
+  color: $text-color-light;
+  &__btn {
+    display: inline-block;
+    margin-right: 20px;
+    &:hover {
+      cursor: pointer;
+      color: $main-color-dark;
+    }
+  }
+}

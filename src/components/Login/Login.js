@@ -13,7 +13,7 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <>
       {keycloak && !keycloak.authenticated && (
         <p onClick={() => keycloak.login()}>Logowanie</p>
       )}
@@ -21,7 +21,7 @@ const Login = () => {
       {keycloak && keycloak.authenticated && (
         <p onClick={() => logout()}>Wyloguj</p>
       )}
-    </div>
+    </>
   );
 };
 
