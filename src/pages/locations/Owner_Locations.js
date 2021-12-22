@@ -22,7 +22,6 @@ const Owner_Locations = () => {
 
   useEffect(() => {
     getData();
-    console.log(keycloak.token);
   }, []);
 
   const handleAction = (id) => {
@@ -59,7 +58,7 @@ const Owner_Locations = () => {
       accessor: "action",
       Cell: ({ cell }) => (
         <button
-          className="action-button"
+          className="content-container__button"
           value={cell.row.values.actions}
           onClick={() => handleAction(cell.row.values.locationId)}
         >
@@ -82,7 +81,7 @@ const Owner_Locations = () => {
           />
         ) : (
           <>
-            <h1 className="content-title">Moje Lokacje</h1>
+            <h1 className="content-container__title">Moje Lokacje</h1>
             {locations.length > 0 ? (
               <LoadData
                 data={locations}

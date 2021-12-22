@@ -49,7 +49,7 @@ const Owner_Premises = () => {
     res
       ? toast.success("Lokal został usunięty")
       : toast.error("Nie udało się usunąć lokalu...");
-    console.log("Przeladowanie: ", chosenId);
+    // console.log("Przeladowanie: ", chosenId);
     getData();
   };
 

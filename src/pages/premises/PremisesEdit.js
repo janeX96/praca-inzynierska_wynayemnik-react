@@ -1,6 +1,5 @@
 import "../../styles/App.scss";
 import { useState, useEffect } from "react";
-import keycloak from "../../auth/keycloak";
 import { owner, general } from "../../resources/urls";
 import { GET, PUT } from "../../utilities/Request";
 

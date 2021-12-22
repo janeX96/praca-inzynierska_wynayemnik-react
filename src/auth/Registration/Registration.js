@@ -126,9 +126,9 @@ const Registration = () => {
         let errorMsg = "";
         await POST(user.register, jsonData, true)
           .then((res) => {
-            console.log("Otrzymalem: ", res);
+            // console.log("Otrzymalem: ", res);
             if (res.ok) {
-              console.log("REJESTRACJA POMYŚLNA");
+              // console.log("REJESTRACJA POMYŚLNA");
               setData({ ...data, success: true });
             } else {
               res.json().then((res) => {
