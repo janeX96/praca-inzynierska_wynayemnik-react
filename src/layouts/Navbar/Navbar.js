@@ -27,7 +27,7 @@ const Navbar = () => {
       <div className="logo-nav">
         <div className="logo-container">
           <Link to="/" className="nav-links" onClick={closeMobileMenu}>
-            <img src={logo} alt="" style={{ height: "50px" }} />
+            <img src={logo} alt="" style={{ height: "85px" }} />
           </Link>
         </div>
         <ul className={click ? "nav-options active" : "nav-options"}>
