@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { ReactComponent as MenuItem } from "../../images/icons/menu-svgrepo-com.svg";
 import "./Navbar.scss";
 import logo from "../../images/logo wynayemnik.png";
-import close from "../../images/icons/close.png";
+import { ReactComponent as CloseMenuItem } from "../../images/icons/close-svgrepo-com.svg";
 import Login from "../../components/Login/Login.js";
 import Dropdown, {
   DropdownTrigger,
@@ -18,7 +18,7 @@ const Navbar = () => {
   const [click, setClick] = useState(false);
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
-  const [role, setRole] = useState("");
+  const [role, setRole] = useState(keycloak.authenticated ? roles.OWNER : "");
   const changeRole = (role) => setRole(role);
 
   let dropdown = null;
@@ -88,88 +88,90 @@ const Navbar = () => {
       </div>
 
       {keycloak.authenticated ? (
-        <div className="user-menu">
-          {/* <a>{keycloak.tokenParsed.preferred_username}</a> */}
-          <Dropdown ref={(foo) => (dropdown = foo)}>
-            <DropdownTrigger>
-              <img src={UserIcon} alt="" />
-            </DropdownTrigger>
-            <DropdownContent>
-              <ul>
-                <li>
-                  <Link
-                    onClick={() => {
-                      dropdown.hide();
-                    }}
-                    to="/user-profile"
-                  >
-                    <p>Profil</p>
-                  </Link>
-                </li>
-                {AuthorizedFunction([roles.OWNER]) && (
+        <div>
+          <a> {role}</a>
+          <div className="user-menu">
+            <Dropdown ref={(foo) => (dropdown = foo)}>
+              <DropdownTrigger>
+                <div className="user-menu__user-icon">
+                  <img src={UserIcon} alt="" />
+                </div>
+              </DropdownTrigger>
+              <DropdownContent>
+                <ul>
                   <li>
-                    <Link to="/owner-premises">
-                      <p
-                        onClick={() => {
-                          changeRole(roles.OWNER);
-                          dropdown.hide();
-                        }}
-                      >
-                        Wynajemca
-                      </p>{" "}
+                    <Link
+                      onClick={() => {
+                        dropdown.hide();
+                      }}
+                      to="/user-profile"
+                    >
+                      <p>Profil</p>
                     </Link>
                   </li>
-                )}
-                {AuthorizedFunction([roles.ADMIN]) && (
+                  {AuthorizedFunction([roles.OWNER]) && (
+                    <li>
+                      <Link to="/owner-premises">
+                        <p
+                          onClick={() => {
+                            changeRole(roles.OWNER);
+                            dropdown.hide();
+                          }}
+                        >
+                          Wynajemca
+                        </p>{" "}
+                      </Link>
+                    </li>
+                  )}
+                  {AuthorizedFunction([roles.ADMIN]) && (
+                    <li>
+                      <Link to="/">
+                        <p
+                          onClick={() => {
+                            changeRole(roles.ADMIN);
+                            dropdown.hide();
+                          }}
+                        >
+                          Administrator
+                        </p>
+                      </Link>
+                    </li>
+                  )}
                   <li>
                     <Link to="/">
                       <p
                         onClick={() => {
-                          changeRole(roles.ADMIN);
+                          changeRole(roles.CLIENT);
                           dropdown.hide();
                         }}
                       >
-                        Administrator
+                        Najemca
                       </p>
                     </Link>
                   </li>
-                )}
-                <li>
-                  <Link to="/">
-                    <p
-                      onClick={() => {
-                        changeRole(roles.CLIENT);
-                        dropdown.hide();
-                      }}
-                    >
-                      Najemca
-                    </p>
-                  </Link>
-                </li>
-                <li>
-                  <a>
-                    <Login />
-                  </a>
-                </li>
-              </ul>
-            </DropdownContent>
-          </Dropdown>
+                  <li>
+                    <a>
+                      <Login />
+                    </a>
+                  </li>
+                </ul>
+              </DropdownContent>
+            </Dropdown>
+          </div>
         </div>
       ) : (
         <div className="login-btns">
-          <a>
+          <div className="login-btns__btn">
             <Login />
-          </a>
-
-          <Link to="/registration">
-            <p>Rejestracja</p>
+          </div>
+          <Link className="login-btns__btn" to="/registration">
+            Rejestracja
           </Link>
         </div>
       )}
-
       <div className="mobile-menu" onClick={handleClick}>
         {click ? (
-          <img src={close} className="menu-icon" />
+          <CloseMenuItem className="menu-icon" />
         ) : (
           <MenuItem className="menu-icon" />
         )}
