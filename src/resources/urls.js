@@ -19,7 +19,8 @@ const paths = {
     addMiediaQuantityPath: "/product/miedia-quantity/add",
     addMediaStandardPath: "/product/media-standard/add",
     addStatePath: "/product/state/add",
-    productsForType: "/products?productType=",
+    productsForTypePath: "/products?productType=",
+    getAllMediaStandardPath: "/productsMediaStandard",
   },
 };
 
@@ -43,7 +44,8 @@ const owner = {
     addMiediaQuantity: `${paths.productsForLocation.addMiediaQuantityPath}`,
     addMediaStandard: `${paths.productsForLocation.addMediaStandardPath}`,
     addState: `${paths.productsForLocation.addStatePath}`,
-    productsForType: `${paths.productsForLocation.productsForType}`,
+    productsForType: `${paths.productsForLocation.productsForTypePath}`,
+    getAllMediaStandard: `${paths.productsForLocation.getAllMediaStandardPath}`,
   },
   rent: {
     new: `${httpPrefix}${port}${ownerPrefix}${paths.newRentPath}`,
