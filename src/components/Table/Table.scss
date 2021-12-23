@@ -23,7 +23,7 @@
   th {
     background: $main-color-light;
     border-bottom: 3px solid $main-color-dark;
-    color: $main-color-dark;
+    color: $text-color-light;
     font-style: bold;
   }
 
@@ -44,7 +44,8 @@
   .page-button {
     background-color: $main-color-light;
     font-size: large;
-    color: $main-color-dark;
+    color: $text-color-light;
     margin-right: 10px;
+    border-radius: 0.4vw;
   }
 }
