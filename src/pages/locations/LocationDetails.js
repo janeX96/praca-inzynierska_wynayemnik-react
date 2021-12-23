@@ -40,11 +40,11 @@ const LocationDetails = (props) => {
       });
   };
 
+  //zaciągam produkty typu media standard
   const getProductsMediaStandard = () => {
     const url = `${owner.productsForLocation.prefix}${props.id}${owner.productsForLocation.getAllMediaStandard}`;
 
     GET(url).then((res) => {
-      console.log("mediastand: ", res);
       setMediaStandardProducts(res);
     });
   };
@@ -127,7 +127,7 @@ const LocationDetails = (props) => {
 
       const url = `${owner.productsForLocation.prefix}${props.id}${suffix}`;
       let json = JSON.stringify(product.obj);
-      console.log("Dodaję: ", product.obj);
+      // console.log("Dodaję: ", product.obj);
       POST(url, json)
         .then((response) => {
           if (response.ok) {
