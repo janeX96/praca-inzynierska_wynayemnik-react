@@ -44,13 +44,13 @@ const MediaStandardProductForm = (props) => {
         if (product.obj.price > 0) {
             price = true;
         }
-        if (product.obj.productName.length > 0) {
+        if (product.obj.productName.length > 0 && product.obj.productName.length < 41) {
             productName = true;
         }
-        if (product.obj.quantityUnit.length > 0) {
+        if (product.obj.quantityUnit.length > 0 && product.obj.quantityUnit.length < 5) {
             quantityUnit = true;
         }
-        if (product.obj.vat > 0) {
+        if (product.obj.vat > 0 && product.obj.vat<100) {
             vat = true;
         }
 
@@ -78,13 +78,10 @@ const MediaStandardProductForm = (props) => {
             if (name === "premisesType") {
                 var set = new Set(product.obj.premisesTypes);
                 const value = e.target.id;
-                console.log(">>>>", value);
                 if (set.has(value)) {
                     set.delete(value);
-                    console.log("usunieto:", value);
                 } else {
                     set.add(value);
-                    console.log("dodano:", value);
                 }
 
                 let arr = Array.from(set);

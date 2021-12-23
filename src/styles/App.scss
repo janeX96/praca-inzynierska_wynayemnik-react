@@ -192,6 +192,10 @@ body {
     }
   }
 
+  &__attach-products{
+    display: flex;
+  }
+
   .form-container__error-msg {
     margin-left: 10px;
     color: $error-color;
