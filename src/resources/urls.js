@@ -14,6 +14,7 @@ const paths = {
   newRentPath: "/new-rent",
   rentsPath: "/rents",
   productsForLocation: {
+    getAllPatternsPath: "/product/patterns",
     addCalculatedPath: "/product/calculated/add",
     addDisposablePath: "/product/disposable/add",
     addMiediaQuantityPath: "/product/media-quantity/add",
@@ -63,6 +64,7 @@ const general = {
   premises: {
     premisesTypes: `${httpPrefix}${port}/premisesType/all`,
   },
+  patterns: `${httpPrefix}${port}${paths.productsForLocation.getAllPatternsPath}`
 };
 
 export { owner, user, general };
