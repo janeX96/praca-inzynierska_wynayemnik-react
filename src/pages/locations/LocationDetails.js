@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import keycloak from "../../auth/keycloak";
 import CalculatedProductForm from "./product_forms/CalculatedProductForm";
 import DisposableProductForm from "./product_forms/DisposableProductForm";
 import MediaQuantityProductForm from "./product_forms/MediaQuantityProductForm";
@@ -7,6 +6,7 @@ import MediaStandardProductForm from "./product_forms/MediaStandardProductForm";
 import StateProductForm from "./product_forms/StateProductForm";
 import { GET, POST, PUT } from "../../utilities/Request";
 import { owner, general } from "../../resources/urls";
+import { toast } from "react-toastify";
 
 const LocationDetails = (props) => {
   const [location, setLocation] = useState({
@@ -21,6 +21,7 @@ const LocationDetails = (props) => {
   const [productType, setProductType] = useState("");
   const [products, setProducts] = useState([]);
   const [premisesTypes, setPremisesTypes] = useState([]);
+  const [mediaStandardProducts, setMediaStandardProducts] = useState();
 
   const [errors, setErrors] = useState({
     city: false,
@@ -38,6 +39,15 @@ const LocationDetails = (props) => {
       .catch((err) => {
         console.log("Error Reading data " + err);
       });
+  };
+
+  //zaciągam produkty typu media standard
+  const getProductsMediaStandard = () => {
+    const url = `${owner.productsForLocation.prefix}${props.id}${owner.productsForLocation.getAllMediaStandard}`;
+
+    GET(url).then((res) => {
+      setMediaStandardProducts(res);
+    });
   };
 
   const getData = () => {
@@ -74,6 +84,7 @@ const LocationDetails = (props) => {
     getLocationData();
     getData();
     getProducts();
+    getProductsMediaStandard();
   }, []);
 
   useEffect(() => {
@@ -117,11 +128,12 @@ const LocationDetails = (props) => {
 
       const url = `${owner.productsForLocation.prefix}${props.id}${suffix}`;
       let json = JSON.stringify(product.obj);
-
+      // console.log("Dodaję: ", product.obj);
       POST(url, json)
         .then((response) => {
           if (response.ok) {
             setProductType("wybierz rodzaj");
+            toast.success("Produkt został dodany");
             setSending(false);
           }
           // return response.json();
@@ -140,6 +152,8 @@ const LocationDetails = (props) => {
           <MediaQuantityProductForm
             addProduct={addProduct}
             premisesTypes={premisesTypes}
+            locationId={props.id}
+            mediaStandardProducts={mediaStandardProducts}
           />
         );
         break;
@@ -259,8 +273,7 @@ const LocationDetails = (props) => {
     PUT(url, json)
       .then((response) => {
         if (response.ok) {
-          // toast.success("Zmiany zostały zapisane");
-          // console.log("ok");
+          toast.success("Zmiany zostały zapisane");
           setSending(false);
         }
       })
@@ -429,7 +442,7 @@ const LocationDetails = (props) => {
         </ul>
       </div>
 
-      <div className="attach-products">
+      <div className="content-container__attach-products">
         <label htmlFor="productType">
           Dodaj nowy:
           <select
