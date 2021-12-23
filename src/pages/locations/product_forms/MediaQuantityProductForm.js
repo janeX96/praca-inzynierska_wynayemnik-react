@@ -1,7 +1,5 @@
 import "../../../styles/App.scss";
 import { useState, useEffect } from "react";
-import { GET } from "../../../utilities/Request";
-import { owner } from "../../../resources/urls";
 
 const MediaQuantityProductForm = (props) => {
   const [data, setData] = useState({

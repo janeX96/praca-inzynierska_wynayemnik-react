@@ -26,6 +26,7 @@ const Owner_Locations = () => {
 
   const handleAction = (id) => {
     setChosenId(id);
+    getData();
   };
 
   const columns = [

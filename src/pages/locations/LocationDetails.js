@@ -6,6 +6,7 @@ import MediaStandardProductForm from "./product_forms/MediaStandardProductForm";
 import StateProductForm from "./product_forms/StateProductForm";
 import { GET, POST, PUT } from "../../utilities/Request";
 import { owner, general } from "../../resources/urls";
+import { toast } from "react-toastify";
 
 const LocationDetails = (props) => {
   const [location, setLocation] = useState({
@@ -132,6 +133,7 @@ const LocationDetails = (props) => {
         .then((response) => {
           if (response.ok) {
             setProductType("wybierz rodzaj");
+            toast.success("Produkt został dodany");
             setSending(false);
           }
           // return response.json();
@@ -271,8 +273,7 @@ const LocationDetails = (props) => {
     PUT(url, json)
       .then((response) => {
         if (response.ok) {
-          // toast.success("Zmiany zostały zapisane");
-          // console.log("ok");
+          toast.success("Zmiany zostały zapisane");
           setSending(false);
         }
       })
