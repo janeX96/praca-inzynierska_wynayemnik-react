@@ -12,7 +12,6 @@ const MediaQuantityProductForm = (props) => {
       premisesTypes: [],
       price: 0,
       productName: "",
-      // quantity: "",
       quantityUnit: "",
       vat: "",
     },
@@ -20,26 +19,32 @@ const MediaQuantityProductForm = (props) => {
 
   const [premisesTypes, setPremisesTypes] = useState(props.premisesTypes);
 
-  // const [mediaStandardProducts, setMediaStandardProducts] = useState();
-
   const [pattern, setPattern] = useState({
     attr1: "",
     arithm: "-",
     attr2: "",
   });
 
-  // const getProductsMediaStandard = () => {
-  //   const url = `${owner.productsForLocation.prefix}${props.locationId}${owner.productsForLocation.getAllMediaStandard}`;
+  const [errors, setErrors] = useState({
+    premisesTypes: false,
+    price: false,
+    productName: false,
+    quantityUnit: false,
+    vat: false,
+    attr1: false,
+    attr2: false,
+  });
 
-  //   GET(url).then((res) => {
-  //     console.log("mediastand: ", res);
-  //     setMediaStandardProducts(res);
-  //   });
-  // };
-
-  // useEffect(() => {
-  //   getProductsMediaStandard();
-  // }, []);
+  const messages = {
+    premisesTypesError: "Wybierz przynajmniej jeden",
+    priceError: "Podaj cenę",
+    productNameError: "Podaj nazwę produktu",
+    quantityError: "Podaj ilość",
+    quantityUnitError: "Podaj jednostkę miary",
+    vatError: "Wpisz wartość podatku VAT",
+    attr1Error: "Wybierz pozycję z listy",
+    attr2Error: "Wybierz pozycję z listy",
+  };
 
   useEffect(() => {
     const forAttribute =
@@ -49,11 +54,39 @@ const MediaQuantityProductForm = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const forAttribute =
-      pattern.attr1 + " " + pattern.arithm + " " + pattern.attr2;
-    setData({ ...data, obj: { ...data.obj, forAttribute } });
 
-    props.addProduct(data);
+    const validation = formValidation();
+
+    if (validation.correct) {
+      const forAttributePattern =
+        pattern.attr1 + " " + pattern.arithm + " " + pattern.attr2;
+      // setData({ ...data, obj: { ...data.obj, forAttribute } });
+      let product = data;
+
+      product.obj.forAttribute = forAttributePattern;
+
+      props.addProduct(product);
+
+      setErrors({
+        premisesTypes: false,
+        price: false,
+        productName: false,
+        quantityUnit: false,
+        vat: false,
+        attr1: false,
+        attr2: false,
+      });
+    } else {
+      setErrors({
+        premisesTypes: !validation.premisesTypes,
+        price: !validation.price,
+        productName: !validation.productName,
+        quantityUnit: !validation.quantityUnit,
+        vat: !validation.vat,
+        attr1: !validation.attr1,
+        attr2: !validation.attr2,
+      });
+    }
   };
 
   const handleChange = (e) => {
@@ -88,10 +121,58 @@ const MediaQuantityProductForm = (props) => {
     }
   };
 
-  //todo
-  const messages = {};
-  //todo
-  const formValidation = () => {};
+  const formValidation = () => {
+    let premisesTypes = false;
+    let price = false;
+    let productName = false;
+    let quantityUnit = false;
+    let vat = false;
+    let attr1 = false;
+    let attr2 = false;
+
+    if (data.obj.premisesTypes.length > 0) {
+      premisesTypes = true;
+    }
+    if (data.obj.price > 0) {
+      price = true;
+    }
+    if (data.obj.productName.length > 0) {
+      productName = true;
+    }
+
+    if (data.obj.quantityUnit.length > 0) {
+      quantityUnit = true;
+    }
+    if (data.obj.vat > 0) {
+      vat = true;
+    }
+    if (pattern.attr1.length > 0) {
+      attr1 = true;
+    }
+    if (pattern.attr2.length > 0) {
+      attr2 = true;
+    }
+
+    const correct =
+      premisesTypes &&
+      price &&
+      productName &&
+      quantityUnit &&
+      vat &&
+      attr1 &&
+      attr2;
+
+    return {
+      correct,
+      premisesTypes,
+      price,
+      productName,
+      quantityUnit,
+      vat,
+      attr1,
+      attr2,
+    };
+  };
   //todo
   const reactiveValidation = () => {};
 
@@ -111,6 +192,9 @@ const MediaQuantityProductForm = (props) => {
               name="productName"
               onChange={handleChange}
             />
+            {errors.productName && (
+              <span className="error-msg">{messages.productNameError}</span>
+            )}
           </div>
         </div>
 
@@ -128,7 +212,10 @@ const MediaQuantityProductForm = (props) => {
               step="any"
               name="price"
               onChange={handleChange}
-            />
+            />{" "}
+            {errors.price && (
+              <span className="error-msg">{messages.priceError}</span>
+            )}
           </div>
         </div>
 
@@ -163,24 +250,11 @@ const MediaQuantityProductForm = (props) => {
               name="vat"
               onChange={handleChange}
             />
+            {errors.vat && (
+              <span className="error-msg">{messages.vatError}</span>
+            )}
           </div>
         </div>
-
-        {/* <div className="form-container__row">
-          <div className="row__col-25">
-            <label htmlFor="quantity">Ilość: </label>
-          </div>
-          <div className="row__col-75">
-            <input
-              className="form-container__input"
-              value={data.obj.quantity}
-              id="quantity"
-              type="number"
-              name="quantity"
-              onChange={handleChange}
-            />
-          </div>
-        </div> */}
 
         <div className="form-container__row">
           <div className="row__col-25">
@@ -195,6 +269,9 @@ const MediaQuantityProductForm = (props) => {
               name="quantityUnit"
               onChange={handleChange}
             />
+            {errors.quantityUnit && (
+              <span className="error-msg">{messages.quantityUnitError}</span>
+            )}
           </div>
         </div>
 
@@ -216,7 +293,10 @@ const MediaQuantityProductForm = (props) => {
                   {option.productName}
                 </option>
               ))}
-            </select>
+            </select>{" "}
+            {errors.attr1 && (
+              <span className="error-msg">{messages.attr1Error}</span>
+            )}
             <input
               className="form-container__input"
               value={pattern.arithm}
@@ -241,6 +321,9 @@ const MediaQuantityProductForm = (props) => {
                 </option>
               ))}
             </select>
+            {errors.attr2 && (
+              <span className="error-msg">{messages.attr2Error}</span>
+            )}
           </div>
         </div>
 
@@ -264,13 +347,13 @@ const MediaQuantityProductForm = (props) => {
                     />
                   </li>
                 ))}
+                {errors.premisesTypes && (
+                  <span className="error-msg">
+                    {messages.premisesTypesError}
+                  </span>
+                )}
               </ul>
             }
-            {/* {state.errors.premisesType && (
-              <span className="error-msg">
-                {messages.premisesType_incorrect}
-              </span>
-            )} */}
           </div>
         </div>
 
