@@ -1,0 +1,51 @@
+@import "../../styles/_colors";
+
+.table-container {
+  margin-top: 0;
+  table {
+    border-spacing: 0px;
+    // border: 1px solid $main-color-dark;
+  }
+
+  thead > tr > th {
+    background-color: $main-color-light;
+  }
+
+  th,
+  td {
+    padding: 0.5rem;
+    border-bottom: 1px solid $main-color-dark;
+    // border-right: 1px solid $main-color-dark;
+    color: $main-color-dark;
+    background-color: $transparent-background-color;
+  }
+
+  th {
+    background: $main-color-light;
+    border-bottom: 3px solid $main-color-dark;
+    color: $text-color-light;
+    font-style: bold;
+  }
+
+  .table-buttons {
+    margin-left: 0px;
+  }
+
+  .table-buttons button:hover {
+    background-color: $main-color-dark;
+    cursor: pointer;
+  }
+
+  .table-buttons button:disabled {
+    background-color: $main-color-light;
+    cursor: initial;
+  }
+
+  .page-button {
+    background-color: $main-color-light;
+    font-size: large;
+    color: $text-color-light;
+    margin-right: 10px;
+    border-radius: 0.4vw;
+  }
+}
