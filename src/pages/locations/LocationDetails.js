@@ -89,6 +89,7 @@ const LocationDetails = (props) => {
 
   useEffect(() => {
     getProducts();
+    getProductsMediaStandard();
   }, [productType]);
 
   const productTypes = [
