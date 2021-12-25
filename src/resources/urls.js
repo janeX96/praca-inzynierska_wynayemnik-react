@@ -1,5 +1,5 @@
 const httpPrefix = "http://";
-const port = "localhost:8080";
+const port = "188.68.236.176:8080";
 
 const paths = {
   premisesPath: "/premises",
@@ -64,7 +64,7 @@ const general = {
   premises: {
     premisesTypes: `${httpPrefix}${port}/premisesType/all`,
   },
-  patterns: `${httpPrefix}${port}${paths.productsForLocation.getAllPatternsPath}`
+  patterns: `${httpPrefix}${port}${paths.productsForLocation.getAllPatternsPath}`,
 };
 
 export { owner, user, general };
