@@ -31,6 +31,7 @@ const LocationDetails = (props) => {
   });
   const [sending, setSending] = useState(false);
 
+  const [updateProductId, setUpdateProductId] = useState(-1);
   const getLocationData = async () => {
     GET(`${owner.locationDetails}${props.id}`)
       .then((data) => {

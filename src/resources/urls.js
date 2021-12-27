@@ -1,5 +1,6 @@
 const httpPrefix = "http://";
-const port = "188.68.236.176:8080";
+// const port = "188.68.236.176:8080";
+const port = "localhost:8080";
 
 const paths = {
   premisesPath: "/premises",
@@ -22,6 +23,7 @@ const paths = {
     addStatePath: "/product/state/add",
     productsForTypePath: "/products?productType=",
     getAllMediaStandardPath: "/productsMediaStandard",
+    updateProductPath: "/product/", //{id}
   },
 };
 
@@ -47,6 +49,7 @@ const owner = {
     addState: `${paths.productsForLocation.addStatePath}`,
     productsForType: `${paths.productsForLocation.productsForTypePath}`,
     getAllMediaStandard: `${paths.productsForLocation.getAllMediaStandardPath}`,
+    updateProduct: `${paths.productsForLocation.updateProductPath}`,
   },
   rent: {
     new: `${httpPrefix}${port}${ownerPrefix}${paths.newRentPath}`,
