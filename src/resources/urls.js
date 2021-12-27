@@ -24,6 +24,7 @@ const paths = {
     productsForTypePath: "/products?productType=",
     getAllMediaStandardPath: "/productsMediaStandard",
     updateProductPath: "/product/", //{id}
+    productDetailsPath: "/product/", //{id}
   },
 };
 
@@ -50,6 +51,7 @@ const owner = {
     productsForType: `${paths.productsForLocation.productsForTypePath}`,
     getAllMediaStandard: `${paths.productsForLocation.getAllMediaStandardPath}`,
     updateProduct: `${paths.productsForLocation.updateProductPath}`,
+    productDetails: `${paths.productsForLocation.updateProductPath}`,
   },
   rent: {
     new: `${httpPrefix}${port}${ownerPrefix}${paths.newRentPath}`,

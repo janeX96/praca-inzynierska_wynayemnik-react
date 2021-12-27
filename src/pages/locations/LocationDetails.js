@@ -7,6 +7,7 @@ import StateProductForm from "./product_forms/StateProductForm";
 import { GET, POST, PUT } from "../../utilities/Request";
 import { owner, general } from "../../resources/urls";
 import { toast } from "react-toastify";
+import UpdateProductForm from "./product_forms/UpdateProductForm";
 
 const LocationDetails = (props) => {
   const [location, setLocation] = useState({
@@ -129,6 +130,7 @@ const LocationDetails = (props) => {
       }
 
       const url = `${owner.productsForLocation.prefix}${props.id}${suffix}`;
+
       let json = JSON.stringify(product.obj);
       // console.log("Dodaję: ", product.obj);
       POST(url, json)
@@ -145,6 +147,25 @@ const LocationDetails = (props) => {
           setSending(false);
         });
     }
+  };
+
+  const updateProduct = async (product) => {
+    const url = `${owner.productsForLocation.prefix}${props.id}${owner.productsForLocation.updateProduct}${updateProductId}`;
+    let json = JSON.stringify(product.obj);
+
+    PUT(url, json)
+      .then((response) => {
+        if (response.ok) {
+          setProductType("wybierz rodzaj");
+          toast.success("Produkt został zaktualizowany");
+          setSending(false);
+        }
+        // return response.json();
+      })
+      .catch((err) => {
+        console.log("nie udane wysłanie żądania: ", err);
+        setSending(false);
+      });
   };
 
   const productFormRender = (type) => {
@@ -192,6 +213,18 @@ const LocationDetails = (props) => {
           <MediaStandardProductForm
             addProduct={addProduct}
             premisesTypes={premisesTypes}
+          />
+        );
+        break;
+
+      case "updateProduct":
+        return (
+          <UpdateProductForm
+            updateProduct={updateProduct}
+            premisesTypes={premisesTypes}
+            locationId={props.id}
+            mediaStandardProducts={mediaStandardProducts}
+            updateProductId={updateProductId}
           />
         );
         break;
