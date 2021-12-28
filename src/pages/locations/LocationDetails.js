@@ -7,6 +7,8 @@ import StateProductForm from "./product_forms/StateProductForm";
 import { GET, POST, PUT } from "../../utilities/Request";
 import { owner, general } from "../../resources/urls";
 import { toast } from "react-toastify";
+import UpdateProductForm from "./product_forms/UpdateProductForm";
+import { AiFillEdit } from "react-icons/ai";
 
 const LocationDetails = (props) => {
   const [location, setLocation] = useState({
@@ -31,6 +33,7 @@ const LocationDetails = (props) => {
   });
   const [sending, setSending] = useState(false);
 
+  const [updateProductId, setUpdateProductId] = useState(-1);
   const getLocationData = async () => {
     GET(`${owner.locationDetails}${props.id}`)
       .then((data) => {
@@ -128,6 +131,7 @@ const LocationDetails = (props) => {
       }
 
       const url = `${owner.productsForLocation.prefix}${props.id}${suffix}`;
+
       let json = JSON.stringify(product.obj);
       // console.log("Dodaję: ", product.obj);
       POST(url, json)
@@ -144,6 +148,27 @@ const LocationDetails = (props) => {
           setSending(false);
         });
     }
+  };
+
+  const updateProduct = async (product) => {
+    const url = `${owner.productsForLocation.prefix}${props.id}${owner.productsForLocation.updateProduct}${updateProductId}`;
+    let json = JSON.stringify(product.obj);
+    console.log("obiekt do wysalania: ", product);
+
+    PUT(url, json)
+      .then((response) => {
+        if (response.ok) {
+          setProductType("wybierz rodzaj");
+          toast.success("Produkt został zaktualizowany");
+          setSending(false);
+          setUpdateProductId(-1);
+        }
+        // return response.json();
+      })
+      .catch((err) => {
+        console.log("nie udane wysłanie żądania: ", err);
+        setSending(false);
+      });
   };
 
   const productFormRender = (type) => {
@@ -195,6 +220,18 @@ const LocationDetails = (props) => {
         );
         break;
 
+      case "updateProduct":
+        return (
+          <UpdateProductForm
+            updateProduct={updateProduct}
+            premisesTypes={premisesTypes}
+            locationId={props.id}
+            mediaStandardProducts={mediaStandardProducts}
+            updateProductId={updateProductId}
+          />
+        );
+        break;
+
       default:
         return null;
         break;
@@ -202,7 +239,14 @@ const LocationDetails = (props) => {
   };
 
   const handleProductTypeChange = (e) => {
-    setProductType(e.target.value);
+    const value = e.target.value;
+    setProductType(value);
+  };
+
+  const handleEdit = (id) => {
+    console.log("wybrano do edycji: ", id);
+    setUpdateProductId(id);
+    setProductType("updateProduct");
   };
 
   const formValidation = () => {
@@ -438,7 +482,17 @@ const LocationDetails = (props) => {
       <div>
         <ul>
           {products.map((product) => (
-            <li key={product.productName}>- {product.productName}</li>
+            <li key={product.productName}>
+              - {product.productName}
+              <div
+                className="icon-container"
+                style={{ fontSize: "15px" }}
+                onClick={() => handleEdit(product.productId)}
+              >
+                <AiFillEdit className="icon-container__edit-icon" />
+                <p>Edycja</p>
+              </div>
+            </li>
           ))}
         </ul>
       </div>
@@ -454,7 +508,7 @@ const LocationDetails = (props) => {
             onChange={handleProductTypeChange}
           >
             <option key="" value="">
-              wybierz rodzaj
+              Wybierz rodzaj
             </option>
             {productTypes.map((option) => (
               <option key={option.value} value={option.value}>

@@ -2,18 +2,33 @@ import "../../../styles/App.scss";
 import { useState, useEffect } from "react";
 
 const MediaQuantityProductForm = (props) => {
-  const [data, setData] = useState({
-    type: "media-quantity",
-    obj: {
-      forAttribute: "",
-      netto: true,
-      premisesTypes: [],
-      price: 0,
-      productName: "",
-      quantityUnit: "",
-      vat: "",
-    },
-  });
+  const [data, setData] = useState(
+    props.data !== undefined
+      ? {
+          type: "media-quantity",
+          obj: {
+            forAttribute: props.data.forAttribute,
+            netto: props.data.netto,
+            premisesTypes: props.data.premisesTypes,
+            price: props.data.price,
+            productName: props.data.productName,
+            quantityUnit: props.data.quantityUnit,
+            vat: props.data.vat,
+          },
+        }
+      : {
+          type: "media-quantity",
+          obj: {
+            forAttribute: "",
+            netto: true,
+            premisesTypes: [],
+            price: 0,
+            productName: "",
+            quantityUnit: "",
+            vat: "",
+          },
+        }
+  );
 
   const [premisesTypes, setPremisesTypes] = useState(props.premisesTypes);
 
@@ -45,6 +60,23 @@ const MediaQuantityProductForm = (props) => {
   };
 
   useEffect(() => {
+    if (props.data !== undefined) {
+      setData({
+        type: "media-quantity",
+        obj: {
+          forAttribute: props.data.forAttribute,
+          netto: props.data.netto,
+          premisesTypes: props.data.premisesTypes,
+          price: props.data.price,
+          productName: props.data.productName,
+          quantityUnit: props.data.quantityUnit,
+          vat: props.data.vat,
+        },
+      });
+    }
+  }, []);
+
+  useEffect(() => {
     const forAttribute =
       pattern.attr1 + " " + pattern.arithm + " " + pattern.attr2;
     setData({ ...data, obj: { ...data.obj, forAttribute } });
@@ -63,7 +95,11 @@ const MediaQuantityProductForm = (props) => {
 
       product.obj.forAttribute = forAttributePattern;
 
-      props.addProduct(product);
+      if (props.data !== undefined) {
+        props.updateProduct(product);
+      } else {
+        props.addProduct(product);
+      }
 
       setErrors({
         premisesTypes: false,
@@ -355,7 +391,11 @@ const MediaQuantityProductForm = (props) => {
           </div>
         </div>
 
-        <button type="submit">Dodaj</button>
+        <div className="form-container__buttons">
+          <button type="submit">
+            {props.data !== undefined ? "Zapisz" : "Dodaj"}
+          </button>
+        </div>
       </form>
     </div>
   );
