@@ -272,7 +272,11 @@ const MediaStandardProductForm = (props) => {
             )}
           </div>
         </div>
-        <button type="submit">Dodaj</button>
+        <div className="form-container__buttons">
+          <button type="submit">
+            {props.data !== undefined ? "Zapisz" : "Dodaj"}
+          </button>
+        </div>
       </form>
     </div>
   );
