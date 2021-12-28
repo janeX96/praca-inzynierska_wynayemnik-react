@@ -211,7 +211,7 @@ const CalculatedProductForm = (props) => {
               id="productName"
               type="text"
               name="productName"
-              value={product.productName}
+              value={product.obj.productName}
               onChange={handleChange}
             />
             {errors.productName && (
@@ -229,7 +229,7 @@ const CalculatedProductForm = (props) => {
               id="price"
               type="number"
               name="price"
-              value={product.price}
+              value={product.obj.price}
               onChange={handleChange}
             />
             {errors.price && (
@@ -273,7 +273,7 @@ const CalculatedProductForm = (props) => {
               id="netto"
               type="checkbox"
               name="netto"
-              value={product.netto}
+              value={product.obj.netto}
               onChange={handleChange}
             />
           </div>
@@ -288,7 +288,7 @@ const CalculatedProductForm = (props) => {
               id="quantity"
               type="number"
               name="quantity"
-              value={product.quantity}
+              value={product.obj.quantity}
               onChange={handleChange}
             />
             {errors.quantity && (
@@ -306,7 +306,7 @@ const CalculatedProductForm = (props) => {
               id="quantityUnit"
               type="text"
               name="quantityUnit"
-              value={product.quantityUnit}
+              value={product.obj.quantityUnit}
               onChange={handleChange}
             />
             {errors.quantityUnit && (
@@ -324,7 +324,7 @@ const CalculatedProductForm = (props) => {
               id="vat"
               type="number"
               name="vat"
-              value={product.vat}
+              value={product.obj.vat}
               onChange={handleChange}
             />
             {errors.vat && (

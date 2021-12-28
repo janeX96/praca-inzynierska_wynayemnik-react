@@ -168,7 +168,7 @@ const MediaStandardProductForm = (props) => {
               id="productName"
               type="text"
               name="productName"
-              value={product.productName}
+              value={product.obj.productName}
               onChange={handleChange}
             />
             {errors.productName && (
@@ -186,7 +186,7 @@ const MediaStandardProductForm = (props) => {
               id="price"
               type="number"
               name="price"
-              value={product.price}
+              value={product.obj.price}
               onChange={handleChange}
             />
             {errors.price && (
@@ -204,7 +204,7 @@ const MediaStandardProductForm = (props) => {
               id="netto"
               type="checkbox"
               name="netto"
-              value={product.netto}
+              value={product.obj.netto}
               onChange={handleChange}
             />
           </div>
@@ -219,7 +219,7 @@ const MediaStandardProductForm = (props) => {
               id="quantityUnit"
               type="text"
               name="quantityUnit"
-              value={product.quantityUnit}
+              value={product.obj.quantityUnit}
               onChange={handleChange}
             />
             {errors.quantityUnit && (
@@ -237,7 +237,7 @@ const MediaStandardProductForm = (props) => {
               id="vat"
               type="number"
               name="vat"
-              value={product.vat}
+              value={product.obj.vat}
               onChange={handleChange}
             />
             {errors.vat && (
