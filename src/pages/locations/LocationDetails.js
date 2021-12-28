@@ -8,6 +8,7 @@ import { GET, POST, PUT } from "../../utilities/Request";
 import { owner, general } from "../../resources/urls";
 import { toast } from "react-toastify";
 import UpdateProductForm from "./product_forms/UpdateProductForm";
+import { AiFillEdit } from "react-icons/ai";
 
 const LocationDetails = (props) => {
   const [location, setLocation] = useState({
@@ -236,7 +237,14 @@ const LocationDetails = (props) => {
   };
 
   const handleProductTypeChange = (e) => {
-    setProductType(e.target.value);
+    const value = e.target.value;
+    setProductType(value);
+  };
+
+  const handleEdit = (id) => {
+    console.log("wybrano do edycji: ", id);
+    setUpdateProductId(id);
+    setProductType("updateProduct");
   };
 
   const formValidation = () => {
@@ -472,7 +480,17 @@ const LocationDetails = (props) => {
       <div>
         <ul>
           {products.map((product) => (
-            <li key={product.productName}>- {product.productName}</li>
+            <li key={product.productName}>
+              - {product.productName}
+              <div
+                className="icon-container"
+                style={{ fontSize: "15px" }}
+                onClick={() => handleEdit(product.productId)}
+              >
+                <AiFillEdit className="icon-container__edit-icon" />
+                <p>Edycja</p>
+              </div>
+            </li>
           ))}
         </ul>
       </div>
@@ -488,7 +506,7 @@ const LocationDetails = (props) => {
             onChange={handleProductTypeChange}
           >
             <option key="" value="">
-              wybierz rodzaj
+              Wybierz rodzaj
             </option>
             {productTypes.map((option) => (
               <option key={option.value} value={option.value}>

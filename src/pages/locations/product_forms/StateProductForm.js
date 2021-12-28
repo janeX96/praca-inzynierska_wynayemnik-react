@@ -7,7 +7,7 @@ const StateProductForm = (props) => {
     obj: {
       netto: false,
       premisesTypes: [],
-      price: 0,
+      price: props.price,
       productName: "",
       quantity: "",
       quantityUnit: "",
