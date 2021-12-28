@@ -175,7 +175,12 @@ const CalculatedProductForm = (props) => {
     const validation = formValidation();
 
     if (validation.correct) {
-      props.addProduct(product);
+      if (props.data !== undefined) {
+        props.updateProduct(product);
+      } else {
+        props.addProduct(product);
+      }
+
       setErrors({
         premisesTypes: false,
         price: false,

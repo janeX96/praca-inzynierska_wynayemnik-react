@@ -95,7 +95,11 @@ const MediaQuantityProductForm = (props) => {
 
       product.obj.forAttribute = forAttributePattern;
 
-      props.addProduct(product);
+      if (props.data !== undefined) {
+        props.updateProduct(product);
+      } else {
+        props.addProduct(product);
+      }
 
       setErrors({
         premisesTypes: false,

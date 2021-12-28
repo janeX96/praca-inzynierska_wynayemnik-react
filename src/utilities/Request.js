@@ -69,6 +69,7 @@ const POST = async (url, obj, noAuth = false) => {
 const PUT = async (url, obj) => {
   const requestOpt = requestOptions("PUT", obj);
 
+  console.log("wsyysłam: ", obj);
   return await fetch(url, requestOpt)
     .then((res) => {
       // console.log("Przekazuję: ", res);

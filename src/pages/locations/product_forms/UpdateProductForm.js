@@ -39,6 +39,7 @@ const UpdateProductForm = (props) => {
             premisesTypes={props.premisesTypes}
             locationId={props.locationId}
             mediaStandardProducts={props.mediaStandardProducts}
+            updateProduct={updateRequest}
           />
         );
         break;
@@ -50,6 +51,7 @@ const UpdateProductForm = (props) => {
               premisesTypes={props.premisesTypes}
               locationId={props.locationId}
               mediaStandardProducts={props.mediaStandardProducts}
+              updateProduct={updateRequest}
             />
           );
         } else if (product.subtypeMedia === "QUANTITY") {
@@ -59,6 +61,7 @@ const UpdateProductForm = (props) => {
               premisesTypes={props.premisesTypes}
               locationId={props.locationId}
               mediaStandardProducts={props.mediaStandardProducts}
+              updateProduct={updateRequest}
             />
           );
         }
@@ -70,6 +73,7 @@ const UpdateProductForm = (props) => {
             premisesTypes={props.premisesTypes}
             locationId={props.locationId}
             mediaStandardProducts={props.mediaStandardProducts}
+            updateProduct={updateRequest}
           />
         );
         break;
@@ -80,6 +84,7 @@ const UpdateProductForm = (props) => {
             premisesTypes={props.premisesTypes}
             locationId={props.locationId}
             mediaStandardProducts={props.mediaStandardProducts}
+            updateProduct={updateRequest}
           />
         );
         break;
@@ -89,7 +94,9 @@ const UpdateProductForm = (props) => {
     }
   };
 
-  const updateRequest = (id, obj) => {};
+  const updateRequest = (obj) => {
+    props.updateProduct(obj);
+  };
 
   return <>{renderForm()}</>;
 };

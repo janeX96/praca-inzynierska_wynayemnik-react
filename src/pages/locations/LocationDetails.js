@@ -153,6 +153,7 @@ const LocationDetails = (props) => {
   const updateProduct = async (product) => {
     const url = `${owner.productsForLocation.prefix}${props.id}${owner.productsForLocation.updateProduct}${updateProductId}`;
     let json = JSON.stringify(product.obj);
+    console.log("obiekt do wysalania: ", product);
 
     PUT(url, json)
       .then((response) => {
@@ -160,6 +161,7 @@ const LocationDetails = (props) => {
           setProductType("wybierz rodzaj");
           toast.success("Produkt został zaktualizowany");
           setSending(false);
+          setUpdateProductId(-1);
         }
         // return response.json();
       })
