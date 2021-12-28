@@ -2,18 +2,33 @@ import "../../../styles/App.scss";
 import { useState, useEffect } from "react";
 
 const MediaQuantityProductForm = (props) => {
-  const [data, setData] = useState({
-    type: "media-quantity",
-    obj: {
-      forAttribute: "",
-      netto: true,
-      premisesTypes: [],
-      price: 0,
-      productName: "",
-      quantityUnit: "",
-      vat: "",
-    },
-  });
+  const [data, setData] = useState(
+    props.data !== undefined
+      ? {
+          type: "media-quantity",
+          obj: {
+            forAttribute: props.forAttribute,
+            netto: props.netto,
+            premisesTypes: props.premisesTypes,
+            price: props.price,
+            productName: props.productName,
+            quantityUnit: props.quantityUnit,
+            vat: props.vat,
+          },
+        }
+      : {
+          type: "media-quantity",
+          obj: {
+            forAttribute: "",
+            netto: true,
+            premisesTypes: [],
+            price: 0,
+            productName: "",
+            quantityUnit: "",
+            vat: "",
+          },
+        }
+  );
 
   const [premisesTypes, setPremisesTypes] = useState(props.premisesTypes);
 

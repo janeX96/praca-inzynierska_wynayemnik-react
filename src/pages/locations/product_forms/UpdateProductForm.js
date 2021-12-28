@@ -37,11 +37,9 @@ const UpdateProductForm = (props) => {
         break;
       case "MEDIA":
         if (product.subtypeMedia === "STANDARD") {
-          return;
-          <MediaStandardProductForm />;
+          return <MediaStandardProductForm data={product} />;
         } else if (product.subtypeMedia === "QUANTITY") {
-          return;
-          <MediaQuantityProductForm />;
+          return <MediaQuantityProductForm data={product} />;
         }
         break;
       case "DISPOSABLE":
@@ -56,11 +54,7 @@ const UpdateProductForm = (props) => {
     }
   };
 
-  return (
-    <>
-      <div>{product.productType}</div>
-    </>
-  );
+  return <>{renderForm}</>;
 };
 
 export default UpdateProductForm;

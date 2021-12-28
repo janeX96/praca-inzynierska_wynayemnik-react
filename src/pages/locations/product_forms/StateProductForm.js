@@ -2,18 +2,33 @@ import { useState } from "react";
 import "../../../styles/App.css";
 
 const StateProductForm = (props) => {
-  const [product, setProduct] = useState({
-    type: "state",
-    obj: {
-      netto: false,
-      premisesTypes: [],
-      price: props.price,
-      productName: "",
-      quantity: "",
-      quantityUnit: "",
-      vat: "",
-    },
-  });
+  const [product, setProduct] = useState(
+    props.data !== undefined
+      ? {
+          type: "state",
+          obj: {
+            netto: false,
+            premisesTypes: [],
+            price: props.price,
+            productName: "",
+            quantity: "",
+            quantityUnit: "",
+            vat: "",
+          },
+        }
+      : {
+          type: "state",
+          obj: {
+            netto: false,
+            premisesTypes: [],
+            price: 0,
+            productName: "",
+            quantity: "",
+            quantityUnit: "",
+            vat: "",
+          },
+        }
+  );
 
   const [errors, setErrors] = useState({
     premisesTypes: false,
