@@ -7,13 +7,13 @@ const MediaQuantityProductForm = (props) => {
       ? {
           type: "media-quantity",
           obj: {
-            forAttribute: props.forAttribute,
-            netto: props.netto,
-            premisesTypes: props.premisesTypes,
-            price: props.price,
-            productName: props.productName,
-            quantityUnit: props.quantityUnit,
-            vat: props.vat,
+            forAttribute: props.data.forAttribute,
+            netto: props.data.netto,
+            premisesTypes: props.data.premisesTypes,
+            price: props.data.price,
+            productName: props.data.productName,
+            quantityUnit: props.data.quantityUnit,
+            vat: props.data.vat,
           },
         }
       : {
@@ -58,6 +58,23 @@ const MediaQuantityProductForm = (props) => {
     attr1Error: "Wybierz pozycję z listy",
     attr2Error: "Wybierz pozycję z listy",
   };
+
+  useEffect(() => {
+    if (props.data !== undefined) {
+      setData({
+        type: "media-quantity",
+        obj: {
+          forAttribute: props.data.forAttribute,
+          netto: props.data.netto,
+          premisesTypes: props.data.premisesTypes,
+          price: props.data.price,
+          productName: props.data.productName,
+          quantityUnit: props.data.quantityUnit,
+          vat: props.data.vat,
+        },
+      });
+    }
+  }, []);
 
   useEffect(() => {
     const forAttribute =

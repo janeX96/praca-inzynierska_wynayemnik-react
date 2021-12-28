@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "../../../styles/App.css";
 
 const DisposableProductForm = (props) => {
@@ -7,13 +7,13 @@ const DisposableProductForm = (props) => {
       ? {
           type: "disposable",
           obj: {
-            netto: props.netto,
-            premisesTypes: props.premisesTypes,
-            price: props.price,
-            productName: props.productName,
-            quantity: props.quantity,
-            quantityUnit: props.quantityUnit,
-            vat: props.vat,
+            netto: props.data.netto,
+            premisesTypes: props.data.premisesTypes,
+            price: props.data.price,
+            productName: props.data.productName,
+            quantity: props.data.quantity,
+            quantityUnit: props.data.quantityUnit,
+            vat: props.data.vat,
           },
         }
       : {
@@ -38,6 +38,23 @@ const DisposableProductForm = (props) => {
     quantityUnit: false,
     vat: false,
   });
+
+  useEffect(() => {
+    if (props.data !== undefined) {
+      setProduct({
+        type: "disposable",
+        obj: {
+          netto: props.data.netto,
+          premisesTypes: props.data.premisesTypes,
+          price: props.data.price,
+          productName: props.data.productName,
+          quantity: props.data.quantity,
+          quantityUnit: props.data.quantityUnit,
+          vat: props.data.vat,
+        },
+      });
+    }
+  }, []);
 
   const messages = {
     premisesTypesError: "Wybierz przynajmniej jeden",

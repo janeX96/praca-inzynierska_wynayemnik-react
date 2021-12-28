@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "../../../styles/App.css";
 
 const MediaStandardProductForm = (props) => {
@@ -7,12 +7,12 @@ const MediaStandardProductForm = (props) => {
       ? {
           type: "media-standard",
           obj: {
-            netto: props.netto,
-            premisesTypes: props.premisesTypes,
-            price: props.price,
-            productName: props.productName,
-            quantityUnit: props.quantityUnit,
-            vat: props.vat,
+            netto: props.data.netto,
+            premisesTypes: props.data.premisesTypes,
+            price: props.data.price,
+            productName: props.data.productName,
+            quantityUnit: props.data.quantityUnit,
+            vat: props.data.vat,
           },
         }
       : {
@@ -27,6 +27,22 @@ const MediaStandardProductForm = (props) => {
           },
         }
   );
+
+  useEffect(() => {
+    if (props.data !== undefined) {
+      setProduct({
+        type: "media-standard",
+        obj: {
+          netto: props.data.netto,
+          premisesTypes: props.data.premisesTypes,
+          price: props.data.price,
+          productName: props.data.productName,
+          quantityUnit: props.data.quantityUnit,
+          vat: props.data.vat,
+        },
+      });
+    }
+  }, []);
 
   const [errors, setErrors] = useState({
     premisesTypes: false,

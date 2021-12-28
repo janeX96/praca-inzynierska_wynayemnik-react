@@ -33,20 +33,55 @@ const UpdateProductForm = (props) => {
   const renderForm = () => {
     switch (product.productType) {
       case "CALCULATEDFROMFIELD":
-        return <CalculatedProductForm data={product} />;
+        return (
+          <CalculatedProductForm
+            data={product}
+            premisesTypes={props.premisesTypes}
+            locationId={props.locationId}
+            mediaStandardProducts={props.mediaStandardProducts}
+          />
+        );
         break;
       case "MEDIA":
         if (product.subtypeMedia === "STANDARD") {
-          return <MediaStandardProductForm data={product} />;
+          return (
+            <MediaStandardProductForm
+              data={product}
+              premisesTypes={props.premisesTypes}
+              locationId={props.locationId}
+              mediaStandardProducts={props.mediaStandardProducts}
+            />
+          );
         } else if (product.subtypeMedia === "QUANTITY") {
-          return <MediaQuantityProductForm data={product} />;
+          return (
+            <MediaQuantityProductForm
+              data={product}
+              premisesTypes={props.premisesTypes}
+              locationId={props.locationId}
+              mediaStandardProducts={props.mediaStandardProducts}
+            />
+          );
         }
         break;
       case "DISPOSABLE":
-        return <DisposableProductForm data={product} />;
+        return (
+          <DisposableProductForm
+            data={product}
+            premisesTypes={props.premisesTypes}
+            locationId={props.locationId}
+            mediaStandardProducts={props.mediaStandardProducts}
+          />
+        );
         break;
       case "STATE":
-        return <StateProductForm data={product} />;
+        return (
+          <StateProductForm
+            data={product}
+            premisesTypes={props.premisesTypes}
+            locationId={props.locationId}
+            mediaStandardProducts={props.mediaStandardProducts}
+          />
+        );
         break;
 
       default:
@@ -54,7 +89,9 @@ const UpdateProductForm = (props) => {
     }
   };
 
-  return <>{renderForm}</>;
+  const updateRequest = (id, obj) => {};
+
+  return <>{renderForm()}</>;
 };
 
 export default UpdateProductForm;

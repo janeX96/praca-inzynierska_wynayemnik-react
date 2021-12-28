@@ -9,14 +9,14 @@ const CalculatedProductForm = (props) => {
       ? {
           type: "calculated",
           obj: {
-            netto: props.netto,
-            premisesTypes: props.premisesTypes,
-            price: props.price,
-            productName: props.productName,
-            patternName: props.patternName,
-            quantity: props.quantity,
-            quantityUnit: props.quantityUnit,
-            vat: props.vat,
+            netto: props.data.netto,
+            premisesTypes: props.data.premisesTypes,
+            price: props.data.price,
+            productName: props.data.productName,
+            patternName: props.data.patternName,
+            quantity: props.data.quantity,
+            quantityUnit: props.data.quantityUnit,
+            vat: props.data.vat,
           },
         }
       : {
@@ -35,6 +35,24 @@ const CalculatedProductForm = (props) => {
   );
 
   const [patterns, setPatterns] = useState([]);
+
+  useEffect(() => {
+    if (props.data !== undefined) {
+      setProduct({
+        type: "calculated",
+        obj: {
+          netto: props.data.netto,
+          premisesTypes: props.data.premisesTypes,
+          price: props.data.price,
+          productName: props.data.productName,
+          patternName: props.data.patternName,
+          quantity: props.data.quantity,
+          quantityUnit: props.data.quantityUnit,
+          vat: props.data.vat,
+        },
+      });
+    }
+  }, []);
 
   useEffect(() => {
     const url = `${general.patterns}`;
