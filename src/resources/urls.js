@@ -39,7 +39,7 @@ const owner = {
   newLocation: `${httpPrefix}${port}${ownerPrefix}${paths.newLocationPath}`,
   updateLocation: `${httpPrefix}${port}${ownerPrefix}${paths.updateLocationPath}`,
   locationDetails: `${httpPrefix}${port}${ownerPrefix}${paths.locationDetailsPath}`, //location id at the end
-  rents: `${httpPrefix}${port}${ownerPrefix}${paths.rentsPath}`,
+  rents: `${httpPrefix}${port}${ownerPrefix}${paths.rentsPath}/`, //{id}
   productsForLocation: {
     prefix: `${httpPrefix}${port}${ownerPrefix}/location/`, // location id must be after /location/
     allProductsSuffix: "/productGroupType",

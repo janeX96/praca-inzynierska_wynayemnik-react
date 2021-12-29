@@ -41,6 +41,7 @@ const PremisesDetails = ({
     },
     furnished: false,
   });
+  const [rents, setRents] = useState([]);
 
   const getData = () => {
     GET(`${owner.premisesDetails}${premisesId}`).then((res) => {
@@ -48,8 +49,15 @@ const PremisesDetails = ({
     });
   };
 
+  const getRents = () => {
+    GET(`${owner.rents}${premisesId}`).then((res) => {
+      setRents(res);
+    });
+  };
+
   useEffect(() => {
     getData();
+    getRents();
   }, []);
 
   const handleEdited = (success) => {
