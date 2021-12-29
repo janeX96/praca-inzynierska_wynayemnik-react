@@ -43,6 +43,7 @@ const PremisesDetails = ({
     furnished: false,
   });
   const [rents, setRents] = useState([]);
+  const [activeRent, setActiveRent] = useState();
   const [showRents, setShowRents] = useState(false);
 
   const getData = () => {
@@ -54,6 +55,11 @@ const PremisesDetails = ({
   const getRents = () => {
     GET(`${owner.rents}${premisesId}`).then((res) => {
       setRents(res);
+      res.find((rent) => {
+        if (rent.state === "IN_PROGRESS") {
+          setActiveRent(rent);
+        }
+      });
     });
   };
 
