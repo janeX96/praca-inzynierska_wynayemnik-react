@@ -10,6 +10,7 @@ import { GET, PATCH } from "../../../utilities/Request";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Rents from "../../rent/Rents";
+import RentDetails from "../../rent/RentDetails";
 
 const PremisesDetails = ({
   premisesId,
@@ -45,6 +46,7 @@ const PremisesDetails = ({
   const [rents, setRents] = useState([]);
   const [activeRent, setActiveRent] = useState();
   const [showRents, setShowRents] = useState(false);
+  const [showActiveRent, setShowActiveRent] = useState(false);
 
   const getData = () => {
     GET(`${owner.premisesDetails}${premisesId}`).then((res) => {
@@ -106,6 +108,13 @@ const PremisesDetails = ({
       );
     } else if (showRents) {
       return <Rents data={rents} handleReturn={() => setShowRents(false)} />;
+    } else if (showActiveRent && activeRent !== undefined) {
+      return (
+        <RentDetails
+          rent={activeRent}
+          handleReturn={() => setShowActiveRent(false)}
+        />
+      );
     } else {
       return (
         <>
@@ -133,7 +142,10 @@ const PremisesDetails = ({
               <li>
                 Dodano: <b>{data.createdDate}</b>
               </li>
-              <li>
+              <li
+                onClick={() => setShowActiveRent(true)}
+                style={{ cursor: "pointer" }}
+              >
                 Status:
                 <b
                   className={
