@@ -9,6 +9,7 @@ import { owner } from "../../../resources/urls";
 import { GET, PATCH } from "../../../utilities/Request";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Rents from "../../rent/Rents";
 
 const PremisesDetails = ({
   premisesId,
@@ -42,6 +43,7 @@ const PremisesDetails = ({
     furnished: false,
   });
   const [rents, setRents] = useState([]);
+  const [showRents, setShowRents] = useState(false);
 
   const getData = () => {
     GET(`${owner.premisesDetails}${premisesId}`).then((res) => {
@@ -82,9 +84,9 @@ const PremisesDetails = ({
     }
   };
 
-  return (
-    <>
-      {edit ? (
+  const render = () => {
+    if (edit) {
+      return (
         <PremisesEdit
           premisesId={premisesId}
           data={data}
@@ -95,7 +97,11 @@ const PremisesDetails = ({
             setEdit(false);
           }}
         />
-      ) : (
+      );
+    } else if (showRents) {
+      return <Rents data={rents} handleReturn={() => setShowRents(false)} />;
+    } else {
+      return (
         <>
           <h1 className="content-container__title">Szczegóły lokalu</h1>
           <div className="details-container">
@@ -132,6 +138,12 @@ const PremisesDetails = ({
                 >
                   {data.state === "AVAILABLE" ? "dostępny" : "zajęty"}
                 </b>
+              </li>
+              <li
+                className="details-container__history"
+                onClick={() => setShowRents(true)}
+              >
+                <b>Historia wynajmów</b>
               </li>
             </ul>
             <div className="details-container__buttons">
@@ -178,9 +190,11 @@ const PremisesDetails = ({
             </div>
           </div>
         </>
-      )}
-    </>
-  );
+      );
+    }
+  };
+
+  return <>{render()}</>;
 };
 
 export default PremisesDetails;
