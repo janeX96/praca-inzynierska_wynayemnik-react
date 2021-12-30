@@ -107,7 +107,13 @@ const PremisesDetails = ({
         />
       );
     } else if (showRents) {
-      return <Rents data={rents} handleReturn={() => setShowRents(false)} />;
+      return (
+        <Rents
+          data={rents}
+          premises={data}
+          handleReturn={() => setShowRents(false)}
+        />
+      );
     } else if (showActiveRent && activeRent !== undefined) {
       return (
         <RentDetails

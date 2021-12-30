@@ -6,6 +6,8 @@ import LoadData from "../LoadData";
 const Rents = (props) => {
   const [rents, setRents] = useState(props.data);
 
+  const createColumns = () => {};
+
   const columns = [
     {
       Header: "Id",
@@ -18,14 +20,6 @@ const Rents = (props) => {
     {
       Header: "Numer",
       accessor: "premisesNumber",
-    },
-    {
-      Header: "m2",
-      accessor: "area",
-    },
-    {
-      Header: "Poziom",
-      accessor: "premisesLevel",
     },
     {
       Header: "Stan",
