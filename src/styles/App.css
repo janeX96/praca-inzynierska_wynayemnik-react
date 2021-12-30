@@ -69,6 +69,7 @@ body {
 
 .content-container__button:hover {
   background-color: #363636;
+  cursor: pointer;
 }
 
 .content-container__content-btns {
@@ -92,6 +93,17 @@ body {
   color: #941818;
 }
 
+.content-container .details-container__history {
+  margin-top: 20px;
+  font-size: 18px;
+  color: #324aa8;
+}
+
+.content-container .details-container__history:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
 .content-container .details-container__buttons {
   margin-left: 50px;
   margin-bottom: 20px;
@@ -109,6 +121,7 @@ body {
 
 .content-container .details-container__button:hover {
   background-color: #363636;
+  cursor: pointer;
 }
 
 .content-container .details-container__button--return {
@@ -124,6 +137,7 @@ body {
 
 .content-container .details-container__button--return:hover {
   background-color: #363636;
+  cursor: pointer;
 }
 
 .content-container .icon-container {
@@ -223,6 +237,11 @@ body {
 
 .content-container .form-container__buttons button:hover {
   background-color: #363636;
+  cursor: pointer;
+}
+
+.content-container__attach-products {
+  display: flex;
 }
 
 .content-container .form-container__error-msg {

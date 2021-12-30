@@ -83,6 +83,16 @@ body {
     &__field-hired {
       color: $error-color;
     }
+
+    &__history {
+      margin-top: 20px;
+      font-size: 18px;
+      color: $edit-color;
+      &:hover {
+        cursor: pointer;
+        text-decoration: underline;
+      }
+    }
   }
 
   .details-container__buttons {
@@ -192,7 +202,7 @@ body {
     }
   }
 
-  &__attach-products{
+  &__attach-products {
     display: flex;
   }
 
