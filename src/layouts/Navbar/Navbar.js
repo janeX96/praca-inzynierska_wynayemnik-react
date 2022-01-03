@@ -119,7 +119,7 @@ const Navbar = () => {
                   </li>
                   {AuthorizedFunction([roles.OWNER]) && (
                     <li>
-                      <Link to="/owner-premises">
+                      <Link to="/">
                         <p
                           onClick={() => {
                             changeRole(roles.OWNER);
