@@ -19,7 +19,7 @@ import { ToastContainer } from "react-toastify";
 const AppRouter = () => {
   const { initialized } = useKeycloak();
   if (!initialized) {
-    return <h3>Loading ... !!!</h3>;
+    return <h3>Loading keycloak...</h3>;
   }
 
   return (
