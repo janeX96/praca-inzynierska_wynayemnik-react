@@ -75,15 +75,6 @@ const Navbar = () => {
               </li>
               <li className="option">
                 <Link
-                  to="/admin-locations"
-                  className="nav-links"
-                  onClick={closeMobileMenu}
-                >
-                  Lokacje
-                </Link>
-              </li>
-              <li className="option">
-                <Link
                   to="/admin-rents"
                   className="nav-links"
                   onClick={closeMobileMenu}
