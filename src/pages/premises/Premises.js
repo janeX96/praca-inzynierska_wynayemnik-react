@@ -9,7 +9,7 @@ import { GET } from "../../utilities/Request";
 import { toast } from "react-toastify";
 import roles from "../../resources/roles";
 
-const Owner_Premises = (props) => {
+const Premises = (props) => {
   const [state, setState] = useState({
     data: [],
   });
@@ -146,4 +146,4 @@ const Owner_Premises = (props) => {
   );
 };
 
-export default Owner_Premises;
+export default Premises;

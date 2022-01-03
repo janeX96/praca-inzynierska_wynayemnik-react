@@ -5,7 +5,7 @@ import "../styles/App.scss";
 import Navbar from "./Navbar/Navbar";
 import Footer from "./Footer/Footer";
 import Home from "../pages/Home/Home";
-import Owner_Premises from "../pages/premises/Owner_Premises";
+import Premises from "../pages/premises/Premises";
 import Login from "../components/Login/Login";
 import { PrivateRoute } from "../utilities/PrivateRoute";
 import Owner_NewPremises from "../pages/premises/Owner_NewPremises";
@@ -39,7 +39,7 @@ const AppRouter = () => {
                 <PrivateRoute
                   roles={[roles.OWNER]}
                   path="/owner-premises"
-                  component={Owner_Premises}
+                  component={Premises}
                 />
                 <PrivateRoute
                   roles={[roles.OWNER]}
@@ -65,7 +65,7 @@ const AppRouter = () => {
                 <PrivateRoute
                   roles={[roles.ADMIN]}
                   path="/admin-premises"
-                  component={Owner_Premises}
+                  component={Premises}
                 />
                 <PrivateRoute
                   roles={[roles.ADMIN]}
