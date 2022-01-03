@@ -4,7 +4,7 @@ import "../../styles/App.scss";
 import PremisesDetails from "./PremisesDetails/PremisesDetails";
 import { Link } from "react-router-dom";
 import { BsPlusSquareFill } from "react-icons/bs";
-import { owner } from "../../resources/urls";
+import { owner, admin } from "../../resources/urls";
 import { GET } from "../../utilities/Request";
 import { toast } from "react-toastify";
 
@@ -16,7 +16,14 @@ const Owner_Premises = (props) => {
   const [chosenId, setChosenId] = useState(-1);
 
   const getData = async () => {
-    GET(owner.premises).then((res) => {
+    let urlByRole =
+      props.roles[0] === "owner"
+        ? owner.premises
+        : props.roles[0] === "admin"
+        ? admin.premises
+        : "";
+
+    GET(urlByRole).then((res) => {
       res.map((prem) => {
         if (prem.state === "HIRED") {
           prem.state = "wynajęty";
@@ -112,13 +119,15 @@ const Owner_Premises = (props) => {
         <>
           <h1 className="content-container__title">Moje lokale</h1>
 
-          <div>
-            <Link to="/owner-premises-new">
-              <div className="icon-container">
-                <BsPlusSquareFill className="icon-container__new-icon" />
-              </div>
-            </Link>
-          </div>
+          {props.roles[0] === "owner" && (
+            <div>
+              <Link to="/owner-premises-new">
+                <div className="icon-container">
+                  <BsPlusSquareFill className="icon-container__new-icon" />
+                </div>
+              </Link>
+            </div>
+          )}
 
           {state.data.length > 0 ? (
             <LoadData
