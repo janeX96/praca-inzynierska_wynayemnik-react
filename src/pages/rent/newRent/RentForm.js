@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
-import keycloak from "../../../auth/keycloak";
 import RentBillingPeriods from "./RentBillingPeriods";
-import { owner, admin } from "../../../resources/urls";
+import { owner, admin, general } from "../../../resources/urls";
 import { GET } from "../../../utilities/Request";
 
 const RentForm = (props) => {
@@ -131,13 +130,8 @@ const RentForm = (props) => {
 
   const getPremisesTypes = async () => {
     let types = [];
-    let urlByRole =
-      props.roles[0] === "owner"
-        ? owner.premisesTypes
-        : props.roles[0] === "admin"
-        ? admin.premisesTypes
-        : "";
-    GET(urlByRole)
+
+    GET(general.premises.premisesTypes)
       .then((data) => {
         types = data.map((type) => {
           return {

@@ -187,6 +187,7 @@ const Rent = (props) => {
       case 3:
         return (
           <ProductsForRent
+            roles={roles}
             default={rent}
             locationId={premises.locationId}
             premisesType={premises.premisesType}
@@ -206,6 +207,7 @@ const Rent = (props) => {
             userEmail={rent.email}
             rentObj={rent}
             products={selectedProductsSave}
+            roles={roles}
           />
         );
         break;
