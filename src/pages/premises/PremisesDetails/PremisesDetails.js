@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Rents from "../../rent/Rents";
 import RentDetails from "../../rent/RentDetails";
+import Rent from "../../rent/newRent/Rent";
 
 const PremisesDetails = ({
   premisesId,
@@ -48,6 +49,8 @@ const PremisesDetails = ({
   const [activeRent, setActiveRent] = useState();
   const [showRents, setShowRents] = useState(false);
   const [showActiveRent, setShowActiveRent] = useState(false);
+  const [newRentForm, setNewRentForm] = useState(false);
+  const [premises, setPremises] = useState();
 
   const getData = () => {
     let urlByRole =
@@ -59,6 +62,12 @@ const PremisesDetails = ({
 
     GET(`${urlByRole}${premisesId}`).then((res) => {
       setData(res);
+      setPremises({
+        name: res.location.locationName,
+        premisesNumber: res.premisesNumber,
+        locationId: res.location.locationId,
+        premisesType: res.premisesType.type,
+      });
     });
   };
 
@@ -138,60 +147,65 @@ const PremisesDetails = ({
     } else {
       return (
         <>
-          <h1 className="content-container__title">Szczegóły lokalu</h1>
-          <div className="details-container">
-            <ul>
-              <li>
-                Adres lokalu: <b>{data.location.locationName}</b>
-              </li>
-              <li>
-                Numer lokalu: <b>{data.premisesNumber}</b>
-              </li>
-              <li>
-                Powierzchnia (m2): <b>{data.area}</b>
-              </li>
-              <li>
-                Rodzaj lokalu: <b>{data.premisesType.type}</b>
-              </li>
-              <li>
-                Umeblowanie: <b>{data.furnished}</b>
-              </li>
-              <li>
-                Poziom: <b>{data.premisesLevel}</b>
-              </li>
-              <li>
-                Dodano: <b>{data.createdDate}</b>
-              </li>
-              <li
-                onClick={() => setShowActiveRent(true)}
-                style={{ cursor: "pointer" }}
-              >
-                Status:
-                <b
-                  className={
-                    data.state === "AVAILABLE"
-                      ? "details-container__field-avb"
-                      : "details-container__field-hired"
-                  }
-                >
-                  {data.state === "AVAILABLE" ? "dostępny" : "zajęty"}
-                </b>
-              </li>
-              <li
-                className="details-container__history"
-                onClick={() => setShowRents(true)}
-              >
-                <b>Historia wynajmów</b>
-              </li>
-            </ul>
-            <div className="details-container__buttons">
-              <button
-                className="details-container__button--return"
-                onClick={() => action(-1)}
-              >
-                Powrót
-              </button>
-              <Link
+          {newRentForm ? (
+            <Rent premisesId={premisesId} premises={premises} />
+          ) : (
+            <>
+              {" "}
+              <h1 className="content-container__title">Szczegóły lokalu</h1>
+              <div className="details-container">
+                <ul>
+                  <li>
+                    Adres lokalu: <b>{data.location.locationName}</b>
+                  </li>
+                  <li>
+                    Numer lokalu: <b>{data.premisesNumber}</b>
+                  </li>
+                  <li>
+                    Powierzchnia (m2): <b>{data.area}</b>
+                  </li>
+                  <li>
+                    Rodzaj lokalu: <b>{data.premisesType.type}</b>
+                  </li>
+                  <li>
+                    Umeblowanie: <b>{data.furnished}</b>
+                  </li>
+                  <li>
+                    Poziom: <b>{data.premisesLevel}</b>
+                  </li>
+                  <li>
+                    Dodano: <b>{data.createdDate}</b>
+                  </li>
+                  <li
+                    onClick={() => setShowActiveRent(true)}
+                    style={{ cursor: "pointer" }}
+                  >
+                    Status:
+                    <b
+                      className={
+                        data.state === "AVAILABLE"
+                          ? "details-container__field-avb"
+                          : "details-container__field-hired"
+                      }
+                    >
+                      {data.state === "AVAILABLE" ? "dostępny" : "zajęty"}
+                    </b>
+                  </li>
+                  <li
+                    className="details-container__history"
+                    onClick={() => setShowRents(true)}
+                  >
+                    <b>Historia wynajmów</b>
+                  </li>
+                </ul>
+                <div className="details-container__buttons">
+                  <button
+                    className="details-container__button--return"
+                    onClick={() => action(-1)}
+                  >
+                    Powrót
+                  </button>
+                  {/* <Link
                 to={{
                   pathname: "/owner-rent-new",
                   state: {
@@ -204,34 +218,39 @@ const PremisesDetails = ({
                     },
                   },
                 }}
-              >
-                <div className="icon-container">
-                  <FaKey className="icon-container__new-icon" />
-                  <p>Wynajmij</p>
-                </div>
-              </Link>
+              > */}
+                  <div
+                    className="icon-container"
+                    onClick={() => setNewRentForm(true)}
+                  >
+                    <FaKey className="icon-container__new-icon" />
+                    <p>Wynajmij</p>
+                  </div>
+                  {/* </Link> */}
 
-              {roles[0] === "owner" && (
-                <div className="icon-container">
-                  <AiFillEdit
-                    className="icon-container__edit-icon"
-                    onClick={() => setEdit(true)}
-                  />
-                  <p>Edycja</p>
-                </div>
-              )}
+                  {roles[0] === "owner" && (
+                    <div className="icon-container">
+                      <AiFillEdit
+                        className="icon-container__edit-icon"
+                        onClick={() => setEdit(true)}
+                      />
+                      <p>Edycja</p>
+                    </div>
+                  )}
 
-              {roles[0] === "owner" && (
-                <div className="icon-container">
-                  <BsTrashFill
-                    className="icon-container__delete-icon"
-                    onClick={handleDelete}
-                  />
-                  <p>Usuń</p>
+                  {roles[0] === "owner" && (
+                    <div className="icon-container">
+                      <BsTrashFill
+                        className="icon-container__delete-icon"
+                        onClick={handleDelete}
+                      />
+                      <p>Usuń</p>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-          </div>
+              </div>
+            </>
+          )}
         </>
       );
     }

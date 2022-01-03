@@ -7,9 +7,9 @@ import RentForm from "./RentForm";
 import ProductsForRent from "./ProductsForRent/ProductsForRent";
 import RentSummary from "./RentSummary";
 
-const Rent = () => {
+const Rent = (props) => {
   const location = useLocation();
-  const { premisesId, premises } = location.state;
+  const { premisesId, premises } = props;
 
   const [activeStep, setActiveStep] = useState(1);
   const [completedSteps, setCompletedSteps] = useState({
@@ -224,30 +224,28 @@ const Rent = () => {
 
   return (
     <>
-      <div className="content-container">
-        <h1 className="content-container__title">Wynajem lokalu</h1>
-        <Stepper
-          style={{
-            marginTop: "0",
-            marginBottom: "0",
-            paddingTop: "0",
-            paddingBottom: "0",
-          }}
-          styleConfig={{
-            activeBgColor: "#48bd4c",
-            inactiveBgColor: "#727178",
-            completedBgColor: "#417843",
-          }}
-          steps={[
-            { label: "Najemca" },
-            { label: "Wynajem" },
-            { label: "Produkty" },
-            { label: "Podsumowanie" },
-          ]}
-          activeStep={activeStep - 1}
-        />
-        {renderForm(activeStep)}
-      </div>
+      <h1 className="content-container__title">Wynajem lokalu</h1>
+      <Stepper
+        style={{
+          marginTop: "0",
+          marginBottom: "0",
+          paddingTop: "0",
+          paddingBottom: "0",
+        }}
+        styleConfig={{
+          activeBgColor: "#48bd4c",
+          inactiveBgColor: "#727178",
+          completedBgColor: "#417843",
+        }}
+        steps={[
+          { label: "Najemca" },
+          { label: "Wynajem" },
+          { label: "Produkty" },
+          { label: "Podsumowanie" },
+        ]}
+        activeStep={activeStep - 1}
+      />
+      {renderForm(activeStep)}
     </>
   );
 };
