@@ -1,15 +1,13 @@
 import "../../../styles/App.scss";
 import { Stepper } from "react-form-stepper";
-import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useState } from "react";
 import UserFormForRent from "./UserFormForRent";
 import RentForm from "./RentForm";
 import ProductsForRent from "./ProductsForRent/ProductsForRent";
 import RentSummary from "./RentSummary";
 
 const Rent = (props) => {
-  const location = useLocation();
-  const { premisesId, premises } = props;
+  const { premisesId, premises, roles } = props;
 
   const [activeStep, setActiveStep] = useState(1);
   const [completedSteps, setCompletedSteps] = useState({
@@ -72,12 +70,7 @@ const Rent = (props) => {
 
   const setEmail = (email, userAccount) => {
     setRent({ ...rent, email, userAccount });
-    // setEmailChanged(email);
   };
-
-  // useEffect(() => {
-  //   setRent({ ...rent, email: emailChanged });
-  // }, [emailChanged]);
 
   const stepDone = (index) => {
     setCompletedSteps({ ...completedSteps, [index]: true });
@@ -85,7 +78,6 @@ const Rent = (props) => {
   };
 
   const stepBack = (index) => {
-    // setCompletedSteps({ [index]: true });
     setActiveStep(activeStep - 1);
   };
 
@@ -182,6 +174,7 @@ const Rent = (props) => {
       case 2:
         return (
           <RentForm
+            roles={roles}
             default={rent}
             premises={premises}
             user={rent.userAccount.email}

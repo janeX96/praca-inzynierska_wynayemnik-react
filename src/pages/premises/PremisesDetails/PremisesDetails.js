@@ -148,7 +148,7 @@ const PremisesDetails = ({
       return (
         <>
           {newRentForm ? (
-            <Rent premisesId={premisesId} premises={premises} />
+            <Rent premisesId={premisesId} premises={premises} roles={roles} />
           ) : (
             <>
               {" "}
