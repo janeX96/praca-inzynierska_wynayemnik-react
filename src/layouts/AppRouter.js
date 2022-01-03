@@ -5,7 +5,7 @@ import "../styles/App.scss";
 import Navbar from "./Navbar/Navbar";
 import Footer from "./Footer/Footer";
 import Home from "../pages/Home/Home";
-import Owner_Premises from "../pages/premises/Owner_Premises";
+import Premises from "../pages/premises/Premises";
 import Login from "../components/Login/Login";
 import { PrivateRoute } from "../utilities/PrivateRoute";
 import Owner_NewPremises from "../pages/premises/Owner_NewPremises";
@@ -19,7 +19,7 @@ import { ToastContainer } from "react-toastify";
 const AppRouter = () => {
   const { initialized } = useKeycloak();
   if (!initialized) {
-    return <h3>Loading ... !!!</h3>;
+    return <h3>Loading keycloak...</h3>;
   }
 
   return (
@@ -35,10 +35,11 @@ const AppRouter = () => {
                 <Route path="/login" component={Login} />
                 <Route path="/registration" component={Registration} />
                 <Route path="/user-profile" component={UserProfile} />
+                {/* for owner */}
                 <PrivateRoute
                   roles={[roles.OWNER]}
                   path="/owner-premises"
-                  component={Owner_Premises}
+                  component={Premises}
                 />
                 <PrivateRoute
                   roles={[roles.OWNER]}
@@ -58,6 +59,27 @@ const AppRouter = () => {
                 <PrivateRoute
                   roles={[roles.OWNER]}
                   path="/owner-rents"
+                  component={Home} //todo
+                />
+                {/* for administrator */}
+                <PrivateRoute
+                  roles={[roles.ADMIN]}
+                  path="/admin-premises"
+                  component={Premises}
+                />
+                <PrivateRoute
+                  roles={[roles.ADMIN]}
+                  path="/admin-locations"
+                  component={Owner_Locations}
+                />
+                <PrivateRoute
+                  roles={[roles.ADMIN]}
+                  path="/admin-rent-new"
+                  component={Rent}
+                />
+                <PrivateRoute
+                  roles={[roles.ADMIN]}
+                  path="/admin-rents"
                   component={Home} //todo
                 />
               </Switch>

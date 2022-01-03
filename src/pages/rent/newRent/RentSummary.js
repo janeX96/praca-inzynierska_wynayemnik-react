@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { POST } from "../../../utilities/Request";
 import Confirmation from "./Confirmation";
-import { owner } from "../../../resources/urls";
+import { owner, admin } from "../../../resources/urls";
 
 const RentSummary = ({
+  roles,
   userEmail,
   rentObj,
   products,
@@ -33,8 +34,13 @@ const RentSummary = ({
       setSending(true);
 
       let json = JSON.stringify(obj);
-
-      POST(owner.rent.new, json)
+      let urlByRole =
+        roles[0] === "owner"
+          ? owner.rent.new
+          : roles[0] === "admin"
+          ? admin.rent.new
+          : "";
+      POST(urlByRole, json)
         .then((response) => {
           if (response.ok) {
             console.log("UDAŁO SIE!!!");

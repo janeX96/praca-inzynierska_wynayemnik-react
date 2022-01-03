@@ -58,6 +58,36 @@ const owner = {
   },
 };
 
+const adminPrefix = "/administrator";
+const admin = {
+  premises: `${httpPrefix}${port}${adminPrefix}${paths.premisesPath}`,
+  premisesDetails: `${httpPrefix}${port}${adminPrefix}${paths.premisesDetails}`, // +id
+  locations: `${httpPrefix}${port}${adminPrefix}${paths.locationsPath}`,
+  // newPremises: `${httpPrefix}${port}${adminPrefix}${paths.newPremisesPath}`,
+  // premisesUpdate: `${httpPrefix}${port}${adminPrefix}${paths.premisesUpdatePath}`, //premises id at the end
+  // premisesDelete: `${httpPrefix}${port}${adminPrefix}${paths.premisesDeletePath}`, //premises id at the end
+  // newLocation: `${httpPrefix}${port}${adminPrefix}${paths.newLocationPath}`,
+  // updateLocation: `${httpPrefix}${port}${adminPrefix}${paths.updateLocationPath}`,
+  locationDetails: `${httpPrefix}${port}${adminPrefix}${paths.locationDetailsPath}`, //location id at the end
+  rents: `${httpPrefix}${port}${adminPrefix}${paths.rentsPath}/`, //{id}
+  productsForLocation: {
+    prefix: `${httpPrefix}${port}${adminPrefix}/location/`, // location id must be after /location/
+    allProductsSuffix: "/productGroupType",
+    addCalculated: `${paths.productsForLocation.addCalculatedPath}`,
+    addDisposable: `${paths.productsForLocation.addDisposablePath}`,
+    addMiediaQuantity: `${paths.productsForLocation.addMiediaQuantityPath}`,
+    addMediaStandard: `${paths.productsForLocation.addMediaStandardPath}`,
+    addState: `${paths.productsForLocation.addStatePath}`,
+    productsForType: `${paths.productsForLocation.productsForTypePath}`,
+    getAllMediaStandard: `${paths.productsForLocation.getAllMediaStandardPath}`,
+    updateProduct: `${paths.productsForLocation.updateProductPath}`,
+    productDetails: `${paths.productsForLocation.updateProductPath}`,
+  },
+  rent: {
+    new: `${httpPrefix}${port}${adminPrefix}${paths.newRentPath}`,
+  },
+};
+
 const user = {
   info: `${httpPrefix}${port}/user`,
   register: `${httpPrefix}${port}/auth/register`,
@@ -72,4 +102,4 @@ const general = {
   patterns: `${httpPrefix}${port}${paths.productsForLocation.getAllPatternsPath}`,
 };
 
-export { owner, user, general };
+export { owner, admin, user, general };

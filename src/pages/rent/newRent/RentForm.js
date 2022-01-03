@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import keycloak from "../../../auth/keycloak";
 import RentBillingPeriods from "./RentBillingPeriods";
+import { owner, admin, general } from "../../../resources/urls";
+import { GET } from "../../../utilities/Request";
 
 const RentForm = (props) => {
   const getDateToday = () => {
@@ -127,31 +128,18 @@ const RentForm = (props) => {
     };
   };
 
-  const getResources = async () => {
-    const response = await fetch("/resources.json");
-    const resources = await response.json();
-    return resources;
-  };
-
   const getPremisesTypes = async () => {
     let types = [];
-    getResources()
-      .then((res) => {
-        fetch(res.urls.owner.premisesTypes, {
-          headers: { Authorization: " Bearer " + keycloak.token },
-        })
-          .then((response) => {
-            return response.json();
-          })
-          .then((data) => {
-            types = data.map((type) => {
-              return {
-                value: type.premisesTypeId,
-                label: type.type,
-              };
-            });
-            setPremisesTypes({ types });
-          });
+
+    GET(general.premises.premisesTypes)
+      .then((data) => {
+        types = data.map((type) => {
+          return {
+            value: type.premisesTypeId,
+            label: type.type,
+          };
+        });
+        setPremisesTypes({ types });
       })
       .catch((err) => {
         console.log("Error Reading data " + err);
