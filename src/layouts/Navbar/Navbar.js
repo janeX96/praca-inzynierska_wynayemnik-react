@@ -65,13 +65,30 @@ const Navbar = () => {
           ) : role === roles.ADMIN ? (
             <>
               <li className="option">
-                <Link to="/" className="nav-links" onClick={closeMobileMenu}>
-                  Wynajmy
+                <Link
+                  to="/admin-premises"
+                  className="nav-links"
+                  onClick={closeMobileMenu}
+                >
+                  Lokale
                 </Link>
               </li>
               <li className="option">
-                <Link to="/" className="nav-links" onClick={closeMobileMenu}>
-                  Lokale
+                <Link
+                  to="/admin-locations"
+                  className="nav-links"
+                  onClick={closeMobileMenu}
+                >
+                  Lokacje
+                </Link>
+              </li>
+              <li className="option">
+                <Link
+                  to="/admin-rents"
+                  className="nav-links"
+                  onClick={closeMobileMenu}
+                >
+                  Wynajmy
                 </Link>
               </li>
             </>

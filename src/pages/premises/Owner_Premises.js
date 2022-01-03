@@ -41,7 +41,6 @@ const Owner_Premises = (props) => {
   };
 
   useEffect(() => {
-    console.log(">>: ", props.roles[0]);
     getData();
   }, [chosenId]);
 
