@@ -35,6 +35,7 @@ const AppRouter = () => {
                 <Route path="/login" component={Login} />
                 <Route path="/registration" component={Registration} />
                 <Route path="/user-profile" component={UserProfile} />
+                {/* for owner */}
                 <PrivateRoute
                   roles={[roles.OWNER]}
                   path="/owner-premises"
@@ -58,6 +59,27 @@ const AppRouter = () => {
                 <PrivateRoute
                   roles={[roles.OWNER]}
                   path="/owner-rents"
+                  component={Home} //todo
+                />
+                {/* for administrator */}
+                <PrivateRoute
+                  roles={[roles.ADMIN]}
+                  path="/admin-premises"
+                  component={Owner_Premises}
+                />
+                <PrivateRoute
+                  roles={[roles.ADMIN]}
+                  path="/admin-locations"
+                  component={Owner_Locations}
+                />
+                <PrivateRoute
+                  roles={[roles.ADMIN]}
+                  path="/admin-rent-new"
+                  component={Rent}
+                />
+                <PrivateRoute
+                  roles={[roles.ADMIN]}
+                  path="/admin-rents"
                   component={Home} //todo
                 />
               </Switch>

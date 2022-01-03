@@ -8,7 +8,7 @@ import { owner } from "../../resources/urls";
 import { GET } from "../../utilities/Request";
 import { toast } from "react-toastify";
 
-const Owner_Premises = () => {
+const Owner_Premises = (props) => {
   const [state, setState] = useState({
     data: [],
   });
@@ -41,6 +41,7 @@ const Owner_Premises = () => {
   };
 
   useEffect(() => {
+    console.log(">>: ", props.roles[0]);
     getData();
   }, [chosenId]);
 
