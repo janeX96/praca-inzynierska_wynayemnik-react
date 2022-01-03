@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { BsTrashFill } from "react-icons/bs";
 import { AiFillEdit } from "react-icons/ai";
 import { FaKey } from "react-icons/fa";
-import { owner } from "../../../resources/urls";
+import { owner, admin } from "../../../resources/urls";
 import { GET, PATCH } from "../../../utilities/Request";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -17,6 +17,7 @@ const PremisesDetails = ({
   deleteShowMessage,
   action,
   reloadData,
+  roles,
 }) => {
   const [edit, setEdit] = useState(false);
   const [data, setData] = useState({
@@ -49,13 +50,26 @@ const PremisesDetails = ({
   const [showActiveRent, setShowActiveRent] = useState(false);
 
   const getData = () => {
-    GET(`${owner.premisesDetails}${premisesId}`).then((res) => {
+    let urlByRole =
+      roles[0] === "owner"
+        ? owner.premisesDetails
+        : roles[0] === "admin"
+        ? admin.premisesDetails
+        : "";
+
+    GET(`${urlByRole}${premisesId}`).then((res) => {
       setData(res);
     });
   };
 
   const getRents = () => {
-    GET(`${owner.rents}${premisesId}`).then((res) => {
+    let urlByRole =
+      roles[0] === "owner"
+        ? owner.rents
+        : roles[0] === "admin"
+        ? admin.rents
+        : "";
+    GET(`${urlByRole}${premisesId}`).then((res) => {
       setRents(res);
       res.find((rent) => {
         if (rent.state === "IN_PROGRESS") {
@@ -197,20 +211,25 @@ const PremisesDetails = ({
                 </div>
               </Link>
 
-              <div className="icon-container">
-                <AiFillEdit
-                  className="icon-container__edit-icon"
-                  onClick={() => setEdit(true)}
-                />
-                <p>Edycja</p>
-              </div>
-              <div className="icon-container">
-                <BsTrashFill
-                  className="icon-container__delete-icon"
-                  onClick={handleDelete}
-                />
-                <p>Usuń</p>
-              </div>
+              {roles[0] === "owner" && (
+                <div className="icon-container">
+                  <AiFillEdit
+                    className="icon-container__edit-icon"
+                    onClick={() => setEdit(true)}
+                  />
+                  <p>Edycja</p>
+                </div>
+              )}
+
+              {roles[0] === "owner" && (
+                <div className="icon-container">
+                  <BsTrashFill
+                    className="icon-container__delete-icon"
+                    onClick={handleDelete}
+                  />
+                  <p>Usuń</p>
+                </div>
+              )}
             </div>
           </div>
         </>
