@@ -31,6 +31,10 @@ const Rents = (props) => {
     setChosenId(id);
   };
 
+  const handleReturn = () => {
+    setChosenId(-1);
+  };
+
   const columns = [
     {
       Header: "Id",
@@ -80,7 +84,11 @@ const Rents = (props) => {
     return (
       <>
         {chosenId > 0 ? (
-          <RentDetails rentId={chosenId} roles={props.roles} />
+          <RentDetails
+            rentId={chosenId}
+            roles={props.roles}
+            handleReturn={handleReturn}
+          />
         ) : (
           <>
             <h1 className="content-container__title">Wynajmy</h1>

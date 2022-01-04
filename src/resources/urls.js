@@ -28,6 +28,7 @@ const paths = {
     newRentPath: "/new-rent",
     rentsPath: "/rents",
     rentDetails: "/rent/", //{id}
+    productsSuffix: "/productsMediaStandard",
   },
 };
 
@@ -61,6 +62,7 @@ const owner = {
     rents: `${httpPrefix}${port}${ownerPrefix}${paths.rent.rentsPath}/`, //{id}
     all: `${httpPrefix}${port}${ownerPrefix}${paths.rent.rentsPath}`,
     details: `${httpPrefix}${port}${ownerPrefix}${paths.rent.rentDetails}`,
+    products: `${httpPrefix}${port}${ownerPrefix}${paths.rent.rentDetails}/`, //{id}
   },
 };
 
@@ -94,6 +96,7 @@ const admin = {
     rents: `${httpPrefix}${port}${adminPrefix}${paths.rent.rentsPath}/`, //{id}
     all: `${httpPrefix}${port}${adminPrefix}${paths.rent.rentsPath}`,
     details: `${httpPrefix}${port}${adminPrefix}${paths.rent.rentDetails}`,
+    products: `${httpPrefix}${port}${adminPrefix}${paths.rent.rentDetails}/`, //{id}
   },
 };
 
@@ -117,6 +120,10 @@ const general = {
     premisesTypes: `${httpPrefix}${port}/premisesType/all`,
   },
   patterns: `${httpPrefix}${port}${paths.productsForLocation.getAllPatternsPath}`,
+
+  rent: {
+    productsSuffix: paths.rent.productsSuffix,
+  },
 };
 
 export { owner, admin, user, general, client };
