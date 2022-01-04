@@ -73,22 +73,35 @@ const Rents = (props) => {
   ];
   const initialState = { pageSize: 5, hiddenColumns: "rentId" };
 
+  const renderTable = () => {
+    return (
+      <>
+        {" "}
+        <h1 className="content-container__title">Wynajęcia</h1>
+        <LoadData data={rents} columns={columns} initialState={initialState} />
+        <div className="contant-btns">
+          {props.data !== undefined ? (
+            <button
+              className="content-container__button"
+              onClick={props.handleReturn}
+            >
+              Powrót
+            </button>
+          ) : (
+            ""
+          )}
+        </div>
+      </>
+    );
+  };
+
   return (
     <>
-      <h1 className="content-container__title">Wynajęcia</h1>
-      {rents.length > 0 ? (
-        <LoadData data={rents} columns={columns} initialState={initialState} />
+      {props.data === undefined ? (
+        <div className="content-container">{renderTable()}</div>
       ) : (
-        "brak"
+        <>{renderTable()}</>
       )}
-      <div className="contant-btns">
-        <button
-          className="content-container__button"
-          onClick={props.handleReturn}
-        >
-          Powrót
-        </button>
-      </div>
     </>
   );
 };

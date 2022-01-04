@@ -7,7 +7,6 @@ import { BsPlusSquareFill } from "react-icons/bs";
 import { owner, admin } from "../../resources/urls";
 import { GET } from "../../utilities/Request";
 import { toast } from "react-toastify";
-import roles from "../../resources/roles";
 
 const Premises = (props) => {
   const [state, setState] = useState({

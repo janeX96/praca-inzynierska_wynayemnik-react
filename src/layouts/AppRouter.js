@@ -15,6 +15,7 @@ import Owner_Locations from "../pages/locations/Owner_Locations";
 import Rent from "../pages/rent/newRent/Rent";
 import roles from "../resources/roles";
 import { ToastContainer } from "react-toastify";
+import Rents from "../pages/rent/Rents";
 
 const AppRouter = () => {
   const { initialized } = useKeycloak();
@@ -59,7 +60,7 @@ const AppRouter = () => {
                 <PrivateRoute
                   roles={[roles.OWNER]}
                   path="/owner-rents"
-                  component={Home} //todo
+                  component={Rents}
                 />
                 {/* for administrator */}
                 <PrivateRoute
@@ -80,7 +81,13 @@ const AppRouter = () => {
                 <PrivateRoute
                   roles={[roles.ADMIN]}
                   path="/admin-rents"
-                  component={Home} //todo
+                  component={Rents}
+                />
+                {/* for client */}
+                <PrivateRoute
+                  roles={[roles.CLIENT]}
+                  path="/client-rents"
+                  component={Rents}
                 />
               </Switch>
             </section>

@@ -52,7 +52,11 @@ const Navbar = () => {
                 </Link>
               </li>
               <li className="option">
-                <Link to="/" className="nav-links" onClick={closeMobileMenu}>
+                <Link
+                  to="/owner-rents"
+                  className="nav-links"
+                  onClick={closeMobileMenu}
+                >
                   Moje wynajmy
                 </Link>
               </li>
@@ -85,7 +89,11 @@ const Navbar = () => {
             </>
           ) : role === roles.CLIENT ? (
             <li className="option">
-              <Link to="/" className="nav-links" onClick={closeMobileMenu}>
+              <Link
+                to="/client-rents"
+                className="nav-links"
+                onClick={closeMobileMenu}
+              >
                 Moje wynajęcia
               </Link>
             </li>
