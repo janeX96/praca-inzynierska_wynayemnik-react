@@ -39,7 +39,7 @@ const owner = {
   newLocation: `${httpPrefix}${port}${ownerPrefix}${paths.newLocationPath}`,
   updateLocation: `${httpPrefix}${port}${ownerPrefix}${paths.updateLocationPath}`,
   locationDetails: `${httpPrefix}${port}${ownerPrefix}${paths.locationDetailsPath}`, //location id at the end
-  rents: `${httpPrefix}${port}${ownerPrefix}${paths.rentsPath}/`, //{id}
+
   productsForLocation: {
     prefix: `${httpPrefix}${port}${ownerPrefix}/location/`, // location id must be after /location/
     allProductsSuffix: "/productGroupType",
@@ -55,6 +55,8 @@ const owner = {
   },
   rent: {
     new: `${httpPrefix}${port}${ownerPrefix}${paths.newRentPath}`,
+    rents: `${httpPrefix}${port}${ownerPrefix}${paths.rentsPath}/`, //{id}
+    all: `${httpPrefix}${port}${ownerPrefix}${paths.rentsPath}`,
   },
 };
 
@@ -85,6 +87,15 @@ const admin = {
   },
   rent: {
     new: `${httpPrefix}${port}${adminPrefix}${paths.newRentPath}`,
+    rents: `${httpPrefix}${port}${adminPrefix}${paths.rentsPath}/`, //{id}
+    all: `${httpPrefix}${port}${adminPrefix}${paths.rentsPath}`,
+  },
+};
+
+const clientPrefix = "/client";
+const client = {
+  rent: {
+    all: `${httpPrefix}${port}${clientPrefix}${paths.rentsPath}`,
   },
 };
 
@@ -102,4 +113,4 @@ const general = {
   patterns: `${httpPrefix}${port}${paths.productsForLocation.getAllPatternsPath}`,
 };
 
-export { owner, admin, user, general };
+export { owner, admin, user, general, client };
