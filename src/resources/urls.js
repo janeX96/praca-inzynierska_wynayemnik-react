@@ -92,6 +92,13 @@ const admin = {
   },
 };
 
+const clientPrefix = "/client";
+const client = {
+  rent: {
+    all: `${httpPrefix}${port}${clientPrefix}${paths.rentsPath}`,
+  },
+};
+
 const user = {
   info: `${httpPrefix}${port}/user`,
   register: `${httpPrefix}${port}/auth/register`,
@@ -106,4 +113,4 @@ const general = {
   patterns: `${httpPrefix}${port}${paths.productsForLocation.getAllPatternsPath}`,
 };
 
-export { owner, admin, user, general };
+export { owner, admin, user, general, client };

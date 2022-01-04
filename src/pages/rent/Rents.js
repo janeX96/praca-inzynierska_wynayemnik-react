@@ -11,9 +11,11 @@ const Rents = (props) => {
   const getData = () => {
     let urlByRole =
       props.roles[0] === "owner"
-        ? owner.rent.rents
+        ? owner.rent.all
         : props.roles[0] === "admin"
-        ? owner.rent.rents
+        ? admin.rent.all
+        : props.roles[0] === "client"
+        ? client.rent.all
         : "";
     GET(urlByRole).then((res) => {
       setRents(res);
