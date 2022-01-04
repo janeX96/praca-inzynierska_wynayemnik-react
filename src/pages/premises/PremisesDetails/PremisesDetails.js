@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../../../styles/App.scss";
 import PremisesEdit from "../PremisesEdit";
-import { Link } from "react-router-dom";
 import { BsTrashFill } from "react-icons/bs";
 import { AiFillEdit } from "react-icons/ai";
 import { FaKey } from "react-icons/fa";
@@ -74,9 +73,9 @@ const PremisesDetails = ({
   const getRents = () => {
     let urlByRole =
       roles[0] === "owner"
-        ? owner.rents
+        ? owner.rent.rents
         : roles[0] === "admin"
-        ? admin.rents
+        ? admin.rent.rents
         : "";
     GET(`${urlByRole}${premisesId}`).then((res) => {
       setRents(res);

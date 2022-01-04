@@ -1,25 +1,43 @@
 import { useState, useEffect } from "react";
-import { owner } from "../../resources/urls";
+import { owner, admin, client } from "../../resources/urls";
 import { GET } from "../../utilities/Request";
 import LoadData from "../LoadData";
 
 const Rents = (props) => {
   const [rents, setRents] = useState(props.data);
 
-  const createColumns = () => {};
+  // const createColumns = () => {};
+
+  const getData = () => {
+    let urlByRole =
+      props.roles[0] === "owner"
+        ? owner.rent.rents
+        : props.roles[0] === "admin"
+        ? owner.rent.rents
+        : "";
+    GET(urlByRole).then((res) => {
+      setRents(res);
+    });
+  };
+
+  useEffect(() => {
+    if (props.data === undefined) {
+      getData();
+    }
+  }, []);
 
   const columns = [
     {
       Header: "Id",
-      accessor: "premisesId",
+      accessor: "rentId",
     },
     {
       Header: "Adres",
-      accessor: "location.locationName",
+      accessor: "premises.location.locationName",
     },
     {
       Header: "Numer",
-      accessor: "premisesNumber",
+      accessor: "premises.premisesNumber",
     },
     {
       Header: "Stan",
@@ -28,6 +46,14 @@ const Rents = (props) => {
     {
       Header: "Rodzaj",
       accessor: "premisesType.type",
+    },
+    {
+      Header: "Początek",
+      accessor: "startDate",
+    },
+    {
+      Header: "Koniec",
+      accessor: "endDate",
     },
     {
       Header: "Akcja",
@@ -43,7 +69,7 @@ const Rents = (props) => {
       ),
     },
   ];
-  const initialState = { pageSize: 5, hiddenColumns: "premisesId" };
+  const initialState = { pageSize: 5, hiddenColumns: "rentId" };
 
   return (
     <>
