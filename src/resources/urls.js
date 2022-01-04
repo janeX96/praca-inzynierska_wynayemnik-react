@@ -62,7 +62,7 @@ const owner = {
     rents: `${httpPrefix}${port}${ownerPrefix}${paths.rent.rentsPath}/`, //{id}
     all: `${httpPrefix}${port}${ownerPrefix}${paths.rent.rentsPath}`,
     details: `${httpPrefix}${port}${ownerPrefix}${paths.rent.rentDetails}`,
-    products: `${httpPrefix}${port}${ownerPrefix}${paths.rent.rentDetails}/`, //{id}
+    products: `${httpPrefix}${port}${ownerPrefix}${paths.rent.rentDetails}`, //{id}
   },
 };
 
@@ -96,7 +96,7 @@ const admin = {
     rents: `${httpPrefix}${port}${adminPrefix}${paths.rent.rentsPath}/`, //{id}
     all: `${httpPrefix}${port}${adminPrefix}${paths.rent.rentsPath}`,
     details: `${httpPrefix}${port}${adminPrefix}${paths.rent.rentDetails}`,
-    products: `${httpPrefix}${port}${adminPrefix}${paths.rent.rentDetails}/`, //{id}
+    products: `${httpPrefix}${port}${adminPrefix}${paths.rent.rentDetails}`, //{id}
   },
 };
 

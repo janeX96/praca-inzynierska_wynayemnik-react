@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { owner, admin, client, general } from "../../resources/urls";
 import { GET } from "../../utilities/Request";
+import ProductsForRentDetails from "./ProductsForRentDetails";
 
 const RentDetails = (props) => {
   const [rent, setRent] = useState();
-  const [products, setProducts] = useState([]);
+  // const [products, setProducts] = useState([]);
   const [showProducts, setShowProducts] = useState(false);
   const getData = () => {
     let urlByRole =
@@ -20,19 +21,8 @@ const RentDetails = (props) => {
     });
   };
 
-  const getProducts = () => {
-    let urlByRole =
-      props.roles[0] === "owner"
-        ? owner.rent.products
-        : props.roles[0] === "admin"
-        ? admin.rent.products
-        : "";
-
-    let id = props.rent !== undefined ? props.rent.rentId : props.rentId;
-
-    GET(`${urlByRole}${id}${general.rent.productsSuffix}`).then((res) => {
-      setProducts(res);
-    });
+  const handleReturn = () => {
+    setShowProducts(!showProducts);
   };
 
   useEffect(() => {
@@ -41,26 +31,26 @@ const RentDetails = (props) => {
     } else {
       getData();
     }
-    getProducts();
+    // getProducts();
   }, []);
 
-  const productsList = () => {
-    return (
-      <>
-        <ul>
-          {products.map((product) => (
-            <li>{product.productName}</li>
-          ))}
-        </ul>
-        <button
-          className="content-container__button"
-          onClick={() => setShowProducts(!showProducts)}
-        >
-          Powrót
-        </button>
-      </>
-    );
-  };
+  // const productsList = () => {
+  //   return (
+  //     <>
+  //       <ul>
+  //         {products.map((product) => (
+  //           <li>{product.productName}</li>
+  //         ))}
+  //       </ul>
+  //       <button
+  //         className="content-container__button"
+  //         onClick={() => setShowProducts(!showProducts)}
+  //       >
+  //         Powrót
+  //       </button>
+  //     </>
+  //   );
+  // };
 
   const renderDetails = () => {
     if (rent !== undefined) {
@@ -163,9 +153,9 @@ const RentDetails = (props) => {
               <h3
                 className="details-container__history"
                 onClick={
-                  products !== undefined && products.length > 0
-                    ? () => setShowProducts(!showProducts)
-                    : () => alert("Brak produktów dla tego wynajmu")
+                  // products !== undefined && products.length > 0
+                  () => setShowProducts(!showProducts)
+                  // : () => alert("Brak produktów dla tego wynajmu")
                 }
               >
                 Produkty
@@ -186,16 +176,25 @@ const RentDetails = (props) => {
     <>
       <h1 className="content-container__title">Szczegóły lokalu</h1>
       <div className="details-container">
-        {showProducts ? productsList() : renderDetails()}
-
-        <div className="contant-btns">
-          <button
-            className="content-container__button"
-            onClick={props.handleReturn}
-          >
-            Powrót
-          </button>
-        </div>
+        {showProducts ? (
+          <ProductsForRentDetails
+            roles={props.roles}
+            rentId={rent.rentId}
+            handleReturn={handleReturn}
+          />
+        ) : (
+          <>
+            {renderDetails()}
+            <div className="contant-btns">
+              <button
+                className="content-container__button"
+                onClick={props.handleReturn}
+              >
+                Powrót
+              </button>
+            </div>
+          </>
+        )}
       </div>
     </>
   );
