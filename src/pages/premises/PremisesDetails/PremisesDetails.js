@@ -134,6 +134,7 @@ const PremisesDetails = ({
           data={rents}
           premises={data}
           handleReturn={() => setShowRents(false)}
+          roles={roles}
         />
       );
     } else if (showActiveRent && activeRent !== undefined) {
@@ -141,6 +142,7 @@ const PremisesDetails = ({
         <RentDetails
           rent={activeRent}
           handleReturn={() => setShowActiveRent(false)}
+          roles={roles}
         />
       );
     } else {
