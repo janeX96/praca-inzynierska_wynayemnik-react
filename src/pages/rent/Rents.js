@@ -77,7 +77,7 @@ const Rents = (props) => {
     return (
       <>
         {" "}
-        <h1 className="content-container__title">Wynajęcia</h1>
+        <h1 className="content-container__title">Wynajmy</h1>
         <LoadData data={rents} columns={columns} initialState={initialState} />
         <div className="contant-btns">
           {props.data !== undefined ? (
