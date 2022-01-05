@@ -28,7 +28,7 @@ const ProductsForRentDetails = (props) => {
       <ul>
         {products !== undefined
           ? products.map((prod) => (
-              <li key={prod.productId}>{prod.productName}???</li>
+              <li key={prod.product.productId}>{prod.product.productName}</li>
             ))
           : ""}
       </ul>
