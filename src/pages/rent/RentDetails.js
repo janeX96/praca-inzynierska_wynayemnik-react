@@ -5,7 +5,7 @@ import ProductsForRentDetails from "./ProductsForRentDetails";
 
 const RentDetails = (props) => {
   const [rent, setRent] = useState();
-  // const [products, setProducts] = useState([]);
+  const [payments, setPayments] = useState();
   const [showProducts, setShowProducts] = useState(false);
   const getData = () => {
     let urlByRole =
@@ -20,7 +20,21 @@ const RentDetails = (props) => {
       setRent(res);
     });
   };
-
+  const getPayments = () => {
+    let urlByRole =
+      props.roles[0] === "owner"
+        ? owner.rent.payments
+        : props.roles[0] === "admin"
+        ? admin.rent.payments
+        : props.roles[0] === "client"
+        ? client.rent.payments
+        : "";
+    GET(`${urlByRole}${props.rentId}${general.rent.paymentsSuffix}`).then(
+      (res) => {
+        setPayments(res);
+      }
+    );
+  };
   const handleReturn = () => {
     setShowProducts(!showProducts);
   };
@@ -31,26 +45,8 @@ const RentDetails = (props) => {
     } else {
       getData();
     }
-    // getProducts();
+    getPayments();
   }, []);
-
-  // const productsList = () => {
-  //   return (
-  //     <>
-  //       <ul>
-  //         {products.map((product) => (
-  //           <li>{product.productName}</li>
-  //         ))}
-  //       </ul>
-  //       <button
-  //         className="content-container__button"
-  //         onClick={() => setShowProducts(!showProducts)}
-  //       >
-  //         Powrót
-  //       </button>
-  //     </>
-  //   );
-  // };
 
   const renderDetails = () => {
     if (rent !== undefined) {
@@ -181,6 +177,7 @@ const RentDetails = (props) => {
             roles={props.roles}
             rentId={rent.rentId}
             handleReturn={handleReturn}
+            payments={payments}
           />
         ) : (
           <>
