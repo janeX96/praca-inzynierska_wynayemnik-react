@@ -128,6 +128,7 @@ const general = {
 
   rent: {
     productsSuffix: paths.rent.productsSuffix,
+    paymentsSuffix: paths.rent.paymentsSuffix,
   },
 };
 

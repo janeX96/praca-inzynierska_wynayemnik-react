@@ -20,7 +20,21 @@ const RentDetails = (props) => {
       setRent(res);
     });
   };
-
+  const getPayments = () => {
+    let urlByRole =
+      props.roles[0] === "owner"
+        ? owner.rent.paymentsPrefix
+        : props.roles[0] === "admin"
+        ? admin.rent.paymentsPrefix
+        : props.roles[0] === "client"
+        ? client.rent.paymentsPrefix
+        : "";
+    GET(`${urlByRole}${props.rentId}${general.rent.paymentsSuffix}`).then(
+      (res) => {
+        setPayments(res);
+      }
+    );
+  };
   const handleReturn = () => {
     setShowProducts(!showProducts);
   };
@@ -31,6 +45,7 @@ const RentDetails = (props) => {
     } else {
       getData();
     }
+    getPayments();
   }, []);
 
   const renderDetails = () => {
