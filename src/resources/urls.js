@@ -31,6 +31,8 @@ const paths = {
     productsSuffix: "/productsMediaStandard",
     paymentsPrefix: "/rent/", //{id}
     paymentsSuffix: "/payments",
+    addAllMediaCountersPrefix: "/rent/", //{id}
+    addAllMediaCountersSuffix: "/allMediaRent",
   },
 };
 
@@ -66,6 +68,7 @@ const owner = {
     details: `${httpPrefix}${port}${ownerPrefix}${paths.rent.rentDetails}`,
     products: `${httpPrefix}${port}${ownerPrefix}${paths.rent.rentDetails}`, //{id}
     payments: `${httpPrefix}${port}${ownerPrefix}${paths.rent.paymentsPrefix}`, //{id}
+    addAllMediaCounters: `${httpPrefix}${port}${ownerPrefix}${paths.rent.addAllMediaCountersPrefix}`, //{id}
   },
 };
 
@@ -101,6 +104,7 @@ const admin = {
     details: `${httpPrefix}${port}${adminPrefix}${paths.rent.rentDetails}`,
     products: `${httpPrefix}${port}${adminPrefix}${paths.rent.rentDetails}`, //{id}
     payments: `${httpPrefix}${port}${adminPrefix}${paths.rent.paymentsPrefix}`, //{id}
+    addAllMediaCounters: `${httpPrefix}${port}${adminPrefix}${paths.rent.addAllMediaCountersPrefix}`, //{id}
   },
 };
 
@@ -129,6 +133,7 @@ const general = {
   rent: {
     productsSuffix: paths.rent.productsSuffix,
     paymentsSuffix: paths.rent.paymentsSuffix,
+    addAllMediaCountersSuffix: paths.rent.addAllMediaCountersSuffix,
   },
 };
 
