@@ -12,8 +12,6 @@ const paths = {
   newLocationPath: "/location/new",
   updateLocationPath: "/location/",
   locationDetailsPath: "/location/",
-  newRentPath: "/new-rent",
-  rentsPath: "/rents",
   productsForLocation: {
     getAllPatternsPath: "/product/patterns",
     addCalculatedPath: "/product/calculated/add",
@@ -25,6 +23,12 @@ const paths = {
     getAllMediaStandardPath: "/productsMediaStandard",
     updateProductPath: "/product/", //{id}
     productDetailsPath: "/product/", //{id}
+  },
+  rent: {
+    newRentPath: "/new-rent",
+    rentsPath: "/rents",
+    rentDetails: "/rent/", //{id}
+    productsSuffix: "/productsMediaStandard",
   },
 };
 
@@ -54,9 +58,11 @@ const owner = {
     productDetails: `${paths.productsForLocation.updateProductPath}`,
   },
   rent: {
-    new: `${httpPrefix}${port}${ownerPrefix}${paths.newRentPath}`,
-    rents: `${httpPrefix}${port}${ownerPrefix}${paths.rentsPath}/`, //{id}
-    all: `${httpPrefix}${port}${ownerPrefix}${paths.rentsPath}`,
+    new: `${httpPrefix}${port}${ownerPrefix}${paths.rent.newRentPath}`,
+    rents: `${httpPrefix}${port}${ownerPrefix}${paths.rent.rentsPath}/`, //{id}
+    all: `${httpPrefix}${port}${ownerPrefix}${paths.rent.rentsPath}`,
+    details: `${httpPrefix}${port}${ownerPrefix}${paths.rent.rentDetails}`,
+    products: `${httpPrefix}${port}${ownerPrefix}${paths.rent.rentDetails}`, //{id}
   },
 };
 
@@ -86,16 +92,19 @@ const admin = {
     productDetails: `${paths.productsForLocation.updateProductPath}`,
   },
   rent: {
-    new: `${httpPrefix}${port}${adminPrefix}${paths.newRentPath}`,
-    rents: `${httpPrefix}${port}${adminPrefix}${paths.rentsPath}/`, //{id}
-    all: `${httpPrefix}${port}${adminPrefix}${paths.rentsPath}`,
+    new: `${httpPrefix}${port}${adminPrefix}${paths.rent.newRentPath}`,
+    rents: `${httpPrefix}${port}${adminPrefix}${paths.rent.rentsPath}/`, //{id}
+    all: `${httpPrefix}${port}${adminPrefix}${paths.rent.rentsPath}`,
+    details: `${httpPrefix}${port}${adminPrefix}${paths.rent.rentDetails}`,
+    products: `${httpPrefix}${port}${adminPrefix}${paths.rent.rentDetails}`, //{id}
   },
 };
 
 const clientPrefix = "/client";
 const client = {
   rent: {
-    all: `${httpPrefix}${port}${clientPrefix}${paths.rentsPath}`,
+    all: `${httpPrefix}${port}${clientPrefix}${paths.rent.rentsPath}`,
+    details: `${httpPrefix}${port}${clientPrefix}${paths.rent.rentDetails}`,
   },
 };
 
@@ -111,6 +120,10 @@ const general = {
     premisesTypes: `${httpPrefix}${port}/premisesType/all`,
   },
   patterns: `${httpPrefix}${port}${paths.productsForLocation.getAllPatternsPath}`,
+
+  rent: {
+    productsSuffix: paths.rent.productsSuffix,
+  },
 };
 
 export { owner, admin, user, general, client };

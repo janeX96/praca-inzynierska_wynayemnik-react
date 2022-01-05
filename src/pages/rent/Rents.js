@@ -2,12 +2,11 @@ import { useState, useEffect } from "react";
 import { owner, admin, client } from "../../resources/urls";
 import { GET } from "../../utilities/Request";
 import LoadData from "../LoadData";
+import RentDetails from "./RentDetails";
 
 const Rents = (props) => {
   const [rents, setRents] = useState(props.data);
-
-  // const createColumns = () => {};
-
+  const [chosenId, setChosenId] = useState(-1);
   const getData = () => {
     let urlByRole =
       props.roles[0] === "owner"
@@ -27,6 +26,14 @@ const Rents = (props) => {
       getData();
     }
   }, []);
+
+  const handleAction = (id) => {
+    setChosenId(id);
+  };
+
+  const handleReturn = () => {
+    setChosenId(-1);
+  };
 
   const columns = [
     {
@@ -64,7 +71,7 @@ const Rents = (props) => {
         <button
           className="content-container__button"
           value={cell.row.values.actions}
-          // onClick={() => handleAction(cell.row.values.premisesId)}
+          onClick={() => handleAction(cell.row.values.rentId)}
         >
           Szczegóły
         </button>
@@ -76,21 +83,34 @@ const Rents = (props) => {
   const renderTable = () => {
     return (
       <>
-        {" "}
-        <h1 className="content-container__title">Wynajmy</h1>
-        <LoadData data={rents} columns={columns} initialState={initialState} />
-        <div className="contant-btns">
-          {props.data !== undefined ? (
-            <button
-              className="content-container__button"
-              onClick={props.handleReturn}
-            >
-              Powrót
-            </button>
-          ) : (
-            ""
-          )}
-        </div>
+        {chosenId > 0 ? (
+          <RentDetails
+            rentId={chosenId}
+            roles={props.roles}
+            handleReturn={handleReturn}
+          />
+        ) : (
+          <>
+            <h1 className="content-container__title">Wynajmy</h1>
+            <LoadData
+              data={rents}
+              columns={columns}
+              initialState={initialState}
+            />
+            <div className="contant-btns">
+              {props.data !== undefined ? (
+                <button
+                  className="content-container__button"
+                  onClick={props.handleReturn}
+                >
+                  Powrót
+                </button>
+              ) : (
+                ""
+              )}
+            </div>
+          </>
+        )}
       </>
     );
   };

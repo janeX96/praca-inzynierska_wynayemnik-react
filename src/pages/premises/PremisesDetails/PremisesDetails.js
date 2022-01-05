@@ -134,6 +134,7 @@ const PremisesDetails = ({
           data={rents}
           premises={data}
           handleReturn={() => setShowRents(false)}
+          roles={roles}
         />
       );
     } else if (showActiveRent && activeRent !== undefined) {
@@ -141,6 +142,7 @@ const PremisesDetails = ({
         <RentDetails
           rent={activeRent}
           handleReturn={() => setShowActiveRent(false)}
+          roles={roles}
         />
       );
     } else {
@@ -150,7 +152,6 @@ const PremisesDetails = ({
             <Rent premisesId={premisesId} premises={premises} roles={roles} />
           ) : (
             <>
-              {" "}
               <h1 className="content-container__title">Szczegóły lokalu</h1>
               <div className="details-container">
                 <ul>
@@ -204,20 +205,7 @@ const PremisesDetails = ({
                   >
                     Powrót
                   </button>
-                  {/* <Link
-                to={{
-                  pathname: "/owner-rent-new",
-                  state: {
-                    premisesId: premisesId,
-                    premises: {
-                      name: data.location.locationName,
-                      premisesNumber: data.premisesNumber,
-                      locationId: data.location.locationId,
-                      premisesType: data.premisesType.type,
-                    },
-                  },
-                }}
-              > */}
+
                   <div
                     className="icon-container"
                     onClick={() => setNewRentForm(true)}
@@ -225,7 +213,6 @@ const PremisesDetails = ({
                     <FaKey className="icon-container__new-icon" />
                     <p>Wynajmij</p>
                   </div>
-                  {/* </Link> */}
 
                   {roles[0] === "owner" && (
                     <div className="icon-container">
