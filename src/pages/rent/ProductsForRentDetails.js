@@ -18,13 +18,15 @@ const ProductsForRentDetails = (props) => {
     GET(`${urlByRole}${props.rentId}${general.rent.productsSuffix}`).then(
       (res) => {
         setProducts(res);
-        let valuesArr = [];
-        res.map((prod) => {
-          const value = { [prod.product.productId]: "" };
-          valuesArr.push(value);
-        });
         let valuesObj = {};
-        Object.assign(valuesObj, ...valuesArr);
+        res.map((prod) => {
+          const obj = {};
+          obj[prod.product.productId] = {
+            counter: "",
+            quantity: false,
+          };
+          Object.assign(valuesObj, obj);
+        });
         setValues(valuesObj);
       }
     );
@@ -37,13 +39,25 @@ const ProductsForRentDetails = (props) => {
   const formValidation = () => {
     let correct = false;
     const valuesArr = Object.values(values);
-    const emptyValue = valuesArr.find((val) => val.length === 0);
+    const emptyValue = valuesArr.find((val) => val.counter.length === 0);
 
     if (emptyValue === undefined) {
       correct = true;
     }
 
     return { correct };
+  };
+
+  const getDateToday = () => {
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, "0");
+    var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+    var yyyy = today.getFullYear();
+    var time =
+      today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+
+    today = yyyy + "-" + mm + "-" + dd + "T" + time;
+    return today;
   };
 
   const addCountersRequest = () => {
@@ -54,10 +68,25 @@ const ProductsForRentDetails = (props) => {
         ? admin.rent.addAllMediaCounters
         : "";
 
-    //przygotować obiekt
+    let objArr = [];
+    const date = getDateToday();
+
+    for (const [key, value] of Object.entries(values)) {
+      const isQuantiy = value.quantity;
+      const counter = {
+        counter: isQuantiy ? "" : value.counter,
+        quantity: isQuantiy ? value.counter : "",
+        productId: key,
+        startDate: date,
+      };
+      objArr.push(counter);
+    }
+
+    let json = JSON.stringify(objArr);
 
     POST(
-      `${urlByRole}${props.rentId}${general.rent.addAllMediaCountersSuffix}`
+      `${urlByRole}${props.rentId}${general.rent.addAllMediaCountersSuffix}`,
+      json
     ).then((res) => {
       if (res.ok) {
         toast.success("Stan liczników został zapisany");
@@ -86,9 +115,23 @@ const ProductsForRentDetails = (props) => {
 
   const handleChange = (e) => {
     const name = e.target.name;
-    const value = e.target.value;
+    const type = e.target.type;
 
-    setValues({ ...values, [name]: value });
+    if (type === "checkbox") {
+      const checked = e.target.checked;
+      const counterValue = values[name].counter;
+      setValues({
+        ...values,
+        [name]: { counter: counterValue, quantity: checked },
+      });
+    } else {
+      const value = e.target.value;
+      const quantityValue = values[name].quantity;
+      setValues({
+        ...values,
+        [name]: { quantity: quantityValue, counter: value },
+      });
+    }
   };
 
   return (
@@ -109,7 +152,15 @@ const ProductsForRentDetails = (props) => {
                       type="number"
                       name={prod.product.productId}
                       id={prod.product.productId}
-                      value={values[prod.product.productId]}
+                      value={values[prod.product.productId.counter]}
+                      onChange={handleChange}
+                    />
+                    różnica:
+                    <input
+                      type="checkbox"
+                      name={prod.product.productId}
+                      id={prod.product.productId}
+                      value={values[prod.product.quantity]}
                       onChange={handleChange}
                     />
                   </div>
@@ -117,7 +168,16 @@ const ProductsForRentDetails = (props) => {
               </>
             ))
           : ""}
-        {error && <span className="error-msg">Wypełnij wszystkie pola</span>}
+        <div className="form-container__row">
+          <div>
+            {error && (
+              <span className="form-container__error-msg">
+                Wypełnij wszystkie pola
+              </span>
+            )}
+          </div>
+        </div>
+
         <div className="form-container__buttons">
           <button
             className="content-container__button"
