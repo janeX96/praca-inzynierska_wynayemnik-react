@@ -5,7 +5,7 @@ import ProductsForRentDetails from "./ProductsForRentDetails";
 
 const RentDetails = (props) => {
   const [rent, setRent] = useState();
-  // const [products, setProducts] = useState([]);
+  const [payments, setPayments] = useState();
   const [showProducts, setShowProducts] = useState(false);
   const getData = () => {
     let urlByRole =
@@ -31,26 +31,7 @@ const RentDetails = (props) => {
     } else {
       getData();
     }
-    // getProducts();
   }, []);
-
-  // const productsList = () => {
-  //   return (
-  //     <>
-  //       <ul>
-  //         {products.map((product) => (
-  //           <li>{product.productName}</li>
-  //         ))}
-  //       </ul>
-  //       <button
-  //         className="content-container__button"
-  //         onClick={() => setShowProducts(!showProducts)}
-  //       >
-  //         Powrót
-  //       </button>
-  //     </>
-  //   );
-  // };
 
   const renderDetails = () => {
     if (rent !== undefined) {

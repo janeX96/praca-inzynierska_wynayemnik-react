@@ -29,6 +29,8 @@ const paths = {
     rentsPath: "/rents",
     rentDetails: "/rent/", //{id}
     productsSuffix: "/productsMediaStandard",
+    paymentsPrefix: "/rent/", //{id}
+    paymentsSuffix: "/payments",
   },
 };
 
@@ -63,6 +65,7 @@ const owner = {
     all: `${httpPrefix}${port}${ownerPrefix}${paths.rent.rentsPath}`,
     details: `${httpPrefix}${port}${ownerPrefix}${paths.rent.rentDetails}`,
     products: `${httpPrefix}${port}${ownerPrefix}${paths.rent.rentDetails}`, //{id}
+    payments: `${httpPrefix}${port}${ownerPrefix}${paths.rent.paymentsPrefix}`, //{id}
   },
 };
 
@@ -97,6 +100,7 @@ const admin = {
     all: `${httpPrefix}${port}${adminPrefix}${paths.rent.rentsPath}`,
     details: `${httpPrefix}${port}${adminPrefix}${paths.rent.rentDetails}`,
     products: `${httpPrefix}${port}${adminPrefix}${paths.rent.rentDetails}`, //{id}
+    payments: `${httpPrefix}${port}${adminPrefix}${paths.rent.paymentsPrefix}`, //{id}
   },
 };
 
@@ -105,6 +109,7 @@ const client = {
   rent: {
     all: `${httpPrefix}${port}${clientPrefix}${paths.rent.rentsPath}`,
     details: `${httpPrefix}${port}${clientPrefix}${paths.rent.rentDetails}`,
+    payments: `${httpPrefix}${port}${clientPrefix}${paths.rent.paymentsPrefix}`, //{id}
   },
 };
 
