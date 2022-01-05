@@ -23,11 +23,11 @@ const RentDetails = (props) => {
   const getPayments = () => {
     let urlByRole =
       props.roles[0] === "owner"
-        ? owner.rent.paymentsPrefix
+        ? owner.rent.payments
         : props.roles[0] === "admin"
-        ? admin.rent.paymentsPrefix
+        ? admin.rent.payments
         : props.roles[0] === "client"
-        ? client.rent.paymentsPrefix
+        ? client.rent.payments
         : "";
     GET(`${urlByRole}${props.rentId}${general.rent.paymentsSuffix}`).then(
       (res) => {
@@ -177,6 +177,7 @@ const RentDetails = (props) => {
             roles={props.roles}
             rentId={rent.rentId}
             handleReturn={handleReturn}
+            payments={payments}
           />
         ) : (
           <>

@@ -7,6 +7,8 @@ const ProductsForRentDetails = (props) => {
   const [values, setValues] = useState();
   const [error, setError] = useState(false);
   const [sending, setSending] = useState(false);
+  const [countersAvailable, setCountersAvailable] = useState(false);
+  const [lastPaymentDate, setLastPaymentDate] = useState();
   const getProducts = () => {
     let urlByRole =
       props.roles[0] === "owner"
@@ -32,7 +34,40 @@ const ProductsForRentDetails = (props) => {
     );
   };
 
+  const getDateToday = () => {
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, "0");
+    var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+    var yyyy = today.getFullYear();
+    var time =
+      today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+
+    today = yyyy + "-" + mm + "-" + dd + "T" + time;
+    return today;
+  };
+
   useEffect(() => {
+    //check if last payment was in current month
+    var today = new Date();
+    // var currentMonth = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+    // var currentYear = today.getFullYear();
+
+    const lessThanMonthAgo = props.payments.find((payment) => {
+      const paymentDate = new Date(payment.paymentDate);
+      var Difference_In_Time = paymentDate.getTime() - today.getTime();
+      var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+
+      return Difference_In_Days < 30;
+    });
+
+    console.log(">>>", lessThanMonthAgo.paymentDate);
+    if (lessThanMonthAgo.paymentDate !== undefined) {
+      setCountersAvailable(false);
+      setLastPaymentDate(lessThanMonthAgo.paymentDate);
+    } else {
+      setCountersAvailable(true);
+    }
+
     getProducts();
   }, []);
 
@@ -46,18 +81,6 @@ const ProductsForRentDetails = (props) => {
     }
 
     return { correct };
-  };
-
-  const getDateToday = () => {
-    var today = new Date();
-    var dd = String(today.getDate()).padStart(2, "0");
-    var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-    var yyyy = today.getFullYear();
-    var time =
-      today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-
-    today = yyyy + "-" + mm + "-" + dd + "T" + time;
-    return today;
   };
 
   const addCountersRequest = () => {
@@ -148,6 +171,8 @@ const ProductsForRentDetails = (props) => {
                   </div>
                   <div className="row__col-75">
                     <input
+                      disabled={!countersAvailable}
+                      placeholder={`ostatnia płatność: ${lastPaymentDate}`}
                       className="form-container__input"
                       type="number"
                       name={prod.product.productId}
@@ -157,6 +182,7 @@ const ProductsForRentDetails = (props) => {
                     />
                     różnica:
                     <input
+                      disabled={!countersAvailable}
                       type="checkbox"
                       name={prod.product.productId}
                       id={prod.product.productId}
