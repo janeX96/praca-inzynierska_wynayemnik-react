@@ -31,20 +31,70 @@ const PaymentForm = (props) => {
   }, []);
 
   return (
-    <>
-      <form onSubmit={handleSubmit}>
-        <div className="form-container__row">
-          <div className="row__col-75">
-            <label htmlFor="1">jeden:</label>
-            <input type="text" id="1" name="1" />
+    <div className="form-container--table">
+      <div className="form-container--table__column-titles">
+        <div className="column-title">Nazwa</div>
+        <div className="column-title">Ilość</div>
+        <div className="column-title">Jedn.</div>
+        <div className="column-title">Cena netto</div>
+        <div className="column-title">VAT%</div>
+        <div className="column-title">Wart. netto</div>
+        <div className="column-title">Wart. brutto</div>
+      </div>
 
-            <label htmlFor="">
-              dwa: <input type="text" />
-            </label>
-          </div>
-        </div>
+      <form onSubmit={handleSubmit} className="form-container--table__form">
+        {media.map((m) => (
+          <>
+            <input
+              type="text"
+              id="productName"
+              name="productName"
+              className="form-container--table__input--250"
+              value={m.product.productName}
+              //   onChange={}
+            />
+            <input
+              type="text"
+              id="1"
+              name="1"
+              className="form-container--table__input"
+              value={m.product.productName}
+              //   onChange={}
+            />
+            <input
+              type="text"
+              id="1"
+              name="1"
+              className="form-container--table__input"
+            />
+            <input
+              type="text"
+              id="1"
+              name="1"
+              className="form-container--table__input"
+            />
+            <input
+              type="text"
+              id="1"
+              name="1"
+              className="form-container--table__input"
+            />
+            <input
+              type="text"
+              id="1"
+              name="1"
+              className="form-container--table__input"
+            />
+            <input
+              type="text"
+              id="1"
+              name="1"
+              className="form-container--table__input"
+            />
+          </>
+        ))}
       </form>
-    </>
+    </div>
   );
 };
 
