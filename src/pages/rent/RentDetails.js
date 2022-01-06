@@ -1,12 +1,15 @@
 import { useState, useEffect } from "react";
 import { owner, admin, client, general } from "../../resources/urls";
 import { GET } from "../../utilities/Request";
+import PaymentsForRent from "./PaymentsForRent";
 import ProductsForRentDetails from "./ProductsForRentDetails";
 
 const RentDetails = (props) => {
   const [rent, setRent] = useState();
   const [payments, setPayments] = useState();
   const [showProducts, setShowProducts] = useState(false);
+  const [showPayments, setShowPayments] = useState(false);
+
   const getData = () => {
     let urlByRole =
       props.roles[0] === "owner"
@@ -36,7 +39,8 @@ const RentDetails = (props) => {
     );
   };
   const handleReturn = () => {
-    setShowProducts(!showProducts);
+    setShowProducts(false);
+    setShowPayments(false);
   };
 
   useEffect(() => {
@@ -148,17 +152,18 @@ const RentDetails = (props) => {
             <li>
               <h3
                 className="details-container__history"
-                onClick={
-                  // products !== undefined && products.length > 0
-                  () => setShowProducts(!showProducts)
-                  // : () => alert("Brak produktów dla tego wynajmu")
-                }
+                onClick={() => setShowProducts(true)}
               >
                 Produkty
               </h3>
             </li>
             <li>
-              <h3>Płatności</h3>
+              <h3
+                className="details-container__history"
+                onClick={() => setShowPayments(true)}
+              >
+                Płatności
+              </h3>
             </li>
           </ul>
         </>
@@ -170,29 +175,35 @@ const RentDetails = (props) => {
 
   return (
     <>
-      <h1 className="content-container__title">Szczegóły lokalu</h1>
-      <div className="details-container">
-        {showProducts ? (
-          <ProductsForRentDetails
-            roles={props.roles}
-            rentId={rent.rentId}
-            handleReturn={handleReturn}
-            payments={payments}
-          />
-        ) : (
-          <>
-            {renderDetails()}
-            <div className="contant-btns">
-              <button
-                className="content-container__button"
-                onClick={props.handleReturn}
-              >
-                Powrót
-              </button>
-            </div>
-          </>
-        )}
-      </div>
+      <h1 className="content-container__title">Szczegóły wynajmu</h1>
+
+      {showProducts ? (
+        <ProductsForRentDetails
+          roles={props.roles}
+          rentId={rent.rentId}
+          handleReturn={handleReturn}
+          payments={payments}
+        />
+      ) : showPayments ? (
+        <PaymentsForRent
+          roles={props.roles}
+          rentId={rent.rentId}
+          handleReturn={handleReturn}
+          payments={payments}
+        />
+      ) : (
+        <div className="details-container">
+          {renderDetails()}
+          <div className="contant-btns">
+            <button
+              className="content-container__button"
+              onClick={props.handleReturn}
+            >
+              Powrót
+            </button>
+          </div>
+        </div>
+      )}
     </>
   );
 };
