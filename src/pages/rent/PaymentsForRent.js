@@ -65,7 +65,11 @@ const PaymentsForRent = (props) => {
   return (
     <>
       {showPaymentForm ? (
-        <PaymentForm handleReturn={handleReturn} rentId={props.rentId} />
+        <PaymentForm
+          handleReturn={handleReturn}
+          rentId={props.rentId}
+          roles={props.roles}
+        />
       ) : (
         <>
           <h1 className="content-container__title">Płatności</h1>
