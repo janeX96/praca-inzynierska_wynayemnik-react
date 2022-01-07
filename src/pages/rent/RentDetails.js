@@ -50,7 +50,7 @@ const RentDetails = (props) => {
       getData();
     }
     getPayments();
-  }, []);
+  }, [showPayments, showProducts]);
 
   const renderDetails = () => {
     if (rent !== undefined) {
@@ -176,8 +176,6 @@ const RentDetails = (props) => {
 
   return (
     <>
-      <h1 className="content-container__title">Szczegóły wynajmu</h1>
-
       {showProducts ? (
         <ProductsForRentDetails
           roles={props.roles}
@@ -193,17 +191,20 @@ const RentDetails = (props) => {
           payments={payments}
         />
       ) : (
-        <div className="details-container">
-          {renderDetails()}
-          <div className="contant-btns">
-            <button
-              className="content-container__button"
-              onClick={props.handleReturn}
-            >
-              Powrót
-            </button>
+        <>
+          <h1 className="content-container__title">Szczegóły wynajmu</h1>
+          <div className="details-container">
+            {renderDetails()}
+            <div className="contant-btns">
+              <button
+                className="content-container__button"
+                onClick={props.handleReturn}
+              >
+                Powrót
+              </button>
+            </div>
           </div>
-        </div>
+        </>
       )}
     </>
   );
