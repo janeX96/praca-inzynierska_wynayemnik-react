@@ -2,26 +2,15 @@ import keycloak from "../auth/keycloak";
 
 //choose if we pass some body
 const requestOptions = (method, obj = null) => {
-  if (obj != null) {
-    return {
-      method: method,
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: " Bearer " + keycloak.token,
-      },
-      body: obj,
-    };
-  } else {
-    return {
-      method: method,
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: " Bearer " + keycloak.token,
-      },
-    };
-  }
+  return {
+    method: method,
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: " Bearer " + keycloak.token,
+    },
+    body: obj,
+  };
 };
 
 const GET = async (url) => {
@@ -30,8 +19,6 @@ const GET = async (url) => {
   })
     .then((res) => res.json())
     .then((res) => {
-      // console.log("Przekazuję: ", res);
-
       return res;
     })
     .catch((err) => {
@@ -68,11 +55,8 @@ const POST = async (url, obj, noAuth = false) => {
 
 const PUT = async (url, obj) => {
   const requestOpt = requestOptions("PUT", obj);
-
-  console.log("wsyysłam: ", obj);
   return await fetch(url, requestOpt)
     .then((res) => {
-      // console.log("Przekazuję: ", res);
       return res;
     })
     .catch((err) => {
@@ -81,6 +65,7 @@ const PUT = async (url, obj) => {
 };
 
 const PATCH = async (url) => {
+  console.log("Usuwam");
   let response = {};
   await fetch(url, requestOptions("PATCH"))
     .then((res) => {
