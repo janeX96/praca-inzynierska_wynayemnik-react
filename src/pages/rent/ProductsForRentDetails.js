@@ -9,6 +9,7 @@ const ProductsForRentDetails = (props) => {
   const [sending, setSending] = useState(false);
   const [countersAvailable, setCountersAvailable] = useState(false);
   const [lastPaymentDate, setLastPaymentDate] = useState();
+  const [errorMsg, setErrorMsg] = useState("Wypełnij wszystkie pola");
   const getProducts = () => {
     let urlByRole =
       props.roles[0] === "owner"
@@ -47,23 +48,24 @@ const ProductsForRentDetails = (props) => {
   };
 
   useEffect(() => {
-    //check if last payment was in current month
     var today = new Date();
-    // var currentMonth = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-    // var currentYear = today.getFullYear();
 
-    const lessThanMonthAgo = props.payments.find((payment) => {
-      const paymentDate = new Date(payment.paymentDate);
-      var Difference_In_Time = paymentDate.getTime() - today.getTime();
-      var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+    let lessThanMonthAgo = "";
+    if (props.payments !== undefined) {
+      lessThanMonthAgo = props.payments.find((payment) => {
+        const paymentDate = new Date(payment.paymentDate);
+        var Difference_In_Time = paymentDate.getTime() - today.getTime();
+        var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
 
-      return Difference_In_Days < 30;
-    });
+        return Difference_In_Days < 30;
+      });
 
-    console.log(">>>", lessThanMonthAgo.paymentDate);
-    if (lessThanMonthAgo.paymentDate !== undefined) {
-      setCountersAvailable(false);
-      setLastPaymentDate(lessThanMonthAgo.paymentDate);
+      if (lessThanMonthAgo !== undefined) {
+        setCountersAvailable(false);
+        setLastPaymentDate(lessThanMonthAgo.paymentDate);
+      } else {
+        setCountersAvailable(true);
+      }
     } else {
       setCountersAvailable(true);
     }
@@ -83,7 +85,7 @@ const ProductsForRentDetails = (props) => {
     return { correct };
   };
 
-  const addCountersRequest = () => {
+  const addCountersRequest = async () => {
     let urlByRole =
       props.roles[0] === "owner"
         ? owner.rent.addAllMediaCounters
@@ -107,7 +109,7 @@ const ProductsForRentDetails = (props) => {
 
     let json = JSON.stringify(objArr);
 
-    POST(
+    return await POST(
       `${urlByRole}${props.rentId}${general.rent.addAllMediaCountersSuffix}`,
       json
     ).then((res) => {
@@ -116,6 +118,7 @@ const ProductsForRentDetails = (props) => {
       } else {
         toast.error("Nie udało się zapisać stanu liczników...");
       }
+      return res;
     });
   };
 
@@ -127,8 +130,16 @@ const ProductsForRentDetails = (props) => {
     if (!sending) {
       setSending(true);
       if (validation.correct) {
-        addCountersRequest().then(setSending(false));
-        setError(false);
+        addCountersRequest().then((res) => {
+          setSending(false);
+          if (!res.ok) {
+            setError(true);
+            setErrorMsg(res.json().error);
+          } else {
+            setError(false);
+            props.handleReturn();
+          }
+        });
       } else {
         setError(true);
         setSending(false);
@@ -197,9 +208,7 @@ const ProductsForRentDetails = (props) => {
         <div className="form-container__row">
           <div>
             {error && (
-              <span className="form-container__error-msg">
-                Wypełnij wszystkie pola
-              </span>
+              <span className="form-container__error-msg">{errorMsg}</span>
             )}
           </div>
         </div>

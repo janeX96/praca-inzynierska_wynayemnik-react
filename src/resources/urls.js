@@ -31,8 +31,12 @@ const paths = {
     productsSuffix: "/productsMediaStandard",
     paymentsPrefix: "/rent/", //{id}
     paymentsSuffix: "/payments",
+    newPaymentPrefix: "/rent/", //{id}
+    newPaymentSuffix: "/payment",
     addAllMediaCountersPrefix: "/rent/", //{id}
     addAllMediaCountersSuffix: "/allMediaRent",
+    getAllMediaRentPrefix: "/rent/", //{id},
+    getAllMediaRentSuffix: "/allMediaRent",
   },
 };
 
@@ -69,6 +73,8 @@ const owner = {
     products: `${httpPrefix}${port}${ownerPrefix}${paths.rent.rentDetails}`, //{id}
     payments: `${httpPrefix}${port}${ownerPrefix}${paths.rent.paymentsPrefix}`, //{id}
     addAllMediaCounters: `${httpPrefix}${port}${ownerPrefix}${paths.rent.addAllMediaCountersPrefix}`, //{id}
+    getAllMediaRent: `${httpPrefix}${port}${ownerPrefix}${paths.rent.getAllMediaRentPrefix}`, //{id}
+    newPayment: `${httpPrefix}${port}${ownerPrefix}${paths.rent.newPaymentPrefix}`, //{id}
   },
 };
 
@@ -105,6 +111,8 @@ const admin = {
     products: `${httpPrefix}${port}${adminPrefix}${paths.rent.rentDetails}`, //{id}
     payments: `${httpPrefix}${port}${adminPrefix}${paths.rent.paymentsPrefix}`, //{id}
     addAllMediaCounters: `${httpPrefix}${port}${adminPrefix}${paths.rent.addAllMediaCountersPrefix}`, //{id}
+    getAllMediaRent: `${httpPrefix}${port}${adminPrefix}${paths.rent.getAllMediaRentPrefix}`, //{id}
+    newPayment: `${httpPrefix}${port}${adminPrefix}${paths.rent.newPaymentPrefix}`, //{id}
   },
 };
 
@@ -114,6 +122,7 @@ const client = {
     all: `${httpPrefix}${port}${clientPrefix}${paths.rent.rentsPath}`,
     details: `${httpPrefix}${port}${clientPrefix}${paths.rent.rentDetails}`,
     payments: `${httpPrefix}${port}${clientPrefix}${paths.rent.paymentsPrefix}`, //{id}
+    getAllMediaRent: `${httpPrefix}${port}${clientPrefix}${paths.rent.getAllMediaRentPrefix}`, //{id}
   },
 };
 
@@ -134,6 +143,8 @@ const general = {
     productsSuffix: paths.rent.productsSuffix,
     paymentsSuffix: paths.rent.paymentsSuffix,
     addAllMediaCountersSuffix: paths.rent.addAllMediaCountersSuffix,
+    getAllMediaRentSuffix: paths.rent.getAllMediaRentSuffix,
+    newPaymentSuffix: paths.rent.newPaymentSuffix,
   },
 };
 

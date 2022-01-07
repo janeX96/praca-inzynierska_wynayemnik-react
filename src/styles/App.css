@@ -171,6 +171,57 @@ body {
   cursor: pointer;
 }
 
+.content-container .form-container--table__column-titles {
+  display: inline;
+  flex-flow: row wrap;
+  align-items: center;
+}
+
+.content-container .form-container--table__column-titles .column-title {
+  display: inline;
+  vertical-align: middle;
+  margin: 5px 10px 5px 0;
+  padding: 10px;
+}
+
+.content-container .form-container--table__column-titles .column-title:first-child {
+  margin-right: 135px;
+}
+
+.content-container .form-container--table__form {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+}
+
+.content-container .form-container--table__label {
+  margin: 5px 10px 5px 0;
+}
+
+.content-container .form-container--table__input, .content-container .form-container--table__input--250 {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+  vertical-align: middle;
+  margin: 5px 10px 5px 0;
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  max-width: 50px;
+}
+
+.content-container .form-container--table__input--250 {
+  max-width: 250px;
+}
+
+@media (max-width: 800px) {
+  .content-container .form-container--table .form-container--table__input, .content-container .form-container--table .form-container--table__input--250 {
+    margin: 10px 0;
+  }
+}
+
+.content-container .form-container--table,
 .content-container .details-container,
 .content-container .form-container {
   border-radius: 5px;
@@ -180,12 +231,14 @@ body {
   max-width: 900px;
 }
 
+.content-container .form-container--table label,
 .content-container .details-container label,
 .content-container .form-container label {
   padding: 12px 12px 12px 0;
   display: inline-block;
 }
 
+.content-container .form-container--table ul,
 .content-container .details-container ul,
 .content-container .form-container ul {
   list-style-type: none;

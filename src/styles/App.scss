@@ -146,6 +146,64 @@ body {
   }
 
   //forms
+  .form-container--table {
+    &__column-titles {
+      display: inline;
+      flex-flow: row wrap;
+      align-items: center;
+
+      .column-title {
+        display: inline;
+        vertical-align: middle;
+        margin: 5px 10px 5px 0;
+        padding: 10px;
+        &:first-child {
+          margin-right: 135px;
+        }
+      }
+    }
+
+    &__form {
+      display: flex;
+      flex-flow: row wrap;
+      align-items: center;
+    }
+    &__label {
+      margin: 5px 10px 5px 0;
+    }
+
+    &__input {
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      resize: vertical;
+
+      vertical-align: middle;
+      margin: 5px 10px 5px 0;
+      padding: 10px;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      max-width: 50px;
+
+      &--250 {
+        @extend .form-container--table__input;
+        max-width: 250px;
+      }
+    }
+
+    @media (max-width: 800px) {
+      .form-container--table__input {
+        margin: 10px 0;
+      }
+
+      // .form-inline {
+      //   flex-direction: column;
+      //   align-items: stretch;
+      // }
+    }
+  }
+
+  .form-container--table,
   .details-container,
   .form-container {
     border-radius: 5px;
