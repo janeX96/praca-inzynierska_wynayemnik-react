@@ -1,6 +1,6 @@
 import keycloak from "../auth/keycloak";
 
-//choose if we pass some body
+//chose if we pass some body
 const requestOptions = (method, obj = null) => {
   return {
     method: method,

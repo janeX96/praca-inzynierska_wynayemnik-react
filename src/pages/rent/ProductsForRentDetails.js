@@ -47,23 +47,24 @@ const ProductsForRentDetails = (props) => {
   };
 
   useEffect(() => {
-    //check if last payment was in current month
     var today = new Date();
-    // var currentMonth = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-    // var currentYear = today.getFullYear();
 
-    const lessThanMonthAgo = props.payments.find((payment) => {
-      const paymentDate = new Date(payment.paymentDate);
-      var Difference_In_Time = paymentDate.getTime() - today.getTime();
-      var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+    let lessThanMonthAgo = "";
+    if (props.payments !== undefined) {
+      lessThanMonthAgo = props.payments.find((payment) => {
+        const paymentDate = new Date(payment.paymentDate);
+        var Difference_In_Time = paymentDate.getTime() - today.getTime();
+        var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
 
-      return Difference_In_Days < 30;
-    });
+        return Difference_In_Days < 30;
+      });
 
-    console.log(">>>", lessThanMonthAgo.paymentDate);
-    if (lessThanMonthAgo.paymentDate !== undefined) {
-      setCountersAvailable(false);
-      setLastPaymentDate(lessThanMonthAgo.paymentDate);
+      if (lessThanMonthAgo !== undefined) {
+        setCountersAvailable(false);
+        setLastPaymentDate(lessThanMonthAgo.paymentDate);
+      } else {
+        setCountersAvailable(true);
+      }
     } else {
       setCountersAvailable(true);
     }

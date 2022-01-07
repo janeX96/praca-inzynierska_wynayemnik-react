@@ -124,7 +124,8 @@ const RentDetails = (props) => {
               Dostępne dla klienta: <b>{rent.clientAccess ? "tak" : "nie"}</b>
             </li>
             <li>
-              counterMediaRent: <b>{rent.counterMediaRent ? "tak" : "nie"}</b>
+              Liczniki dostepne dla klienta:{" "}
+              <b>{rent.counterMediaRent ? "tak" : "nie"}</b>
             </li>
             {rent.paymentValues.length > 0 ? (
               <li>
