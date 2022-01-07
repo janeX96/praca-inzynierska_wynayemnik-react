@@ -11,6 +11,7 @@ const PaymentsForRent = (props) => {
 
   const handleReturn = () => {
     setShowPaymentForm(false);
+    props.reloadPayments();
   };
 
   const columns = [

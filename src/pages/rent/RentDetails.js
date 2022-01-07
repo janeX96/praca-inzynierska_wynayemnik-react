@@ -189,6 +189,7 @@ const RentDetails = (props) => {
           rentId={rent.rentId}
           handleReturn={handleReturn}
           payments={payments}
+          reloadPayments={getPayments}
         />
       ) : (
         <>
