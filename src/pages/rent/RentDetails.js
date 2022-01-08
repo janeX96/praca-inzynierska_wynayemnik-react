@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { BsTrashFill } from "react-icons/bs";
-import { TiCancel } from "react-icons/ti";
+import { ImCancelCircle } from "react-icons/im";
 import { toast } from "react-toastify";
 import { owner, admin, client, general } from "../../resources/urls";
 import { GET, PATCH } from "../../utilities/Request";
@@ -291,7 +291,7 @@ const RentDetails = (props) => {
               </button>
               {(props.roles[0] === "owner" || props.roles[0] === "admin") && (
                 <div className="icon-container">
-                  <TiCancel
+                  <ImCancelCircle
                     className="icon-container__delete-icon"
                     onClick={handleCancelRent}
                   />
