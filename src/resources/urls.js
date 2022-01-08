@@ -37,6 +37,9 @@ const paths = {
     addAllMediaCountersSuffix: "/allMediaRent",
     getAllMediaRentPrefix: "/rent/", //{id},
     getAllMediaRentSuffix: "/allMediaRent",
+    changeUserAccess: "/change-user-access/", //{id}
+    deleteRent: "/delete-rent/", //{id}
+    cancelRent: "/cancel-rent/", //{id}
   },
 };
 
@@ -75,6 +78,9 @@ const owner = {
     addAllMediaCounters: `${httpPrefix}${port}${ownerPrefix}${paths.rent.addAllMediaCountersPrefix}`, //{id}
     getAllMediaRent: `${httpPrefix}${port}${ownerPrefix}${paths.rent.getAllMediaRentPrefix}`, //{id}
     newPayment: `${httpPrefix}${port}${ownerPrefix}${paths.rent.newPaymentPrefix}`, //{id}
+    changeUserAccess: `${httpPrefix}${port}${ownerPrefix}${paths.rent.changeUserAccess}`, //{id}
+    deleteRent: `${httpPrefix}${port}${ownerPrefix}${paths.rent.deleteRent}`, //{id}
+    cancelRent: `${httpPrefix}${port}${ownerPrefix}${paths.rent.cancelRent}`, //{id}
   },
 };
 
@@ -113,6 +119,9 @@ const admin = {
     addAllMediaCounters: `${httpPrefix}${port}${adminPrefix}${paths.rent.addAllMediaCountersPrefix}`, //{id}
     getAllMediaRent: `${httpPrefix}${port}${adminPrefix}${paths.rent.getAllMediaRentPrefix}`, //{id}
     newPayment: `${httpPrefix}${port}${adminPrefix}${paths.rent.newPaymentPrefix}`, //{id}
+    changeUserAccess: `${httpPrefix}${port}${adminPrefix}${paths.rent.changeUserAccess}`, //{id}
+    deleteRent: `${httpPrefix}${port}${adminPrefix}${paths.rent.deleteRent}`, //{id}
+    cancelRent: `${httpPrefix}${port}${adminPrefix}${paths.rent.cancelRent}`, //{id}
   },
 };
 
