@@ -183,7 +183,11 @@ const ProductsForRentDetails = (props) => {
                   <div className="row__col-75">
                     <input
                       disabled={!countersAvailable}
-                      placeholder={`ostatnia płatność: ${lastPaymentDate}`}
+                      placeholder={
+                        !countersAvailable
+                          ? `ostatnia płatność: ${lastPaymentDate}`
+                          : "Wprowadź stan licznika"
+                      }
                       className="form-container__input"
                       type="number"
                       name={prod.product.productId}

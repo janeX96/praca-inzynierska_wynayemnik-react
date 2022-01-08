@@ -250,7 +250,7 @@ const PaymentForm = (props) => {
                     id="1"
                     name="1"
                     className="form-container--table__input"
-                    value={m.quantityUnit}
+                    value={m.product.quantityUnit}
                   />
                   <input
                     disabled="true"
