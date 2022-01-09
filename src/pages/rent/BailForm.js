@@ -57,9 +57,11 @@ const BailForm = (props) => {
         if (res.ok) {
           toast.success("Dodano kaucję");
           props.handleReturn();
+          setSending(false);
         } else {
           res.json().then((res) => {
             toast.error(`Nie udało się dodać kaucji: ${res.error}`);
+            setSending(false);
           });
         }
       }
