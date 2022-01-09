@@ -46,6 +46,7 @@ const paths = {
     sumMediaQuantitySuffix: "/mediaRent",
     newBailSuffix: "/new-bail",
     sumOfBailsPrefix: "/rent/sum-bails/", //{ id },
+    addProductPrefix: "/product/",
   },
 };
 
@@ -92,6 +93,8 @@ const owner = {
     sumMediaQuantity: `${httpPrefix}${port}${ownerPrefix}${paths.rent.defaultPrefix}`, //{id}
     newBail: `${httpPrefix}${port}${ownerPrefix}${paths.rent.defaultPrefix}`, //{id}
     sumOfBails: `${httpPrefix}${port}${ownerPrefix}${paths.rent.sumOfBailsPrefix}`, //{id}
+    deleteProductPrefix: `${httpPrefix}${port}${ownerPrefix}${paths.rent.defaultPrefix}`, //{id}
+    addProduct: `${httpPrefix}${port}${ownerPrefix}${paths.rent.defaultPrefix}`, //{id}
   },
 };
 
@@ -138,6 +141,8 @@ const admin = {
     sumMediaQuantity: `${httpPrefix}${port}${adminPrefix}${paths.rent.defaultPrefix}`, //{id}
     newBail: `${httpPrefix}${port}${adminPrefix}${paths.rent.defaultPrefix}`, //{id}
     sumOfBails: `${httpPrefix}${port}${adminPrefix}${paths.rent.sumOfBailsPrefix}`, //{id}
+    deleteProductPrefix: `${httpPrefix}${port}${adminPrefix}${paths.rent.defaultPrefix}`, //{id}
+    addProduct: `${httpPrefix}${port}${adminPrefix}${paths.rent.defaultPrefix}`, //{id}
   },
 };
 
@@ -163,6 +168,9 @@ const general = {
     premisesTypes: `${httpPrefix}${port}/premisesType/all`,
   },
   patterns: `${httpPrefix}${port}${paths.productsForLocation.getAllPatternsPath}`,
+  productsForLocation: {
+    allProductsSuffix: "/productGroupType",
+  },
 
   rent: {
     productsSuffix: paths.rent.productsSuffix,
@@ -174,6 +182,8 @@ const general = {
     allBailsSuffix: paths.rent.allBailsSuffix,
     sumMediaQuantitySuffix: paths.rent.sumMediaQuantitySuffix,
     newBailSuffix: paths.rent.newBailSuffix,
+    deleteProductPrefix: "/product/", //{id}
+    addProductPrefix: paths.rent.addProductPrefix,
   },
 };
 

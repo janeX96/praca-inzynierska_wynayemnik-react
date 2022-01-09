@@ -80,4 +80,19 @@ const PATCH = async (url) => {
   return response;
 };
 
-export { GET, POST, PUT, PATCH };
+const DELETE = async (url) => {
+  let response = {};
+  await fetch(url, requestOptions("DELETE"))
+    .then((res) => {
+      if (res.ok) {
+        response = true;
+      }
+    })
+    .catch((err) => {
+      console.error("Request error: ", err);
+    });
+
+  return response;
+};
+
+export { GET, POST, PUT, PATCH, DELETE };

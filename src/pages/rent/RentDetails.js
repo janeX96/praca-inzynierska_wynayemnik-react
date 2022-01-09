@@ -282,6 +282,7 @@ const RentDetails = (props) => {
           rentId={rent.rentId}
           handleReturn={handleReturn}
           payments={payments}
+          locationId={rent.premises.location.locationId}
         />
       ) : showPayments ? (
         <PaymentsForRent
