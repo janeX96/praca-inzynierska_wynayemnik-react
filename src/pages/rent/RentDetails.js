@@ -14,6 +14,7 @@ const RentDetails = (props) => {
   const [showProducts, setShowProducts] = useState(false);
   const [showPayments, setShowPayments] = useState(false);
   const [showBails, setShowBails] = useState(false);
+  const [sumOfBails, setSumOfBails] = useState(0);
 
   const getData = () => {
     let urlByRole =
@@ -43,10 +44,24 @@ const RentDetails = (props) => {
       }
     );
   };
+
+  const getSumOfBails = () => {
+    let urlByRole =
+      props.roles[0] === "owner"
+        ? owner.rent.sumOfBails
+        : props.roles[0] === "admin"
+        ? admin.rent.sumOfBails
+        : "";
+    GET(`${urlByRole}${props.rentId}`).then((res) => {
+      setSumOfBails(res);
+    });
+  };
+
   const handleReturn = () => {
     setShowProducts(false);
     setShowPayments(false);
     setShowBails(false);
+    getSumOfBails();
   };
 
   useEffect(() => {
@@ -56,6 +71,7 @@ const RentDetails = (props) => {
       getData();
     }
     getPayments();
+    getSumOfBails();
   }, [showPayments, showProducts]);
 
   const handleChangeAccess = () => {
@@ -171,8 +187,11 @@ const RentDetails = (props) => {
             <li>
               Czynsz: <b>{rent.rentValue} zł</b>
             </li>
-            <li>
+
+            <li style={{ borderStyle: "groove", marginRight: "70%" }}>
               Kaucja: <b>{rent.bailValue} zł</b>
+              <br />
+              Wpłacono: <b>{sumOfBails} zł</b>
             </li>
 
             <li>
@@ -221,7 +240,7 @@ const RentDetails = (props) => {
 
             {(props.roles[0] === "owner" || props.roles[0] === "admin") && (
               <>
-                <li>
+                <li style={{ marginRight: "80%" }}>
                   <h3
                     className="details-container__history"
                     onClick={() => setShowProducts(true)}
@@ -229,7 +248,7 @@ const RentDetails = (props) => {
                     Produkty
                   </h3>
                 </li>
-                <li>
+                <li style={{ marginRight: "80%" }}>
                   <h3
                     className="details-container__history"
                     onClick={() => setShowPayments(true)}
@@ -237,7 +256,7 @@ const RentDetails = (props) => {
                     Płatności
                   </h3>
                 </li>
-                <li>
+                <li style={{ marginRight: "80%" }}>
                   <h3
                     className="details-container__history"
                     onClick={() => setShowBails(true)}
