@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { BsTrashFill } from "react-icons/bs";
 import { toast } from "react-toastify";
 import { owner, admin, general } from "../../resources/urls";
 import { GET, POST } from "../../utilities/Request";
@@ -186,13 +187,25 @@ const ProductsForRentDetails = (props) => {
       });
     }
   };
+  const handleDeleteProduct = (id) => {
+    //todo
+  };
 
   const renderAllProducts = () => {
     return (
       <div className="details-container">
         <ul>
           {allProducts.map((prod) => (
-            <li key={prod.product.productId}>{prod.product.productName}</li>
+            <li key={prod.product.productId}>
+              {prod.product.productName}
+              <div className="icon-container" style={{ fontSize: "15px" }}>
+                <BsTrashFill
+                  className="icon-container__delete-icon"
+                  onClick={handleDeleteProduct(prod.product.productId)}
+                />
+                <p>Usuń</p>
+              </div>
+            </li>
           ))}
         </ul>
       </div>
@@ -201,13 +214,25 @@ const ProductsForRentDetails = (props) => {
 
   return (
     <>
+      <h1 className="content-container__title">Produkty wynajmu</h1>
       <div className="form-container">
+        <h1>Media</h1>
         <form onSubmit={handleSubmit}>
           {products !== undefined && values !== undefined
             ? products.map((prod) => (
                 <>
                   <div className="form-container__row">
                     <div className="row__col-25">
+                      <div
+                        className="icon-container"
+                        style={{ fontSize: "25px" }}
+                      >
+                        <BsTrashFill
+                          className="icon-container__delete-icon"
+                          onClick={handleDeleteProduct(prod.product.productId)}
+                        />
+                        <p>Usuń</p>
+                      </div>
                       <label htmlFor={prod.product.productId}>
                         {prod.product.productName}
                       </label>
