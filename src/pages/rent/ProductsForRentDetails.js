@@ -10,7 +10,10 @@ const ProductsForRentDetails = (props) => {
   const [countersAvailable, setCountersAvailable] = useState(false);
   const [lastPaymentDate, setLastPaymentDate] = useState();
   const [errorMsg, setErrorMsg] = useState("Wypełnij wszystkie pola");
-  const getProducts = () => {
+  const [showAllProducts, setShowAllProducts] = useState(false);
+  const [allProducts, setAllProducts] = useState();
+
+  const getMediaStandardProducts = () => {
     let urlByRole =
       props.roles[0] === "owner"
         ? owner.rent.products
@@ -31,6 +34,21 @@ const ProductsForRentDetails = (props) => {
           Object.assign(valuesObj, obj);
         });
         setValues(valuesObj);
+      }
+    );
+  };
+
+  const getAllProducts = () => {
+    let urlByRole =
+      props.roles[0] === "owner"
+        ? owner.rent.allProducts
+        : props.roles[0] === "admin"
+        ? admin.rent.allProducts
+        : "";
+
+    GET(`${urlByRole}${props.rentId}${general.rent.productsAllSuffix}`).then(
+      (res) => {
+        setAllProducts(res);
       }
     );
   };
@@ -70,7 +88,8 @@ const ProductsForRentDetails = (props) => {
       setCountersAvailable(true);
     }
 
-    getProducts();
+    getMediaStandardProducts();
+    getAllProducts();
   }, []);
 
   const formValidation = () => {
@@ -168,66 +187,94 @@ const ProductsForRentDetails = (props) => {
     }
   };
 
-  return (
-    <div className="form-container">
-      <form onSubmit={handleSubmit}>
-        {products !== undefined && values !== undefined
-          ? products.map((prod) => (
-              <>
-                <div className="form-container__row">
-                  <div className="row__col-25">
-                    <label htmlFor={prod.product.productId}>
-                      {prod.product.productName}
-                    </label>
-                  </div>
-                  <div className="row__col-75">
-                    <input
-                      disabled={!countersAvailable}
-                      placeholder={
-                        !countersAvailable
-                          ? `ostatnia płatność: ${lastPaymentDate}`
-                          : "Wprowadź stan licznika"
-                      }
-                      className="form-container__input"
-                      type="number"
-                      name={prod.product.productId}
-                      id={prod.product.productId}
-                      value={values[prod.product.productId.counter]}
-                      onChange={handleChange}
-                    />
-                    różnica:
-                    <input
-                      disabled={!countersAvailable}
-                      type="checkbox"
-                      name={prod.product.productId}
-                      id={prod.product.productId}
-                      value={values[prod.product.quantity]}
-                      onChange={handleChange}
-                    />
-                  </div>
-                </div>
-              </>
-            ))
-          : ""}
-        <div className="form-container__row">
-          <div>
-            {error && (
-              <span className="form-container__error-msg">{errorMsg}</span>
-            )}
-          </div>
-        </div>
+  const renderAllProducts = () => {
+    return (
+      <div className="details-container">
+        <ul>
+          {allProducts.map((prod) => (
+            <li key={prod.product.productId}>{prod.product.productName}</li>
+          ))}
+        </ul>
+      </div>
+    );
+  };
 
-        <div className="form-container__buttons">
+  return (
+    <>
+      <div className="form-container">
+        <form onSubmit={handleSubmit}>
+          {products !== undefined && values !== undefined
+            ? products.map((prod) => (
+                <>
+                  <div className="form-container__row">
+                    <div className="row__col-25">
+                      <label htmlFor={prod.product.productId}>
+                        {prod.product.productName}
+                      </label>
+                    </div>
+                    <div className="row__col-75">
+                      <input
+                        disabled={!countersAvailable}
+                        placeholder={
+                          !countersAvailable
+                            ? `ostatnia płatność: ${lastPaymentDate}`
+                            : "Wprowadź stan licznika"
+                        }
+                        className="form-container__input"
+                        type="number"
+                        name={prod.product.productId}
+                        id={prod.product.productId}
+                        value={values[prod.product.productId.counter]}
+                        onChange={handleChange}
+                      />
+                      różnica:
+                      <input
+                        disabled={!countersAvailable}
+                        type="checkbox"
+                        name={prod.product.productId}
+                        id={prod.product.productId}
+                        value={values[prod.product.quantity]}
+                        onChange={handleChange}
+                      />
+                    </div>
+                  </div>
+                </>
+              ))
+            : ""}
+          <div className="form-container__row">
+            <div>
+              {error && (
+                <span className="form-container__error-msg">{errorMsg}</span>
+              )}
+            </div>
+          </div>
+
+          <div className="form-container__buttons">
+            <button type="submit" style={{ marginLeft: "55%" }}>
+              Zapisz
+            </button>
+          </div>
+          <h3
+            className="details-container__history"
+            onClick={() => setShowAllProducts(!showAllProducts)}
+            style={{ marginLeft: "15%" }}
+          >
+            Pokaż pozostałe produkty
+          </h3>
+          {showAllProducts ? renderAllProducts() : ""}
+        </form>
+
+        <div className="details-container__buttons">
           <button
-            className="content-container__button"
+            className="details-container__button--return"
             onClick={() => props.handleReturn()}
+            style={{ marginTop: "10%" }}
           >
             Powrót
           </button>
-          <button type="submit">Zapisz</button>
         </div>
-      </form>
-    </div>
+      </div>
+    </>
   );
 };
 

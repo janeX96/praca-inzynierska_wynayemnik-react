@@ -192,15 +192,17 @@ const RentDetails = (props) => {
             <li>
               Nr rejestracyjny: <b>{rent.carNumber}</b>
             </li>
-            <li>
-              Dostępne dla klienta:{" "}
-              <b
-                className="details-container__history"
-                onClick={handleChangeAccess}
-              >
-                {rent.clientAccess ? "tak" : "nie"}
-              </b>
-            </li>
+            {(props.roles[0] === "owner" || props.roles[0] === "admin") && (
+              <li>
+                Dostępne dla klienta:{" "}
+                <b
+                  className="details-container__history"
+                  onClick={handleChangeAccess}
+                >
+                  {rent.clientAccess ? "tak" : "nie"}
+                </b>
+              </li>
+            )}
             <li>
               Liczniki dostepne dla klienta:{" "}
               <b>{rent.counterMediaRent ? "tak" : "nie"}</b>
@@ -228,30 +230,34 @@ const RentDetails = (props) => {
               ""
             )}
 
-            <li>
-              <h3
-                className="details-container__history"
-                onClick={() => setShowProducts(true)}
-              >
-                Produkty
-              </h3>
-            </li>
-            <li>
-              <h3
-                className="details-container__history"
-                onClick={() => setShowPayments(true)}
-              >
-                Płatności
-              </h3>
-            </li>
-            <li>
-              <h3
-                className="details-container__history"
-                onClick={() => setShowBails(true)}
-              >
-                Kaucje
-              </h3>
-            </li>
+            {(props.roles[0] === "owner" || props.roles[0] === "admin") && (
+              <>
+                <li>
+                  <h3
+                    className="details-container__history"
+                    onClick={() => setShowProducts(true)}
+                  >
+                    Produkty
+                  </h3>
+                </li>
+                <li>
+                  <h3
+                    className="details-container__history"
+                    onClick={() => setShowPayments(true)}
+                  >
+                    Płatności
+                  </h3>
+                </li>
+                <li>
+                  <h3
+                    className="details-container__history"
+                    onClick={() => setShowBails(true)}
+                  >
+                    Kaucje
+                  </h3>
+                </li>
+              </>
+            )}
           </ul>
         </>
       );
