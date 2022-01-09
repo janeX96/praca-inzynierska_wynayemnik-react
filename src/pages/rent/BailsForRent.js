@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
+import { BsPlusSquareFill } from "react-icons/bs";
 import { owner, admin, client, general } from "../../resources/urls";
 import { GET } from "../../utilities/Request";
 import LoadData from "../LoadData";
+import BailForm from "./BailForm";
 
 const BailsForRent = (props) => {
   const [bails, setBails] = useState();
+  const [showBailForm, setShowBailForm] = useState(false);
 
   const getBails = () => {
     let urlByRole =
@@ -29,6 +32,9 @@ const BailsForRent = (props) => {
     getBails();
   }, []);
 
+  const handleReturn = () => {
+    setShowBailForm(false);
+  };
   const columns = [
     {
       Header: "Id",
@@ -55,17 +61,32 @@ const BailsForRent = (props) => {
 
   return (
     <>
-      {" "}
-      <h1 className="content-container__title">Kaucje</h1>
-      <LoadData data={bails} columns={columns} initialState={initialState} />
-      <div className="content-btns">
-        <button
-          className="content-container__button"
-          onClick={props.handleReturn}
-        >
-          Powrót
-        </button>
-      </div>
+      {showBailForm ? (
+        <BailForm rentId={props.rentId} handleReturn={handleReturn} />
+      ) : (
+        <>
+          <h1 className="content-container__title">Kaucje</h1>
+          <div className="icon-container">
+            <BsPlusSquareFill
+              className="icon-container__new-icon"
+              onClick={() => setShowBailForm(true)}
+            />
+          </div>
+          <LoadData
+            data={bails}
+            columns={columns}
+            initialState={initialState}
+          />
+          <div className="content-btns">
+            <button
+              className="content-container__button"
+              onClick={props.handleReturn}
+            >
+              Powrót
+            </button>
+          </div>
+        </>
+      )}
     </>
   );
 };
