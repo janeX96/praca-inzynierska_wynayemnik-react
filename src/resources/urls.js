@@ -44,6 +44,7 @@ const paths = {
     cancelRent: "/cancel-rent/", //{id}
     allBailsSuffix: "/bails",
     sumMediaQuantitySuffix: "/mediaRent",
+    newBailSuffix: "/new-bail",
   },
 };
 
@@ -88,6 +89,7 @@ const owner = {
     allProducts: `${httpPrefix}${port}${ownerPrefix}${paths.rent.getAllMediaRentPrefix}`, //{id}
     allBailsPrefix: `${httpPrefix}${port}${ownerPrefix}${paths.rent.defaultPrefix}`, //{id}
     sumMediaQuantity: `${httpPrefix}${port}${ownerPrefix}${paths.rent.defaultPrefix}`, //{id}
+    newBail: `${httpPrefix}${port}${ownerPrefix}${paths.rent.defaultPrefix}`, //{id}
   },
 };
 
@@ -132,6 +134,7 @@ const admin = {
     allProducts: `${httpPrefix}${port}${adminPrefix}${paths.rent.getAllMediaRentPrefix}`, //{id}
     allBailsPrefix: `${httpPrefix}${port}${adminPrefix}${paths.rent.defaultPrefix}`, //{id}
     sumMediaQuantity: `${httpPrefix}${port}${adminPrefix}${paths.rent.defaultPrefix}`, //{id}
+    newBail: `${httpPrefix}${port}${adminPrefix}${paths.rent.defaultPrefix}`, //{id}
   },
 };
 
@@ -167,6 +170,7 @@ const general = {
     newPaymentSuffix: paths.rent.newPaymentSuffix,
     allBailsSuffix: paths.rent.allBailsSuffix,
     sumMediaQuantitySuffix: paths.rent.sumMediaQuantitySuffix,
+    newBailSuffix: paths.rent.newBailSuffix,
   },
 };
 

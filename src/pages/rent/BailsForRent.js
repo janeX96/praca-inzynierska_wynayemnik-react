@@ -34,6 +34,7 @@ const BailsForRent = (props) => {
 
   const handleReturn = () => {
     setShowBailForm(false);
+    getBails();
   };
   const columns = [
     {
@@ -62,7 +63,11 @@ const BailsForRent = (props) => {
   return (
     <>
       {showBailForm ? (
-        <BailForm rentId={props.rentId} handleReturn={handleReturn} />
+        <BailForm
+          rentId={props.rentId}
+          handleReturn={handleReturn}
+          roles={props.roles}
+        />
       ) : (
         <>
           <h1 className="content-container__title">Kaucje</h1>
