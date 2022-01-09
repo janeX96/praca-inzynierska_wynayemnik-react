@@ -174,20 +174,7 @@ const RentDetails = (props) => {
             <li>
               Kaucja: <b>{rent.bailValue} zł</b>
             </li>
-            {rent.bails.length > 0 ? (
-              <li>
-                Wpłacono:
-                <ul>
-                  {rent.bails.map((b) => (
-                    <li>
-                      <b>{b}</b>
-                    </li>
-                  ))}
-                </ul>
-              </li>
-            ) : (
-              ""
-            )}
+
             <li>
               Płatne do: <b>{rent.paymentDay}</b> dnia miesiąca
             </li>

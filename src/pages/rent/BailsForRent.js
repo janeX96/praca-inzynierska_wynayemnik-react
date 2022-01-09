@@ -22,7 +22,7 @@ const BailsForRent = (props) => {
   };
 
   useEffect(() => {
-    // getBails();
+    getBails();
   }, []);
 
   const columns = [
