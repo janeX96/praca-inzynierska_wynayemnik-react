@@ -16,6 +16,10 @@ const BailsForRent = (props) => {
 
     GET(`${urlByRole}${props.rentId}${general.rent.allBailsSuffix}`).then(
       (res) => {
+        res.map((b) => {
+          let isCome = b.come;
+          b.come = isCome ? "tak" : "nie";
+        });
         setBails(res);
       }
     );
@@ -28,49 +32,42 @@ const BailsForRent = (props) => {
   const columns = [
     {
       Header: "Id",
-      accessor: "rentId",
+      accessor: "bailId",
     },
     {
-      Header: "Adres",
-      accessor: "premises.location.locationName",
-    },
-    {
-      Header: "Numer",
-      accessor: "premises.premisesNumber",
-    },
-    {
-      Header: "Stan",
-      accessor: "state",
+      Header: "Wartość",
+      accessor: "cost",
     },
     {
       Header: "Rodzaj",
-      accessor: "premisesType.type",
+      accessor: "bailType",
     },
     {
-      Header: "Początek",
-      accessor: "startDate",
+      Header: "Opis",
+      accessor: "description",
     },
     {
-      Header: "Koniec",
-      accessor: "endDate",
-    },
-    {
-      Header: "Akcja",
-      accessor: "action",
-      //   Cell: ({ cell }) => (
-      //     <button
-      //       className="content-container__button"
-      //       value={cell.row.values.actions}
-      //       onClick={() => handleAction(cell.row.values.rentId)}
-      //     >
-      //       Szczegóły
-      //     </button>
-      //   ),
+      Header: "Przychodząca",
+      accessor: "come",
     },
   ];
-  const initialState = { pageSize: 5, hiddenColumns: "rentId" };
+  const initialState = { pageSize: 5, hiddenColumns: "bailId" };
 
-  return <>bails</>;
+  return (
+    <>
+      {" "}
+      <h1 className="content-container__title">Kaucje</h1>
+      <LoadData data={bails} columns={columns} initialState={initialState} />
+      <div className="content-btns">
+        <button
+          className="content-container__button"
+          onClick={props.handleReturn}
+        >
+          Powrót
+        </button>
+      </div>
+    </>
+  );
 };
 
 export default BailsForRent;
