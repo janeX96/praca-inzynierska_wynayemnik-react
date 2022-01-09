@@ -25,6 +25,7 @@ const paths = {
     productDetailsPath: "/product/", //{id}
   },
   rent: {
+    defaultPrefix: "/rent/", //{id}
     newRentPath: "/new-rent",
     rentsPath: "/rents",
     rentDetails: "/rent/", //{id}
@@ -41,6 +42,7 @@ const paths = {
     changeUserAccess: "/change-user-access/", //{id}
     deleteRent: "/delete-rent/", //{id}
     cancelRent: "/cancel-rent/", //{id}
+    allBailsSuffix: "/bails",
   },
 };
 
@@ -83,6 +85,7 @@ const owner = {
     deleteRent: `${httpPrefix}${port}${ownerPrefix}${paths.rent.deleteRent}`, //{id}
     cancelRent: `${httpPrefix}${port}${ownerPrefix}${paths.rent.cancelRent}`, //{id}
     allProducts: `${httpPrefix}${port}${ownerPrefix}${paths.rent.getAllMediaRentPrefix}`, //{id}
+    allBailsPrefix: `${httpPrefix}${port}${ownerPrefix}${paths.rent.defaultPrefix}`, //{id}
   },
 };
 
@@ -125,6 +128,7 @@ const admin = {
     deleteRent: `${httpPrefix}${port}${adminPrefix}${paths.rent.deleteRent}`, //{id}
     cancelRent: `${httpPrefix}${port}${adminPrefix}${paths.rent.cancelRent}`, //{id}
     allProducts: `${httpPrefix}${port}${adminPrefix}${paths.rent.getAllMediaRentPrefix}`, //{id}
+    allBailsPrefix: `${httpPrefix}${port}${adminPrefix}${paths.rent.defaultPrefix}`, //{id}
   },
 };
 
@@ -158,6 +162,7 @@ const general = {
     addAllMediaCountersSuffix: paths.rent.addAllMediaCountersSuffix,
     getAllMediaRentSuffix: paths.rent.getAllMediaRentSuffix,
     newPaymentSuffix: paths.rent.newPaymentSuffix,
+    allBailsSuffix: paths.rent.allBailsSuffix,
   },
 };
 

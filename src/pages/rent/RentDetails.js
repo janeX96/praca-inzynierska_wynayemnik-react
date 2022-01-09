@@ -4,6 +4,7 @@ import { ImCancelCircle } from "react-icons/im";
 import { toast } from "react-toastify";
 import { owner, admin, client, general } from "../../resources/urls";
 import { GET, PATCH } from "../../utilities/Request";
+import BailsForRent from "./BailsForRent";
 import PaymentsForRent from "./PaymentsForRent";
 import ProductsForRentDetails from "./ProductsForRentDetails";
 
@@ -13,6 +14,7 @@ const RentDetails = (props) => {
   const [showProducts, setShowProducts] = useState(false);
   const [showPayments, setShowPayments] = useState(false);
   const [showBails, setShowBails] = useState(false);
+
   const getData = () => {
     let urlByRole =
       props.roles[0] === "owner"
@@ -282,6 +284,12 @@ const RentDetails = (props) => {
           handleReturn={handleReturn}
           payments={payments}
           reloadPayments={getPayments}
+        />
+      ) : showBails ? (
+        <BailsForRent
+          roles={props.roles}
+          rentId={rent.rentId}
+          handleReturn={handleReturn}
         />
       ) : (
         <>
