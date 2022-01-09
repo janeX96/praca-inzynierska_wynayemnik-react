@@ -33,6 +33,7 @@ const Rents = (props) => {
 
   const handleReturn = () => {
     setChosenId(-1);
+    getData();
   };
 
   const columns = [

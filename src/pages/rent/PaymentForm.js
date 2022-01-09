@@ -42,6 +42,29 @@ const PaymentForm = (props) => {
     });
   };
 
+  const addMediaQuantRequest = () => {
+    let urlByRole =
+      props.roles[0] === "owner"
+        ? owner.rent.sumMediaQuantity
+        : props.roles[0] === "admin"
+        ? admin.rent.sumMediaQuantity
+        : "";
+    POST(
+      `${urlByRole}${props.rentId}${general.rent.sumMediaQuantitySuffix}`
+    ).then((res) => {
+      if (res.ok) {
+        toast.success("Dodano media ilościowe");
+      } else {
+        res.json().then((res) => {
+          const errMsg = res.error;
+          toast.error(
+            `Wystapił problem z dodaniem mediów ilościowych: 
+            ${errMsg}`
+          );
+        });
+      }
+    });
+  };
   useEffect(() => {
     const todayVal = getDateToday();
     setToday(todayVal);
@@ -50,6 +73,7 @@ const PaymentForm = (props) => {
       startDate: todayVal,
     });
     getMedia();
+    addMediaQuantRequest();
   }, []);
 
   useEffect(() => {
@@ -250,7 +274,7 @@ const PaymentForm = (props) => {
                     id="1"
                     name="1"
                     className="form-container--table__input"
-                    value={m.quantityUnit}
+                    value={m.product.quantityUnit}
                   />
                   <input
                     disabled="true"
