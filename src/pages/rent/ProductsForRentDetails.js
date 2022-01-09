@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { BsTrashFill } from "react-icons/bs";
+import { BsPlusSquareFill, BsTrashFill } from "react-icons/bs";
 import { toast } from "react-toastify";
 import { owner, admin, general } from "../../resources/urls";
 import { GET, POST } from "../../utilities/Request";
@@ -13,6 +13,7 @@ const ProductsForRentDetails = (props) => {
   const [errorMsg, setErrorMsg] = useState("Wypełnij wszystkie pola");
   const [showAllProducts, setShowAllProducts] = useState(false);
   const [allProducts, setAllProducts] = useState();
+  const [addProduct, setAddProduct] = useState(false);
 
   const getMediaStandardProducts = () => {
     let urlByRole =
@@ -194,6 +195,12 @@ const ProductsForRentDetails = (props) => {
   const renderAllProducts = () => {
     return (
       <div className="details-container">
+        <div className="icon-container" style={{ fontSize: "24px" }}>
+          <BsPlusSquareFill
+            className="icon-container__new-icon"
+            onClick={() => setAddProduct(true)}
+          />
+        </div>
         <ul>
           {allProducts.map((prod) => (
             <li key={prod.product.productId}>
