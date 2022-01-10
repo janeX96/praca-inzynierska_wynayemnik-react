@@ -258,53 +258,46 @@ const Premises = (props) => {
   return (
     <>
       <div className="content-container">
-        {chosenId >= 0 ? (
-          <PremisesDetails
-            key={chosenId}
-            action={handleAction}
-            deleteShowMessage={(res) => deleteShowMessage(res)}
-            reloadData={() => getData()}
-            premisesId={chosenId}
-            roles={props.roles}
-          />
-        ) : (
-          <>
-            <h1 className="content-container__title">Moje lokale</h1>
+        <h1 className="content-container__title">Moje lokale</h1>
+        <div className="table-container">
+          {chosenId >= 0 ? (
+            <PremisesDetails
+              key={chosenId}
+              action={handleAction}
+              deleteShowMessage={(res) => deleteShowMessage(res)}
+              reloadData={() => getData()}
+              premisesId={chosenId}
+              roles={props.roles}
+            />
+          ) : (
+            <>
+              {props.roles[0] === "owner" && (
+                <div>
+                  <Link to="/owner-premises-new">
+                    <div className="icon-container">
+                      <BsPlusSquareFill className="icon-container__new-icon" />
+                    </div>
+                  </Link>
+                </div>
+              )}
 
-            {props.roles[0] === "owner" && (
-              <div>
-                <Link to="/owner-premises-new">
-                  <div className="icon-container">
-                    <BsPlusSquareFill className="icon-container__new-icon" />
-                  </div>
-                </Link>
-              </div>
-            )}
+              {state.data.length > 0
+                ? // <LoadData
+                  //   data={state.data}
+                  //   columns={columns}
+                  //   initialState={initialState}
+                  // />
+                  // <ReactTabulator
+                  //   columns={columns}
+                  //   data={state.data}
+                  //   options={{ movableColumns: true, movableRows: true }}
+                  // />
 
-            {state.data.length > 0 ? (
-              // <LoadData
-              //   data={state.data}
-              //   columns={columns}
-              //   initialState={initialState}
-              // />
-              // <ReactTabulator
-              //   columns={columns}
-              //   data={state.data}
-              //   options={{ movableColumns: true, movableRows: true }}
-              // />
-              <div className="table-container">
-                {/* <Tabulator
-                  columns={columns}
-                  data={state.data}
-                  options={{ movableColumns: true, movableRows: true }}
-                /> */}
-                {renderTable()}
-              </div>
-            ) : (
-              "brak"
-            )}
-          </>
-        )}
+                  renderTable()
+                : "brak"}
+            </>
+          )}
+        </div>
       </div>
       {/* <ReactTabulator
         columns={columns}
