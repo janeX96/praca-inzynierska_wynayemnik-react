@@ -11,6 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Rents from "../../rent/Rents";
 import RentDetails from "../../rent/RentDetails";
 import Rent from "../../rent/newRent/Rent";
+import { act } from "react-dom/cjs/react-dom-test-utils.production.min";
 
 const PremisesDetails = ({
   premisesId,
@@ -114,6 +115,11 @@ const PremisesDetails = ({
     }
   };
 
+  const handleReturn = () => {
+    setNewRentForm(false);
+    getRents();
+  };
+
   const render = () => {
     if (edit) {
       return (
@@ -153,7 +159,7 @@ const PremisesDetails = ({
               premisesId={premisesId}
               premises={premises}
               roles={roles}
-              handleReturn={() => setNewRentForm(false)}
+              handleReturn={handleReturn}
             />
           ) : (
             <>
@@ -188,12 +194,12 @@ const PremisesDetails = ({
                     Status:
                     <b
                       className={
-                        data.state === "AVAILABLE"
+                        activeRent === undefined
                           ? "details-container__field-avb"
                           : "details-container__field-hired"
                       }
                     >
-                      {data.state === "AVAILABLE" ? "dostępny" : "zajęty"}
+                      {activeRent === undefined ? "dostępny" : "zajęty"}
                     </b>
                   </li>
                   <li
