@@ -7,6 +7,7 @@ import MediaStandardProductForm from "./MediaStandardProductForm";
 import MediaQuantityProductForm from "./MediaQuantityProductForm";
 import DisposableProductForm from "./DisposableProductForm";
 import StateProductForm from "./StateProductForm";
+
 const UpdateProductForm = (props) => {
   const [product, setProduct] = useState({
     netto: false,
@@ -41,7 +42,13 @@ const UpdateProductForm = (props) => {
       // `${urlByRole}${general.productsForLocation.premisesTypesForProductPrefix}${id}`
       `${url}${id}`
     ).then((res) => {
-      setpremisesTypesForProduct(res);
+      let typesArr = [];
+      res.map((type) => {
+        typesArr.push(type.type);
+      });
+
+      console.log("TAblica: ", typesArr);
+      setpremisesTypesForProduct(typesArr);
     });
   };
 
