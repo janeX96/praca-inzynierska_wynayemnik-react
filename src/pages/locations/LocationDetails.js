@@ -164,6 +164,11 @@ const LocationDetails = (props) => {
           toast.success("Produkt został zaktualizowany");
           setSending(false);
           setUpdateProductId(-1);
+        } else {
+          setSending(false);
+          response.json().then((res) => {
+            toast.error(`Nie udało się aktualizować produktu: ${res.error}`);
+          });
         }
         // return response.json();
       })
