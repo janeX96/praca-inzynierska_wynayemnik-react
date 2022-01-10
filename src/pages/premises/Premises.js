@@ -258,19 +258,19 @@ const Premises = (props) => {
   return (
     <>
       <div className="content-container">
-        <h1 className="content-container__title">Moje lokale</h1>
-        <div className="table-container">
-          {chosenId >= 0 ? (
-            <PremisesDetails
-              key={chosenId}
-              action={handleAction}
-              deleteShowMessage={(res) => deleteShowMessage(res)}
-              reloadData={() => getData()}
-              premisesId={chosenId}
-              roles={props.roles}
-            />
-          ) : (
-            <>
+        {chosenId >= 0 ? (
+          <PremisesDetails
+            key={chosenId}
+            action={handleAction}
+            deleteShowMessage={(res) => deleteShowMessage(res)}
+            reloadData={() => getData()}
+            premisesId={chosenId}
+            roles={props.roles}
+          />
+        ) : (
+          <>
+            <h1 className="content-container__title">Moje lokale</h1>
+            <div className="table-container">
               {props.roles[0] === "owner" && (
                 <div>
                   <Link to="/owner-premises-new">
@@ -295,9 +295,9 @@ const Premises = (props) => {
 
                   renderTable()
                 : "brak"}
-            </>
-          )}
-        </div>
+            </div>
+          </>
+        )}
       </div>
       {/* <ReactTabulator
         columns={columns}
