@@ -9,7 +9,7 @@ const MediaQuantityProductForm = (props) => {
           obj: {
             forAttribute: props.data.forAttribute,
             netto: props.data.netto,
-            premisesTypes: props.data.premisesTypes,
+            premisesTypes: props.premisesTypesForProduct,
             price: props.data.price,
             productName: props.data.productName,
             quantityUnit: props.data.quantityUnit,

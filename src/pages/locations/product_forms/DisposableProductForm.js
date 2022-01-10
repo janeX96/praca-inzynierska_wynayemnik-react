@@ -8,7 +8,7 @@ const DisposableProductForm = (props) => {
           type: "disposable",
           obj: {
             netto: props.data.netto,
-            premisesTypes: props.data.premisesTypes,
+            premisesTypes: props.premisesTypesForProduct,
             price: props.data.price,
             productName: props.data.productName,
             quantity: props.data.quantity,

@@ -10,7 +10,7 @@ const CalculatedProductForm = (props) => {
           type: "calculated",
           obj: {
             netto: props.data.netto,
-            premisesTypes: props.data.premisesTypes,
+            premisesTypes: props.premisesTypesForProduct,
             price: props.data.price,
             productName: props.data.productName,
             patternName: props.data.patternName,

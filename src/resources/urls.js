@@ -23,6 +23,7 @@ const paths = {
     getAllMediaStandardPath: "/productsMediaStandard",
     updateProductPath: "/product/", //{id}
     productDetailsPath: "/product/", //{id}
+    premisesTypesForProduct: "/premisesType/product/", //{id}
   },
   rent: {
     defaultPrefix: "/rent/", //{id}
@@ -52,6 +53,7 @@ const paths = {
 
 const ownerPrefix = "/owner";
 const owner = {
+  defaultPrefix: `${httpPrefix}${port}${ownerPrefix}`,
   premises: `${httpPrefix}${port}${ownerPrefix}${paths.premisesPath}`,
   premisesDetails: `${httpPrefix}${port}${ownerPrefix}${paths.premisesDetails}`, // +id
   locations: `${httpPrefix}${port}${ownerPrefix}${paths.locationsPath}`,
@@ -100,6 +102,7 @@ const owner = {
 
 const adminPrefix = "/administrator";
 const admin = {
+  defaultPrefix: `${httpPrefix}${port}${adminPrefix}`,
   premises: `${httpPrefix}${port}${adminPrefix}${paths.premisesPath}`,
   premisesDetails: `${httpPrefix}${port}${adminPrefix}${paths.premisesDetails}`, // +id
   locations: `${httpPrefix}${port}${adminPrefix}${paths.locationsPath}`,
@@ -170,6 +173,8 @@ const general = {
   patterns: `${httpPrefix}${port}${paths.productsForLocation.getAllPatternsPath}`,
   productsForLocation: {
     allProductsSuffix: "/productGroupType",
+    premisesTypesForProductPrefix: `${httpPrefix}${port}${paths.productsForLocation.premisesTypesForProduct}`,
+    // paths.productsForLocation.premisesTypesForProduct,
   },
 
   rent: {

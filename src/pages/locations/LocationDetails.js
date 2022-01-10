@@ -5,7 +5,7 @@ import MediaQuantityProductForm from "./product_forms/MediaQuantityProductForm";
 import MediaStandardProductForm from "./product_forms/MediaStandardProductForm";
 import StateProductForm from "./product_forms/StateProductForm";
 import { GET, POST, PUT } from "../../utilities/Request";
-import { owner, general } from "../../resources/urls";
+import { owner, general, admin } from "../../resources/urls";
 import { toast } from "react-toastify";
 import UpdateProductForm from "./product_forms/UpdateProductForm";
 import { AiFillEdit } from "react-icons/ai";
@@ -34,6 +34,8 @@ const LocationDetails = (props) => {
   const [sending, setSending] = useState(false);
 
   const [updateProductId, setUpdateProductId] = useState(-1);
+  // const [premisesTypesForProduct, setpremisesTypesForProduct] = useState();
+
   const getLocationData = async () => {
     GET(`${owner.locationDetails}${props.id}`)
       .then((data) => {
@@ -228,6 +230,7 @@ const LocationDetails = (props) => {
             locationId={props.id}
             mediaStandardProducts={mediaStandardProducts}
             updateProductId={updateProductId}
+            // premisesTypesForProduct={premisesTypesForProduct}
           />
         );
         break;
@@ -243,10 +246,27 @@ const LocationDetails = (props) => {
     setProductType(value);
   };
 
+  // const getPremisesTypesForProduct = (id) => {
+  //   let urlByRole = owner.defaultPrefix;
+  //   let url = general.productsForLocation.premisesTypesForProductPrefix;
+  //   // props.roles[0] === "owner"
+  //   //   ? owner.defaultPrefix
+  //   //   : props.roles[0] === "admin"
+  //   //   ? admin.defaultPrefix
+  //   //   : "";
+
+  //   GET(
+  //     // `${urlByRole}${general.productsForLocation.premisesTypesForProductPrefix}${id}`
+  //     `${url}${id}`
+  //   ).then((res) => {
+  //     setpremisesTypesForProduct(res);
+  //   });
+  // };
+
   const handleEdit = (id) => {
-    console.log("wybrano do edycji: ", id);
     setUpdateProductId(id);
     setProductType("updateProduct");
+    // getPremisesTypesForProduct(id);
   };
 
   const formValidation = () => {
