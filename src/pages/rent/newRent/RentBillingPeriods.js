@@ -11,7 +11,7 @@ const RentBillingPeriods = (props) => {
     endDateError: false,
     valueError: false,
   });
-
+  const [lastDate, setLastDate] = useState(props.startDate);
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -50,7 +50,7 @@ const RentBillingPeriods = (props) => {
 
     if (validation.correct) {
       props.addBillingPeriod(billingPeriod);
-
+      setLastDate(billingPeriod.endDate);
       setBillingPeriod({
         startDate: "",
         endDate: "",
@@ -81,9 +81,11 @@ const RentBillingPeriods = (props) => {
           <div className="row__col-75">
             <input
               className="form-container__input"
-              type="date"
+              type="datetime-local"
               id="startDate"
               name="startDate"
+              min={lastDate}
+              max={props.endDate}
               onChange={handleChange}
               value={billingPeriod.startDate}
             />
@@ -100,9 +102,11 @@ const RentBillingPeriods = (props) => {
           <div className="row__col-75">
             <input
               className="form-container__input"
-              type="date"
+              type="datetime-local"
               id="endDate"
               name="endDate"
+              min={lastDate}
+              max={props.endDate}
               onChange={handleChange}
               value={billingPeriod.endDate}
             />

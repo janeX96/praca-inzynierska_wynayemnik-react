@@ -82,7 +82,9 @@ const PaymentsForRent = (props) => {
               />
             </div>
           </div>
-          {props.payments.length > 0 ? (
+          {props.payments !== null &&
+          props.payments !== undefined &&
+          props.payments.length > 0 ? (
             <LoadData
               data={payments}
               columns={columns}

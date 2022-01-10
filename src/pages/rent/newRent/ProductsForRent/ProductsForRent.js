@@ -139,6 +139,7 @@ const ProductsForRent = (props) => {
   };
 
   const handleConfirm = (e) => {
+    e.preventDefault();
     const action = e.currentTarget.dataset.name;
 
     let products = selectedProducts.map((product) => {
@@ -204,6 +205,7 @@ const ProductsForRent = (props) => {
                 product.subtypeMedia === "STANDARD" ? (
                   <input
                     type="number"
+                    min={0}
                     id={product.productId}
                     name={product.productId}
                     onChange={handleCounterChange}

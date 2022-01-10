@@ -91,7 +91,7 @@ const ProductsForRentDetails = (props) => {
     var today = new Date();
 
     let lessThanMonthAgo = "";
-    if (props.payments !== undefined) {
+    if (props.payments !== undefined && props.payments !== null) {
       lessThanMonthAgo = props.payments.find((payment) => {
         const paymentDate = new Date(payment.paymentDate);
         var Difference_In_Time = paymentDate.getTime() - today.getTime();
