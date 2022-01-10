@@ -188,7 +188,7 @@ const MediaStandardProductForm = (props) => {
           </div>
           <div className="row__col-75">
             <input
-              className="form-container__input"
+              className="form-container__input--checkbox"
               id="netto"
               type="checkbox"
               name="netto"
