@@ -14,7 +14,7 @@ const CalculatedProductForm = (props) => {
             price: props.data.price,
             productName: props.data.productName,
             patternName: props.data.patternName,
-            quantity: props.data.quantity,
+            quantity: "" + props.data.quantity,
             quantityUnit: props.data.quantityUnit,
             vat: props.data.vat,
           },

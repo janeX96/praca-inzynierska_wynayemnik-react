@@ -92,7 +92,7 @@ const MediaStandardProductForm = (props) => {
     const type = e.target.type;
 
     if (type === "text" || type === "number") {
-      const value = e.target.value;
+      const value = "" + e.target.value;
       setProduct({ ...product, obj: { ...product.obj, [name]: value } });
     } else if (type === "checkbox") {
       if (name === "premisesType") {

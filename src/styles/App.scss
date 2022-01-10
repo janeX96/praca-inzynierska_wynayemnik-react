@@ -42,11 +42,19 @@ body {
     }
   }
 
-  div {
-    margin-top: 30px;
-    margin-left: auto;
-    margin-right: auto;
-    width: 70%;
+  // div {
+  //   margin-top: 30px;
+  //   margin-left: auto;
+  //   margin-right: auto;
+  //   width: 70%;
+  // }
+
+  .table-container {
+    margin: 0 150px 0 150px;
+    button {
+      @include button($main-color-light, $text-color-light, $main-color-dark);
+      font-size: 15px;
+    }
   }
 
   p {
