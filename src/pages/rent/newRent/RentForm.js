@@ -437,7 +437,11 @@ const RentForm = (props) => {
           {!rentDetails.statePaymentValue && (
             <>
               <h3>Okresy rozliczeniowe czynszu</h3>
-              <RentBillingPeriods addBillingPeriod={addBillingPeriod} />
+              <RentBillingPeriods
+                addBillingPeriod={addBillingPeriod}
+                startDate={rentDetails.startDate}
+                endDate={rentDetails.endDate}
+              />
               <ul>
                 {rentDetails.paymentValues.map((payment) => (
                   <li>

@@ -555,6 +555,7 @@ const UserFormForRent = (props) => {
             {ownSettings ? <>{addressForm()}</> : ""}
 
             <div className="form-container__buttons">
+              <button onClick={() => props.handleReturn()}>Anuluj</button>
               <button type="submit" disabled={user.toCreate}>
                 Dalej
               </button>

@@ -151,6 +151,7 @@ const Rent = (props) => {
       case 1:
         return (
           <UserFormForRent
+            handleReturn={props.handleReturn}
             defaultEmail={rent.email}
             defaultUser={rent.userAccount}
             defaultAddress={
@@ -202,6 +203,7 @@ const Rent = (props) => {
       case 4:
         return (
           <RentSummary
+            handleReturn={props.handleReturn}
             stepBack={stepBack}
             {...rent}
             userEmail={rent.email}

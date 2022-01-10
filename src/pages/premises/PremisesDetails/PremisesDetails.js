@@ -149,7 +149,12 @@ const PremisesDetails = ({
       return (
         <>
           {newRentForm ? (
-            <Rent premisesId={premisesId} premises={premises} roles={roles} />
+            <Rent
+              premisesId={premisesId}
+              premises={premises}
+              roles={roles}
+              handleReturn={() => setNewRentForm(false)}
+            />
           ) : (
             <>
               <h1 className="content-container__title">Szczegóły lokalu</h1>
