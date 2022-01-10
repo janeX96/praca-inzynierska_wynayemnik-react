@@ -81,7 +81,7 @@ const RentBillingPeriods = (props) => {
           <div className="row__col-75">
             <input
               className="form-container__input"
-              type="date"
+              type="datetime-local"
               id="startDate"
               name="startDate"
               onChange={handleChange}
@@ -100,7 +100,7 @@ const RentBillingPeriods = (props) => {
           <div className="row__col-75">
             <input
               className="form-container__input"
-              type="date"
+              type="datetime-local"
               id="endDate"
               name="endDate"
               onChange={handleChange}
