@@ -1,12 +1,13 @@
 import "../../../styles/App.scss";
 import { useState, useEffect } from "react";
-import { owner } from "../../../resources/urls";
+import { general, owner } from "../../../resources/urls";
 import { GET } from "../../../utilities/Request";
 import CalculatedProductForm from "./CalculatedProductForm";
 import MediaStandardProductForm from "./MediaStandardProductForm";
 import MediaQuantityProductForm from "./MediaQuantityProductForm";
 import DisposableProductForm from "./DisposableProductForm";
 import StateProductForm from "./StateProductForm";
+
 const UpdateProductForm = (props) => {
   const [product, setProduct] = useState({
     netto: false,
@@ -17,6 +18,8 @@ const UpdateProductForm = (props) => {
     quantityUnit: "",
     vat: "",
   });
+  const [premisesTypesForProduct, setpremisesTypesForProduct] = useState();
+
   const getData = () => {
     const url = `${owner.productsForLocation.prefix}${props.locationId}${owner.productsForLocation.productDetails}${props.updateProductId}`;
 
@@ -26,8 +29,32 @@ const UpdateProductForm = (props) => {
     });
   };
 
+  const getPremisesTypesForProduct = async (id) => {
+    let urlByRole = owner.defaultPrefix;
+    let url = general.productsForLocation.premisesTypesForProductPrefix;
+    // props.roles[0] === "owner"
+    //   ? owner.defaultPrefix
+    //   : props.roles[0] === "admin"
+    //   ? admin.defaultPrefix
+    //   : "";
+
+    return await GET(
+      // `${urlByRole}${general.productsForLocation.premisesTypesForProductPrefix}${id}`
+      `${url}${id}`
+    ).then((res) => {
+      let typesArr = [];
+      res.map((type) => {
+        typesArr.push(type.type);
+      });
+
+      console.log("TAblica: ", typesArr);
+      setpremisesTypesForProduct(typesArr);
+    });
+  };
+
   useEffect(() => {
     getData();
+    getPremisesTypesForProduct(props.updateProductId);
   }, [props.updateProductId]);
 
   const renderForm = () => {
@@ -40,6 +67,7 @@ const UpdateProductForm = (props) => {
             locationId={props.locationId}
             mediaStandardProducts={props.mediaStandardProducts}
             updateProduct={updateRequest}
+            premisesTypesForProduct={premisesTypesForProduct}
           />
         );
         break;
@@ -52,6 +80,7 @@ const UpdateProductForm = (props) => {
               locationId={props.locationId}
               mediaStandardProducts={props.mediaStandardProducts}
               updateProduct={updateRequest}
+              premisesTypesForProduct={premisesTypesForProduct}
             />
           );
         } else if (product.subtypeMedia === "QUANTITY") {
@@ -62,6 +91,7 @@ const UpdateProductForm = (props) => {
               locationId={props.locationId}
               mediaStandardProducts={props.mediaStandardProducts}
               updateProduct={updateRequest}
+              premisesTypesForProduct={premisesTypesForProduct}
             />
           );
         }
@@ -74,6 +104,7 @@ const UpdateProductForm = (props) => {
             locationId={props.locationId}
             mediaStandardProducts={props.mediaStandardProducts}
             updateProduct={updateRequest}
+            premisesTypesForProduct={premisesTypesForProduct}
           />
         );
         break;
@@ -85,6 +116,7 @@ const UpdateProductForm = (props) => {
             locationId={props.locationId}
             mediaStandardProducts={props.mediaStandardProducts}
             updateProduct={updateRequest}
+            premisesTypesForProduct={premisesTypesForProduct}
           />
         );
         break;

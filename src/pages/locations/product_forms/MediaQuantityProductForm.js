@@ -9,7 +9,7 @@ const MediaQuantityProductForm = (props) => {
           obj: {
             forAttribute: props.data.forAttribute,
             netto: props.data.netto,
-            premisesTypes: props.data.premisesTypes,
+            premisesTypes: props.premisesTypesForProduct,
             price: props.data.price,
             productName: props.data.productName,
             quantityUnit: props.data.quantityUnit,
@@ -58,23 +58,6 @@ const MediaQuantityProductForm = (props) => {
     attr1Error: "Wybierz pozycję z listy",
     attr2Error: "Wybierz pozycję z listy",
   };
-
-  useEffect(() => {
-    if (props.data !== undefined) {
-      setData({
-        type: "media-quantity",
-        obj: {
-          forAttribute: props.data.forAttribute,
-          netto: props.data.netto,
-          premisesTypes: props.data.premisesTypes,
-          price: props.data.price,
-          productName: props.data.productName,
-          quantityUnit: props.data.quantityUnit,
-          vat: props.data.vat,
-        },
-      });
-    }
-  }, []);
 
   useEffect(() => {
     const forAttribute =
@@ -260,7 +243,7 @@ const MediaQuantityProductForm = (props) => {
           <div className="row__col-75">
             <input
               className="form-container__input--checkbox"
-              value={data.obj.netto}
+              checked={data.obj.netto}
               id="netto"
               type="checkbox"
               name="netto"
@@ -368,19 +351,30 @@ const MediaQuantityProductForm = (props) => {
           <div className="row__col-75">
             {
               <ul>
-                {premisesTypes.map((option) => (
-                  <li>
-                    {option.label}
-                    <input
-                      className="form-container__input--checkbox"
-                      key={option.value}
-                      id={option.label}
-                      name="premisesType"
-                      type="checkbox"
-                      onChange={handleChange}
-                    />
-                  </li>
-                ))}
+                {premisesTypes.map((option) => {
+                  let exist = false;
+                  data.obj.premisesTypes.map((p) => {
+                    if (p === option.label) {
+                      exist = true;
+                    }
+                  });
+
+                  return (
+                    <li>
+                      {option.label}
+                      <input
+                        className="form-container__input--checkbox"
+                        key={option.value}
+                        id={option.label}
+                        name="premisesType"
+                        type="checkbox"
+                        checked={exist}
+                        onChange={handleChange}
+                      />
+                    </li>
+                  );
+                })}
+
                 {errors.premisesTypes && (
                   <span className="error-msg">
                     {messages.premisesTypesError}
