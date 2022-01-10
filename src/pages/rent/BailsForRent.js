@@ -75,7 +75,7 @@ const BailsForRent = (props) => {
   };
 
   const handleChangeIsCome = (id) => {
-    if (window.confirm("Czy chcesz oznaczyć jako właconą?")) {
+    if (window.confirm("Czy chcesz zmienić rodzaj kaucji?")) {
       let urlByRole =
         props.roles[0] === "owner"
           ? owner.bail.inverseIsCome
@@ -111,7 +111,7 @@ const BailsForRent = (props) => {
       accessor: "description",
     },
     {
-      Header: "Wpłacona",
+      Header: "Przychodząca",
       accessor: "come",
       Cell: ({ cell }) => (
         <>
