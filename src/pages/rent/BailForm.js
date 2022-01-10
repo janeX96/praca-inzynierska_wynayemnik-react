@@ -1,14 +1,18 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { admin, general, owner } from "../../resources/urls";
-import { POST } from "../../utilities/Request";
+import { POST, PUT } from "../../utilities/Request";
 
 const BailForm = (props) => {
-  const [bail, setBail] = useState({
-    bailType: "",
-    cost: 0,
-    description: "",
-  });
+  const [bail, setBail] = useState(
+    props.data !== undefined
+      ? {
+          bailType: props.data.bailType,
+          cost: props.data.cost,
+          description: props.data.description,
+        }
+      : { bailType: "", cost: 0, description: "" }
+  );
   const [errors, setErrors] = useState({
     bailTypeError: false,
     costError: false,
@@ -68,6 +72,33 @@ const BailForm = (props) => {
     );
   };
 
+  const updateBailRequest = () => {
+    let urlByRole =
+      props.roles[0] === "owner"
+        ? owner.rent.updateBail
+        : props.roles[0] === "admin"
+        ? admin.rent.updateBail
+        : "";
+
+    let json = JSON.stringify(bail);
+
+    PUT(
+      `${urlByRole}${props.rentId}${general.rent.updateBailPrefix}${props.data.bailId}`,
+      json
+    ).then((res) => {
+      if (res.ok) {
+        toast.success("Aktualizowano kaucję");
+        props.handleReturn();
+        setSending(false);
+      } else {
+        res.json().then((res) => {
+          toast.error(`Nie udało się aktualizować kaucji: ${res.error}`);
+          setSending(false);
+        });
+      }
+    });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -76,7 +107,7 @@ const BailForm = (props) => {
     if (!sending && validation.correct) {
       setSending(true);
 
-      addBailRequest();
+      props.data !== undefined ? updateBailRequest() : addBailRequest();
       setErrors({
         bailTypeError: false,
         costError: false,
@@ -104,6 +135,7 @@ const BailForm = (props) => {
                 id="bailType"
                 className="form-container__input"
                 onChange={handleChange}
+                value={bail.bailType}
               >
                 <option value="" selected="true"></option>
                 <option value="CARD_PAYMENT">płatność kartą/gotówką</option>
@@ -133,6 +165,7 @@ const BailForm = (props) => {
                 name="cost"
                 className="form-container__input"
                 onChange={handleChange}
+                value={bail.cost}
               />
               {errors.costError && (
                 <span className="form-container__error-msg">
@@ -153,9 +186,11 @@ const BailForm = (props) => {
                 className="form-container__input"
                 placeholder="opcjonalnie"
                 onChange={handleChange}
+                value={bail.description}
               />
             </div>
           </div>
+
           <div className="form-container__buttons">
             <button onClick={() => props.handleReturn()}>Powrót</button>
 
