@@ -190,6 +190,7 @@ const BailForm = (props) => {
               />
             </div>
           </div>
+
           <div className="form-container__buttons">
             <button onClick={() => props.handleReturn()}>Powrót</button>
 

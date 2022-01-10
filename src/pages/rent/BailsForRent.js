@@ -3,7 +3,7 @@ import { AiFillEdit } from "react-icons/ai";
 import { BsPlusSquareFill, BsTrashFill } from "react-icons/bs";
 import { toast } from "react-toastify";
 import { owner, admin, client, general } from "../../resources/urls";
-import { DELETE, GET } from "../../utilities/Request";
+import { DELETE, GET, PATCH } from "../../utilities/Request";
 import LoadData from "../LoadData";
 import BailForm from "./BailForm";
 
@@ -74,6 +74,25 @@ const BailsForRent = (props) => {
     setUpdateBailObj(values);
   };
 
+  const handleChangeIsCome = (id) => {
+    if (window.confirm("Czy chcesz oznaczyć jako właconą?")) {
+      let urlByRole =
+        props.roles[0] === "owner"
+          ? owner.bail.inverseIsCome
+          : props.roles[0] === "admin"
+          ? admin.bail.inverseIsCome
+          : "";
+      PATCH(`${urlByRole}${id}`).then((res) => {
+        if (res) {
+          toast.success("Zmieniono rodzaj kaucji");
+          getBails();
+        } else {
+          toast.error("Nie udało się zmienić rodzaju kaucji");
+        }
+      });
+    }
+  };
+
   const columns = [
     {
       Header: "Id",
@@ -92,8 +111,18 @@ const BailsForRent = (props) => {
       accessor: "description",
     },
     {
-      Header: "Przychodząca",
+      Header: "Wpłacona",
       accessor: "come",
+      Cell: ({ cell }) => (
+        <>
+          <b
+            className="details-container__history"
+            onClick={() => handleChangeIsCome(cell.row.values.bailId)}
+          >
+            {cell.row.values.come}
+          </b>
+        </>
+      ),
     },
     {
       Header: "Akcja",

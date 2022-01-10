@@ -51,6 +51,9 @@ const paths = {
     deleteBailPrefix: "/bail/",
     updateBailPrefix: "/bail/",
   },
+  bail: {
+    inverseIsComePrefix: "/inverse-isCome/", //{id}
+  },
 };
 
 const ownerPrefix = "/owner";
@@ -102,6 +105,9 @@ const owner = {
     deleteBail: `${httpPrefix}${port}${ownerPrefix}${paths.rent.defaultPrefix}`, //{id}
     updateBail: `${httpPrefix}${port}${ownerPrefix}${paths.rent.defaultPrefix}`, //{id}
   },
+  bail: {
+    inverseIsCome: `${httpPrefix}${port}${ownerPrefix}${paths.bail.inverseIsComePrefix}`,
+  },
 };
 
 const adminPrefix = "/administrator";
@@ -152,6 +158,9 @@ const admin = {
     addProduct: `${httpPrefix}${port}${adminPrefix}${paths.rent.defaultPrefix}`, //{id}
     deleteBail: `${httpPrefix}${port}${adminPrefix}${paths.rent.defaultPrefix}`, //{id}
     updateBail: `${httpPrefix}${port}${adminPrefix}${paths.rent.defaultPrefix}`, //{id}
+  },
+  bail: {
+    inverseIsCome: `${httpPrefix}${port}${adminPrefix}${paths.bail.inverseIsComePrefix}`,
   },
 };
 
