@@ -11,7 +11,7 @@ const DisposableProductForm = (props) => {
             premisesTypes: props.premisesTypesForProduct,
             price: props.data.price,
             productName: props.data.productName,
-            quantity: props.data.quantity,
+            quantity: "" + props.data.quantity,
             quantityUnit: props.data.quantityUnit,
             vat: props.data.vat,
           },
@@ -117,7 +117,7 @@ const DisposableProductForm = (props) => {
     const type = e.target.type;
 
     if (type === "text" || type === "number") {
-      const value = e.target.value;
+      const value = "" + e.target.value;
       setProduct({ ...product, obj: { ...product.obj, [name]: value } });
     } else if (type === "checkbox") {
       if (name === "premisesType") {

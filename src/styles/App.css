@@ -49,6 +49,37 @@ body {
   width: 70%;
 }
 
+.content-container .table-container {
+  margin: 0 150px 0 150px;
+}
+
+.content-container .table-container div {
+  margin-top: 0;
+  margin-left: 0;
+  margin-right: 0;
+  width: auto;
+}
+
+.content-container .table-container button {
+  background-color: #737279;
+  color: #f2f2f2;
+  margin-right: 10px;
+  font-size: large;
+  border-radius: 0.4vw;
+  padding: 5px 15px 5px 15px;
+  font-size: 15px;
+}
+
+.content-container .table-container button:hover:enabled {
+  background-color: #363636;
+  cursor: pointer;
+}
+
+.content-container .table-container button:hover:disabled {
+  background-color: #737279;
+  cursor: default;
+}
+
 .content-container p {
   margin-top: 8px;
   font-size: 32px;
@@ -67,9 +98,14 @@ body {
   padding: 5px 15px 5px 15px;
 }
 
-.content-container__button:hover {
+.content-container__button:hover:enabled {
   background-color: #363636;
   cursor: pointer;
+}
+
+.content-container__button:hover:disabled {
+  background-color: #737279;
+  cursor: default;
 }
 
 .content-container__content-btns {
@@ -119,9 +155,14 @@ body {
   display: inline;
 }
 
-.content-container .details-container__button:hover {
+.content-container .details-container__button:hover:enabled {
   background-color: #363636;
   cursor: pointer;
+}
+
+.content-container .details-container__button:hover:disabled {
+  background-color: #737279;
+  cursor: default;
 }
 
 .content-container .details-container__button--return {
@@ -135,9 +176,14 @@ body {
   display: inline;
 }
 
-.content-container .details-container__button--return:hover {
+.content-container .details-container__button--return:hover:enabled {
   background-color: #363636;
   cursor: pointer;
+}
+
+.content-container .details-container__button--return:hover:disabled {
+  background-color: #737279;
+  cursor: default;
 }
 
 .content-container .icon-container {
@@ -228,6 +274,7 @@ body {
   background-color: #f2f2f295;
   padding: 50px;
   box-sizing: border-box;
+  min-width: 400px;
   max-width: 900px;
 }
 
@@ -288,9 +335,14 @@ body {
   padding: 5px 15px 5px 15px;
 }
 
-.content-container .form-container__buttons button:hover {
+.content-container .form-container__buttons button:hover:enabled {
   background-color: #363636;
   cursor: pointer;
+}
+
+.content-container .form-container__buttons button:hover:disabled {
+  background-color: #737279;
+  cursor: default;
 }
 
 .content-container__attach-products {

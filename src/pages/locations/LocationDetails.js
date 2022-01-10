@@ -504,7 +504,7 @@ const LocationDetails = (props) => {
         Produkty
       </h1>
 
-      <div>
+      <div className="content-container__attach-products">
         <ul>
           {products.map((product) => (
             <li key={product.productName}>

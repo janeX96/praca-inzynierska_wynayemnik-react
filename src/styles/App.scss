@@ -49,6 +49,20 @@ body {
     width: 70%;
   }
 
+  .table-container {
+    div {
+      margin-top: 0;
+      margin-left: 0;
+      margin-right: 0;
+      width: auto;
+    }
+    margin: 0 150px 0 150px;
+    button {
+      @include button($main-color-light, $text-color-light, $main-color-dark);
+      font-size: 15px;
+    }
+  }
+
   p {
     margin-top: 8px;
     font-size: 32px;
@@ -210,6 +224,7 @@ body {
     background-color: $transparent-background-color;
     padding: 50px;
     box-sizing: border-box;
+    min-width: 400px;
     max-width: 900px;
     label {
       padding: 12px 12px 12px 0;
