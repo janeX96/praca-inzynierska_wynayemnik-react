@@ -48,6 +48,8 @@ const paths = {
     newBailSuffix: "/new-bail",
     sumOfBailsPrefix: "/rent/sum-bails/", //{ id },
     addProductPrefix: "/product/",
+    deleteBailPrefix: "/bail/",
+    updateBailPrefix: "/bail/",
   },
 };
 
@@ -97,6 +99,8 @@ const owner = {
     sumOfBails: `${httpPrefix}${port}${ownerPrefix}${paths.rent.sumOfBailsPrefix}`, //{id}
     deleteProductPrefix: `${httpPrefix}${port}${ownerPrefix}${paths.rent.defaultPrefix}`, //{id}
     addProduct: `${httpPrefix}${port}${ownerPrefix}${paths.rent.defaultPrefix}`, //{id}
+    deleteBail: `${httpPrefix}${port}${ownerPrefix}${paths.rent.defaultPrefix}`, //{id}
+    updateBail: `${httpPrefix}${port}${ownerPrefix}${paths.rent.defaultPrefix}`, //{id}
   },
 };
 
@@ -146,6 +150,8 @@ const admin = {
     sumOfBails: `${httpPrefix}${port}${adminPrefix}${paths.rent.sumOfBailsPrefix}`, //{id}
     deleteProductPrefix: `${httpPrefix}${port}${adminPrefix}${paths.rent.defaultPrefix}`, //{id}
     addProduct: `${httpPrefix}${port}${adminPrefix}${paths.rent.defaultPrefix}`, //{id}
+    deleteBail: `${httpPrefix}${port}${adminPrefix}${paths.rent.defaultPrefix}`, //{id}
+    updateBail: `${httpPrefix}${port}${adminPrefix}${paths.rent.defaultPrefix}`, //{id}
   },
 };
 
@@ -189,6 +195,8 @@ const general = {
     newBailSuffix: paths.rent.newBailSuffix,
     deleteProductPrefix: "/product/", //{id}
     addProductPrefix: paths.rent.addProductPrefix,
+    deleteBailPrefix: paths.rent.deleteBailPrefix,
+    updateBailPrefix: paths.rent.updateBailPrefix,
   },
 };
 
