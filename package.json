@@ -21,6 +21,7 @@
     "react-table": "^7.7.0",
     "react-tabulator": "^0.16.1",
     "react-toastify": "^8.1.0",
+    "react-toggle-button": "^2.2.0",
     "sass": "^1.45.0",
     "web-vitals": "^1.1.2"
   },

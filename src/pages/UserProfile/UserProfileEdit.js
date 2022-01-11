@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../../styles/App.css";
 import { PUT } from "../../utilities/Request";
 import { user } from "../../resources/urls";
+import { toast } from "react-toastify";
 
 const UserProfileEdit = (props) => {
   const [userEdit, setUserEdit] = useState(props.data);
@@ -28,8 +29,16 @@ const UserProfileEdit = (props) => {
     let json = JSON.stringify(userEdit);
     PUT(user.info, json)
       .then((res) => {
-        if (res.ok) console.log("Jest OK");
-        setLoading(false);
+        if (res.ok) {
+          setLoading(false);
+          toast.success("Dane zostały zmienione");
+          props.back();
+        } else {
+          res.json().then((res) => {
+            toast.success(`Nie udało się zapisać zmian: ${res.error}`);
+          });
+        }
+
         return res.json();
       })
       .catch((err) => {
@@ -46,7 +55,7 @@ const UserProfileEdit = (props) => {
       const validation = formValidation();
 
       if (validation.correct) {
-        sendRequest().then(props.back);
+        sendRequest();
       } else {
         setErrors({
           firstNameError: !validation.firstName,
@@ -261,7 +270,7 @@ const UserProfileEdit = (props) => {
           </div>
         </div>
         <div className="form-container__buttons">
-          <button onClick={props.back}>Cofnij</button>
+          <button onClick={props.back}>Powrót</button>
           <button type="submit">Zapisz</button>
         </div>
       </form>
