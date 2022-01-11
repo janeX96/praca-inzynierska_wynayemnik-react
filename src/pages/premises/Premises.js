@@ -69,14 +69,6 @@ const Premises = (props) => {
     return `<button>Szczegóły</button>`;
   };
 
-  // <button
-  //   className="content-container__button"
-  //   value={cell.row.values.actions}
-  //   onClick={() => handleAction(cell.row.values.premisesId)}
-  // >
-  //   Szczegóły
-  // </button>;
-
   const columns = [
     {
       title: "Id",
@@ -126,51 +118,6 @@ const Premises = (props) => {
       },
     },
   ];
-
-  // const columns = [
-  //   {
-  //     Header: "Id",
-  //     accessor: "premisesId",
-  //   },
-  //   {
-  //     Header: "Adres",
-  //     accessor: "location.locationName",
-  //   },
-  //   {
-  //     Header: "Numer",
-  //     accessor: "premisesNumber",
-  //   },
-  //   {
-  //     Header: "m2",
-  //     accessor: "area",
-  //   },
-  //   {
-  //     Header: "Poziom",
-  //     accessor: "premisesLevel",
-  //   },
-  //   {
-  //     Header: "Stan",
-  //     accessor: "state",
-  //   },
-  //   {
-  //     Header: "Rodzaj",
-  //     accessor: "premisesType.type",
-  //   },
-  //   {
-  //     Header: "Akcja",
-  //     accessor: "action",
-  //     Cell: ({ cell }) => (
-  //       <button
-  //         className="content-container__button"
-  //         value={cell.row.values.actions}
-  //         onClick={() => handleAction(cell.row.values.premisesId)}
-  //       >
-  //         Szczegóły
-  //       </button>
-  //     ),
-  //   },
-  // ];
-  // const initialState = { pageSize: 5, hiddenColumns: "premisesId" };
 
   const renderTable = () => {
     return (
