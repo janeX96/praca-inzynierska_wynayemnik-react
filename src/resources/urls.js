@@ -174,10 +174,16 @@ const client = {
   },
 };
 
+const userPrefix = "/user";
 const user = {
   info: `${httpPrefix}${port}/user`,
   register: `${httpPrefix}${port}/auth/register`,
   findByEmail: `${httpPrefix}${port}/user/`,
+  changeIsFakturownia: `${httpPrefix}${port}${userPrefix}/isFakturownia`,
+  updateFakturowniaSettings: `${httpPrefix}${port}${userPrefix}/fakturownia`,
+  updateIsNaturalPerson: `${httpPrefix}${port}${userPrefix}/isNaturalPerson`,
+  getCompany: `${httpPrefix}${port}${userPrefix}/company`,
+  createCompany: `${httpPrefix}${port}${userPrefix}/company`,
 };
 
 //for all roles

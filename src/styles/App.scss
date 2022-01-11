@@ -49,6 +49,25 @@ body {
     width: 70%;
   }
 
+  .togglebutton-container {
+    width: auto;
+    height: auto;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    display: flex;
+
+    &__label {
+      margin-right: 5px;
+    }
+
+    div {
+      margin-top: 0;
+      margin-left: 0;
+      margin-right: 0;
+      width: auto;
+    }
+  }
+
   .table-container {
     div {
       margin-top: 0;
@@ -209,7 +228,6 @@ body {
       .form-container--table__input {
         margin: 10px 0;
       }
-
       // .form-inline {
       //   flex-direction: column;
       //   align-items: stretch;

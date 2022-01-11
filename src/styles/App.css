@@ -49,6 +49,25 @@ body {
   width: 70%;
 }
 
+.content-container .togglebutton-container {
+  width: auto;
+  height: auto;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  display: flex;
+}
+
+.content-container .togglebutton-container__label {
+  margin-right: 5px;
+}
+
+.content-container .togglebutton-container div {
+  margin-top: 0;
+  margin-left: 0;
+  margin-right: 0;
+  width: auto;
+}
+
 .content-container .table-container {
   margin: 0 150px 0 150px;
 }
