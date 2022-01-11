@@ -181,6 +181,7 @@ const user = {
   findByEmail: `${httpPrefix}${port}/user/`,
   changeIsFakturownia: `${httpPrefix}${port}${userPrefix}/isFakturownia`,
   updateFakturowniaSettings: `${httpPrefix}${port}${userPrefix}/fakturownia`,
+  changeIsDepartmentFakturownia: `${httpPrefix}${port}${userPrefix}/isDepartmentFakturownia`,
   updateIsNaturalPerson: `${httpPrefix}${port}${userPrefix}/isNaturalPerson`,
   getCompany: `${httpPrefix}${port}${userPrefix}/company`,
   createCompany: `${httpPrefix}${port}${userPrefix}/company`,
