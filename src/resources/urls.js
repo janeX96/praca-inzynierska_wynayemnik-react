@@ -174,10 +174,13 @@ const client = {
   },
 };
 
+const userPrefix = "/user";
 const user = {
   info: `${httpPrefix}${port}/user`,
   register: `${httpPrefix}${port}/auth/register`,
   findByEmail: `${httpPrefix}${port}/user/`,
+  changeIsFakturownia: `${httpPrefix}${port}${userPrefix}/isFakturownia`,
+  updateFakturowniaSettings: `${httpPrefix}${port}${userPrefix}/fakturownia`,
 };
 
 //for all roles
