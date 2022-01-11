@@ -20,6 +20,13 @@ const Rents = (props) => {
         ? client.rent.all
         : "";
     GET(urlByRole).then((res) => {
+      res.map((rent) => {
+        //format dates
+        const startDate = rent.startDate;
+        const endDate = rent.endDate;
+        rent.startDate = startDate.split("T")[0];
+        rent.endDate = endDate.split("T")[0];
+      });
       setRents(res);
     });
   };
