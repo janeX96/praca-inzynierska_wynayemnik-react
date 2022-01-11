@@ -52,9 +52,8 @@ const UserProfile = () => {
   }, [edit]);
 
   const handleChangeIsFakturownia = () => {
-    console.log("Company: ", company);
     if (user.data.isNaturalPerson) {
-      toast.info("Nie mozesz dodać fakturowni jako osoba fizyczna");
+      toast.info("Nie możesz dodać fakturowni jako osoba fizyczna");
     } else if (user.data.apiToken === null || user.data.prefix === null) {
       setShowFakturowniaSettingsForm(true);
     } else {
@@ -114,17 +113,35 @@ const UserProfile = () => {
     getCompany();
   };
 
-  const changeIsNaturalPerson = () => {
+  const changeIsNaturalPerson = async () => {
     const oldStatus = user.data.isNaturalPerson;
     const newStatus = oldStatus ? "firmę" : "osobę fizyczną";
-    PATCH(userReq.updateIsNaturalPerson).then((res) => {
-      if (res) {
-        toast.success(`Zmieniono rodzaj użytkownika na ${newStatus}`);
-        getData();
-      } else {
-        toast.error("Nie udało się zmienić statusu użytkownika...");
-      }
-    });
+    console.log("preson:", user.data.isNaturalPerson);
+    console.log("isfak:");
+    if (!user.data.isNaturalPerson && user.data.isFakturownia) {
+      console.log("aadadsa");
+      PATCH(userReq.changeIsFakturownia).then((res) => {
+        PATCH(userReq.updateIsNaturalPerson).then((res) => {
+          if (res) {
+            toast.success(`Zmieniono rodzaj użytkownika na ${newStatus}`);
+
+            getData();
+          } else {
+            toast.error("Nie udało się zmienić statusu użytkownika...");
+          }
+        });
+      });
+    } else {
+      PATCH(userReq.updateIsNaturalPerson).then((res) => {
+        if (res) {
+          toast.success(`Zmieniono rodzaj użytkownika na ${newStatus}`);
+
+          getData();
+        } else {
+          toast.error("Nie udało się zmienić statusu użytkownika...");
+        }
+      });
+    }
   };
 
   const handleIsNaturalPersonChange = () => {
@@ -196,6 +213,16 @@ const UserProfile = () => {
     setShowApiSettings(false);
     setShowFakturowniaSettingsForm(true);
     setUpdateFakturowniaApi(true);
+  };
+
+  const handleChangeIsDepartmentFakturownia = () => {
+    if (!sending) {
+      setSending(true);
+      PATCH(userReq.changeIsDepartmentFakturownia).then((res) => {
+        getData();
+        setSending(false);
+      });
+    }
   };
 
   return (
@@ -288,6 +315,15 @@ const UserProfile = () => {
             <li>
               {user.data.isFakturownia && (
                 <>
+                  <div className="togglebutton-container">
+                    <h3 className="togglebutton-container__label">
+                      Fakturownia department:
+                    </h3>
+                    <ToggleButton
+                      value={user.data.isDepartmentFakturownia}
+                      onToggle={() => handleChangeIsDepartmentFakturownia()}
+                    />
+                  </div>
                   {showApiSettings ? (
                     <ul>
                       <b
@@ -321,14 +357,6 @@ const UserProfile = () => {
                       </b>
                     )
                   )}
-
-                  {/* <div className="togglebutton-container">
-                <h3 className="togglebutton-container__label">isDepartment</h3>
-                <ToggleButton
-                  value={user.data.isFakturownia}
-                  onToggle={() => handleChangeIsFakturownia()}
-                />
-              </div> */}
                 </>
               )}
             </li>
