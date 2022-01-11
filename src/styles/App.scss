@@ -80,6 +80,7 @@ body {
     button {
       @include button($main-color-light, $text-color-light, $main-color-dark);
       font-size: 15px;
+      margin-top: 20px;
     }
   }
 

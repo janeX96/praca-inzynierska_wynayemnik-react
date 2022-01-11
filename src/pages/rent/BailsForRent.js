@@ -168,18 +168,19 @@ const BailsForRent = (props) => {
       ) : (
         <>
           <h1 className="content-container__title">Kaucje</h1>
-          <div className="icon-container">
-            <BsPlusSquareFill
-              className="icon-container__new-icon"
-              onClick={() => setShowBailForm(true)}
+          <div className="table-container">
+            <div className="icon-container">
+              <BsPlusSquareFill
+                className="icon-container__new-icon"
+                onClick={() => setShowBailForm(true)}
+              />
+            </div>
+            <LoadData
+              data={bails}
+              columns={columns}
+              initialState={initialState}
             />
-          </div>
-          <LoadData
-            data={bails}
-            columns={columns}
-            initialState={initialState}
-          />
-          <div className="content-btns">
+
             <button
               className="content-container__button"
               onClick={props.handleReturn}

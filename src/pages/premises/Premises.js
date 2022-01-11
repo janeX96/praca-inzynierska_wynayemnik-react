@@ -227,29 +227,11 @@ const Premises = (props) => {
                 </div>
               )}
 
-              {state.data.length > 0
-                ? // <LoadData
-                  //   data={state.data}
-                  //   columns={columns}
-                  //   initialState={initialState}
-                  // />
-                  // <ReactTabulator
-                  //   columns={columns}
-                  //   data={state.data}
-                  //   options={{ movableColumns: true, movableRows: true }}
-                  // />
-
-                  renderTable()
-                : "brak"}
+              {state.data.length > 0 ? renderTable() : "brak"}
             </div>
           </>
         )}
       </div>
-      {/* <ReactTabulator
-        columns={columns}
-        data={state.data}
-        options={{ movableColumns: true, movableRows: true }}
-      /> */}
     </>
   );
 };
