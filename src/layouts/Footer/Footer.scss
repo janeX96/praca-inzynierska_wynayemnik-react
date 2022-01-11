@@ -1,10 +1,12 @@
+@import "../../styles/_colors";
+
 footer {
-  background-color: #656566;
+  background-color: $main-color-light;
   margin-left: 0px;
   margin-right: 0px;
   margin-bottom: 0px;
   width: 100%;
-  color: white;
+  color: $text-color-light;
   text-align: center;
   height: 150px;
   clear: both;

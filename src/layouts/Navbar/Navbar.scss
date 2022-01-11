@@ -43,29 +43,10 @@
 .option :hover {
   color: $main-color-dark;
   border-bottom: solid 5px $main-color-dark;
+  border-radius: 5px;
   padding-bottom: 10px;
 }
-// .signin-up {
-//   display: flex;
-//   padding: 0px 5px;
-//   list-style-type: none;
-// }
-// .sign-in {
-//   padding-right: 50px;
-//   align-self: center;
-// }
-// .sign-in :hover {
-//   color: white;
-// }
-// .signup-btn {
-//   padding: 10px 10px;
-//   height: 2.4rem;
-//   border-radius: 3px;
-//   background: rgb(222, 9, 241);
-//   color: white;
-//   cursor: pointer;
-//   align-items: center;
-// }
+
 .mobile-menu {
   display: none;
 }
@@ -129,19 +110,6 @@
   .option :hover {
     color: $main-color-dark;
   }
-  // .sign-up {
-  //   background: rgb(222, 9, 241);
-  //   border-radius: 3px;
-  //   color: white;
-  //   padding: 20px 0px;
-  //   width: 80%;
-  //   align-self: center;
-  //   border-radius: 3px;
-  // }
-
-  // .signin-up {
-  //   display: none;
-  // }
 }
 .mobile-menu {
   display: block;
@@ -204,7 +172,19 @@ a {
   }
 }
 
+.right-section {
+  display: flex;
+  .mobile-menu {
+    display: none;
+  }
+  @media (max-width: 648px) {
+    .mobile-menu {
+      display: block;
+    }
+  }
+}
 .user-section {
+  margin-right: 50px;
   display: flex;
   color: $text-color-light;
 

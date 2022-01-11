@@ -14,23 +14,24 @@ body {
 .content-container {
   background: url("../images/wynayemnik img1 transparent.jpg") center center/cover no-repeat;
   height: 100%;
+  min-height: 800px;
   padding-bottom: 150px;
   width: 100%;
   display: flex;
   flex-direction: column;
-  box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.01);
   object-fit: contain;
   /* Clear floats after the columns */
   /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
 }
 
 .content-container__title {
-  color: #737279;
+  color: #363636;
   font-size: 50px;
   padding-top: 20px;
   margin-left: 150px;
   margin-right: 150px;
-  border-color: #737279;
+  border-color: #363636;
   border-bottom-style: solid;
   /* mobile */
 }
@@ -80,7 +81,7 @@ body {
 }
 
 .content-container .table-container button {
-  background-color: #737279;
+  background-color: #83838a;
   color: #f2f2f2;
   margin-right: 10px;
   font-size: large;
@@ -95,7 +96,7 @@ body {
 }
 
 .content-container .table-container button:hover:disabled {
-  background-color: #737279;
+  background-color: #83838a;
   cursor: default;
 }
 
@@ -109,7 +110,7 @@ body {
 }
 
 .content-container__button {
-  background-color: #737279;
+  background-color: #83838a;
   color: #f2f2f2;
   margin-right: 10px;
   font-size: large;
@@ -123,7 +124,7 @@ body {
 }
 
 .content-container__button:hover:disabled {
-  background-color: #737279;
+  background-color: #83838a;
   cursor: default;
 }
 
@@ -165,7 +166,7 @@ body {
 }
 
 .content-container .details-container__button {
-  background-color: #737279;
+  background-color: #83838a;
   color: #f2f2f2;
   margin-right: 10px;
   font-size: large;
@@ -180,12 +181,12 @@ body {
 }
 
 .content-container .details-container__button:hover:disabled {
-  background-color: #737279;
+  background-color: #83838a;
   cursor: default;
 }
 
 .content-container .details-container__button--return {
-  background-color: #737279;
+  background-color: #83838a;
   color: #f2f2f2;
   margin-right: 10px;
   font-size: large;
@@ -201,7 +202,7 @@ body {
 }
 
 .content-container .details-container__button--return:hover:disabled {
-  background-color: #737279;
+  background-color: #83838a;
   cursor: default;
 }
 
@@ -350,7 +351,7 @@ body {
 }
 
 .content-container .form-container__buttons button {
-  background-color: #737279;
+  background-color: #83838a;
   color: #f2f2f2;
   margin-right: 10px;
   font-size: large;
@@ -364,7 +365,7 @@ body {
 }
 
 .content-container .form-container__buttons button:hover:disabled {
-  background-color: #737279;
+  background-color: #83838a;
   cursor: default;
 }
 
