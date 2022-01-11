@@ -184,7 +184,6 @@ const Premises = (props) => {
           paginationSize: 7,
           setFilter: true,
         }}
-        data={state.data}
         layout="fitColumns"
         responsiveLayout="hide"
         tooltips="true"
@@ -200,60 +199,60 @@ const Premises = (props) => {
     );
   };
 
-  var table = new Tabulator("#example-table", {
-    data: state.data, //load row data from array
-    layout: "fitColumns", //fit columns to width of table
-    responsiveLayout: "hide", //hide columns that dont fit on the table
-    tooltips: true, //show tool tips on cells
-    addRowPos: "top", //when adding a new row, add it to the top of the table
-    history: true, //allow undo and redo actions on the table
-    pagination: "local", //paginate the data
-    paginationSize: 7, //allow 7 rows per page of data
-    movableColumns: true, //allow column order to be changed
-    resizableRows: true, //allow row order to be changed
-    initialSort: [
-      //set the initial sort order of the data
-      { column: "name", dir: "asc" },
-    ],
-    columns: [
-      {
-        title: "Id",
-        field: "premisesId",
-      },
-      {
-        title: "Adres",
-        field: "location.locationName",
-      },
-      {
-        title: "Numer",
-        field: "premisesNumber",
-      },
-      {
-        title: "m2",
-        field: "area",
-      },
-      {
-        title: "Poziom",
-        field: "premisesLevel",
-      },
-      {
-        title: "Stan",
-        field: "state",
-      },
-      {
-        title: "Rodzaj",
-        field: "premisesType.type",
-      },
-      {
-        formatter: actionButton,
-        width: 100,
-        align: "center",
-        cellClick: function (e, cell) {
-          handleAction(cell.getRow().getData().premisesId);
-        },
-      },
-    ],
-  });
+  // var table = new Tabulator("#example-table", {
+  //   data: state.data, //load row data from array
+  //   layout: "fitColumns", //fit columns to width of table
+  //   responsiveLayout: "hide", //hide columns that dont fit on the table
+  //   tooltips: true, //show tool tips on cells
+  //   addRowPos: "top", //when adding a new row, add it to the top of the table
+  //   history: true, //allow undo and redo actions on the table
+  //   pagination: "local", //paginate the data
+  //   paginationSize: 7, //allow 7 rows per page of data
+  //   movableColumns: true, //allow column order to be changed
+  //   resizableRows: true, //allow row order to be changed
+  //   initialSort: [
+  //     //set the initial sort order of the data
+  //     { column: "name", dir: "asc" },
+  //   ],
+  //   columns: [
+  //     {
+  //       title: "Id",
+  //       field: "premisesId",
+  //     },
+  //     {
+  //       title: "Adres",
+  //       field: "location.locationName",
+  //     },
+  //     {
+  //       title: "Numer",
+  //       field: "premisesNumber",
+  //     },
+  //     {
+  //       title: "m2",
+  //       field: "area",
+  //     },
+  //     {
+  //       title: "Poziom",
+  //       field: "premisesLevel",
+  //     },
+  //     {
+  //       title: "Stan",
+  //       field: "state",
+  //     },
+  //     {
+  //       title: "Rodzaj",
+  //       field: "premisesType.type",
+  //     },
+  //     {
+  //       formatter: actionButton,
+  //       width: 100,
+  //       align: "center",
+  //       cellClick: function (e, cell) {
+  //         handleAction(cell.getRow().getData().premisesId);
+  //       },
+  //     },
+  //   ],
+  // });
 
   return (
     <>

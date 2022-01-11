@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import { owner, admin, client } from "../../resources/urls";
 import { GET } from "../../utilities/Request";
-import LoadData from "../LoadData";
 import RentDetails from "./RentDetails";
+import "react-tabulator/lib/styles.css";
+import "react-tabulator/lib/css/tabulator.min.css";
+import { ReactTabulator as Tabulator } from "react-tabulator";
 
 const Rents = (props) => {
   const [rents, setRents] = useState(props.data);
@@ -35,53 +37,88 @@ const Rents = (props) => {
     setChosenId(-1);
     getData();
   };
-
+  var actionButton = function (cell, formatterParams, onRendered) {
+    //plain text value
+    return `<button>Szczegóły</button>`;
+  };
   const columns = [
     {
-      Header: "Id",
-      accessor: "rentId",
+      title: "Id",
+      field: "rentId",
     },
     {
-      Header: "Adres",
-      accessor: "premises.location.locationName",
+      title: "Adres",
+      field: "premises.location.locationName",
+      headerFilter: "input",
     },
     {
-      Header: "Numer",
-      accessor: "premises.premisesNumber",
+      title: "Stan",
+      field: "state",
+      editor: "select",
+      headerFilter: true,
+      headerFilterParams: {
+        values: { wynajęty: "wynajęty", wolny: "wolny", "": "" },
+      },
     },
     {
-      Header: "Stan",
-      accessor: "state",
+      title: "Rodzaj",
+      field: "premisesType.type",
+      editor: "select",
+      headerFilter: true,
+      headerFilterParams: {
+        values: { mieszkaniowy: "Mieszkaniowy", usługowy: "Usługowy", "": "" },
+      },
     },
     {
-      Header: "Rodzaj",
-      accessor: "premisesType.type",
+      title: "Początek",
+      field: "startDate",
     },
     {
-      Header: "Początek",
-      accessor: "startDate",
+      title: "Koniec",
+      field: "endDate",
     },
     {
-      Header: "Koniec",
-      accessor: "endDate",
+      title: "Początek",
+      field: "startDate",
     },
+
     {
-      Header: "Akcja",
-      accessor: "action",
-      Cell: ({ cell }) => (
-        <button
-          className="content-container__button"
-          value={cell.row.values.actions}
-          onClick={() => handleAction(cell.row.values.rentId)}
-        >
-          Szczegóły
-        </button>
-      ),
+      formatter: actionButton,
+      width: 150,
+      align: "center",
+      cellClick: function (e, cell) {
+        handleAction(cell.getRow().getData().rentId);
+      },
     },
   ];
-  const initialState = { pageSize: 5, hiddenColumns: "rentId" };
-
   const renderTable = () => {
+    return (
+      <Tabulator
+        columns={columns}
+        data={rents}
+        options={{
+          movableColumns: true,
+          movableRows: true,
+          pagination: true,
+          paginationSize: 7,
+          setFilter: true,
+        }}
+        layout="fitColumns"
+        responsiveLayout="hide"
+        tooltips="true"
+        addRowPos="top"
+        history="true"
+        movableColumns="true"
+        resizableRows="true"
+        initialSort={[
+          //set the initial sort order of the data
+          { column: "location.locationName", dir: "asc" },
+        ]}
+      />
+    );
+  };
+
+  const renderData = () => {
     return (
       <>
         {chosenId > 0 ? (
@@ -93,11 +130,7 @@ const Rents = (props) => {
         ) : (
           <>
             <h1 className="content-container__title">Wynajmy</h1>
-            <LoadData
-              data={rents}
-              columns={columns}
-              initialState={initialState}
-            />
+            <div className="table-container">{renderTable()}</div>
             <div className="contant-btns">
               {props.data !== undefined ? (
                 <button
@@ -119,9 +152,9 @@ const Rents = (props) => {
   return (
     <>
       {props.data === undefined ? (
-        <div className="content-container">{renderTable()}</div>
+        <div className="content-container">{renderData()}</div>
       ) : (
-        <>{renderTable()}</>
+        <>{renderData()}</>
       )}
     </>
   );
