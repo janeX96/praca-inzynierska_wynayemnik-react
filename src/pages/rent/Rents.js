@@ -47,6 +47,7 @@ const Rents = (props) => {
     {
       title: "Id",
       field: "rentId",
+      visible: false,
     },
     {
       title: "Adres",

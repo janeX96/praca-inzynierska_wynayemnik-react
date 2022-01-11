@@ -73,6 +73,7 @@ const Premises = (props) => {
     {
       title: "Id",
       field: "premisesId",
+      visible: false,
     },
     {
       title: "Adres",

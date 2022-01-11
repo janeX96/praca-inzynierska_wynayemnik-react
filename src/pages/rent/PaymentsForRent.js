@@ -27,6 +27,7 @@ const PaymentsForRent = (props) => {
     {
       title: "Id",
       field: "paymentId",
+      visible: false,
     },
     {
       title: "numberPayment",

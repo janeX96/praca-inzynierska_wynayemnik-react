@@ -40,6 +40,7 @@ const Owner_Locations = () => {
     {
       title: "Id",
       field: "locationId",
+      visible: false,
     },
     {
       title: "Nazwa",
