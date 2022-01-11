@@ -59,7 +59,11 @@ const Rents = (props) => {
       editor: "select",
       headerFilter: true,
       headerFilterParams: {
-        values: { wynajęty: "wynajęty", wolny: "wolny", "": "" },
+        values: {
+          CANCELLED: "anulowane",
+          IN_PROGRESS: "trwające",
+          PLANNED: "zaplanowane",
+        },
       },
     },
     {
@@ -79,11 +83,6 @@ const Rents = (props) => {
       title: "Koniec",
       field: "endDate",
     },
-    {
-      title: "Początek",
-      field: "startDate",
-    },
-
     {
       formatter: actionButton,
       width: 150,
