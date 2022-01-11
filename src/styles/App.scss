@@ -19,20 +19,21 @@ body {
   background: url("../images/wynayemnik img1 transparent.jpg") center
     center/cover no-repeat;
   height: 100%;
+  min-height: 800px;
   padding-bottom: 150px;
   width: 100%;
   display: flex;
   flex-direction: column;
-  box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.01);
   object-fit: contain;
 
   &__title {
-    color: $main-color-light;
+    color: $main-color-dark;
     font-size: 50px;
     padding-top: 20px;
     margin-left: max(150px);
     margin-right: max(150px);
-    border-color: $main-color-light;
+    border-color: $main-color-dark;
     border-bottom-style: solid;
 
     /* mobile */
