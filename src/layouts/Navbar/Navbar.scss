@@ -203,3 +203,31 @@ a {
     }
   }
 }
+
+.user-section {
+  display: flex;
+  color: $text-color-light;
+
+  .user-info {
+    display: flex;
+    flex-direction: column;
+    .email {
+      font-size: 15px;
+      text-align: end;
+      &:hover {
+        cursor: default;
+      }
+    }
+
+    .panel-name {
+      font-size: 20px;
+      &:hover {
+        cursor: default;
+      }
+    }
+
+    @media (max-width: 648px) {
+      display: none;
+    }
+  }
+}

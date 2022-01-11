@@ -104,8 +104,27 @@ const Navbar = () => {
       </div>
 
       {keycloak.authenticated ? (
-        <div>
-          <a> {role}</a>
+        <div className="user-section">
+          <div
+            className="user-info"
+            style={{
+              marginTop: "15px",
+              marginRight: "15px",
+            }}
+          >
+            <div className="email">
+              {keycloak.tokenParsed.preferred_username}
+            </div>
+
+            <div className="panel-name">
+              Panel{" "}
+              {role === "owner"
+                ? "właściciela"
+                : role === "admin"
+                ? "administratora"
+                : "klienta"}{" "}
+            </div>
+          </div>
           <div className="user-menu">
             <Dropdown ref={(foo) => (dropdown = foo)}>
               <DropdownTrigger>
@@ -134,7 +153,7 @@ const Navbar = () => {
                             dropdown.hide();
                           }}
                         >
-                          Wynajemca
+                          Wynajmujący
                         </p>{" "}
                       </Link>
                     </li>
