@@ -65,7 +65,6 @@ const PUT = async (url, obj) => {
 };
 
 const PATCH = async (url) => {
-  console.log("Usuwam");
   let response = {};
   await fetch(url, requestOptions("PATCH"))
     .then((res) => {

@@ -6,13 +6,13 @@ import { GET, PATCH, PUT } from "../../utilities/Request";
 import { user as userReq } from "../../resources/urls";
 import ToggleButton from "react-toggle-button";
 import { toast } from "react-toastify";
+import CompanyForm from "./CompanyForm";
 
 const UserProfile = () => {
   const [user, setUser] = useState({
     data: [],
   });
   const [edit, setEdit] = useState(false);
-
   const [showFakturowniaSettingsForm, setShowFakturowniaSettingsForm] =
     useState();
   const [fakturowniaSettings, setFakturowniaSettings] = useState({
@@ -22,6 +22,7 @@ const UserProfile = () => {
   const [company, setCompany] = useState();
   const [showCompanyForm, setShowCompanyForm] = useState(false);
   const [sending, setSending] = useState(false);
+
   const getData = () => {
     GET(userReq.info)
       .then((data) => {
@@ -45,10 +46,9 @@ const UserProfile = () => {
   }, [edit]);
 
   const handleChangeIsFakturownia = () => {
+    console.log("Company: ", company);
     if (user.data.isNaturalPerson) {
       toast.info("Nie mozesz dodać fakturowni jako osoba fizyczna");
-    } else if (company === undefined) {
-      setShowCompanyForm(true);
     } else {
       PATCH(userReq.changeIsFakturownia).then((res) => {
         if (res) {
@@ -88,18 +88,35 @@ const UserProfile = () => {
     setFakturowniaSettings({ ...fakturowniaSettings, [name]: value });
   };
 
+  const handleReturn = () => {
+    setShowCompanyForm(false);
+    setEdit(false);
+    getData();
+    getCompany();
+  };
+
+  const changeIsNaturalPerson = () => {
+    const oldStatus = user.data.isNaturalPerson;
+    const newStatus = oldStatus ? "firmę" : "osobę fizyczną";
+    PATCH(userReq.updateIsNaturalPerson).then((res) => {
+      if (res) {
+        toast.success(`Zmieniono rodzaj użytkownika na ${newStatus}`);
+        getData();
+      } else {
+        toast.error("Nie udało się zmienić statusu użytkownika...");
+      }
+    });
+  };
+
   const handleIsNaturalPersonChange = () => {
     const oldStatus = user.data.isNaturalPerson;
     const newStatus = oldStatus ? "firmę" : "osobę fizyczną";
     if (window.confirm(`Czy na chcesz zmienić status na ${newStatus}?`)) {
-      PATCH(userReq.updateIsNaturalPerson).then((res) => {
-        if (res) {
-          toast.success(`Zmieniono rodzaj użytkownika na ${newStatus}`);
-          getData();
-        } else {
-          toast.error("Nie udało się zmienić statusu użytkownika...");
-        }
-      });
+      if (company === undefined || company.length === 0) {
+        setShowCompanyForm(true);
+      } else {
+        changeIsNaturalPerson();
+      }
     }
   };
 
@@ -147,41 +164,16 @@ const UserProfile = () => {
     );
   };
 
-  const handleCompanySumbit = (e) => {
-    e.preventDefault();
-  };
-
-  const companyForm = () => {
-    return (
-      <>
-        <div className="form-container">
-          <form onSubmit={handleCompanySumbit}>
-            <div className="form-container__row">
-              <div className="row__col-25"></div>
-              <div className="row__col-75"></div>
-            </div>
-            <div className="form-container__row">
-              <div className="row__col-25"></div>
-              <div className="row__col-75"></div>
-            </div>
-            <div className="form-container__row">
-              <div className="row__col-25"></div>
-              <div className="row__col-75"></div>
-            </div>
-            <div className="form-container__row">
-              <div className="row__col-25"></div>
-              <div className="row__col-75"></div>
-            </div>
-          </form>
-        </div>
-      </>
-    );
-  };
   return (
     <div className="content-container">
       <h1 className="content-container__title">Dane użytkownika</h1>
       {edit ? (
-        <UserProfileEdit data={user.data} back={() => setEdit(false)} />
+        <UserProfileEdit data={user.data} back={handleReturn} />
+      ) : showCompanyForm ? (
+        <CompanyForm
+          handleReturn={handleReturn}
+          changeIsNaturalPerson={changeIsNaturalPerson}
+        />
       ) : (
         <div className="details-container">
           <ul>
@@ -203,7 +195,7 @@ const UserProfile = () => {
                 <h3 className="togglebutton-container__label">Fakturownia</h3>
                 <ToggleButton
                   value={user.data.isFakturownia}
-                  onToggle={(value) => handleChangeIsFakturownia()}
+                  onToggle={() => handleChangeIsFakturownia()}
                 />
               </div>
             </li>
