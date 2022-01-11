@@ -19,6 +19,8 @@ const UserProfile = () => {
     apiToken: "",
     prefix: "",
   });
+  const [company, setCompany] = useState();
+  const [showCompanyForm, setShowCompanyForm] = useState(false);
   const [sending, setSending] = useState(false);
   const getData = () => {
     GET(userReq.info)
@@ -31,17 +33,27 @@ const UserProfile = () => {
       });
   };
 
+  const getCompany = () => {
+    GET(userReq.getCompany).then((res) => {
+      setCompany(res);
+    });
+  };
+
   useEffect(() => {
     getData();
+    getCompany();
   }, [edit]);
 
   const handleChangeIsFakturownia = () => {
     if (user.data.isNaturalPerson) {
       toast.info("Nie mozesz dodać fakturowni jako osoba fizyczna");
+    } else if (company === undefined) {
+      setShowCompanyForm(true);
     } else {
       PATCH(userReq.changeIsFakturownia).then((res) => {
         if (res) {
           getData();
+          console.log("tutajs");
         } else {
           toast.info("Dodaj dane do fakturowni");
           setShowFakturowniaSettingsForm(true);
@@ -74,6 +86,21 @@ const UserProfile = () => {
     const name = e.target.name;
     const value = e.target.value;
     setFakturowniaSettings({ [name]: value });
+  };
+
+  const handleIsNaturalPersonChange = () => {
+    const oldStatus = user.data.isNaturalPerson;
+    const newStatus = oldStatus ? "firmę" : "osobę fizyczną";
+    if (window.confirm(`Czy na chcesz zmienić status na ${newStatus}?`)) {
+      PATCH(userReq.updateIsNaturalPerson).then((res) => {
+        if (res) {
+          toast.success(`Zmieniono rodzaj użytkownika na ${newStatus}`);
+          getData();
+        } else {
+          toast.error("Nie udało się zmienić statusu użytkownika...");
+        }
+      });
+    }
   };
 
   const fakturowniaSettingsForm = () => {
@@ -119,6 +146,18 @@ const UserProfile = () => {
       </form>
     );
   };
+
+  const handleCompanySumbit = (e) => {
+    e.preventDefault();
+  };
+
+  const companyForm = () => {
+    return (
+      <>
+        <form onSubmit={handleCompanySumbit}></form>
+      </>
+    );
+  };
   return (
     <div className="content-container">
       <h1 className="content-container__title">Dane użytkownika</h1>
@@ -132,8 +171,13 @@ const UserProfile = () => {
             <li>Email: {user.data.email}</li>
             <li>Numer tel: {user.data.phoneNumber}</li>
             <li>
-              Rodzaj użytkownika:{" "}
-              {user.data.isNaturalPerson ? "osoba fizyczna" : "firma"}
+              Rodzaj użytkownika:
+              <b
+                className="details-container__history"
+                onClick={handleIsNaturalPersonChange}
+              >
+                {user.data.isNaturalPerson ? "osoba fizyczna" : "firma"}
+              </b>
             </li>
             <li>
               <div className="togglebutton-container">

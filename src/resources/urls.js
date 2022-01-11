@@ -181,6 +181,8 @@ const user = {
   findByEmail: `${httpPrefix}${port}/user/`,
   changeIsFakturownia: `${httpPrefix}${port}${userPrefix}/isFakturownia`,
   updateFakturowniaSettings: `${httpPrefix}${port}${userPrefix}/fakturownia`,
+  updateIsNaturalPerson: `${httpPrefix}${port}${userPrefix}/isNaturalPerson`,
+  getCompany: `${httpPrefix}${port}${userPrefix}/company`,
 };
 
 //for all roles
