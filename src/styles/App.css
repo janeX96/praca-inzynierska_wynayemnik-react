@@ -88,6 +88,7 @@ body {
   border-radius: 0.4vw;
   padding: 5px 15px 5px 15px;
   font-size: 15px;
+  margin-top: 20px;
 }
 
 .content-container .table-container button:hover:enabled {
@@ -291,7 +292,7 @@ body {
 .content-container .details-container,
 .content-container .form-container {
   border-radius: 5px;
-  background-color: #f2f2f295;
+  background-color: #f2f2f2d0;
   padding: 50px;
   box-sizing: border-box;
   min-width: 400px;

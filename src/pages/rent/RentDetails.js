@@ -40,6 +40,17 @@ const RentDetails = (props) => {
         : "";
     GET(`${urlByRole}${props.rentId}${general.rent.paymentsSuffix}`).then(
       (res) => {
+        res.map((p) => {
+          //format dates
+          const startDate = p.startDate;
+          const paymentDate = p.paymentDate;
+          const paidDate = p.paidDate;
+          p.startDate = startDate.split("T")[0];
+          p.paymentDate = paymentDate.split("T")[0];
+          if (p.paidDate !== null) {
+            p.paidDate = paidDate.split("T")[0];
+          }
+        });
         setPayments(res);
       }
     );

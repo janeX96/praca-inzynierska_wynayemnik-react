@@ -20,6 +20,13 @@ const Rents = (props) => {
         ? client.rent.all
         : "";
     GET(urlByRole).then((res) => {
+      res.map((rent) => {
+        //format dates
+        const startDate = rent.startDate;
+        const endDate = rent.endDate;
+        rent.startDate = startDate.split("T")[0];
+        rent.endDate = endDate.split("T")[0];
+      });
       setRents(res);
     });
   };
@@ -47,6 +54,7 @@ const Rents = (props) => {
     {
       title: "Id",
       field: "rentId",
+      visible: false,
     },
     {
       title: "Adres",
@@ -59,7 +67,11 @@ const Rents = (props) => {
       editor: "select",
       headerFilter: true,
       headerFilterParams: {
-        values: { wynajęty: "wynajęty", wolny: "wolny", "": "" },
+        values: {
+          CANCELLED: "anulowane",
+          IN_PROGRESS: "trwające",
+          PLANNED: "zaplanowane",
+        },
       },
     },
     {
@@ -79,11 +91,6 @@ const Rents = (props) => {
       title: "Koniec",
       field: "endDate",
     },
-    {
-      title: "Początek",
-      field: "startDate",
-    },
-
     {
       formatter: actionButton,
       width: 150,
