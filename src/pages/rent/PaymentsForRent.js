@@ -11,22 +11,6 @@ const PaymentsForRent = (props) => {
   );
   const [showPaymentForm, setShowPaymentForm] = useState(false);
 
-  // const getPayments = () => {
-  //   let urlByRole =
-  //     props.roles[0] === "owner"
-  //       ? owner.rent.payments
-  //       : props.roles[0] === "admin"
-  //       ? admin.rent.payments
-  //       : props.roles[0] === "client"
-  //       ? client.rent.payments
-  //       : "";
-  //   GET(`${urlByRole}${props.rentId}${general.rent.paymentsSuffix}`).then(
-  //     (res) => {
-  //       setPayments(res);
-  //     }
-  //   );
-  // };
-
   const handleReturn = () => {
     setShowPaymentForm(false);
     props.reloadPayments();
@@ -92,13 +76,16 @@ const PaymentsForRent = (props) => {
       ) : (
         <>
           <h1 className="content-container__title">Płatności</h1>
+
           <div>
-            <div className="icon-container">
-              <BsPlusSquareFill
-                className="icon-container__new-icon"
-                onClick={() => setShowPaymentForm(true)}
-              />
-            </div>
+            {(props.roles[0] === "owner" || props.roles[0] === "admin") && (
+              <div className="icon-container">
+                <BsPlusSquareFill
+                  className="icon-container__new-icon"
+                  onClick={() => setShowPaymentForm(true)}
+                />
+              </div>
+            )}
           </div>
           {props.payments !== null &&
           props.payments !== undefined &&

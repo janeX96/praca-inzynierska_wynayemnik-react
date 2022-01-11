@@ -237,6 +237,14 @@ const RentDetails = (props) => {
             ) : (
               ""
             )}
+            <li style={{ marginRight: "80%" }}>
+              <h3
+                className="details-container__history"
+                onClick={() => setShowPayments(true)}
+              >
+                Płatności
+              </h3>
+            </li>
 
             {(props.roles[0] === "owner" || props.roles[0] === "admin") && (
               <>
@@ -248,14 +256,7 @@ const RentDetails = (props) => {
                     Produkty
                   </h3>
                 </li>
-                <li style={{ marginRight: "80%" }}>
-                  <h3
-                    className="details-container__history"
-                    onClick={() => setShowPayments(true)}
-                  >
-                    Płatności
-                  </h3>
-                </li>
+
                 <li style={{ marginRight: "80%" }}>
                   <h3
                     className="details-container__history"
