@@ -49,11 +49,12 @@ const UserProfile = () => {
     console.log("Company: ", company);
     if (user.data.isNaturalPerson) {
       toast.info("Nie mozesz dodać fakturowni jako osoba fizyczna");
+    } else if (user.data.apiToken === null || user.data.prefix === null) {
+      setShowFakturowniaSettingsForm(true);
     } else {
       PATCH(userReq.changeIsFakturownia).then((res) => {
         if (res) {
           getData();
-          console.log("tutajs");
         } else {
           toast.info("Dodaj dane do fakturowni");
           setShowFakturowniaSettingsForm(true);
@@ -63,15 +64,18 @@ const UserProfile = () => {
   };
 
   const handleFakturSettSubmit = (e) => {
+    e.preventDefault();
     if (!sending) {
-      e.preventDefault();
       setSending(true);
-      PUT(userReq.updateFakturowniaSettings).then((res) => {
+      const obj = JSON.stringify(fakturowniaSettings);
+      PUT(userReq.updateFakturowniaSettings, obj).then((res) => {
         if (res.ok) {
+          setShowFakturowniaSettingsForm(false);
           toast.success("Dodano fakturownię");
           setSending(false);
-          PATCH(userReq.changeIsFakturownia);
-          getData();
+          PATCH(userReq.changeIsFakturownia).then((res) => {
+            getData();
+          });
         } else {
           res.json().then((res) => {
             toast.success(`Nie udało się dodać fakturowni: ${res.error}`);
@@ -85,6 +89,7 @@ const UserProfile = () => {
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
+    console.log(name);
     setFakturowniaSettings({ ...fakturowniaSettings, [name]: value });
   };
 
@@ -120,47 +125,56 @@ const UserProfile = () => {
     }
   };
 
-  const fakturowniaSettingsForm = () => {
+  const fakturowniaSettingsForm = (updata = false) => {
     return (
-      <form onSubmit={handleFakturSettSubmit}>
-        <div
-          style={{
-            margin: "0 0 0 0 ",
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
-          <label htmlFor="" style={{ padding: "0 0 0 0" }}>
-            ApiToken:{" "}
-            <input
-              required="true"
-              type="text"
-              name=""
-              id=""
-              className="form-container--table__input"
-              style={{ maxWidth: "250px", margin: "0 0 0 0" }}
-              value={fakturowniaSettings.apiToken}
-              onChange={handleChange}
-            />
-          </label>
-          <label htmlFor="" style={{ padding: "3px 0 0 0" }}>
-            Prefix:{" "}
-            <input
-              required="true"
-              type="text"
-              name=""
-              id=""
-              className="form-container--table__input"
-              style={{ maxWidth: "250px", margin: "0 0 0 0" }}
-              value={fakturowniaSettings.prefix}
-              onChange={handleChange}
-            />
-          </label>
-        </div>
-        <button type="submit" className="details-container__button">
-          Zapisz
-        </button>
-      </form>
+      <>
+        <h3 className="form-container__error-msg">
+          Wprowadź token i prefix fakturowni
+        </h3>
+        <form onSubmit={handleFakturSettSubmit}>
+          <div
+            style={{
+              margin: "0 0 0 0 ",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <label htmlFor="" style={{ padding: "0 0 0 0" }}>
+              ApiToken:{" "}
+              <input
+                required="true"
+                type="text"
+                name="apiToken"
+                id="apiToken"
+                className="form-container--table__input"
+                style={{ maxWidth: "250px", margin: "0 0 0 0" }}
+                value={fakturowniaSettings.apiToken}
+                onChange={handleChange}
+              />
+            </label>
+            <label htmlFor="" style={{ padding: "3px 0 0 0" }}>
+              Prefix:{" "}
+              <input
+                required="true"
+                type="text"
+                name="prefix"
+                id="prefix"
+                className="form-container--table__input"
+                style={{ maxWidth: "250px", margin: "0 0 0 0" }}
+                value={fakturowniaSettings.prefix}
+                onChange={handleChange}
+              />
+            </label>
+          </div>
+          <button
+            type="submit"
+            className="details-container__button"
+            style={{ marginTop: "15px" }}
+          >
+            Zapisz
+          </button>
+        </form>
+      </>
     );
   };
 
@@ -176,7 +190,7 @@ const UserProfile = () => {
         />
       ) : (
         <div className="details-container">
-          <ul>
+          <ul style={{ marginBottom: "50px" }}>
             <li>Imię: {user.data.firstName}</li>
             <li>Nazwisko: {user.data.lastName}</li>
             <li>Email: {user.data.email}</li>
@@ -201,6 +215,25 @@ const UserProfile = () => {
             </li>
             <li>
               {showFakturowniaSettingsForm ? fakturowniaSettingsForm() : ""}
+            </li>
+            <li>
+              {user.data.isFakturownia && (
+                <>
+                  <b
+                    className="details-container__history"
+                    // onClick={handleIsNaturalPersonChange}
+                  >
+                    Pokaż ustawienia API
+                  </b>
+                  {/* <div className="togglebutton-container">
+                <h3 className="togglebutton-container__label">isDepartment</h3>
+                <ToggleButton
+                  value={user.data.isFakturownia}
+                  onToggle={() => handleChangeIsFakturownia()}
+                />
+              </div> */}
+                </>
+              )}
             </li>
           </ul>
 
