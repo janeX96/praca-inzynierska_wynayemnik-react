@@ -14,11 +14,14 @@ const UserProfile = () => {
   });
   const [edit, setEdit] = useState(false);
   const [showFakturowniaSettingsForm, setShowFakturowniaSettingsForm] =
-    useState();
+    useState(false);
+
   const [fakturowniaSettings, setFakturowniaSettings] = useState({
     apiToken: "",
     prefix: "",
   });
+  const [updateFakturowniaApi, setUpdateFakturowniaApi] = useState(false);
+  const [showApiSettings, setShowApiSettings] = useState(false);
   const [company, setCompany] = useState();
   const [showCompanyForm, setShowCompanyForm] = useState(false);
   const [sending, setSending] = useState(false);
@@ -26,8 +29,11 @@ const UserProfile = () => {
   const getData = () => {
     GET(userReq.info)
       .then((data) => {
-        console.log("blablabla", data);
         setUser({ data });
+        setFakturowniaSettings({
+          apiToken: data.apiToken,
+          prefix: data.prefix,
+        });
       })
       .catch((err) => {
         console.log("Error Reading data " + err);
@@ -71,11 +77,19 @@ const UserProfile = () => {
       PUT(userReq.updateFakturowniaSettings, obj).then((res) => {
         if (res.ok) {
           setShowFakturowniaSettingsForm(false);
-          toast.success("Dodano fakturownię");
+          const successMsg = updateFakturowniaApi
+            ? "Aktualizowano dane fakturowni"
+            : "Dodano fakturownię";
+          toast.success(successMsg);
           setSending(false);
-          PATCH(userReq.changeIsFakturownia).then((res) => {
+          if (!updateFakturowniaApi) {
+            PATCH(userReq.changeIsFakturownia).then((res) => {
+              getData();
+              setUpdateFakturowniaApi(false);
+            });
+          } else {
             getData();
-          });
+          }
         } else {
           res.json().then((res) => {
             toast.success(`Nie udało się dodać fakturowni: ${res.error}`);
@@ -125,7 +139,7 @@ const UserProfile = () => {
     }
   };
 
-  const fakturowniaSettingsForm = (updata = false) => {
+  const fakturowniaSettingsForm = () => {
     return (
       <>
         <h3 className="form-container__error-msg">
@@ -178,6 +192,12 @@ const UserProfile = () => {
     );
   };
 
+  const handleEditFakturowniaSettings = () => {
+    setShowApiSettings(false);
+    setShowFakturowniaSettingsForm(true);
+    setUpdateFakturowniaApi(true);
+  };
+
   return (
     <div className="content-container">
       <h1 className="content-container__title">Dane użytkownika</h1>
@@ -195,6 +215,16 @@ const UserProfile = () => {
             <li>Nazwisko: {user.data.lastName}</li>
             <li>Email: {user.data.email}</li>
             <li>Numer tel: {user.data.phoneNumber}</li>
+
+            <button
+              onClick={() => setEdit(true)}
+              className="details-container__button"
+              style={{ marginTop: "15px" }}
+            >
+              Edytuj dane
+            </button>
+            <br />
+            <br />
             <li>
               Rodzaj użytkownika:
               <b
@@ -204,6 +234,25 @@ const UserProfile = () => {
                 {user.data.isNaturalPerson ? "osoba fizyczna" : "firma"}
               </b>
             </li>
+            {!user.data.isNaturalPerson &&
+              company !== undefined &&
+              company.length > 0 && (
+                <>
+                  <h3>Dane firmy:</h3>
+                  <li>Nazwa: {company[0].company.companyName}</li>
+                  <li>NIP: {company[0].company.nip}</li>
+                  <li>Miasto: {company[0].company.address.city}</li>
+                  <li>Kod: {company[0].company.address.postCode}</li>
+                  <li>Ulica: {company[0].company.address.street}</li>
+                  <li>Nr: {company[0].company.address.streetNumber}</li>
+                  <button
+                    className="details-container__button"
+                    style={{ marginTop: "15px" }}
+                  >
+                    Edytuj dane
+                  </button>
+                </>
+              )}
             <li>
               <div className="togglebutton-container">
                 <h3 className="togglebutton-container__label">Fakturownia</h3>
@@ -219,12 +268,40 @@ const UserProfile = () => {
             <li>
               {user.data.isFakturownia && (
                 <>
-                  <b
-                    className="details-container__history"
-                    // onClick={handleIsNaturalPersonChange}
-                  >
-                    Pokaż ustawienia API
-                  </b>
+                  {showApiSettings ? (
+                    <ul>
+                      <b
+                        className="details-container__history"
+                        onClick={() => setShowApiSettings(false)}
+                      >
+                        Ukryj
+                      </b>
+
+                      <li>
+                        ApiToken: <b>{user.data.apiToken}</b>
+                      </li>
+                      <li>
+                        Prefix: <b>{user.data.prefix}</b>
+                      </li>
+
+                      <b
+                        className="details-container__history"
+                        onClick={() => handleEditFakturowniaSettings()}
+                      >
+                        Zmień
+                      </b>
+                    </ul>
+                  ) : (
+                    !showFakturowniaSettingsForm && (
+                      <b
+                        className="details-container__history"
+                        onClick={() => setShowApiSettings(true)}
+                      >
+                        Pokaż ustawienia API
+                      </b>
+                    )
+                  )}
+
                   {/* <div className="togglebutton-container">
                 <h3 className="togglebutton-container__label">isDepartment</h3>
                 <ToggleButton
@@ -236,13 +313,13 @@ const UserProfile = () => {
               )}
             </li>
           </ul>
-
+          {/* 
           <button
             onClick={() => setEdit(true)}
             className="details-container__button"
           >
             Edytuj dane
-          </button>
+          </button> */}
         </div>
       )}
     </div>
