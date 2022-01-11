@@ -211,10 +211,18 @@ const UserProfile = () => {
       ) : (
         <div className="details-container">
           <ul style={{ marginBottom: "50px" }}>
-            <li>Imię: {user.data.firstName}</li>
-            <li>Nazwisko: {user.data.lastName}</li>
-            <li>Email: {user.data.email}</li>
-            <li>Numer tel: {user.data.phoneNumber}</li>
+            <li>
+              Imię: <b>{user.data.firstName}</b>
+            </li>
+            <li>
+              Nazwisko: <b>{user.data.lastName}</b>
+            </li>
+            <li>
+              Email: <b>{user.data.email}</b>
+            </li>
+            <li>
+              Numer tel: <b>{user.data.phoneNumber}</b>
+            </li>
 
             <button
               onClick={() => setEdit(true)}
@@ -239,12 +247,24 @@ const UserProfile = () => {
               company.length > 0 && (
                 <>
                   <h3>Dane firmy:</h3>
-                  <li>Nazwa: {company[0].company.companyName}</li>
-                  <li>NIP: {company[0].company.nip}</li>
-                  <li>Miasto: {company[0].company.address.city}</li>
-                  <li>Kod: {company[0].company.address.postCode}</li>
-                  <li>Ulica: {company[0].company.address.street}</li>
-                  <li>Nr: {company[0].company.address.streetNumber}</li>
+                  <li>
+                    Nazwa: <b>{company[0].company.companyName}</b>
+                  </li>
+                  <li>
+                    NIP: <b>{company[0].company.nip}</b>
+                  </li>
+                  <li>
+                    Miasto: <b>{company[0].company.address.city}</b>
+                  </li>
+                  <li>
+                    Kod: <b>{company[0].company.address.postCode}</b>
+                  </li>
+                  <li>
+                    Ulica: <b>{company[0].company.address.street}</b>
+                  </li>
+                  <li>
+                    Nr: <b>{company[0].company.address.streetNumber}</b>
+                  </li>
                   <button
                     className="details-container__button"
                     style={{ marginTop: "15px" }}
