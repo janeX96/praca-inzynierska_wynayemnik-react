@@ -85,7 +85,7 @@ const UserProfile = () => {
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-    setFakturowniaSettings({ [name]: value });
+    setFakturowniaSettings({ ...fakturowniaSettings, [name]: value });
   };
 
   const handleIsNaturalPersonChange = () => {
@@ -154,7 +154,26 @@ const UserProfile = () => {
   const companyForm = () => {
     return (
       <>
-        <form onSubmit={handleCompanySumbit}></form>
+        <div className="form-container">
+          <form onSubmit={handleCompanySumbit}>
+            <div className="form-container__row">
+              <div className="row__col-25"></div>
+              <div className="row__col-75"></div>
+            </div>
+            <div className="form-container__row">
+              <div className="row__col-25"></div>
+              <div className="row__col-75"></div>
+            </div>
+            <div className="form-container__row">
+              <div className="row__col-25"></div>
+              <div className="row__col-75"></div>
+            </div>
+            <div className="form-container__row">
+              <div className="row__col-25"></div>
+              <div className="row__col-75"></div>
+            </div>
+          </form>
+        </div>
       </>
     );
   };
