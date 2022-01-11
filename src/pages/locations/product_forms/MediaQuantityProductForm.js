@@ -32,11 +32,15 @@ const MediaQuantityProductForm = (props) => {
 
   const [premisesTypes, setPremisesTypes] = useState(props.premisesTypes);
 
-  const [pattern, setPattern] = useState({
-    attr1: "",
-    arithm: "-",
-    attr2: "",
-  });
+  const [pattern, setPattern] = useState(
+    props.data !== undefined
+      ? {
+          attr1: props.data.forAttribute.split(" - ")[0],
+          arithm: "-",
+          attr2: props.data.forAttribute.split(" - ")[1],
+        }
+      : { attr1: "", arithm: "-", attr2: "" }
+  );
 
   const [errors, setErrors] = useState({
     premisesTypes: false,
