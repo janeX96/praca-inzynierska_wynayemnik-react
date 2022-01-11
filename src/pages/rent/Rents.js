@@ -5,6 +5,7 @@ import RentDetails from "./RentDetails";
 import "react-tabulator/lib/styles.css";
 import "react-tabulator/lib/css/tabulator.min.css";
 import { ReactTabulator as Tabulator } from "react-tabulator";
+import { MdPayment } from "react-icons/md";
 
 const Rents = (props) => {
   const [rents, setRents] = useState(props.data);
@@ -39,6 +40,7 @@ const Rents = (props) => {
   };
   var actionButton = function (cell, formatterParams, onRendered) {
     //plain text value
+
     return `<button>Szczegóły</button>`;
   };
   const columns = [
