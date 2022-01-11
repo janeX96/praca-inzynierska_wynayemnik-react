@@ -1,13 +1,31 @@
 import { useState, useEffect } from "react";
 import { BsPlusSquareFill } from "react-icons/bs";
-import { admin, client, owner } from "../../resources/urls";
+import { admin, client, general, owner } from "../../resources/urls";
 import { GET } from "../../utilities/Request";
 import LoadData from "../LoadData";
 import PaymentForm from "./PaymentForm";
 
 const PaymentsForRent = (props) => {
-  const [payments, setPayments] = useState(props.payments);
+  const [payments, setPayments] = useState(
+    props.payments !== undefined && props.payments
+  );
   const [showPaymentForm, setShowPaymentForm] = useState(false);
+
+  // const getPayments = () => {
+  //   let urlByRole =
+  //     props.roles[0] === "owner"
+  //       ? owner.rent.payments
+  //       : props.roles[0] === "admin"
+  //       ? admin.rent.payments
+  //       : props.roles[0] === "client"
+  //       ? client.rent.payments
+  //       : "";
+  //   GET(`${urlByRole}${props.rentId}${general.rent.paymentsSuffix}`).then(
+  //     (res) => {
+  //       setPayments(res);
+  //     }
+  //   );
+  // };
 
   const handleReturn = () => {
     setShowPaymentForm(false);
