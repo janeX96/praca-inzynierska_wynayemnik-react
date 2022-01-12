@@ -6,6 +6,7 @@ import "react-tabulator/lib/styles.css";
 import "react-tabulator/lib/css/tabulator.min.css";
 import { ReactTabulator as Tabulator } from "react-tabulator";
 import { MdPayment } from "react-icons/md";
+import { toast } from "react-toastify";
 
 const Rents = (props) => {
   const [rents, setRents] = useState(props.data);
@@ -20,14 +21,18 @@ const Rents = (props) => {
         ? client.rent.all
         : "";
     GET(urlByRole).then((res) => {
-      res.map((rent) => {
-        //format dates
-        const startDate = rent.startDate;
-        const endDate = rent.endDate;
-        rent.startDate = startDate.split("T")[0];
-        rent.endDate = endDate.split("T")[0];
-      });
-      setRents(res);
+      if (res !== null) {
+        res.map((rent) => {
+          //format dates
+          const startDate = rent.startDate;
+          const endDate = rent.endDate;
+          rent.startDate = startDate.split("T")[0];
+          rent.endDate = endDate.split("T")[0];
+        });
+        setRents(res);
+      } else {
+        toast.error("Błąd połączenia z serwerem...");
+      }
     });
   };
 
