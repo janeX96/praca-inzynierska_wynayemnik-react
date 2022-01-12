@@ -8,6 +8,7 @@ import { owner } from "../../resources/urls";
 import "react-tabulator/lib/styles.css"; // required styles
 import "react-tabulator/lib/css/tabulator.min.css"; // theme
 import { ReactTabulator as Tabulator } from "react-tabulator";
+import { toast } from "react-toastify";
 
 const Owner_Locations = () => {
   const [locations, setLocations] = useState([]);
@@ -16,7 +17,11 @@ const Owner_Locations = () => {
   const getData = async () => {
     GET(owner.locations)
       .then((data) => {
-        setLocations(data);
+        if (data !== null) {
+          setLocations(data);
+        } else {
+          toast.error("Błąd połączenia z serwerem...");
+        }
       })
       .catch((err) => {
         console.log("Error Reading data " + err);
