@@ -1,6 +1,6 @@
 const httpPrefix = "http://";
-// const port = "188.68.236.176:8080";
-const port = "localhost:8080";
+const port = "188.68.236.176:8080";
+// const port = "localhost:8080";
 
 const paths = {
   administrators: {
@@ -65,13 +65,12 @@ const paths = {
 
 const ownerPrefix = "/owner";
 const owner = {
-
   administrators: {
-      all: `${httpPrefix}${port}${ownerPrefix}${paths.administrators.all}`,
-      set: `${httpPrefix}${port}${ownerPrefix}${paths.administrators.set}`,
-      logs: `${httpPrefix}${port}${ownerPrefix}${paths.administrators.logs}`,
-      ownAndNot: `${httpPrefix}${port}${ownerPrefix}${paths.administrators.ownAndNot}`
-    },
+    all: `${httpPrefix}${port}${ownerPrefix}${paths.administrators.all}`,
+    set: `${httpPrefix}${port}${ownerPrefix}${paths.administrators.set}`,
+    logs: `${httpPrefix}${port}${ownerPrefix}${paths.administrators.logs}`,
+    ownAndNot: `${httpPrefix}${port}${ownerPrefix}${paths.administrators.ownAndNot}`,
+  },
 
   defaultPrefix: `${httpPrefix}${port}${ownerPrefix}`,
   premises: `${httpPrefix}${port}${ownerPrefix}${paths.premisesPath}`,
