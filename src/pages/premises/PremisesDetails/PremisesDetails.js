@@ -11,7 +11,6 @@ import "react-toastify/dist/ReactToastify.css";
 import Rents from "../../rent/Rents";
 import RentDetails from "../../rent/RentDetails";
 import Rent from "../../rent/newRent/Rent";
-import { act } from "react-dom/cjs/react-dom-test-utils.production.min";
 
 const PremisesDetails = ({
   premisesId,
@@ -61,13 +60,17 @@ const PremisesDetails = ({
         : "";
 
     GET(`${urlByRole}${premisesId}`).then((res) => {
-      setData(res);
-      setPremises({
-        name: res.location.locationName,
-        premisesNumber: res.premisesNumber,
-        locationId: res.location.locationId,
-        premisesType: res.premisesType.type,
-      });
+      if (res !== null) {
+        setData(res);
+        setPremises({
+          name: res.location.locationName,
+          premisesNumber: res.premisesNumber,
+          locationId: res.location.locationId,
+          premisesType: res.premisesType.type,
+        });
+      } else {
+        toast.error("Błąd połączenia z serwerem...");
+      }
     });
   };
 
