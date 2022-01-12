@@ -26,7 +26,11 @@ const RentDetails = (props) => {
         ? client.rent.details
         : "";
     GET(`${urlByRole}${props.rentId}`).then((res) => {
-      setRent(res);
+      if (res !== null) {
+        setRent(res);
+      } else {
+        toast.error("Błąd połączenia z serwerem...");
+      }
     });
   };
   const getPayments = () => {
@@ -40,18 +44,22 @@ const RentDetails = (props) => {
         : "";
     GET(`${urlByRole}${props.rentId}${general.rent.paymentsSuffix}`).then(
       (res) => {
-        res.map((p) => {
-          //format dates
-          const startDate = p.startDate;
-          const paymentDate = p.paymentDate;
-          const paidDate = p.paidDate;
-          p.startDate = startDate.split("T")[0];
-          p.paymentDate = paymentDate.split("T")[0];
-          if (p.paidDate !== null) {
-            p.paidDate = paidDate.split("T")[0];
-          }
-        });
-        setPayments(res);
+        if (res !== null) {
+          res.map((p) => {
+            //format dates
+            const startDate = p.startDate;
+            const paymentDate = p.paymentDate;
+            const paidDate = p.paidDate;
+            p.startDate = startDate.split("T")[0];
+            p.paymentDate = paymentDate.split("T")[0];
+            if (p.paidDate !== null) {
+              p.paidDate = paidDate.split("T")[0];
+            }
+          });
+          setPayments(res);
+        } else {
+          toast.error("Błąd połączenia z serwerem...");
+        }
       }
     );
   };
@@ -64,7 +72,11 @@ const RentDetails = (props) => {
         ? admin.rent.sumOfBails
         : "";
     GET(`${urlByRole}${props.rentId}`).then((res) => {
-      setSumOfBails(res);
+      if (res !== null) {
+        setSumOfBails(res);
+      } else {
+        toast.error("Błąd połączenia z serwerem...");
+      }
     });
   };
 

@@ -28,7 +28,11 @@ const ProductsForRentDetails = (props) => {
       `${urlByRole}${props.locationId}${general.productsForLocation.allProductsSuffix}`
     )
       .then((data) => {
-        setProductsForLocation(data);
+        if (data !== null) {
+          setProductsForLocation(data);
+        } else {
+          toast.error("Błąd połączenia z serwerem...");
+        }
       })
       .catch((err) => {
         console.log("Error Reading data " + err);
@@ -45,17 +49,19 @@ const ProductsForRentDetails = (props) => {
 
     GET(`${urlByRole}${props.rentId}${general.rent.productsSuffix}`).then(
       (res) => {
-        setProducts(res);
-        let valuesObj = {};
-        res.map((prod) => {
-          const obj = {};
-          obj[prod.product.productId] = {
-            counter: "",
-            quantity: false,
-          };
-          Object.assign(valuesObj, obj);
-        });
-        setValues(valuesObj);
+        if (res !== null) {
+          setProducts(res);
+          let valuesObj = {};
+          res.map((prod) => {
+            const obj = {};
+            obj[prod.product.productId] = {
+              counter: "",
+              quantity: false,
+            };
+            Object.assign(valuesObj, obj);
+          });
+          setValues(valuesObj);
+        }
       }
     );
   };
@@ -70,7 +76,9 @@ const ProductsForRentDetails = (props) => {
 
     GET(`${urlByRole}${props.rentId}${general.rent.productsAllSuffix}`).then(
       (res) => {
-        setAllProducts(res);
+        if (res !== null) {
+          setAllProducts(res);
+        }
       }
     );
   };
