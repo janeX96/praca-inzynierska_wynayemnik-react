@@ -61,7 +61,10 @@ const Navbar = () => {
                 </Link>
               </li>
               <li className="option">
-                <Link to="/" className="nav-links" onClick={closeMobileMenu}>
+                <Link to="/owner-administrators"
+                      className="nav-links"
+                      onClick={closeMobileMenu}
+                >
                   Administratorzy
                 </Link>
               </li>

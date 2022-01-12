@@ -12,6 +12,7 @@ import Owner_NewPremises from "../pages/premises/Owner_NewPremises";
 import Registration from "../auth/Registration/Registration";
 import UserProfile from "../pages/UserProfile/UserProfile";
 import Owner_Locations from "../pages/locations/Owner_Locations";
+import Administrators from "../pages/administrators/Administrators";
 import Rent from "../pages/rent/newRent/Rent";
 import roles from "../resources/roles";
 import { ToastContainer } from "react-toastify";
@@ -62,7 +63,11 @@ const AppRouter = () => {
                   path="/owner-rents"
                   component={Rents}
                 />
-                {/* for administrator */}
+                <PrivateRoute
+                    roles={[roles.OWNER]}
+                    path="/owner-administrators"
+                    component={Administrators}
+                />
                 <PrivateRoute
                   roles={[roles.ADMIN]}
                   path="/admin-premises"
