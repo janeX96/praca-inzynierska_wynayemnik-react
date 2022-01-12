@@ -470,7 +470,9 @@ const PremisesEdit = (props) => {
                 ))}
               </select>
               {state.errors.location && (
-                <span className="error-msg">{messages.location_incorrect}</span>
+                <span className="form-container__error-msg">
+                  {messages.location_incorrect}
+                </span>
               )}
             </div>
           </div>
@@ -492,7 +494,9 @@ const PremisesEdit = (props) => {
                 onChange={handleChange}
               />
               {state.errors.city && (
-                <span className="error-msg">{messages.city_incorrect}</span>
+                <span className="form-container__error-msg">
+                  {messages.city_incorrect}
+                </span>
               )}
             </div>
           </div>
@@ -513,7 +517,9 @@ const PremisesEdit = (props) => {
                 onChange={handleChange}
               />
               {state.errors.street && (
-                <span className="error-msg">{messages.street_incorrect}</span>
+                <span className="form-container__error-msg">
+                  {messages.street_incorrect}
+                </span>
               )}
             </div>
           </div>
@@ -533,7 +539,7 @@ const PremisesEdit = (props) => {
                 onChange={handleChange}
               />
               {state.errors.streetNumber && (
-                <span className="error-msg">
+                <span className="form-container__error-msg">
                   {messages.streetNumber_incorrect}
                 </span>
               )}
@@ -555,7 +561,9 @@ const PremisesEdit = (props) => {
                 onChange={handleChange}
               />
               {state.errors.postCode && (
-                <span className="error-msg">{messages.postCode_incorrect}</span>
+                <span className="form-container__error-msg">
+                  {messages.postCode_incorrect}
+                </span>
               )}
             </div>
           </div>
@@ -576,7 +584,7 @@ const PremisesEdit = (props) => {
                 onChange={handleChange}
               />
               {state.errors.locationName && (
-                <span className="error-msg">
+                <span className="form-container__error-msg">
                   {messages.locationName_incorrect}
                 </span>
               )}
@@ -601,7 +609,9 @@ const PremisesEdit = (props) => {
                 onChange={handleChange}
               />
               {state.errors.number && (
-                <span className="error-msg">{messages.number_incorrect}</span>
+                <span className="form-container__error-msg">
+                  {messages.number_incorrect}
+                </span>
               )}
             </div>
           </div>
@@ -620,7 +630,9 @@ const PremisesEdit = (props) => {
                 onChange={handleChange}
               />
               {state.errors.area && (
-                <span className="error-msg">{messages.area_incorrect}</span>
+                <span className="form-container__error-msg">
+                  {messages.area_incorrect}
+                </span>
               )}
             </div>
           </div>
@@ -639,7 +651,7 @@ const PremisesEdit = (props) => {
                 onChange={handleChange}
               />
               {state.errors.premisesLevel && (
-                <span className="error-msg">
+                <span className="form-container__error-msg">
                   {messages.premisesLevel_incorrect}
                 </span>
               )}
@@ -664,7 +676,7 @@ const PremisesEdit = (props) => {
                 ))}
               </select>
               {state.errors.premisesType && (
-                <span className="error-msg">
+                <span className="form-container__error-msg">
                   {messages.premisesType_incorrect}
                 </span>
               )}

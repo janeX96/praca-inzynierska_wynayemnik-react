@@ -90,7 +90,9 @@ const RentBillingPeriods = (props) => {
               value={billingPeriod.startDate}
             />
             {errors.startDateError && (
-              <span className="error-msg">{messages.startDate_incorrect}</span>
+              <span className="form-container__error-msg">
+                {messages.startDate_incorrect}
+              </span>
             )}
           </div>
         </div>
@@ -111,7 +113,9 @@ const RentBillingPeriods = (props) => {
               value={billingPeriod.endDate}
             />
             {errors.endDateError && (
-              <span className="error-msg">{messages.endDate_incorrect}</span>
+              <span className="form-container__error-msg">
+                {messages.endDate_incorrect}
+              </span>
             )}
           </div>
         </div>
@@ -129,7 +133,9 @@ const RentBillingPeriods = (props) => {
               value={billingPeriod.value}
             />
             {errors.valueError && (
-              <span className="error-msg">{messages.value_incorrect}</span>
+              <span className="form-container__error-msg">
+                {messages.value_incorrect}
+              </span>
             )}
           </div>
         </div>

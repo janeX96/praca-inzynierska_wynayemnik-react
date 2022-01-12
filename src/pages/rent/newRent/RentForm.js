@@ -239,7 +239,7 @@ const RentForm = (props) => {
                   onChange={handleChange}
                 />
                 {errors.startDateError && (
-                  <span className="error-msg">
+                  <span className="form-container__error-msg">
                     {messages.startDate_incorrect}
                   </span>
                 )}
@@ -261,7 +261,7 @@ const RentForm = (props) => {
                   onChange={handleChange}
                 />
                 {errors.endDateError && (
-                  <span className="error-msg">
+                  <span className="form-container__error-msg">
                     {messages.endDate_incorrect}
                   </span>
                 )}
@@ -288,7 +288,7 @@ const RentForm = (props) => {
                   ))}
                 </select>
                 {errors.premisesTypeError && (
-                  <span className="error-msg">
+                  <span className="form-container__error-msg">
                     {messages.premisesType_incorrect}
                   </span>
                 )}
@@ -309,7 +309,7 @@ const RentForm = (props) => {
                   onChange={handleChange}
                 />
                 {errors.carNumberError && (
-                  <span className="error-msg">
+                  <span className="form-container__error-msg">
                     {messages.carNumber_incorrect}
                   </span>
                 )}
@@ -331,7 +331,7 @@ const RentForm = (props) => {
                   onChange={handleChange}
                 />
                 {errors.bailValueError && (
-                  <span className="error-msg">
+                  <span className="form-container__error-msg">
                     {messages.bailValue_incorrect}
                   </span>
                 )}
@@ -387,7 +387,7 @@ const RentForm = (props) => {
                   id="statePaymentValue"
                   name="statePaymentValue"
                   checked={rentDetails.statePaymentValue}
-                  onChange={handleChange}
+                  // onChange={handleChange}
                 />
               </div>
             </div>
@@ -407,7 +407,7 @@ const RentForm = (props) => {
                   disabled={!rentDetails.statePaymentValue}
                 />
                 {errors.rentValueError && (
-                  <span className="error-msg">
+                  <span className="form-container__error-msg">
                     {messages.rentValue_incorrect}
                   </span>
                 )}
@@ -427,7 +427,7 @@ const RentForm = (props) => {
                   onChange={handleChange}
                 />
                 {errors.paymentDayError && (
-                  <span className="error-msg">
+                  <span className="form-container__error-msg">
                     {messages.paymentDay_incorrect}
                   </span>
                 )}

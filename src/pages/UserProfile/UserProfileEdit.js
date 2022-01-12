@@ -129,7 +129,9 @@ const UserProfileEdit = (props) => {
               onChange={handleChange}
             />
             {errors.firstNameError && (
-              <span className="error-msg">{messages.firstName_incorrect}</span>
+              <span className="form-container__error-msg">
+                {messages.firstName_incorrect}
+              </span>
             )}
           </div>
         </div>
@@ -147,7 +149,9 @@ const UserProfileEdit = (props) => {
               onChange={handleChange}
             />
             {errors.lastNameError && (
-              <span className="error-msg">{messages.lastName_incorrect}</span>
+              <span className="form-container__error-msg">
+                {messages.lastName_incorrect}
+              </span>
             )}
           </div>
         </div>
@@ -165,7 +169,9 @@ const UserProfileEdit = (props) => {
               onChange={handleChange}
             />
             {errors.emailError && (
-              <span className="error-msg">{messages.email_incorrect}</span>
+              <span className="form-container__error-msg">
+                {messages.email_incorrect}
+              </span>
             )}
           </div>
         </div>
@@ -183,7 +189,7 @@ const UserProfileEdit = (props) => {
               onChange={handleChange}
             />
             {errors.phoneNumberError && (
-              <span className="error-msg">
+              <span className="form-container__error-msg">
                 {messages.phoneNumber_incorrect}
               </span>
             )}

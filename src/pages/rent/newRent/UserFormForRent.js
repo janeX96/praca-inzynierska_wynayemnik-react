@@ -535,7 +535,9 @@ const UserFormForRent = (props) => {
                   value={userEmail}
                 />
                 {errors.emailError && (
-                  <span className="error-msg">{messages.email_incorrect}</span>
+                  <span className="form-container__error-msg">
+                    {messages.email_incorrect}
+                  </span>
                 )}
               </div>
             </div>
@@ -579,7 +581,7 @@ const UserFormForRent = (props) => {
                       value={user.userAccount.firstName}
                     ></input>
                     {errors.firstNameError && (
-                      <span className="error-msg">
+                      <span className="form-container__error-msg">
                         {messages.firstName_incorrect}
                       </span>
                     )}
@@ -600,7 +602,7 @@ const UserFormForRent = (props) => {
                       value={user.userAccount.lastName}
                     ></input>
                     {errors.lastNameError && (
-                      <span className="error-msg">
+                      <span className="form-container__error-msg">
                         {messages.lastName_incorrect}
                       </span>
                     )}
@@ -623,7 +625,7 @@ const UserFormForRent = (props) => {
                       value={user.userAccount.phoneNumber}
                     ></input>
                     {errors.phoneNumberError && (
-                      <span className="error-msg">
+                      <span className="form-container__error-msg">
                         {messages.phoneNumber_incorrect}
                       </span>
                     )}
