@@ -1,15 +1,13 @@
 import "../../../styles/App.scss";
 import { Stepper } from "react-form-stepper";
-import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useState } from "react";
 import UserFormForRent from "./UserFormForRent";
 import RentForm from "./RentForm";
 import ProductsForRent from "./ProductsForRent/ProductsForRent";
 import RentSummary from "./RentSummary";
 
-const Rent = () => {
-  const location = useLocation();
-  const { premisesId, premises } = location.state;
+const Rent = (props) => {
+  const { premisesId, premises, roles } = props;
 
   const [activeStep, setActiveStep] = useState(1);
   const [completedSteps, setCompletedSteps] = useState({
@@ -72,12 +70,7 @@ const Rent = () => {
 
   const setEmail = (email, userAccount) => {
     setRent({ ...rent, email, userAccount });
-    // setEmailChanged(email);
   };
-
-  // useEffect(() => {
-  //   setRent({ ...rent, email: emailChanged });
-  // }, [emailChanged]);
 
   const stepDone = (index) => {
     setCompletedSteps({ ...completedSteps, [index]: true });
@@ -85,7 +78,6 @@ const Rent = () => {
   };
 
   const stepBack = (index) => {
-    // setCompletedSteps({ [index]: true });
     setActiveStep(activeStep - 1);
   };
 
@@ -159,6 +151,7 @@ const Rent = () => {
       case 1:
         return (
           <UserFormForRent
+            handleReturn={props.handleReturn}
             defaultEmail={rent.email}
             defaultUser={rent.userAccount}
             defaultAddress={
@@ -182,6 +175,7 @@ const Rent = () => {
       case 2:
         return (
           <RentForm
+            roles={roles}
             default={rent}
             premises={premises}
             user={rent.userAccount.email}
@@ -194,6 +188,7 @@ const Rent = () => {
       case 3:
         return (
           <ProductsForRent
+            roles={roles}
             default={rent}
             locationId={premises.locationId}
             premisesType={premises.premisesType}
@@ -208,11 +203,13 @@ const Rent = () => {
       case 4:
         return (
           <RentSummary
+            handleReturn={props.handleReturn}
             stepBack={stepBack}
             {...rent}
             userEmail={rent.email}
             rentObj={rent}
             products={selectedProductsSave}
+            roles={roles}
           />
         );
         break;
@@ -224,30 +221,28 @@ const Rent = () => {
 
   return (
     <>
-      <div className="content-container">
-        <h1 className="content-container__title">Wynajem lokalu</h1>
-        <Stepper
-          style={{
-            marginTop: "0",
-            marginBottom: "0",
-            paddingTop: "0",
-            paddingBottom: "0",
-          }}
-          styleConfig={{
-            activeBgColor: "#48bd4c",
-            inactiveBgColor: "#727178",
-            completedBgColor: "#417843",
-          }}
-          steps={[
-            { label: "Najemca" },
-            { label: "Wynajem" },
-            { label: "Produkty" },
-            { label: "Podsumowanie" },
-          ]}
-          activeStep={activeStep - 1}
-        />
-        {renderForm(activeStep)}
-      </div>
+      <h1 className="content-container__title">Wynajem lokalu</h1>
+      <Stepper
+        style={{
+          marginTop: "0",
+          marginBottom: "0",
+          paddingTop: "0",
+          paddingBottom: "0",
+        }}
+        styleConfig={{
+          activeBgColor: "#48bd4c",
+          inactiveBgColor: "#727178",
+          completedBgColor: "#417843",
+        }}
+        steps={[
+          { label: "Najemca" },
+          { label: "Wynajem" },
+          { label: "Produkty" },
+          { label: "Podsumowanie" },
+        ]}
+        activeStep={activeStep - 1}
+      />
+      {renderForm(activeStep)}
     </>
   );
 };

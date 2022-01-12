@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import keycloak from "../../../auth/keycloak";
 import RentBillingPeriods from "./RentBillingPeriods";
+import { owner, admin, general } from "../../../resources/urls";
+import { GET } from "../../../utilities/Request";
 
 const RentForm = (props) => {
   const getDateToday = () => {
@@ -127,31 +128,18 @@ const RentForm = (props) => {
     };
   };
 
-  const getResources = async () => {
-    const response = await fetch("/resources.json");
-    const resources = await response.json();
-    return resources;
-  };
-
   const getPremisesTypes = async () => {
     let types = [];
-    getResources()
-      .then((res) => {
-        fetch(res.urls.owner.premisesTypes, {
-          headers: { Authorization: " Bearer " + keycloak.token },
-        })
-          .then((response) => {
-            return response.json();
-          })
-          .then((data) => {
-            types = data.map((type) => {
-              return {
-                value: type.premisesTypeId,
-                label: type.type,
-              };
-            });
-            setPremisesTypes({ types });
-          });
+
+    GET(general.premises.premisesTypes)
+      .then((data) => {
+        types = data.map((type) => {
+          return {
+            value: type.premisesTypeId,
+            label: type.type,
+          };
+        });
+        setPremisesTypes({ types });
       })
       .catch((err) => {
         console.log("Error Reading data " + err);
@@ -251,7 +239,7 @@ const RentForm = (props) => {
                   onChange={handleChange}
                 />
                 {errors.startDateError && (
-                  <span className="error-msg">
+                  <span className="form-container__error-msg">
                     {messages.startDate_incorrect}
                   </span>
                 )}
@@ -273,7 +261,7 @@ const RentForm = (props) => {
                   onChange={handleChange}
                 />
                 {errors.endDateError && (
-                  <span className="error-msg">
+                  <span className="form-container__error-msg">
                     {messages.endDate_incorrect}
                   </span>
                 )}
@@ -300,7 +288,7 @@ const RentForm = (props) => {
                   ))}
                 </select>
                 {errors.premisesTypeError && (
-                  <span className="error-msg">
+                  <span className="form-container__error-msg">
                     {messages.premisesType_incorrect}
                   </span>
                 )}
@@ -321,7 +309,7 @@ const RentForm = (props) => {
                   onChange={handleChange}
                 />
                 {errors.carNumberError && (
-                  <span className="error-msg">
+                  <span className="form-container__error-msg">
                     {messages.carNumber_incorrect}
                   </span>
                 )}
@@ -343,7 +331,7 @@ const RentForm = (props) => {
                   onChange={handleChange}
                 />
                 {errors.bailValueError && (
-                  <span className="error-msg">
+                  <span className="form-container__error-msg">
                     {messages.bailValue_incorrect}
                   </span>
                 )}
@@ -399,7 +387,7 @@ const RentForm = (props) => {
                   id="statePaymentValue"
                   name="statePaymentValue"
                   checked={rentDetails.statePaymentValue}
-                  onChange={handleChange}
+                  // onChange={handleChange}
                 />
               </div>
             </div>
@@ -419,7 +407,7 @@ const RentForm = (props) => {
                   disabled={!rentDetails.statePaymentValue}
                 />
                 {errors.rentValueError && (
-                  <span className="error-msg">
+                  <span className="form-container__error-msg">
                     {messages.rentValue_incorrect}
                   </span>
                 )}
@@ -439,7 +427,7 @@ const RentForm = (props) => {
                   onChange={handleChange}
                 />
                 {errors.paymentDayError && (
-                  <span className="error-msg">
+                  <span className="form-container__error-msg">
                     {messages.paymentDay_incorrect}
                   </span>
                 )}
@@ -449,7 +437,11 @@ const RentForm = (props) => {
           {!rentDetails.statePaymentValue && (
             <>
               <h3>Okresy rozliczeniowe czynszu</h3>
-              <RentBillingPeriods addBillingPeriod={addBillingPeriod} />
+              <RentBillingPeriods
+                addBillingPeriod={addBillingPeriod}
+                startDate={rentDetails.startDate}
+                endDate={rentDetails.endDate}
+              />
               <ul>
                 {rentDetails.paymentValues.map((payment) => (
                   <li>

@@ -2,26 +2,45 @@ import "../../../styles/App.scss";
 import { useState, useEffect } from "react";
 
 const MediaQuantityProductForm = (props) => {
-  const [data, setData] = useState({
-    type: "media-quantity",
-    obj: {
-      forAttribute: "",
-      netto: true,
-      premisesTypes: [],
-      price: 0,
-      productName: "",
-      quantityUnit: "",
-      vat: "",
-    },
-  });
+  const [data, setData] = useState(
+    props.data !== undefined
+      ? {
+          type: "media-quantity",
+          obj: {
+            forAttribute: props.data.forAttribute,
+            netto: props.data.netto,
+            premisesTypes: props.premisesTypesForProduct,
+            price: props.data.price,
+            productName: props.data.productName,
+            quantityUnit: props.data.quantityUnit,
+            vat: props.data.vat,
+          },
+        }
+      : {
+          type: "media-quantity",
+          obj: {
+            forAttribute: "",
+            netto: true,
+            premisesTypes: [],
+            price: 0,
+            productName: "",
+            quantityUnit: "",
+            vat: "",
+          },
+        }
+  );
 
   const [premisesTypes, setPremisesTypes] = useState(props.premisesTypes);
 
-  const [pattern, setPattern] = useState({
-    attr1: "",
-    arithm: "-",
-    attr2: "",
-  });
+  const [pattern, setPattern] = useState(
+    props.data !== undefined
+      ? {
+          attr1: props.data.forAttribute.split(" - ")[0],
+          arithm: "-",
+          attr2: props.data.forAttribute.split(" - ")[1],
+        }
+      : { attr1: "", arithm: "-", attr2: "" }
+  );
 
   const [errors, setErrors] = useState({
     premisesTypes: false,
@@ -63,7 +82,11 @@ const MediaQuantityProductForm = (props) => {
 
       product.obj.forAttribute = forAttributePattern;
 
-      props.addProduct(product);
+      if (props.data !== undefined) {
+        props.updateProduct(product);
+      } else {
+        props.addProduct(product);
+      }
 
       setErrors({
         premisesTypes: false,
@@ -224,7 +247,7 @@ const MediaQuantityProductForm = (props) => {
           <div className="row__col-75">
             <input
               className="form-container__input--checkbox"
-              value={data.obj.netto}
+              checked={data.obj.netto}
               id="netto"
               type="checkbox"
               name="netto"
@@ -332,19 +355,30 @@ const MediaQuantityProductForm = (props) => {
           <div className="row__col-75">
             {
               <ul>
-                {premisesTypes.map((option) => (
-                  <li>
-                    {option.label}
-                    <input
-                      className="form-container__input--checkbox"
-                      key={option.value}
-                      id={option.label}
-                      name="premisesType"
-                      type="checkbox"
-                      onChange={handleChange}
-                    />
-                  </li>
-                ))}
+                {premisesTypes.map((option) => {
+                  let exist = false;
+                  data.obj.premisesTypes.map((p) => {
+                    if (p === option.label) {
+                      exist = true;
+                    }
+                  });
+
+                  return (
+                    <li>
+                      {option.label}
+                      <input
+                        className="form-container__input--checkbox"
+                        key={option.value}
+                        id={option.label}
+                        name="premisesType"
+                        type="checkbox"
+                        checked={exist}
+                        onChange={handleChange}
+                      />
+                    </li>
+                  );
+                })}
+
                 {errors.premisesTypes && (
                   <span className="error-msg">
                     {messages.premisesTypesError}
@@ -355,7 +389,11 @@ const MediaQuantityProductForm = (props) => {
           </div>
         </div>
 
-        <button type="submit">Dodaj</button>
+        <div className="form-container__buttons">
+          <button type="submit">
+            {props.data !== undefined ? "Zapisz" : "Dodaj"}
+          </button>
+        </div>
       </form>
     </div>
   );

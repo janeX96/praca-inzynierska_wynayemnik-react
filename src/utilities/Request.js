@@ -1,27 +1,16 @@
 import keycloak from "../auth/keycloak";
 
-//choose if we pass some body
+//chose if we pass some body
 const requestOptions = (method, obj = null) => {
-  if (obj != null) {
-    return {
-      method: method,
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: " Bearer " + keycloak.token,
-      },
-      body: obj,
-    };
-  } else {
-    return {
-      method: method,
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: " Bearer " + keycloak.token,
-      },
-    };
-  }
+  return {
+    method: method,
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: " Bearer " + keycloak.token,
+    },
+    body: obj,
+  };
 };
 
 const GET = async (url) => {
@@ -30,8 +19,6 @@ const GET = async (url) => {
   })
     .then((res) => res.json())
     .then((res) => {
-      // console.log("Przekazuję: ", res);
-
       return res;
     })
     .catch((err) => {
@@ -68,10 +55,8 @@ const POST = async (url, obj, noAuth = false) => {
 
 const PUT = async (url, obj) => {
   const requestOpt = requestOptions("PUT", obj);
-
   return await fetch(url, requestOpt)
     .then((res) => {
-      // console.log("Przekazuję: ", res);
       return res;
     })
     .catch((err) => {
@@ -94,4 +79,19 @@ const PATCH = async (url) => {
   return response;
 };
 
-export { GET, POST, PUT, PATCH };
+const DELETE = async (url) => {
+  let response = {};
+  await fetch(url, requestOptions("DELETE"))
+    .then((res) => {
+      if (res.ok) {
+        response = true;
+      }
+    })
+    .catch((err) => {
+      console.error("Request error: ", err);
+    });
+
+  return response;
+};
+
+export { GET, POST, PUT, PATCH, DELETE };

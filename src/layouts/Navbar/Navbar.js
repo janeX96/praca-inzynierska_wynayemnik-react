@@ -52,12 +52,19 @@ const Navbar = () => {
                 </Link>
               </li>
               <li className="option">
-                <Link to="/" className="nav-links" onClick={closeMobileMenu}>
+                <Link
+                  to="/owner-rents"
+                  className="nav-links"
+                  onClick={closeMobileMenu}
+                >
                   Moje wynajmy
                 </Link>
               </li>
               <li className="option">
-                <Link to="/" className="nav-links" onClick={closeMobileMenu}>
+                <Link to="/owner-administrators"
+                      className="nav-links"
+                      onClick={closeMobileMenu}
+                >
                   Administratorzy
                 </Link>
               </li>
@@ -65,19 +72,31 @@ const Navbar = () => {
           ) : role === roles.ADMIN ? (
             <>
               <li className="option">
-                <Link to="/" className="nav-links" onClick={closeMobileMenu}>
-                  Wynajmy
+                <Link
+                  to="/admin-premises"
+                  className="nav-links"
+                  onClick={closeMobileMenu}
+                >
+                  Lokale
                 </Link>
               </li>
               <li className="option">
-                <Link to="/" className="nav-links" onClick={closeMobileMenu}>
-                  Lokale
+                <Link
+                  to="/admin-rents"
+                  className="nav-links"
+                  onClick={closeMobileMenu}
+                >
+                  Wynajmy
                 </Link>
               </li>
             </>
           ) : role === roles.CLIENT ? (
             <li className="option">
-              <Link to="/" className="nav-links" onClick={closeMobileMenu}>
+              <Link
+                to="/client-rents"
+                className="nav-links"
+                onClick={closeMobileMenu}
+              >
                 Moje wynajęcia
               </Link>
             </li>
@@ -87,94 +106,115 @@ const Navbar = () => {
         </ul>
       </div>
 
-      {keycloak.authenticated ? (
-        <div>
-          <a> {role}</a>
-          <div className="user-menu">
-            <Dropdown ref={(foo) => (dropdown = foo)}>
-              <DropdownTrigger>
-                <div className="user-menu__user-icon">
-                  <img src={UserIcon} alt="" />
-                </div>
-              </DropdownTrigger>
-              <DropdownContent>
-                <ul>
-                  <li>
-                    <Link
-                      onClick={() => {
-                        dropdown.hide();
-                      }}
-                      to="/user-profile"
-                    >
-                      <p>Profil</p>
-                    </Link>
-                  </li>
-                  {AuthorizedFunction([roles.OWNER]) && (
+      <div className="right-section">
+        {keycloak.authenticated ? (
+          <div className="user-section">
+            <div
+              className="user-info"
+              style={{
+                marginTop: "15px",
+                marginRight: "15px",
+              }}
+            >
+              <div className="email">
+                {keycloak.tokenParsed.preferred_username}
+              </div>
+
+              <div className="panel-name">
+                Panel{" "}
+                {role === "owner"
+                  ? "właściciela"
+                  : role === "admin"
+                  ? "administratora"
+                  : "klienta"}{" "}
+              </div>
+            </div>
+            <div className="user-menu">
+              <Dropdown ref={(foo) => (dropdown = foo)}>
+                <DropdownTrigger>
+                  <div className="user-menu__user-icon">
+                    <img src={UserIcon} alt="" />
+                  </div>
+                </DropdownTrigger>
+                <DropdownContent>
+                  <ul>
                     <li>
-                      <Link to="/owner-premises">
-                        <p
-                          onClick={() => {
-                            changeRole(roles.OWNER);
-                            dropdown.hide();
-                          }}
-                        >
-                          Wynajemca
-                        </p>{" "}
+                      <Link
+                        onClick={() => {
+                          dropdown.hide();
+                        }}
+                        to="/user-profile"
+                      >
+                        <p>Profil</p>
                       </Link>
                     </li>
-                  )}
-                  {AuthorizedFunction([roles.ADMIN]) && (
+                    {AuthorizedFunction([roles.OWNER]) && (
+                      <li>
+                        <Link to="/">
+                          <p
+                            onClick={() => {
+                              changeRole(roles.OWNER);
+                              dropdown.hide();
+                            }}
+                          >
+                            Wynajmujący
+                          </p>{" "}
+                        </Link>
+                      </li>
+                    )}
+                    {AuthorizedFunction([roles.ADMIN]) && (
+                      <li>
+                        <Link to="/">
+                          <p
+                            onClick={() => {
+                              changeRole(roles.ADMIN);
+                              dropdown.hide();
+                            }}
+                          >
+                            Administrator
+                          </p>
+                        </Link>
+                      </li>
+                    )}
                     <li>
                       <Link to="/">
                         <p
                           onClick={() => {
-                            changeRole(roles.ADMIN);
+                            changeRole(roles.CLIENT);
                             dropdown.hide();
                           }}
                         >
-                          Administrator
+                          Najemca
                         </p>
                       </Link>
                     </li>
-                  )}
-                  <li>
-                    <Link to="/">
-                      <p
-                        onClick={() => {
-                          changeRole(roles.CLIENT);
-                          dropdown.hide();
-                        }}
-                      >
-                        Najemca
-                      </p>
-                    </Link>
-                  </li>
-                  <li>
-                    <a>
-                      <Login />
-                    </a>
-                  </li>
-                </ul>
-              </DropdownContent>
-            </Dropdown>
+                    <li>
+                      <a>
+                        <Login />
+                      </a>
+                    </li>
+                  </ul>
+                </DropdownContent>
+              </Dropdown>
+            </div>
           </div>
-        </div>
-      ) : (
-        <div className="login-btns">
-          <div className="login-btns__btn">
-            <Login />
-          </div>
-          <Link className="login-btns__btn" to="/registration">
-            Rejestracja
-          </Link>
-        </div>
-      )}
-      <div className="mobile-menu" onClick={handleClick}>
-        {click ? (
-          <CloseMenuItem className="menu-icon" />
         ) : (
-          <MenuItem className="menu-icon" />
+          <div className="login-btns">
+            <div className="login-btns__btn">
+              <Login />
+            </div>
+            <Link className="login-btns__btn" to="/registration">
+              Rejestracja
+            </Link>
+          </div>
         )}
+        <div className="mobile-menu" onClick={handleClick}>
+          {click ? (
+            <CloseMenuItem className="menu-icon" />
+          ) : (
+            <MenuItem className="menu-icon" />
+          )}
+        </div>
       </div>
     </div>
   );

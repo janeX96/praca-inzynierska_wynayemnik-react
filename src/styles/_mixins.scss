@@ -2,10 +2,15 @@
   background-color: $bg-color;
   color: $txt-color;
   //   border-color: $bdr-color;
-  &:hover {
+  &:hover:enabled {
     background-color: $hvr-color;
     cursor: pointer;
   }
+  &:hover:disabled {
+    background-color: $bg-color;
+    cursor: default;
+  }
+
   margin-right: 10px;
   font-size: large;
   border-radius: 0.4vw;

@@ -1,20 +1,23 @@
 import React, { useState, useEffect } from "react";
 import "../../../styles/App.scss";
 import PremisesEdit from "../PremisesEdit";
-import { Link } from "react-router-dom";
 import { BsTrashFill } from "react-icons/bs";
 import { AiFillEdit } from "react-icons/ai";
 import { FaKey } from "react-icons/fa";
-import { owner } from "../../../resources/urls";
+import { owner, admin } from "../../../resources/urls";
 import { GET, PATCH } from "../../../utilities/Request";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Rents from "../../rent/Rents";
+import RentDetails from "../../rent/RentDetails";
+import Rent from "../../rent/newRent/Rent";
 
 const PremisesDetails = ({
   premisesId,
   deleteShowMessage,
   action,
   reloadData,
+  roles,
 }) => {
   const [edit, setEdit] = useState(false);
   const [data, setData] = useState({
@@ -41,15 +44,56 @@ const PremisesDetails = ({
     },
     furnished: false,
   });
+  const [rents, setRents] = useState([]);
+  const [activeRent, setActiveRent] = useState();
+  const [showRents, setShowRents] = useState(false);
+  const [showActiveRent, setShowActiveRent] = useState(false);
+  const [newRentForm, setNewRentForm] = useState(false);
+  const [premises, setPremises] = useState();
 
   const getData = () => {
-    GET(`${owner.premisesDetails}${premisesId}`).then((res) => {
-      setData(res);
+    let urlByRole =
+      roles[0] === "owner"
+        ? owner.premisesDetails
+        : roles[0] === "admin"
+        ? admin.premisesDetails
+        : "";
+
+    GET(`${urlByRole}${premisesId}`).then((res) => {
+      if (res !== null) {
+        setData(res);
+        setPremises({
+          name: res.location.locationName,
+          premisesNumber: res.premisesNumber,
+          locationId: res.location.locationId,
+          premisesType: res.premisesType.type,
+        });
+      } else {
+        toast.error("Błąd połączenia z serwerem...");
+      }
+    });
+  };
+
+  const getRents = () => {
+    let urlByRole =
+      roles[0] === "owner"
+        ? owner.rent.rents
+        : roles[0] === "admin"
+        ? admin.rent.rents
+        : "";
+    GET(`${urlByRole}${premisesId}`).then((res) => {
+      setRents(res);
+      res.find((rent) => {
+        if (rent.state === "IN_PROGRESS") {
+          setActiveRent(rent);
+        }
+      });
     });
   };
 
   useEffect(() => {
     getData();
+    getRents();
   }, []);
 
   const handleEdited = (success) => {
@@ -74,9 +118,14 @@ const PremisesDetails = ({
     }
   };
 
-  return (
-    <>
-      {edit ? (
+  const handleReturn = () => {
+    setNewRentForm(false);
+    getRents();
+  };
+
+  const render = () => {
+    if (edit) {
+      return (
         <PremisesEdit
           premisesId={premisesId}
           data={data}
@@ -87,92 +136,127 @@ const PremisesDetails = ({
             setEdit(false);
           }}
         />
-      ) : (
+      );
+    } else if (showRents) {
+      return (
+        <Rents
+          data={rents}
+          premises={data}
+          handleReturn={() => setShowRents(false)}
+          roles={roles}
+        />
+      );
+    } else if (showActiveRent && activeRent !== undefined) {
+      return (
+        <RentDetails
+          rent={activeRent}
+          handleReturn={() => setShowActiveRent(false)}
+          roles={roles}
+        />
+      );
+    } else {
+      return (
         <>
-          <h1 className="content-container__title">Szczegóły lokalu</h1>
-          <div className="details-container">
-            <ul>
-              <li>
-                Adres lokalu: <b>{data.location.locationName}</b>
-              </li>
-              <li>
-                Numer lokalu: <b>{data.premisesNumber}</b>
-              </li>
-              <li>
-                Powierzchnia (m2): <b>{data.area}</b>
-              </li>
-              <li>
-                Rodzaj lokalu: <b>{data.premisesType.type}</b>
-              </li>
-              <li>
-                Umeblowanie: <b>{data.furnished}</b>
-              </li>
-              <li>
-                Poziom: <b>{data.premisesLevel}</b>
-              </li>
-              <li>
-                Dodano: <b>{data.createdDate}</b>
-              </li>
-              <li>
-                Status:
-                <b
-                  className={
-                    data.state === "AVAILABLE"
-                      ? "details-container__field-avb"
-                      : "details-container__field-hired"
-                  }
-                >
-                  {data.state === "AVAILABLE" ? "dostępny" : "zajęty"}
-                </b>
-              </li>
-            </ul>
-            <div className="details-container__buttons">
-              <button
-                className="details-container__button--return"
-                onClick={() => action(-1)}
-              >
-                Powrót
-              </button>
-              <Link
-                to={{
-                  pathname: "/owner-rent-new",
-                  state: {
-                    premisesId: premisesId,
-                    premises: {
-                      name: data.location.locationName,
-                      premisesNumber: data.premisesNumber,
-                      locationId: data.location.locationId,
-                      premisesType: data.premisesType.type,
-                    },
-                  },
-                }}
-              >
-                <div className="icon-container">
-                  <FaKey className="icon-container__new-icon" />
-                  <p>Wynajmij</p>
-                </div>
-              </Link>
+          {newRentForm ? (
+            <Rent
+              premisesId={premisesId}
+              premises={premises}
+              roles={roles}
+              handleReturn={handleReturn}
+            />
+          ) : (
+            <>
+              <h1 className="content-container__title">Szczegóły lokalu</h1>
+              <div className="details-container">
+                <ul>
+                  <li>
+                    Adres lokalu: <b>{data.location.locationName}</b>
+                  </li>
+                  <li>
+                    Numer lokalu: <b>{data.premisesNumber}</b>
+                  </li>
+                  <li>
+                    Powierzchnia (m2): <b>{data.area}</b>
+                  </li>
+                  <li>
+                    Rodzaj lokalu: <b>{data.premisesType.type}</b>
+                  </li>
+                  <li>
+                    Umeblowanie: <b>{data.furnished}</b>
+                  </li>
+                  <li>
+                    Poziom: <b>{data.premisesLevel}</b>
+                  </li>
+                  <li>
+                    Dodano: <b>{data.createdDate}</b>
+                  </li>
+                  <li
+                    onClick={() => setShowActiveRent(true)}
+                    style={{ cursor: "pointer" }}
+                  >
+                    Status:
+                    <b
+                      className={
+                        activeRent === undefined
+                          ? "details-container__field-avb"
+                          : "details-container__field-hired"
+                      }
+                    >
+                      {activeRent === undefined ? "dostępny" : "zajęty"}
+                    </b>
+                  </li>
+                  <li
+                    className="details-container__history"
+                    onClick={() => setShowRents(true)}
+                  >
+                    <b>Historia wynajmów</b>
+                  </li>
+                </ul>
+                <div className="details-container__buttons">
+                  <button
+                    className="details-container__button--return"
+                    onClick={() => action(-1)}
+                  >
+                    Powrót
+                  </button>
 
-              <div className="icon-container">
-                <AiFillEdit
-                  className="icon-container__edit-icon"
-                  onClick={() => setEdit(true)}
-                />
-                <p>Edycja</p>
+                  <div
+                    className="icon-container"
+                    onClick={() => setNewRentForm(true)}
+                  >
+                    <FaKey className="icon-container__new-icon" />
+                    <p>Wynajmij</p>
+                  </div>
+
+                  {roles[0] === "owner" && (
+                    <div className="icon-container">
+                      <AiFillEdit
+                        className="icon-container__edit-icon"
+                        onClick={() => setEdit(true)}
+                      />
+                      <p>Edycja</p>
+                    </div>
+                  )}
+
+                  {roles[0] === "owner" && (
+                    <div className="icon-container">
+                      <BsTrashFill
+                        className="icon-container__delete-icon"
+                        onClick={handleDelete}
+                      />
+                      <p>Usuń</p>
+                    </div>
+                  )}
+                </div>
               </div>
-              <div className="icon-container">
-                <BsTrashFill
-                  className="icon-container__delete-icon"
-                  onClick={handleDelete}
-                />
-                <p>Usuń</p>
-              </div>
-            </div>
-          </div>
+            </>
+          )}
         </>
-      )}
-    </>
-  );
+      );
+    }
+  };
+
+  return <>{render()}</>;
 };
 
 export default PremisesDetails;

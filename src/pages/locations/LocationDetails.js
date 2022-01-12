@@ -5,8 +5,10 @@ import MediaQuantityProductForm from "./product_forms/MediaQuantityProductForm";
 import MediaStandardProductForm from "./product_forms/MediaStandardProductForm";
 import StateProductForm from "./product_forms/StateProductForm";
 import { GET, POST, PUT } from "../../utilities/Request";
-import { owner, general } from "../../resources/urls";
+import { owner, general, admin } from "../../resources/urls";
 import { toast } from "react-toastify";
+import UpdateProductForm from "./product_forms/UpdateProductForm";
+import { AiFillEdit } from "react-icons/ai";
 
 const LocationDetails = (props) => {
   const [location, setLocation] = useState({
@@ -30,6 +32,9 @@ const LocationDetails = (props) => {
     streetNumber: false,
   });
   const [sending, setSending] = useState(false);
+
+  const [updateProductId, setUpdateProductId] = useState(-1);
+  // const [premisesTypesForProduct, setpremisesTypesForProduct] = useState();
 
   const getLocationData = async () => {
     GET(`${owner.locationDetails}${props.id}`)
@@ -128,6 +133,7 @@ const LocationDetails = (props) => {
       }
 
       const url = `${owner.productsForLocation.prefix}${props.id}${suffix}`;
+
       let json = JSON.stringify(product.obj);
       // console.log("Dodaję: ", product.obj);
       POST(url, json)
@@ -144,6 +150,32 @@ const LocationDetails = (props) => {
           setSending(false);
         });
     }
+  };
+
+  const updateProduct = async (product) => {
+    const url = `${owner.productsForLocation.prefix}${props.id}${owner.productsForLocation.updateProduct}${updateProductId}`;
+    let json = JSON.stringify(product.obj);
+    console.log("obiekt do wysalania: ", product);
+
+    PUT(url, json)
+      .then((response) => {
+        if (response.ok) {
+          setProductType("wybierz rodzaj");
+          toast.success("Produkt został zaktualizowany");
+          setSending(false);
+          setUpdateProductId(-1);
+        } else {
+          setSending(false);
+          response.json().then((res) => {
+            toast.error(`Nie udało się aktualizować produktu: ${res.error}`);
+          });
+        }
+        // return response.json();
+      })
+      .catch((err) => {
+        console.log("nie udane wysłanie żądania: ", err);
+        setSending(false);
+      });
   };
 
   const productFormRender = (type) => {
@@ -195,6 +227,19 @@ const LocationDetails = (props) => {
         );
         break;
 
+      case "updateProduct":
+        return (
+          <UpdateProductForm
+            updateProduct={updateProduct}
+            premisesTypes={premisesTypes}
+            locationId={props.id}
+            mediaStandardProducts={mediaStandardProducts}
+            updateProductId={updateProductId}
+            // premisesTypesForProduct={premisesTypesForProduct}
+          />
+        );
+        break;
+
       default:
         return null;
         break;
@@ -202,7 +247,31 @@ const LocationDetails = (props) => {
   };
 
   const handleProductTypeChange = (e) => {
-    setProductType(e.target.value);
+    const value = e.target.value;
+    setProductType(value);
+  };
+
+  // const getPremisesTypesForProduct = (id) => {
+  //   let urlByRole = owner.defaultPrefix;
+  //   let url = general.productsForLocation.premisesTypesForProductPrefix;
+  //   // props.roles[0] === "owner"
+  //   //   ? owner.defaultPrefix
+  //   //   : props.roles[0] === "admin"
+  //   //   ? admin.defaultPrefix
+  //   //   : "";
+
+  //   GET(
+  //     // `${urlByRole}${general.productsForLocation.premisesTypesForProductPrefix}${id}`
+  //     `${url}${id}`
+  //   ).then((res) => {
+  //     setpremisesTypesForProduct(res);
+  //   });
+  // };
+
+  const handleEdit = (id) => {
+    setUpdateProductId(id);
+    setProductType("updateProduct");
+    // getPremisesTypesForProduct(id);
   };
 
   const formValidation = () => {
@@ -330,7 +399,9 @@ const LocationDetails = (props) => {
                 onChange={handleChange}
               />
               {errors.city && (
-                <span className="error-msg">{messages.city_incorrect}</span>
+                <span className="form-container__error-msg">
+                  {messages.city_incorrect}
+                </span>
               )}
             </div>
           </div>
@@ -351,7 +422,9 @@ const LocationDetails = (props) => {
                 onChange={handleChange}
               />
               {errors.postCode && (
-                <span className="error-msg">{messages.postCode_incorrect}</span>
+                <span className="form-container__error-msg">
+                  {messages.postCode_incorrect}
+                </span>
               )}
             </div>
           </div>
@@ -370,7 +443,9 @@ const LocationDetails = (props) => {
                 onChange={handleChange}
               />
               {errors.street && (
-                <span className="error-msg">{messages.street_incorrect}</span>
+                <span className="form-container__error-msg">
+                  {messages.street_incorrect}
+                </span>
               )}
             </div>
           </div>
@@ -389,7 +464,7 @@ const LocationDetails = (props) => {
                 onChange={handleChange}
               />
               {errors.streetNumber && (
-                <span className="error-msg">
+                <span className="form-container__error-msg">
                   {messages.streetNumber_incorrect}
                 </span>
               )}
@@ -411,7 +486,7 @@ const LocationDetails = (props) => {
                 placeholder="(opcjonalnie)"
               />
               {errors.locationName && (
-                <span className="error-msg">
+                <span className="form-container__error-msg">
                   {messages.locationName_incorrect}
                 </span>
               )}
@@ -435,10 +510,20 @@ const LocationDetails = (props) => {
         Produkty
       </h1>
 
-      <div>
+      <div className="content-container__attach-products">
         <ul>
           {products.map((product) => (
-            <li key={product.productName}>- {product.productName}</li>
+            <li key={product.productName}>
+              - {product.productName}
+              <div
+                className="icon-container"
+                style={{ fontSize: "15px" }}
+                onClick={() => handleEdit(product.productId)}
+              >
+                <AiFillEdit className="icon-container__edit-icon" />
+                <p>Edycja</p>
+              </div>
+            </li>
           ))}
         </ul>
       </div>
@@ -454,7 +539,7 @@ const LocationDetails = (props) => {
             onChange={handleProductTypeChange}
           >
             <option key="" value="">
-              wybierz rodzaj
+              Wybierz rodzaj
             </option>
             {productTypes.map((option) => (
               <option key={option.value} value={option.value}>

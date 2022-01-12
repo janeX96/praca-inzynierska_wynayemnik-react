@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../../styles/App.css";
 import { PUT } from "../../utilities/Request";
 import { user } from "../../resources/urls";
+import { toast } from "react-toastify";
 
 const UserProfileEdit = (props) => {
   const [userEdit, setUserEdit] = useState(props.data);
@@ -28,8 +29,16 @@ const UserProfileEdit = (props) => {
     let json = JSON.stringify(userEdit);
     PUT(user.info, json)
       .then((res) => {
-        if (res.ok) console.log("Jest OK");
-        setLoading(false);
+        if (res.ok) {
+          setLoading(false);
+          toast.success("Dane zostały zmienione");
+          props.back();
+        } else {
+          res.json().then((res) => {
+            toast.success(`Nie udało się zapisać zmian: ${res.error}`);
+          });
+        }
+
         return res.json();
       })
       .catch((err) => {
@@ -46,7 +55,7 @@ const UserProfileEdit = (props) => {
       const validation = formValidation();
 
       if (validation.correct) {
-        sendRequest().then(props.back);
+        sendRequest();
       } else {
         setErrors({
           firstNameError: !validation.firstName,
@@ -103,86 +112,6 @@ const UserProfileEdit = (props) => {
     };
   };
 
-  // const validationErrorSetter = (name, condition) => {
-  //     if (condition) {
-  //         setState({
-  //             ...state,
-  //             errors: {
-  //                 [name]: false,
-  //             },
-  //         });
-  //     } else {
-  //         setState({
-  //             ...state,
-  //             errors: {
-  //                 [name]: true,
-  //             },
-  //         });
-  //     }
-  // };
-
-  // const reactiveValidation = () => {
-  //     const fieldName = state.changed;
-  //     setState({
-  //         ...state,
-  //         changed: "",
-  //     });
-  //
-  //     const { city, postCode, street, streetNumber, locationName } =
-  //         state.newLocation;
-  //
-  //     const { premisesNumber, area, premisesLevel } = state;
-  //     const { type } = state.premisesType;
-  //
-  //     switch (fieldName) {
-  //         case "city":
-  //             validationErrorSetter("city", city.length > 0 && city.length <= 30);
-  //             break;
-  //         case "postCode":
-  //             validationErrorSetter("postCode", /[0-9]{2}-[0-9]{3}/.test(postCode));
-  //             break;
-  //         case "street":
-  //             validationErrorSetter(
-  //                 "street",
-  //                 street.length > 0 && street.length <= 60
-  //             );
-  //             break;
-  //         case "streetNumber":
-  //             validationErrorSetter(
-  //                 "streetNumber",
-  //                 /^[0-9a-zA-Z]{1,4}$/.test(streetNumber)
-  //             );
-  //             break;
-  //         case "locationName":
-  //             validationErrorSetter(
-  //                 "locationName",
-  //                 locationName.length > 0 && locationName.length <= 40
-  //             );
-  //             break;
-  //         case "premisesNumber":
-  //             validationErrorSetter(
-  //                 "premisesNumber",
-  //                 /^[0-9a-zA-Z]{1,10}$/.test(premisesNumber)
-  //             );
-  //             break;
-  //         case "area":
-  //             validationErrorSetter("area", /^[0-9]{1,10}$/.test(area));
-  //             break;
-  //         case "premisesLevel":
-  //             validationErrorSetter(
-  //                 "premisesLevel",
-  //                 premisesLevel.length > 0 && premisesLevel.length <= 20
-  //             );
-  //             break;
-  //         case "premisesType":
-  //             validationErrorSetter("premisesType", type.length > 0);
-  //             break;
-  //
-  //         default:
-  //             return null;
-  //     }
-  // };
-
   return (
     <div className="form-container">
       <form onSubmit={handleSubmit}>
@@ -200,7 +129,9 @@ const UserProfileEdit = (props) => {
               onChange={handleChange}
             />
             {errors.firstNameError && (
-              <span className="error-msg">{messages.firstName_incorrect}</span>
+              <span className="form-container__error-msg">
+                {messages.firstName_incorrect}
+              </span>
             )}
           </div>
         </div>
@@ -218,7 +149,9 @@ const UserProfileEdit = (props) => {
               onChange={handleChange}
             />
             {errors.lastNameError && (
-              <span className="error-msg">{messages.lastName_incorrect}</span>
+              <span className="form-container__error-msg">
+                {messages.lastName_incorrect}
+              </span>
             )}
           </div>
         </div>
@@ -236,7 +169,9 @@ const UserProfileEdit = (props) => {
               onChange={handleChange}
             />
             {errors.emailError && (
-              <span className="error-msg">{messages.email_incorrect}</span>
+              <span className="form-container__error-msg">
+                {messages.email_incorrect}
+              </span>
             )}
           </div>
         </div>
@@ -254,14 +189,14 @@ const UserProfileEdit = (props) => {
               onChange={handleChange}
             />
             {errors.phoneNumberError && (
-              <span className="error-msg">
+              <span className="form-container__error-msg">
                 {messages.phoneNumber_incorrect}
               </span>
             )}
           </div>
         </div>
         <div className="form-container__buttons">
-          <button onClick={props.back}>Cofnij</button>
+          <button onClick={props.back}>Powrót</button>
           <button type="submit">Zapisz</button>
         </div>
       </form>

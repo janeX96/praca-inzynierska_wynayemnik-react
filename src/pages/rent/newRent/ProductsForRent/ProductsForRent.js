@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "./ProductsForRent.css";
 import { GET } from "../../../../utilities/Request";
-import { owner } from "../../../../resources/urls";
+import { owner, admin } from "../../../../resources/urls";
 const ProductsForRent = (props) => {
   const [allProducts, setAllProducts] = useState([]);
   const [availableProducts, setAvailableProducts] = useState([]);
@@ -10,9 +10,21 @@ const ProductsForRent = (props) => {
 
   //defaut selected
   const getProductsForType = async (type) => {
-    return await GET(
-      `${owner.productsForLocation.prefix}${props.locationId}${owner.productsForLocation.productsForType}${type}`
-    )
+    let prefix =
+      props.roles[0] === "owner"
+        ? owner.productsForLocation.prefix
+        : props.roles[0] === "admin"
+        ? admin.productsForLocation.prefix
+        : "";
+
+    let productsForTypeUrl =
+      props.roles[0] === "owner"
+        ? owner.productsForLocation.productsForType
+        : props.roles[0] === "admin"
+        ? admin.productsForLocation.productsForType
+        : "";
+
+    return await GET(`${prefix}${props.locationId}${productsForTypeUrl}${type}`)
       .then((res) => {
         setSelectedProducts(res);
         return res;
@@ -23,9 +35,19 @@ const ProductsForRent = (props) => {
   };
 
   const getAllProducts = async () => {
-    return await GET(
-      `${owner.productsForLocation.prefix}${props.locationId}${owner.productsForLocation.allProductsSuffix}`
-    )
+    let prefix =
+      props.roles[0] === "owner"
+        ? owner.productsForLocation.prefix
+        : props.roles[0] === "admin"
+        ? admin.productsForLocation.prefix
+        : "";
+    let suffix =
+      props.roles[0] === "owner"
+        ? owner.productsForLocation.allProductsSuffix
+        : props.roles[0] === "admin"
+        ? admin.productsForLocation.allProductsSuffix
+        : "";
+    return await GET(`${prefix}${props.locationId}${suffix}`)
       .then((res) => {
         setAllProducts(res);
         return res;
@@ -117,6 +139,7 @@ const ProductsForRent = (props) => {
   };
 
   const handleConfirm = (e) => {
+    e.preventDefault();
     const action = e.currentTarget.dataset.name;
 
     let products = selectedProducts.map((product) => {
@@ -182,6 +205,7 @@ const ProductsForRent = (props) => {
                 product.subtypeMedia === "STANDARD" ? (
                   <input
                     type="number"
+                    min={0}
                     id={product.productId}
                     name={product.productId}
                     onChange={handleCounterChange}

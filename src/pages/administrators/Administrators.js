@@ -1,24 +1,24 @@
-import { useEffect, useState } from "react";
-import keycloak from "../../auth/keycloak";
-import LoadData from "../LoadData";
-import "../../styles/App.scss";
-import LocationDetails from "./LocationDetails";
+import React, { useEffect, useState } from "react";
 import { GET } from "../../utilities/Request";
 import { owner } from "../../resources/urls";
-import "react-tabulator/lib/styles.css"; // required styles
-import "react-tabulator/lib/css/tabulator.min.css"; // theme
 import { ReactTabulator as Tabulator } from "react-tabulator";
+import { Link } from "react-router-dom";
+import { BsPlusSquareFill } from "react-icons/bs";
+import AdministratorLogs from "./AdministratorLogs";
+import AdministratorAdd from "./AdministratorAdd";
 import { toast } from "react-toastify";
 
-const Owner_Locations = () => {
-  const [locations, setLocations] = useState([]);
+const Administrators = (props) => {
+  const [administrators, setAdministrators] = useState([]);
   const [chosenId, setChosenId] = useState("");
+  const [chosenEmail, setChosenEmail] = useState("");
+  const [showNewAdministrator, setShowNewAdministrator] = useState(false);
 
   const getData = async () => {
-    GET(owner.locations)
+    GET(owner.administrators.all)
       .then((data) => {
         if (data !== null) {
-          setLocations(data);
+          setAdministrators(data);
         } else {
           toast.error("Błąd połączenia z serwerem...");
         }
@@ -32,49 +32,44 @@ const Owner_Locations = () => {
     getData();
   }, []);
 
-  const handleAction = (id) => {
+  const handleAction = (id, email) => {
     setChosenId(id);
+    setChosenEmail(email);
     getData();
   };
+
   var actionButton = function (cell, formatterParams, onRendered) {
     //plain text value
-
     return `<button>Szczegóły</button>`;
   };
+
   const columns = [
     {
       title: "Id",
-      field: "locationId",
-      visible: false,
+      field: "userAccountId",
     },
     {
-      title: "Nazwa",
-      field: "locationName",
+      title: "Imie",
+      field: "lastName",
+    },
+    {
+      title: "Nazwisko",
+      field: "firstName",
+    },
+    {
+      title: "Email",
+      field: "email",
       headerFilter: "input",
-    },
-    {
-      title: "Miasto",
-      field: "address.city",
-      headerFilter: "input",
-    },
-    {
-      title: "Kod Pocztowy",
-      field: "address.postCode",
-    },
-    {
-      title: "Ulica",
-      field: "address.street",
-    },
-    {
-      Hetitleader: "Numer",
-      field: "address.streetNumber",
     },
     {
       formatter: actionButton,
       width: 150,
       align: "center",
       cellClick: function (e, cell) {
-        handleAction(cell.getRow().getData().locationId);
+        handleAction(
+          cell.getRow().getData().userAccountId,
+          cell.getRow().getData().email
+        );
       },
     },
   ];
@@ -83,7 +78,7 @@ const Owner_Locations = () => {
     return (
       <Tabulator
         columns={columns}
-        data={locations}
+        data={administrators}
         options={{
           movableColumns: true,
           movableRows: true,
@@ -100,29 +95,38 @@ const Owner_Locations = () => {
         resizableRows="true"
         initialSort={[
           //set the initial sort order of the data
-          { column: "location.locationName", dir: "asc" },
+          { column: "lastName", dir: "asc" },
         ]}
       />
     );
   };
 
-  // hiddenColumns: "address.addressId"
-  const initialState = { pageSize: 5, hiddenColumns: "locationId" };
-
   return (
     <>
       <div className="content-container">
         {chosenId > 0 ? (
-          <LocationDetails
+          <AdministratorLogs
             key={chosenId}
-            id={chosenId}
-            handleAction={handleAction}
+            action={handleAction}
+            administratorId={chosenId}
+            administratorEmail={chosenEmail}
+            roles={props.roles}
           />
+        ) : showNewAdministrator ? (
+          <AdministratorAdd action={handleAction} />
         ) : (
           <>
-            <h1 className="content-container__title">Moje Lokacje</h1>
+            <h1 className="content-container__title">Moi administratorzy</h1>
             <div className="table-container">
-              {locations.length > 0 ? renderTable() : "brak"}
+              <div>
+                <div className="icon-container">
+                  <BsPlusSquareFill
+                    className="icon-container__new-icon"
+                    onClick={() => setShowNewAdministrator(true)}
+                  />
+                </div>
+              </div>
+              {administrators.length > 0 ? renderTable() : "brak"}
             </div>
           </>
         )}
@@ -131,4 +135,4 @@ const Owner_Locations = () => {
   );
 };
 
-export default Owner_Locations;
+export default Administrators;

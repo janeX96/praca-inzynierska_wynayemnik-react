@@ -1,9 +1,13 @@
 import { useState, useEffect } from "react";
 import { POST } from "../../../utilities/Request";
 import Confirmation from "./Confirmation";
-import { owner } from "../../../resources/urls";
+import Rents from "../Rents";
+import { owner, admin } from "../../../resources/urls";
+import { toast } from "react-toastify";
 
 const RentSummary = ({
+  handleReturn,
+  roles,
   userEmail,
   rentObj,
   products,
@@ -33,12 +37,18 @@ const RentSummary = ({
       setSending(true);
 
       let json = JSON.stringify(obj);
-
-      POST(owner.rent.new, json)
+      let urlByRole =
+        roles[0] === "owner"
+          ? owner.rent.new
+          : roles[0] === "admin"
+          ? admin.rent.new
+          : "";
+      POST(urlByRole, json)
         .then((response) => {
           if (response.ok) {
-            console.log("UDAŁO SIE!!!");
-
+            // console.log("UDAŁO SIE!!!");
+            toast.success("Wynajem został dodany");
+            handleReturn();
             setSuccess(true);
             setSending(false);
           } else {
@@ -77,233 +87,229 @@ const RentSummary = ({
 
   return (
     <div>
-      {success ? (
-        <Confirmation />
-      ) : (
-        <div className="form-container">
-          <ul>
-            <li>
-              <div className="form-container__row">
-                <div className="row__col-25">
-                  <label>Najemca </label>
-                </div>
-                <div className="row__col-75">
-                  <input
-                    className="form-container__input"
-                    type="text"
-                    value={email + " - " + firstName + ", " + lastName}
-                    disabled
-                  />
-                </div>
+      <div className="form-container">
+        <ul>
+          <li>
+            <div className="form-container__row">
+              <div className="row__col-25">
+                <label>Najemca </label>
               </div>
-            </li>
-            <li>
-              <div className="form-container__row">
-                <div className="row__col-25"></div>
-                <div className="row__col-75">
-                  <input
-                    className="form-container__input"
-                    type="text"
-                    disabled
-                    value={
-                      clientAccess
-                        ? "Klient ma dostęp do konta"
-                        : "Klient nie ma dostępu do konta"
-                    }
-                  />
-                </div>
+              <div className="row__col-75">
+                <input
+                  className="form-container__input"
+                  type="text"
+                  value={email + " - " + firstName + ", " + lastName}
+                  disabled
+                />
               </div>
-            </li>
-            <li>
-              <div className="form-container__row">
-                <div className="row__col-25"></div>
-                <div className="row__col-75">
-                  {" "}
-                  <input
-                    className="form-container__input"
-                    type="text"
-                    disabled
-                    value={
-                      counterMediaRent
-                        ? "Klient ma wgląd do liczników"
-                        : "Klient nie ma wglądu do liczników"
-                    }
-                  />
-                </div>
+            </div>
+          </li>
+          <li>
+            <div className="form-container__row">
+              <div className="row__col-25"></div>
+              <div className="row__col-75">
+                <input
+                  className="form-container__input"
+                  type="text"
+                  disabled
+                  value={
+                    clientAccess
+                      ? "Klient ma dostęp do konta"
+                      : "Klient nie ma dostępu do konta"
+                  }
+                />
               </div>
-            </li>
+            </div>
+          </li>
+          <li>
+            <div className="form-container__row">
+              <div className="row__col-25"></div>
+              <div className="row__col-75">
+                {" "}
+                <input
+                  className="form-container__input"
+                  type="text"
+                  disabled
+                  value={
+                    counterMediaRent
+                      ? "Klient ma wgląd do liczników"
+                      : "Klient nie ma wglądu do liczników"
+                  }
+                />
+              </div>
+            </div>
+          </li>
 
-            <li>
-              <div className="form-container__row">
-                <div className="row__col-25">
-                  <label>Okres wynajmu: </label>
-                </div>
-                <div className="row__col-75">
+          <li>
+            <div className="form-container__row">
+              <div className="row__col-25">
+                <label>Okres wynajmu: </label>
+              </div>
+              <div className="row__col-75">
+                <input
+                  className="form-container__input"
+                  type="text"
+                  disabled
+                  value={"od: " + startDate + " do: " + endDate}
+                />
+              </div>
+            </div>
+          </li>
+          <li>
+            <div className="form-container__row">
+              <div className="row__col-25">
+                <label>Rodzaj wynajmu: </label>
+              </div>
+              <div className="row__col-75">
+                <input
+                  className="form-container__input"
+                  type="text"
+                  disabled
+                  value={premisesType.type}
+                />
+              </div>
+            </div>
+          </li>
+          <li>
+            <div className="form-container__row">
+              <div className="row__col-25">
+                <label>Kaucja: </label>
+              </div>
+              <div className="row__col-75">
+                <input
+                  className="form-container__input"
+                  type="text"
+                  disabled
+                  value={bailValue}
+                />
+              </div>
+            </div>
+          </li>
+          <li>
+            <div className="form-container__row">
+              <div className="row__col-25">
+                <label>Kwota czynszu: </label>
+              </div>
+              <div className="row__col-75">
+                {statePaymentValue ? (
                   <input
                     className="form-container__input"
                     type="text"
                     disabled
-                    value={"od: " + startDate + " do: " + endDate}
+                    value={rentValue}
                   />
-                </div>
-              </div>
-            </li>
-            <li>
-              <div className="form-container__row">
-                <div className="row__col-25">
-                  <label>Rodzaj wynajmu: </label>
-                </div>
-                <div className="row__col-75">
-                  <input
-                    className="form-container__input"
-                    type="text"
-                    disabled
-                    value={premisesType.type}
-                  />
-                </div>
-              </div>
-            </li>
-            <li>
-              <div className="form-container__row">
-                <div className="row__col-25">
-                  <label>Kaucja: </label>
-                </div>
-                <div className="row__col-75">
-                  <input
-                    className="form-container__input"
-                    type="text"
-                    disabled
-                    value={bailValue}
-                  />
-                </div>
-              </div>
-            </li>
-            <li>
-              <div className="form-container__row">
-                <div className="row__col-25">
-                  <label>Kwota czynszu: </label>
-                </div>
-                <div className="row__col-75">
-                  {statePaymentValue ? (
+                ) : (
+                  paymentValues.map((p) => {
                     <input
                       className="form-container__input"
                       type="text"
                       disabled
-                      value={rentValue}
-                    />
-                  ) : (
-                    paymentValues.map((p) => {
-                      <input
-                        className="form-container__input"
-                        type="text"
-                        disabled
-                        value={
-                          "od: " +
-                          p.startDate +
-                          " do: " +
-                          p.endDate +
-                          ", kwota: " +
-                          p.value
-                        }
-                      />;
-                    })
-                  )}
-                </div>
+                      value={
+                        "od: " +
+                        p.startDate +
+                        " do: " +
+                        p.endDate +
+                        ", kwota: " +
+                        p.value
+                      }
+                    />;
+                  })
+                )}
               </div>
-            </li>
+            </div>
+          </li>
+          <li>
+            <div className="form-container__row">
+              <div className="row__col-25">
+                <label>Dzień płatności: </label>
+              </div>
+              <div className="row__col-75">
+                <input
+                  className="form-container__input"
+                  type="text"
+                  disabled
+                  value={paymentDay}
+                />
+              </div>
+            </div>
+          </li>
+          {carNumber.length > 0 && (
             <li>
               <div className="form-container__row">
                 <div className="row__col-25">
-                  <label>Dzień płatności: </label>
+                  <label>Nr rejestracyjny pojazdu: </label>
                 </div>
                 <div className="row__col-75">
                   <input
                     className="form-container__input"
                     type="text"
                     disabled
-                    value={paymentDay}
+                    value={carNumber}
                   />
                 </div>
               </div>
             </li>
-            {carNumber.length > 0 && (
-              <li>
-                <div className="form-container__row">
-                  <div className="row__col-25">
-                    <label>Nr rejestracyjny pojazdu: </label>
-                  </div>
-                  <div className="row__col-75">
-                    <input
-                      className="form-container__input"
-                      type="text"
-                      disabled
-                      value={carNumber}
-                    />
-                  </div>
-                </div>
-              </li>
-            )}
-            <li>
-              <div className="form-container__row">
-                <div className="row__col-25">
-                  <label>Uwagi: </label>
-                </div>
-                <div className="row__col-75">
-                  <input
-                    className="form-container__input"
-                    type="text"
-                    disabled
-                    value={description.length > 0 ? description : "brak"}
-                  />
-                </div>
+          )}
+          <li>
+            <div className="form-container__row">
+              <div className="row__col-25">
+                <label>Uwagi: </label>
               </div>
-            </li>
-            <li>
-              <div className="form-container__row">
-                <div className="row__col-25">
-                  <label>Załączone produkty: </label>
-                </div>
-                <div className="row__col-75">
-                  <ul>
-                    {products.map((product) => {
-                      return (
-                        <li>
-                          <input
-                            className="form-container__input"
-                            type="text"
-                            disabled
-                            value={
-                              product.productName +
-                              ", stan licznika: " +
-                              product.counter
-                            }
-                          />
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </div>
+              <div className="row__col-75">
+                <input
+                  className="form-container__input"
+                  type="text"
+                  disabled
+                  value={description.length > 0 ? description : "brak"}
+                />
               </div>
-            </li>
-            {error && (
-              <span
-                className="form-container__error-msg"
-                style={{ fontSize: "25px" }}
-              >
-                {error}
-              </span>
-            )}
-          </ul>
-          <div className="form-container__buttons">
-            <button onClick={handleConfirm} data-name="back">
-              Powrót
-            </button>
-            <button onClick={handleConfirm} data-name="next">
-              Zapisz
-            </button>
-          </div>
+            </div>
+          </li>
+          <li>
+            <div className="form-container__row">
+              <div className="row__col-25">
+                <label>Załączone produkty: </label>
+              </div>
+              <div className="row__col-75">
+                <ul>
+                  {products.map((product) => {
+                    return (
+                      <li>
+                        <input
+                          className="form-container__input"
+                          type="text"
+                          disabled
+                          value={
+                            product.productName +
+                            ", stan licznika: " +
+                            product.counter
+                          }
+                        />
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            </div>
+          </li>
+          {error && (
+            <span
+              className="form-container__error-msg"
+              style={{ fontSize: "25px" }}
+            >
+              {error}
+            </span>
+          )}
+        </ul>
+        <div className="form-container__buttons">
+          <button onClick={handleConfirm} data-name="back">
+            Powrót
+          </button>
+          <button onClick={handleConfirm} data-name="next">
+            Zapisz
+          </button>
         </div>
-      )}
+      </div>
     </div>
   );
 };
