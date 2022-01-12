@@ -27,20 +27,24 @@ const Premises = (props) => {
         : "";
 
     GET(urlByRole).then((res) => {
-      res.map((prem) => {
-        if (prem.state === "HIRED") {
-          prem.state = "wynajęty";
-        } else {
-          prem.state = "wolny";
-        }
+      if (res !== null) {
+        res.map((prem) => {
+          if (prem.state === "HIRED") {
+            prem.state = "wynajęty";
+          } else {
+            prem.state = "wolny";
+          }
 
-        if (prem.furnished) {
-          prem.furnished = "tak";
-        } else {
-          prem.furnished = "nie";
-        }
-      });
-      setState({ ...state, data: res });
+          if (prem.furnished) {
+            prem.furnished = "tak";
+          } else {
+            prem.furnished = "nie";
+          }
+        });
+        setState({ ...state, data: res });
+      } else {
+        toast.error("Błąd połączenia z serwerem...");
+      }
     });
   };
 
