@@ -399,7 +399,9 @@ const LocationDetails = (props) => {
                 onChange={handleChange}
               />
               {errors.city && (
-                <span className="error-msg">{messages.city_incorrect}</span>
+                <span className="form-container__error-msg">
+                  {messages.city_incorrect}
+                </span>
               )}
             </div>
           </div>
@@ -420,7 +422,9 @@ const LocationDetails = (props) => {
                 onChange={handleChange}
               />
               {errors.postCode && (
-                <span className="error-msg">{messages.postCode_incorrect}</span>
+                <span className="form-container__error-msg">
+                  {messages.postCode_incorrect}
+                </span>
               )}
             </div>
           </div>
@@ -439,7 +443,9 @@ const LocationDetails = (props) => {
                 onChange={handleChange}
               />
               {errors.street && (
-                <span className="error-msg">{messages.street_incorrect}</span>
+                <span className="form-container__error-msg">
+                  {messages.street_incorrect}
+                </span>
               )}
             </div>
           </div>
@@ -458,7 +464,7 @@ const LocationDetails = (props) => {
                 onChange={handleChange}
               />
               {errors.streetNumber && (
-                <span className="error-msg">
+                <span className="form-container__error-msg">
                   {messages.streetNumber_incorrect}
                 </span>
               )}
@@ -480,7 +486,7 @@ const LocationDetails = (props) => {
                 placeholder="(opcjonalnie)"
               />
               {errors.locationName && (
-                <span className="error-msg">
+                <span className="form-container__error-msg">
                   {messages.locationName_incorrect}
                 </span>
               )}
