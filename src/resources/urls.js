@@ -3,6 +3,12 @@ const httpPrefix = "http://";
 const port = "localhost:8080";
 
 const paths = {
+  administrators: {
+    all: "/administrators",
+    set: "/set-administrator/",
+    logs: "/administrator-logs/",
+    ownAndNot: "/administrators/premises/user-permission/",
+  },
   premisesPath: "/premises",
   premisesDetails: "/premises/",
   locationsPath: "/locations",
@@ -25,6 +31,7 @@ const paths = {
     productDetailsPath: "/product/", //{id}
     premisesTypesForProduct: "/premisesType/product/", //{id}
   },
+
   rent: {
     defaultPrefix: "/rent/", //{id}
     newRentPath: "/new-rent",
@@ -58,6 +65,14 @@ const paths = {
 
 const ownerPrefix = "/owner";
 const owner = {
+
+  administrators: {
+      all: `${httpPrefix}${port}${ownerPrefix}${paths.administrators.all}`,
+      set: `${httpPrefix}${port}${ownerPrefix}${paths.administrators.set}`,
+      logs: `${httpPrefix}${port}${ownerPrefix}${paths.administrators.logs}`,
+      ownAndNot: `${httpPrefix}${port}${ownerPrefix}${paths.administrators.ownAndNot}`
+    },
+
   defaultPrefix: `${httpPrefix}${port}${ownerPrefix}`,
   premises: `${httpPrefix}${port}${ownerPrefix}${paths.premisesPath}`,
   premisesDetails: `${httpPrefix}${port}${ownerPrefix}${paths.premisesDetails}`, // +id
@@ -185,6 +200,7 @@ const user = {
   updateIsNaturalPerson: `${httpPrefix}${port}${userPrefix}/isNaturalPerson`,
   getCompany: `${httpPrefix}${port}${userPrefix}/company`,
   createCompany: `${httpPrefix}${port}${userPrefix}/company`,
+  userAccountGetByEmail: `${httpPrefix}${port}${userPrefix}/user-account/get/`,
 };
 
 //for all roles
