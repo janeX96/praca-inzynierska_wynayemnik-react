@@ -29,11 +29,15 @@ const UserProfile = () => {
   const getData = () => {
     GET(userReq.info)
       .then((data) => {
-        setUser({ data });
-        setFakturowniaSettings({
-          apiToken: data.apiToken,
-          prefix: data.prefix,
-        });
+        if (data !== null) {
+          setUser({ data });
+          setFakturowniaSettings({
+            apiToken: data.apiToken,
+            prefix: data.prefix,
+          });
+        } else {
+          toast.error("Błąd połączenia z serwerem...");
+        }
       })
       .catch((err) => {
         console.log("Error Reading data " + err);
@@ -228,147 +232,147 @@ const UserProfile = () => {
   return (
     <div className="content-container">
       <h1 className="content-container__title">Dane użytkownika</h1>
-      {edit ? (
-        <UserProfileEdit data={user.data} back={handleReturn} />
-      ) : showCompanyForm ? (
-        <CompanyForm
-          handleReturn={handleReturn}
-          changeIsNaturalPerson={changeIsNaturalPerson}
-        />
-      ) : (
-        <div className="details-container">
-          <ul style={{ marginBottom: "50px" }}>
-            <li>
-              Imię: <b>{user.data.firstName}</b>
-            </li>
-            <li>
-              Nazwisko: <b>{user.data.lastName}</b>
-            </li>
-            <li>
-              Email: <b>{user.data.email}</b>
-            </li>
-            <li>
-              Numer tel: <b>{user.data.phoneNumber}</b>
-            </li>
+      {user.data.length > 0 && (
+        <>
+          {" "}
+          {edit ? (
+            <UserProfileEdit data={user.data} back={handleReturn} />
+          ) : showCompanyForm ? (
+            <CompanyForm
+              handleReturn={handleReturn}
+              changeIsNaturalPerson={changeIsNaturalPerson}
+            />
+          ) : (
+            <div className="details-container">
+              <ul style={{ marginBottom: "50px" }}>
+                <li>
+                  Imię: <b>{user.data.firstName}</b>
+                </li>
+                <li>
+                  Nazwisko: <b>{user.data.lastName}</b>
+                </li>
+                <li>
+                  Email: <b>{user.data.email}</b>
+                </li>
+                <li>
+                  Numer tel: <b>{user.data.phoneNumber}</b>
+                </li>
 
-            <button
-              onClick={() => setEdit(true)}
-              className="details-container__button"
-              style={{ marginTop: "15px" }}
-            >
-              Edytuj dane
-            </button>
-            <br />
-            <br />
-            <li>
-              Rodzaj użytkownika:
-              <b
-                className="details-container__history"
-                onClick={handleIsNaturalPersonChange}
-              >
-                {user.data.isNaturalPerson ? "osoba fizyczna" : "firma"}
-              </b>
-            </li>
-            {!user.data.isNaturalPerson &&
-              company !== undefined &&
-              company.length > 0 && (
-                <>
-                  <h3>Dane firmy:</h3>
-                  <li>
-                    Nazwa: <b>{company[0].company.companyName}</b>
-                  </li>
-                  <li>
-                    NIP: <b>{company[0].company.nip}</b>
-                  </li>
-                  <li>
-                    Miasto: <b>{company[0].company.address.city}</b>
-                  </li>
-                  <li>
-                    Kod: <b>{company[0].company.address.postCode}</b>
-                  </li>
-                  <li>
-                    Ulica: <b>{company[0].company.address.street}</b>
-                  </li>
-                  <li>
-                    Nr: <b>{company[0].company.address.streetNumber}</b>
-                  </li>
-                  <button
-                    className="details-container__button"
-                    style={{ marginTop: "15px" }}
+                <button
+                  onClick={() => setEdit(true)}
+                  className="details-container__button"
+                  style={{ marginTop: "15px" }}
+                >
+                  Edytuj dane
+                </button>
+                <br />
+                <br />
+                <li>
+                  Rodzaj użytkownika:
+                  <b
+                    className="details-container__history"
+                    onClick={handleIsNaturalPersonChange}
                   >
-                    Edytuj dane
-                  </button>
-                </>
-              )}
-            <li>
-              <div className="togglebutton-container">
-                <h3 className="togglebutton-container__label">Fakturownia</h3>
-                <ToggleButton
-                  value={user.data.isFakturownia}
-                  onToggle={() => handleChangeIsFakturownia()}
-                />
-              </div>
-            </li>
-            <li>
-              {showFakturowniaSettingsForm ? fakturowniaSettingsForm() : ""}
-            </li>
-            <li>
-              {user.data.isFakturownia && (
-                <>
+                    {user.data.isNaturalPerson ? "osoba fizyczna" : "firma"}
+                  </b>
+                </li>
+                {!user.data.isNaturalPerson &&
+                  company !== undefined &&
+                  company.length > 0 && (
+                    <>
+                      <h3>Dane firmy:</h3>
+                      <li>
+                        Nazwa: <b>{company[0].company.companyName}</b>
+                      </li>
+                      <li>
+                        NIP: <b>{company[0].company.nip}</b>
+                      </li>
+                      <li>
+                        Miasto: <b>{company[0].company.address.city}</b>
+                      </li>
+                      <li>
+                        Kod: <b>{company[0].company.address.postCode}</b>
+                      </li>
+                      <li>
+                        Ulica: <b>{company[0].company.address.street}</b>
+                      </li>
+                      <li>
+                        Nr: <b>{company[0].company.address.streetNumber}</b>
+                      </li>
+                      <button
+                        className="details-container__button"
+                        style={{ marginTop: "15px" }}
+                      >
+                        Edytuj dane
+                      </button>
+                    </>
+                  )}
+                <li>
                   <div className="togglebutton-container">
                     <h3 className="togglebutton-container__label">
-                      Fakturownia department:
+                      Fakturownia
                     </h3>
                     <ToggleButton
-                      value={user.data.isDepartmentFakturownia}
-                      onToggle={() => handleChangeIsDepartmentFakturownia()}
+                      value={user.data.isFakturownia}
+                      onToggle={() => handleChangeIsFakturownia()}
                     />
                   </div>
-                  {showApiSettings ? (
-                    <ul>
-                      <b
-                        className="details-container__history"
-                        onClick={() => setShowApiSettings(false)}
-                      >
-                        Ukryj
-                      </b>
+                </li>
+                <li>
+                  {showFakturowniaSettingsForm ? fakturowniaSettingsForm() : ""}
+                </li>
+                <li>
+                  {user.data.isFakturownia && (
+                    <>
+                      <div className="togglebutton-container">
+                        <h3 className="togglebutton-container__label">
+                          Fakturownia department:
+                        </h3>
+                        <ToggleButton
+                          value={user.data.isDepartmentFakturownia}
+                          onToggle={() => handleChangeIsDepartmentFakturownia()}
+                        />
+                      </div>
+                      {showApiSettings ? (
+                        <ul>
+                          <b
+                            className="details-container__history"
+                            onClick={() => setShowApiSettings(false)}
+                          >
+                            Ukryj
+                          </b>
 
-                      <li>
-                        ApiToken: <b>{user.data.apiToken}</b>
-                      </li>
-                      <li>
-                        Prefix: <b>{user.data.prefix}</b>
-                      </li>
+                          <li>
+                            ApiToken: <b>{user.data.apiToken}</b>
+                          </li>
+                          <li>
+                            Prefix: <b>{user.data.prefix}</b>
+                          </li>
 
-                      <b
-                        className="details-container__history"
-                        onClick={() => handleEditFakturowniaSettings()}
-                      >
-                        Zmień
-                      </b>
-                    </ul>
-                  ) : (
-                    !showFakturowniaSettingsForm && (
-                      <b
-                        className="details-container__history"
-                        onClick={() => setShowApiSettings(true)}
-                      >
-                        Pokaż ustawienia API
-                      </b>
-                    )
+                          <b
+                            className="details-container__history"
+                            onClick={() => handleEditFakturowniaSettings()}
+                          >
+                            Zmień
+                          </b>
+                        </ul>
+                      ) : (
+                        !showFakturowniaSettingsForm && (
+                          <b
+                            className="details-container__history"
+                            onClick={() => setShowApiSettings(true)}
+                          >
+                            Pokaż ustawienia API
+                          </b>
+                        )
+                      )}
+                    </>
                   )}
-                </>
-              )}
-            </li>
-          </ul>
-          {/* 
-          <button
-            onClick={() => setEdit(true)}
-            className="details-container__button"
-          >
-            Edytuj dane
-          </button> */}
-        </div>
+                </li>
+              </ul>
+            </div>
+          )}{" "}
+        </>
       )}
     </div>
   );
