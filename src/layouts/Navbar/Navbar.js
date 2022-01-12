@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ReactComponent as MenuItem } from "../../images/icons/menu-svgrepo-com.svg";
 import "./Navbar.scss";
-import logo from "../../images/logo wynayemnik.png";
+import logo from "../../images/wynayemnik logo2.png";
 import { ReactComponent as CloseMenuItem } from "../../images/icons/close-svgrepo-com.svg";
 import Login from "../../components/Login/Login.js";
 import Dropdown, {
@@ -61,9 +61,10 @@ const Navbar = () => {
                 </Link>
               </li>
               <li className="option">
-                <Link to="/owner-administrators"
-                      className="nav-links"
-                      onClick={closeMobileMenu}
+                <Link
+                  to="/owner-administrators"
+                  className="nav-links"
+                  onClick={closeMobileMenu}
                 >
                   Administratorzy
                 </Link>
