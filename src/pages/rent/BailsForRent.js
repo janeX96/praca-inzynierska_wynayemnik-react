@@ -24,11 +24,15 @@ const BailsForRent = (props) => {
 
     GET(`${urlByRole}${props.rentId}${general.rent.allBailsSuffix}`).then(
       (res) => {
-        res.map((b) => {
-          let isCome = b.come;
-          b.come = isCome ? "tak" : "nie";
-        });
-        setBails(res);
+        if (res !== null) {
+          res.map((b) => {
+            let isCome = b.come;
+            b.come = isCome ? "tak" : "nie";
+          });
+          setBails(res);
+        } else {
+          toast.error("Błąd połączenia z serwerem...");
+        }
       }
     );
   };
