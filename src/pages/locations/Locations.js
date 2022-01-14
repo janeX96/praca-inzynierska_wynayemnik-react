@@ -10,7 +10,7 @@ import "react-tabulator/lib/css/tabulator.min.css"; // theme
 import { ReactTabulator as Tabulator } from "react-tabulator";
 import { toast } from "react-toastify";
 
-const Owner_Locations = (props) => {
+const Locations = (props) => {
   const [locations, setLocations] = useState([]);
   const [chosenId, setChosenId] = useState("");
 
@@ -143,4 +143,4 @@ const Owner_Locations = (props) => {
   );
 };
 
-export default Owner_Locations;
+export default Locations;
