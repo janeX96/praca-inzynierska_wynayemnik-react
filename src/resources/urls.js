@@ -1,6 +1,6 @@
 const httpPrefix = "http://";
-const port = "188.68.236.176:8080";
-// const port = "localhost:8080";
+// const port = "188.68.236.176:8080";
+const port = "localhost:8080";
 
 const paths = {
   administrators: {
@@ -185,6 +185,7 @@ const client = {
     details: `${httpPrefix}${port}${clientPrefix}${paths.rent.rentDetails}`,
     payments: `${httpPrefix}${port}${clientPrefix}${paths.rent.paymentsPrefix}`, //{id}
     getAllMediaRent: `${httpPrefix}${port}${clientPrefix}${paths.rent.getAllMediaRentPrefix}`, //{id}
+    products: `${httpPrefix}${port}${clientPrefix}${paths.rent.rentDetails}`, //{id}
   },
 };
 

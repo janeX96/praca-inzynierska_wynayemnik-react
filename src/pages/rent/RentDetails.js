@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { BsTrashFill } from "react-icons/bs";
 import { ImCancelCircle } from "react-icons/im";
 import { toast } from "react-toastify";
+import roles from "../../resources/roles";
 import { owner, admin, client, general } from "../../resources/urls";
 import { GET, PATCH } from "../../utilities/Request";
 import BailsForRent from "./BailsForRent";
@@ -84,7 +85,9 @@ const RentDetails = (props) => {
     setShowProducts(false);
     setShowPayments(false);
     setShowBails(false);
-    getSumOfBails();
+    if (props.roles[0] !== "client") {
+      getSumOfBails();
+    }
   };
 
   useEffect(() => {
@@ -94,7 +97,9 @@ const RentDetails = (props) => {
       getData();
     }
     getPayments();
-    getSumOfBails();
+    if (props.roles[0] !== "client") {
+      getSumOfBails();
+    }
   }, [showPayments, showProducts]);
 
   const handleChangeAccess = () => {
@@ -269,26 +274,23 @@ const RentDetails = (props) => {
               </h3>
             </li>
 
+            <li style={{ marginRight: "80%" }}>
+              <h3
+                className="details-container__history"
+                onClick={() => setShowProducts(true)}
+              >
+                Produkty
+              </h3>
+            </li>
             {(props.roles[0] === "owner" || props.roles[0] === "admin") && (
-              <>
-                <li style={{ marginRight: "80%" }}>
-                  <h3
-                    className="details-container__history"
-                    onClick={() => setShowProducts(true)}
-                  >
-                    Produkty
-                  </h3>
-                </li>
-
-                <li style={{ marginRight: "80%" }}>
-                  <h3
-                    className="details-container__history"
-                    onClick={() => setShowBails(true)}
-                  >
-                    Kaucje
-                  </h3>
-                </li>
-              </>
+              <li style={{ marginRight: "80%" }}>
+                <h3
+                  className="details-container__history"
+                  onClick={() => setShowBails(true)}
+                >
+                  Kaucje
+                </h3>
+              </li>
             )}
           </ul>
         </>

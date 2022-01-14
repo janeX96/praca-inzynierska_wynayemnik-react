@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { BsPlusSquareFill, BsTrashFill } from "react-icons/bs";
 import { toast } from "react-toastify";
-import { owner, admin, general } from "../../resources/urls";
+import { owner, admin, general, client } from "../../resources/urls";
 import { DELETE, GET, POST } from "../../utilities/Request";
 const ProductsForRentDetails = (props) => {
   const [products, setProducts] = useState();
@@ -45,12 +45,19 @@ const ProductsForRentDetails = (props) => {
         ? owner.rent.products
         : props.roles[0] === "admin"
         ? admin.rent.products
+        : props.roles[0] === "client"
+        ? client.rent.products
         : "";
+    let suffix =
+      props.roles[0] === "client"
+        ? general.rent.getAllMediaRentSuffix
+        : general.rent.productsSuffix;
 
-    GET(`${urlByRole}${props.rentId}${general.rent.productsSuffix}`).then(
-      (res) => {
-        if (res !== null) {
-          setProducts(res);
+    GET(`${urlByRole}${props.rentId}${suffix}`).then((res) => {
+      if (res !== null) {
+        setProducts(res);
+
+        if (props.roles[0] !== "client") {
           let valuesObj = {};
           res.map((prod) => {
             const obj = {};
@@ -63,7 +70,7 @@ const ProductsForRentDetails = (props) => {
           setValues(valuesObj);
         }
       }
-    );
+    });
   };
 
   const getAllProducts = () => {
@@ -119,8 +126,10 @@ const ProductsForRentDetails = (props) => {
     }
 
     getMediaStandardProducts();
-    getAllProducts();
-    getProductsForLocation();
+    if (props.roles[0] !== "client") {
+      getAllProducts();
+      getProductsForLocation();
+    }
   }, [sending]);
 
   const formValidation = () => {
@@ -330,79 +339,104 @@ const ProductsForRentDetails = (props) => {
       <h1 className="content-container__title">Produkty wynajmu</h1>
       <div className="form-container">
         <h1>Media</h1>
-        <form onSubmit={handleSubmit}>
-          {products !== undefined && values !== undefined
-            ? products.map((prod) => (
-                <>
-                  <div className="form-container__row">
-                    <div className="row__col-25">
-                      <div
-                        className="icon-container"
-                        style={{ fontSize: "25px" }}
-                      >
-                        <BsTrashFill
-                          className="icon-container__delete-icon"
-                          onClick={() =>
-                            handleDeleteProduct(prod.product.productId)
-                          }
-                        />
-                        <p>Usuń</p>
+        {props.roles[0] === "client" ? (
+          <>
+            {products !== undefined && (
+              <>
+                {products.map((date) =>
+                  date.map((prod) => (
+                    <div className="form-container__row">
+                      <div className="row__col-25">
+                        {prod.product.productName}, stan: {prod.counter}
                       </div>
-                      <label htmlFor={prod.product.productId}>
-                        {prod.product.productName}
-                      </label>
                     </div>
-                    <div className="row__col-75">
-                      <input
-                        disabled={!countersAvailable}
-                        placeholder={
-                          !countersAvailable
-                            ? `ostatnia płatność: ${lastPaymentDate}`
-                            : "Wprowadź stan licznika"
-                        }
-                        className="form-container__input"
-                        type="number"
-                        name={prod.product.productId}
-                        id={prod.product.productId}
-                        value={values[prod.product.productId.counter]}
-                        onChange={handleChange}
-                      />
-                      różnica:
-                      <input
-                        disabled={!countersAvailable}
-                        type="checkbox"
-                        name={prod.product.productId}
-                        id={prod.product.productId}
-                        value={values[prod.product.quantity]}
-                        onChange={handleChange}
-                      />
+                  ))
+                )}
+              </>
+            )}
+          </>
+        ) : (
+          <form onSubmit={handleSubmit}>
+            {products !== undefined && values !== undefined
+              ? products.map((prod) => (
+                  // })
+                  <>
+                    <div className="form-container__row">
+                      <div className="row__col-25">
+                        <div
+                          className="icon-container"
+                          style={{ fontSize: "25px" }}
+                        >
+                          <BsTrashFill
+                            className="icon-container__delete-icon"
+                            onClick={() =>
+                              handleDeleteProduct(prod.product.productId)
+                            }
+                          />
+                          <p>Usuń</p>
+                        </div>
+                        <label htmlFor={prod.product.productId}>
+                          {prod.product.productName}
+                        </label>
+                      </div>
+                      <div className="row__col-75">
+                        <input
+                          disabled={!countersAvailable}
+                          placeholder={
+                            !countersAvailable
+                              ? `ostatnia płatność: ${lastPaymentDate}`
+                              : "Wprowadź stan licznika"
+                          }
+                          className="form-container__input"
+                          type="number"
+                          name={prod.product.productId}
+                          id={prod.product.productId}
+                          value={values[prod.product.productId.counter]}
+                          onChange={handleChange}
+                        />
+                        różnica:
+                        <input
+                          disabled={!countersAvailable}
+                          type="checkbox"
+                          name={prod.product.productId}
+                          id={prod.product.productId}
+                          value={values[prod.product.quantity]}
+                          onChange={handleChange}
+                        />
+                      </div>
                     </div>
-                  </div>
-                </>
-              ))
-            : ""}
-          <div className="form-container__row">
-            <div>
-              {error && (
-                <span className="form-container__error-msg">{errorMsg}</span>
-              )}
+                  </>
+                ))
+              : ""}
+            <div className="form-container__row">
+              <div>
+                {error && (
+                  <span className="form-container__error-msg">{errorMsg}</span>
+                )}
+              </div>
             </div>
-          </div>
 
-          <div className="form-container__buttons">
-            <button type="submit" style={{ marginLeft: "55%" }}>
-              Zapisz
-            </button>
-          </div>
-          <h3
-            className="details-container__history"
-            onClick={() => setShowAllProducts(!showAllProducts)}
-            style={{ marginLeft: "15%" }}
-          >
-            Pokaż pozostałe produkty
-          </h3>
-          {showAllProducts ? renderAllProducts() : ""}
-        </form>
+            {props.roles[0] !== "client" && (
+              <div className="form-container__buttons">
+                <button type="submit" style={{ marginLeft: "55%" }}>
+                  Zapisz
+                </button>
+              </div>
+            )}
+
+            {props.roles[0] !== "client" && (
+              <h3
+                className="details-container__history"
+                onClick={() => setShowAllProducts(!showAllProducts)}
+                style={{ marginLeft: "15%" }}
+              >
+                Pokaż pozostałe produkty
+              </h3>
+            )}
+
+            {showAllProducts ? renderAllProducts() : ""}
+          </form>
+        )}
 
         <div className="details-container__buttons">
           <button
