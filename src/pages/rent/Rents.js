@@ -143,7 +143,7 @@ const Rents = (props) => {
           />
         ) : (
           <>
-            {props.roles[0] === "owner" && (
+            {(props.roles[0] === "owner" || props.roles[0] === "client") && (
               <h1 className="content-container__title">Moje wynajmy</h1>
             )}
             {props.roles[0] === "admin" && (
