@@ -133,7 +133,7 @@ const Premises = (props) => {
           movableColumns: true,
           movableRows: true,
           pagination: true,
-          paginationSize: 7,
+          paginationSize: 5,
           setFilter: true,
         }}
         layout="fitColumns"
