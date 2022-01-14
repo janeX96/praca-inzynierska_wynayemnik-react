@@ -127,7 +127,12 @@ const Owner_Locations = (props) => {
           />
         ) : (
           <>
-            <h1 className="content-container__title">Moje Lokacje</h1>
+            {props.roles[0] === "owner" && (
+              <h1 className="content-container__title">Moje Lokacje</h1>
+            )}
+            {props.roles[0] === "admin" && (
+              <h1 className="content-container__title">Lokacje</h1>
+            )}
             <div className="table-container">
               {locations.length > 0 ? renderTable() : "brak"}
             </div>

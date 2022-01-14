@@ -39,16 +39,7 @@ const Navbar = () => {
                   className="nav-links"
                   onClick={closeMobileMenu}
                 >
-                  Moje lokale
-                </Link>
-              </li>
-              <li className="option">
-                <Link
-                  to="/owner-locations"
-                  className="nav-links"
-                  onClick={closeMobileMenu}
-                >
-                  Moje Lokacje
+                  Lokale i lokacje
                 </Link>
               </li>
               <li className="option">
@@ -57,7 +48,7 @@ const Navbar = () => {
                   className="nav-links"
                   onClick={closeMobileMenu}
                 >
-                  Moje wynajmy
+                  Wynajmy
                 </Link>
               </li>
               <li className="option">
@@ -107,7 +98,7 @@ const Navbar = () => {
                 className="nav-links"
                 onClick={closeMobileMenu}
               >
-                Moje wynajęcia
+                Moje wynajmy
               </Link>
             </li>
           ) : (

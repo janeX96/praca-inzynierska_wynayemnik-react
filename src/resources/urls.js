@@ -1,6 +1,6 @@
 const httpPrefix = "http://";
-// const port = "188.68.236.176:8080";
-const port = "localhost:8080";
+const port = "188.68.236.176:8080";
+// const port = "localhost:8080";
 
 const paths = {
   administrators: {

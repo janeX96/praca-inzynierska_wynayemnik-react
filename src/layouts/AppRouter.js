@@ -64,9 +64,9 @@ const AppRouter = () => {
                   component={Rents}
                 />
                 <PrivateRoute
-                    roles={[roles.OWNER]}
-                    path="/owner-administrators"
-                    component={Administrators}
+                  roles={[roles.OWNER]}
+                  path="/owner-administrators"
+                  component={Administrators}
                 />
                 <PrivateRoute
                   roles={[roles.ADMIN]}

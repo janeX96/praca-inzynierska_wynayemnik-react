@@ -143,7 +143,12 @@ const Rents = (props) => {
           />
         ) : (
           <>
-            <h1 className="content-container__title">Wynajmy</h1>
+            {props.roles[0] === "owner" && (
+              <h1 className="content-container__title">Moje wynajmy</h1>
+            )}
+            {props.roles[0] === "admin" && (
+              <h1 className="content-container__title">Wynajmy</h1>
+            )}
             <div className="table-container">{renderTable()}</div>
             <div className="contant-btns">
               {props.data !== undefined ? (

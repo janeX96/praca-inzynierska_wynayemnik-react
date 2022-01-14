@@ -220,8 +220,22 @@ const Premises = (props) => {
           />
         ) : (
           <>
-            <h1 className="content-container__title">Moje lokale</h1>
+            {props.roles[0] === "owner" && (
+              <h1 className="content-container__title">Moje lokale</h1>
+            )}
+            {props.roles[0] === "admin" && (
+              <h1 className="content-container__title">Lokale</h1>
+            )}
+
             <div className="table-container">
+              <Link to="/owner-locations">
+                <h2
+                  className="details-container__history"
+                  style={{ fontSize: "24px" }}
+                >
+                  Pokaż wszystkie lokacje
+                </h2>
+              </Link>
               {props.roles[0] === "owner" && (
                 <div>
                   <Link to="/owner-premises-new">
