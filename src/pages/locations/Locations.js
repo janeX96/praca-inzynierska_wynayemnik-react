@@ -4,18 +4,24 @@ import LoadData from "../LoadData";
 import "../../styles/App.scss";
 import LocationDetails from "./LocationDetails";
 import { GET } from "../../utilities/Request";
-import { owner } from "../../resources/urls";
+import { owner, admin } from "../../resources/urls";
 import "react-tabulator/lib/styles.css"; // required styles
 import "react-tabulator/lib/css/tabulator.min.css"; // theme
 import { ReactTabulator as Tabulator } from "react-tabulator";
 import { toast } from "react-toastify";
 
-const Owner_Locations = () => {
+const Locations = (props) => {
   const [locations, setLocations] = useState([]);
   const [chosenId, setChosenId] = useState("");
 
   const getData = async () => {
-    GET(owner.locations)
+    let urlByRole =
+      props.roles[0] === "owner"
+        ? owner.locations
+        : props.roles[0] === "admin"
+        ? admin.locations
+        : "";
+    GET(urlByRole)
       .then((data) => {
         if (data !== null) {
           setLocations(data);
@@ -117,10 +123,16 @@ const Owner_Locations = () => {
             key={chosenId}
             id={chosenId}
             handleAction={handleAction}
+            roles={props.roles}
           />
         ) : (
           <>
-            <h1 className="content-container__title">Moje Lokacje</h1>
+            {props.roles[0] === "owner" && (
+              <h1 className="content-container__title">Moje Lokacje</h1>
+            )}
+            {props.roles[0] === "admin" && (
+              <h1 className="content-container__title">Lokacje</h1>
+            )}
             <div className="table-container">
               {locations.length > 0 ? renderTable() : "brak"}
             </div>
@@ -131,4 +143,4 @@ const Owner_Locations = () => {
   );
 };
 
-export default Owner_Locations;
+export default Locations;

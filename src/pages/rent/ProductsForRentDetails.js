@@ -1,8 +1,12 @@
 import { useState, useEffect } from "react";
 import { BsPlusSquareFill, BsTrashFill } from "react-icons/bs";
 import { toast } from "react-toastify";
-import { owner, admin, general } from "../../resources/urls";
+import { owner, admin, general, client } from "../../resources/urls";
 import { DELETE, GET, POST } from "../../utilities/Request";
+import "react-tabulator/lib/styles.css";
+import "react-tabulator/lib/css/tabulator.min.css";
+import { ReactTabulator as Tabulator } from "react-tabulator";
+
 const ProductsForRentDetails = (props) => {
   const [products, setProducts] = useState();
   const [values, setValues] = useState();
@@ -15,7 +19,7 @@ const ProductsForRentDetails = (props) => {
   const [allProducts, setAllProducts] = useState();
   const [addProduct, setAddProduct] = useState(false);
   const [productsForLocation, setProductsForLocation] = useState();
-
+  const [showMediaRentsByDate, setShowMediaRentsByDate] = useState({});
   const getProductsForLocation = () => {
     let urlByRole =
       props.roles[0] === "owner"
@@ -45,12 +49,24 @@ const ProductsForRentDetails = (props) => {
         ? owner.rent.products
         : props.roles[0] === "admin"
         ? admin.rent.products
+        : props.roles[0] === "client"
+        ? client.rent.products
         : "";
+    let suffix =
+      props.roles[0] === "client"
+        ? general.rent.getAllMediaRentSuffix
+        : general.rent.productsSuffix;
 
-    GET(`${urlByRole}${props.rentId}${general.rent.productsSuffix}`).then(
-      (res) => {
-        if (res !== null) {
-          setProducts(res);
+    GET(`${urlByRole}${props.rentId}${suffix}`).then((res) => {
+      if (res !== null) {
+        if (props.roles[0] === "client") {
+          res.map((date) => {
+            setShowMediaRentsByDate({
+              ...showMediaRentsByDate,
+              [date.startDate]: false,
+            });
+          });
+        } else {
           let valuesObj = {};
           res.map((prod) => {
             const obj = {};
@@ -62,8 +78,9 @@ const ProductsForRentDetails = (props) => {
           });
           setValues(valuesObj);
         }
+        setProducts(res);
       }
-    );
+    });
   };
 
   const getAllProducts = () => {
@@ -119,8 +136,10 @@ const ProductsForRentDetails = (props) => {
     }
 
     getMediaStandardProducts();
-    getAllProducts();
-    getProductsForLocation();
+    if (props.roles[0] !== "client") {
+      getAllProducts();
+      getProductsForLocation();
+    }
   }, [sending]);
 
   const formValidation = () => {
@@ -325,84 +344,179 @@ const ProductsForRentDetails = (props) => {
     );
   };
 
+  const columns = [
+    {
+      title: "Data",
+      field: "startDate",
+    },
+    {
+      title: "Produkt",
+      field: "product.productName",
+    },
+    {
+      title: "Jm",
+      field: "product.quantityUnit",
+    },
+    {
+      title: "Stan licznika",
+      field: "counter",
+    },
+  ];
+
+  const renderTable = (data) => {
+    return (
+      <Tabulator
+        columns={columns}
+        data={data}
+        options={{
+          movableColumns: true,
+          movableRows: true,
+          pagination: true,
+          paginationSize: 7,
+          setFilter: true,
+        }}
+        layout="fitColumns"
+        responsiveLayout="hide"
+        tooltips="true"
+        addRowPos="top"
+        history="true"
+        movableColumns="true"
+        resizableRows="true"
+        initialSort={[
+          //set the initial sort order of the data
+          { column: "startDate", dir: "asc" },
+        ]}
+      />
+    );
+  };
+
   return (
     <>
       <h1 className="content-container__title">Produkty wynajmu</h1>
+
       <div className="form-container">
         <h1>Media</h1>
-        <form onSubmit={handleSubmit}>
-          {products !== undefined && values !== undefined
-            ? products.map((prod) => (
+        {props.roles[0] === "client" ? (
+          props.counterMediaRent ? (
+            <ul>
+              {products !== undefined && products !== null && (
                 <>
-                  <div className="form-container__row">
-                    <div className="row__col-25">
-                      <div
-                        className="icon-container"
-                        style={{ fontSize: "25px" }}
+                  {products.map((data) => (
+                    <li>
+                      <h3
+                        className="details-container__history"
+                        onClick={() => {
+                          const newVal = !showMediaRentsByDate[data.startDate];
+                          setShowMediaRentsByDate({
+                            ...showMediaRentsByDate,
+                            [data.startDate]: newVal,
+                          });
+                        }}
                       >
-                        <BsTrashFill
-                          className="icon-container__delete-icon"
-                          onClick={() =>
-                            handleDeleteProduct(prod.product.productId)
-                          }
-                        />
-                        <p>Usuń</p>
-                      </div>
-                      <label htmlFor={prod.product.productId}>
-                        {prod.product.productName}
-                      </label>
-                    </div>
-                    <div className="row__col-75">
-                      <input
-                        disabled={!countersAvailable}
-                        placeholder={
-                          !countersAvailable
-                            ? `ostatnia płatność: ${lastPaymentDate}`
-                            : "Wprowadź stan licznika"
-                        }
-                        className="form-container__input"
-                        type="number"
-                        name={prod.product.productId}
-                        id={prod.product.productId}
-                        value={values[prod.product.productId.counter]}
-                        onChange={handleChange}
-                      />
-                      różnica:
-                      <input
-                        disabled={!countersAvailable}
-                        type="checkbox"
-                        name={prod.product.productId}
-                        id={prod.product.productId}
-                        value={values[prod.product.quantity]}
-                        onChange={handleChange}
-                      />
-                    </div>
-                  </div>
-                </>
-              ))
-            : ""}
-          <div className="form-container__row">
-            <div>
-              {error && (
-                <span className="form-container__error-msg">{errorMsg}</span>
-              )}
-            </div>
-          </div>
+                        {data.startDate}
+                      </h3>
 
-          <div className="form-container__buttons">
-            <button type="submit" style={{ marginLeft: "55%" }}>
-              Zapisz
-            </button>
-          </div>
-          <h3
-            className="details-container__history"
-            onClick={() => setShowAllProducts(!showAllProducts)}
-            style={{ marginLeft: "15%" }}
-          >
-            Pokaż pozostałe produkty
-          </h3>
-          {showAllProducts ? renderAllProducts() : ""}
-        </form>
+                      {showMediaRentsByDate[data.startDate] && (
+                        <div
+                          className="table-container"
+                          style={{ marginLeft: "0" }}
+                        >
+                          {renderTable(data.mediaRents)}
+                        </div>
+                      )}
+                    </li>
+                  ))}
+                </>
+              )}
+            </ul>
+          ) : (
+            <h3 className="form-container__error-msg">
+              Nie można wyświetlić liczników, skontaktuj się z właścicielem
+              lokalu aby otrzymać uprawniena do tych informacji.
+            </h3>
+          )
+        ) : (
+          <form onSubmit={handleSubmit}>
+            {products !== undefined && values !== undefined
+              ? products.map((prod) => (
+                  // })
+                  <>
+                    <div className="form-container__row">
+                      <div className="row__col-25">
+                        <div
+                          className="icon-container"
+                          style={{ fontSize: "25px" }}
+                        >
+                          <BsTrashFill
+                            className="icon-container__delete-icon"
+                            onClick={() =>
+                              handleDeleteProduct(prod.product.productId)
+                            }
+                          />
+                          <p>Usuń</p>
+                        </div>
+                        <label htmlFor={prod.product.productId}>
+                          {prod.product.productName}
+                        </label>
+                      </div>
+                      <div className="row__col-75">
+                        <input
+                          disabled={!countersAvailable}
+                          placeholder={
+                            !countersAvailable
+                              ? `ostatnia płatność: ${lastPaymentDate}`
+                              : "Wprowadź stan licznika"
+                          }
+                          className="form-container__input"
+                          type="number"
+                          name={prod.product.productId}
+                          id={prod.product.productId}
+                          value={values[prod.product.productId.counter]}
+                          onChange={handleChange}
+                        />
+                        różnica:
+                        <input
+                          disabled={!countersAvailable}
+                          type="checkbox"
+                          name={prod.product.productId}
+                          id={prod.product.productId}
+                          value={values[prod.product.quantity]}
+                          onChange={handleChange}
+                        />
+                      </div>
+                    </div>
+                  </>
+                ))
+              : ""}
+            <div className="form-container__row">
+              <div>
+                {error && (
+                  <span className="form-container__error-msg">{errorMsg}</span>
+                )}
+              </div>
+            </div>
+
+            {props.roles[0] !== "client" && (
+              <div className="form-container__buttons">
+                <button type="submit" style={{ marginLeft: "55%" }}>
+                  Zapisz
+                </button>
+              </div>
+            )}
+
+            {props.roles[0] !== "client" && (
+              <h3
+                className="details-container__history"
+                onClick={() => setShowAllProducts(!showAllProducts)}
+                style={{ marginLeft: "15%" }}
+              >
+                Pokaż pozostałe produkty
+              </h3>
+            )}
+
+            {showAllProducts ? renderAllProducts() : ""}
+          </form>
+        )}
 
         <div className="details-container__buttons">
           <button

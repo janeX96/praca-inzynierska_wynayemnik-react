@@ -30,13 +30,7 @@ const UpdateProductForm = (props) => {
   };
 
   const getPremisesTypesForProduct = async (id) => {
-    let urlByRole = owner.defaultPrefix;
     let url = general.productsForLocation.premisesTypesForProductPrefix;
-    // props.roles[0] === "owner"
-    //   ? owner.defaultPrefix
-    //   : props.roles[0] === "admin"
-    //   ? admin.defaultPrefix
-    //   : "";
 
     return await GET(
       // `${urlByRole}${general.productsForLocation.premisesTypesForProductPrefix}${id}`

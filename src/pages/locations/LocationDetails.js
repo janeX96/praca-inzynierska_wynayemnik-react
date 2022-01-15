@@ -37,7 +37,13 @@ const LocationDetails = (props) => {
   // const [premisesTypesForProduct, setpremisesTypesForProduct] = useState();
 
   const getLocationData = async () => {
-    GET(`${owner.locationDetails}${props.id}`)
+    let urlByRole =
+      props.roles[0] === "owner"
+        ? owner.locationDetails
+        : props.roles[0] === "admin"
+        ? admin.locationDetails
+        : "";
+    GET(`${urlByRole}${props.id}`)
       .then((data) => {
         setLocation(data);
       })
@@ -48,7 +54,21 @@ const LocationDetails = (props) => {
 
   //zaciągam produkty typu media standard
   const getProductsMediaStandard = () => {
-    const url = `${owner.productsForLocation.prefix}${props.id}${owner.productsForLocation.getAllMediaStandard}`;
+    let urlByRole1 =
+      props.roles[0] === "owner"
+        ? owner.productsForLocation.prefix
+        : props.roles[0] === "admin"
+        ? admin.productsForLocation.prefix
+        : "";
+
+    let urlByRole2 =
+      props.roles[0] === "owner"
+        ? owner.productsForLocation.getAllMediaStandard
+        : props.roles[0] === "admin"
+        ? admin.productsForLocation.getAllMediaStandard
+        : "";
+
+    const url = `${urlByRole1}${props.id}${urlByRole2}`;
 
     GET(url).then((res) => {
       setMediaStandardProducts(res);
@@ -74,9 +94,21 @@ const LocationDetails = (props) => {
   };
 
   const getProducts = () => {
-    GET(
-      `${owner.productsForLocation.prefix}${props.id}${owner.productsForLocation.allProductsSuffix}`
-    )
+    let urlByRole1 =
+      props.roles[0] === "owner"
+        ? owner.productsForLocation.prefix
+        : props.roles[0] === "admin"
+        ? admin.productsForLocation.prefix
+        : "";
+
+    let urlByRole2 =
+      props.roles[0] === "owner"
+        ? owner.productsForLocation.allProductsSuffix
+        : props.roles[0] === "admin"
+        ? admin.productsForLocation.allProductsSuffix
+        : "";
+
+    GET(`${urlByRole1}${props.id}${urlByRole2}`)
       .then((data) => {
         setProducts(data);
       })
@@ -111,20 +143,45 @@ const LocationDetails = (props) => {
       let suffix = "";
       switch (product.type) {
         case "media-quantity":
-          suffix = owner.productsForLocation.addMiediaQuantity;
+          suffix =
+            props.roles[0] === "owner"
+              ? owner.productsForLocation.addMiediaQuantity
+              : props.roles[0] === "admin"
+              ? admin.productsForLocation.addMiediaQuantity
+              : "";
           break;
         case "media-standard":
-          suffix = owner.productsForLocation.addMediaStandard;
+          suffix =
+            props.roles[0] === "owner"
+              ? owner.productsForLocation.addMediaStandard
+              : props.roles[0] === "admin"
+              ? admin.productsForLocation.addMediaStandard
+              : "";
           break;
         case "calculated":
-          suffix = owner.productsForLocation.addCalculated;
+          suffix =
+            props.roles[0] === "owner"
+              ? owner.productsForLocation.addCalculated
+              : props.roles[0] === "admin"
+              ? admin.productsForLocation.addCalculated
+              : "";
           break;
         case "disposable":
-          suffix = owner.productsForLocation.addDisposable;
+          suffix =
+            props.roles[0] === "owner"
+              ? owner.productsForLocation.addDisposable
+              : props.roles[0] === "admin"
+              ? admin.productsForLocation.addDisposable
+              : "";
           break;
 
         case "state":
-          suffix = owner.productsForLocation.addState;
+          suffix =
+            props.roles[0] === "owner"
+              ? owner.productsForLocation.addState
+              : props.roles[0] === "admin"
+              ? admin.productsForLocation.addState
+              : "";
           break;
 
         default:
@@ -132,7 +189,14 @@ const LocationDetails = (props) => {
           break;
       }
 
-      const url = `${owner.productsForLocation.prefix}${props.id}${suffix}`;
+      let urlByRole =
+        props.roles[0] === "owner"
+          ? owner.productsForLocation.prefix
+          : props.roles[0] === "admin"
+          ? admin.productsForLocation.prefix
+          : "";
+
+      const url = `${urlByRole}${props.id}${suffix}`;
 
       let json = JSON.stringify(product.obj);
       // console.log("Dodaję: ", product.obj);
@@ -153,7 +217,21 @@ const LocationDetails = (props) => {
   };
 
   const updateProduct = async (product) => {
-    const url = `${owner.productsForLocation.prefix}${props.id}${owner.productsForLocation.updateProduct}${updateProductId}`;
+    let urlByRole1 =
+      props.roles[0] === "owner"
+        ? owner.productsForLocation.prefix
+        : props.roles[0] === "admin"
+        ? admin.productsForLocation.prefix
+        : "";
+
+    let urlByRole2 =
+      props.roles[0] === "owner"
+        ? owner.productsForLocation.updateProduct
+        : props.roles[0] === "admin"
+        ? admin.productsForLocation.updateProduct
+        : "";
+
+    const url = `${urlByRole1}${props.id}${urlByRole2}${updateProductId}`;
     let json = JSON.stringify(product.obj);
     console.log("obiekt do wysalania: ", product);
 
@@ -494,7 +572,9 @@ const LocationDetails = (props) => {
           </div>
           <div className="form-container__buttons">
             <button onClick={() => props.handleAction(-1)}>Powrót</button>
-            <button type="submit">Zapisz</button>
+            {props.roles[0] === "owner" && (
+              <button type="submit">Zapisz</button>
+            )}
           </div>
         </form>
       </div>

@@ -11,7 +11,7 @@ import { PrivateRoute } from "../utilities/PrivateRoute";
 import Owner_NewPremises from "../pages/premises/Owner_NewPremises";
 import Registration from "../auth/Registration/Registration";
 import UserProfile from "../pages/UserProfile/UserProfile";
-import Owner_Locations from "../pages/locations/Owner_Locations";
+import Locations from "../pages/locations/Locations";
 import Administrators from "../pages/administrators/Administrators";
 import Rent from "../pages/rent/newRent/Rent";
 import roles from "../resources/roles";
@@ -51,7 +51,7 @@ const AppRouter = () => {
                 <PrivateRoute
                   roles={[roles.OWNER]}
                   path="/owner-locations"
-                  component={Owner_Locations}
+                  component={Locations}
                 />
                 <PrivateRoute
                   roles={[roles.OWNER]}
@@ -64,9 +64,9 @@ const AppRouter = () => {
                   component={Rents}
                 />
                 <PrivateRoute
-                    roles={[roles.OWNER]}
-                    path="/owner-administrators"
-                    component={Administrators}
+                  roles={[roles.OWNER]}
+                  path="/owner-administrators"
+                  component={Administrators}
                 />
                 <PrivateRoute
                   roles={[roles.ADMIN]}
@@ -76,7 +76,7 @@ const AppRouter = () => {
                 <PrivateRoute
                   roles={[roles.ADMIN]}
                   path="/admin-locations"
-                  component={Owner_Locations}
+                  component={Locations}
                 />
                 <PrivateRoute
                   roles={[roles.ADMIN]}

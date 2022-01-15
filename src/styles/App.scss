@@ -1,11 +1,17 @@
 @import "_colors";
 @import "_mixins";
 
+html,
 body {
   margin: 0 !important;
   font-family: "Lato", sans-serif;
   font-family: "Noto Sans Display", sans-serif;
   color: $main-color-dark;
+
+  height: 100%;
+  width: 100%;
+  padding: 0px;
+  overflow-x: hidden;
 }
 
 .Toastify__toast-container {
@@ -117,6 +123,10 @@ body {
     }
     &__field-hired {
       color: $error-color;
+    }
+
+    &__field-special {
+      color: $edit-color;
     }
 
     &__history {

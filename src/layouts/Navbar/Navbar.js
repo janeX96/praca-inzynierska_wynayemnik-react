@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ReactComponent as MenuItem } from "../../images/icons/menu-svgrepo-com.svg";
 import "./Navbar.scss";
-import logo from "../../images/logo wynayemnik.png";
+import logo from "../../images/wynayemnik logo2.png";
 import { ReactComponent as CloseMenuItem } from "../../images/icons/close-svgrepo-com.svg";
 import Login from "../../components/Login/Login.js";
 import Dropdown, {
@@ -39,16 +39,7 @@ const Navbar = () => {
                   className="nav-links"
                   onClick={closeMobileMenu}
                 >
-                  Moje lokale
-                </Link>
-              </li>
-              <li className="option">
-                <Link
-                  to="/owner-locations"
-                  className="nav-links"
-                  onClick={closeMobileMenu}
-                >
-                  Moje Lokacje
+                  Lokale i lokacje
                 </Link>
               </li>
               <li className="option">
@@ -57,13 +48,14 @@ const Navbar = () => {
                   className="nav-links"
                   onClick={closeMobileMenu}
                 >
-                  Moje wynajmy
+                  Wynajmy
                 </Link>
               </li>
               <li className="option">
-                <Link to="/owner-administrators"
-                      className="nav-links"
-                      onClick={closeMobileMenu}
+                <Link
+                  to="/owner-administrators"
+                  className="nav-links"
+                  onClick={closeMobileMenu}
                 >
                   Administratorzy
                 </Link>
@@ -78,6 +70,15 @@ const Navbar = () => {
                   onClick={closeMobileMenu}
                 >
                   Lokale
+                </Link>
+              </li>
+              <li className="option">
+                <Link
+                  to="/admin-locations"
+                  className="nav-links"
+                  onClick={closeMobileMenu}
+                >
+                  Lokacje
                 </Link>
               </li>
               <li className="option">
@@ -97,7 +98,7 @@ const Navbar = () => {
                 className="nav-links"
                 onClick={closeMobileMenu}
               >
-                Moje wynajęcia
+                Moje wynajmy
               </Link>
             </li>
           ) : (

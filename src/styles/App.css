@@ -1,8 +1,13 @@
+html,
 body {
   margin: 0 !important;
   font-family: "Lato", sans-serif;
   font-family: "Noto Sans Display", sans-serif;
   color: #363636;
+  height: 100%;
+  width: 100%;
+  padding: 0px;
+  overflow-x: hidden;
 }
 
 .Toastify__toast-container {
@@ -148,6 +153,10 @@ body {
 
 .content-container .details-container__field-hired {
   color: #941818;
+}
+
+.content-container .details-container__field-special {
+  color: #324aa8;
 }
 
 .content-container .details-container__history {

@@ -9,9 +9,7 @@ import { toast } from "react-toastify";
 import CompanyForm from "./CompanyForm";
 
 const UserProfile = () => {
-  const [user, setUser] = useState({
-    data: [],
-  });
+  const [user, setUser] = useState({});
   const [edit, setEdit] = useState(false);
   const [showFakturowniaSettingsForm, setShowFakturowniaSettingsForm] =
     useState(false);
@@ -232,7 +230,7 @@ const UserProfile = () => {
   return (
     <div className="content-container">
       <h1 className="content-container__title">Dane użytkownika</h1>
-      {user.data.length > 0 && (
+      {user.data !== undefined && (
         <>
           {" "}
           {edit ? (
