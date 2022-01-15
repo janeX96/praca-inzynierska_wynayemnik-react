@@ -5,7 +5,6 @@ import RentDetails from "./RentDetails";
 import "react-tabulator/lib/styles.css";
 import "react-tabulator/lib/css/tabulator.min.css";
 import { ReactTabulator as Tabulator } from "react-tabulator";
-import { MdPayment } from "react-icons/md";
 import { toast } from "react-toastify";
 
 const Rents = (props) => {

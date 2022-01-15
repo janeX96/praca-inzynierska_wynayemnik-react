@@ -3,6 +3,10 @@ import { BsPlusSquareFill, BsTrashFill } from "react-icons/bs";
 import { toast } from "react-toastify";
 import { owner, admin, general, client } from "../../resources/urls";
 import { DELETE, GET, POST } from "../../utilities/Request";
+import "react-tabulator/lib/styles.css";
+import "react-tabulator/lib/css/tabulator.min.css";
+import { ReactTabulator as Tabulator } from "react-tabulator";
+
 const ProductsForRentDetails = (props) => {
   const [products, setProducts] = useState();
   const [values, setValues] = useState();
@@ -15,7 +19,7 @@ const ProductsForRentDetails = (props) => {
   const [allProducts, setAllProducts] = useState();
   const [addProduct, setAddProduct] = useState(false);
   const [productsForLocation, setProductsForLocation] = useState();
-
+  const [showMediaRentsByDate, setShowMediaRentsByDate] = useState({});
   const getProductsForLocation = () => {
     let urlByRole =
       props.roles[0] === "owner"
@@ -55,9 +59,14 @@ const ProductsForRentDetails = (props) => {
 
     GET(`${urlByRole}${props.rentId}${suffix}`).then((res) => {
       if (res !== null) {
-        setProducts(res);
-
-        if (props.roles[0] !== "client") {
+        if (props.roles[0] === "client") {
+          res.map((date) => {
+            setShowMediaRentsByDate({
+              ...showMediaRentsByDate,
+              [date.startDate]: false,
+            });
+          });
+        } else {
           let valuesObj = {};
           res.map((prod) => {
             const obj = {};
@@ -69,6 +78,7 @@ const ProductsForRentDetails = (props) => {
           });
           setValues(valuesObj);
         }
+        setProducts(res);
       }
     });
   };
@@ -334,27 +344,97 @@ const ProductsForRentDetails = (props) => {
     );
   };
 
+  const columns = [
+    {
+      title: "Data",
+      field: "startDate",
+    },
+    {
+      title: "Produkt",
+      field: "product.productName",
+    },
+    {
+      title: "Jm",
+      field: "product.quantityUnit",
+    },
+    {
+      title: "Stan licznika",
+      field: "counter",
+    },
+  ];
+
+  const renderTable = (data) => {
+    return (
+      <Tabulator
+        columns={columns}
+        data={data}
+        options={{
+          movableColumns: true,
+          movableRows: true,
+          pagination: true,
+          paginationSize: 7,
+          setFilter: true,
+        }}
+        layout="fitColumns"
+        responsiveLayout="hide"
+        tooltips="true"
+        addRowPos="top"
+        history="true"
+        movableColumns="true"
+        resizableRows="true"
+        initialSort={[
+          //set the initial sort order of the data
+          { column: "startDate", dir: "asc" },
+        ]}
+      />
+    );
+  };
+
   return (
     <>
       <h1 className="content-container__title">Produkty wynajmu</h1>
+
       <div className="form-container">
         <h1>Media</h1>
         {props.roles[0] === "client" ? (
-          <>
-            {products !== undefined && (
-              <>
-                {products.map((date) =>
-                  date.map((prod) => (
-                    <div className="form-container__row">
-                      <div className="row__col-25">
-                        {prod.product.productName}, stan: {prod.counter}
-                      </div>
-                    </div>
-                  ))
-                )}
-              </>
-            )}
-          </>
+          props.counterMediaRent ? (
+            <ul>
+              {products !== undefined && products !== null && (
+                <>
+                  {products.map((data) => (
+                    <li>
+                      <h3
+                        className="details-container__history"
+                        onClick={() => {
+                          const newVal = !showMediaRentsByDate[data.startDate];
+                          setShowMediaRentsByDate({
+                            ...showMediaRentsByDate,
+                            [data.startDate]: newVal,
+                          });
+                        }}
+                      >
+                        {data.startDate}
+                      </h3>
+
+                      {showMediaRentsByDate[data.startDate] && (
+                        <div
+                          className="table-container"
+                          style={{ marginLeft: "0" }}
+                        >
+                          {renderTable(data.mediaRents)}
+                        </div>
+                      )}
+                    </li>
+                  ))}
+                </>
+              )}
+            </ul>
+          ) : (
+            <h3 className="form-container__error-msg">
+              Nie można wyświetlić liczników, skontaktuj się z właścicielem
+              lokalu aby otrzymać uprawniena do tych informacji.
+            </h3>
+          )
         ) : (
           <form onSubmit={handleSubmit}>
             {products !== undefined && values !== undefined
