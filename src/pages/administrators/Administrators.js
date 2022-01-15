@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 
 const Administrators = (props) => {
   const [administrators, setAdministrators] = useState([]);
-  const [chosenId, setChosenId] = useState("");
+  const [chosenId, setChosenId] = useState(-1);
   const [chosenEmail, setChosenEmail] = useState("");
   const [showNewAdministrator, setShowNewAdministrator] = useState(false);
 
@@ -35,6 +35,13 @@ const Administrators = (props) => {
   const handleAction = (id, email) => {
     setChosenId(id);
     setChosenEmail(email);
+    getData();
+  };
+
+  const handleReturn = () => {
+    setChosenId(-1);
+    setChosenEmail("");
+    setShowNewAdministrator(false);
     getData();
   };
 
@@ -113,7 +120,7 @@ const Administrators = (props) => {
             roles={props.roles}
           />
         ) : showNewAdministrator ? (
-          <AdministratorAdd action={handleAction} />
+          <AdministratorAdd return={handleReturn} />
         ) : (
           <>
             <h1 className="content-container__title">Moi administratorzy</h1>
