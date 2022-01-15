@@ -3,6 +3,7 @@ import { ReactTabulator as Tabulator } from "react-tabulator";
 import { GET, PATCH } from "../../utilities/Request";
 import { owner, user } from "../../resources/urls";
 import * as path from "path";
+import { toast } from "react-toastify";
 
 const AdministratorAdd = (props) => {
   const [premises, setPremises] = useState([]);
@@ -42,11 +43,15 @@ const AdministratorAdd = (props) => {
 
   const handleSubmitAdministrator = (e) => {
     e.preventDefault();
-    console.log(`${user.userAccountGetByEmail}${administratorEmail}`);
+
     GET(`${user.userAccountGetByEmail}${administratorEmail}`)
       .then((data) => {
-        setIdAdministrator(data);
-        getData();
+        if (!data.ok) {
+          toast.error(data.error);
+        } else {
+          setIdAdministrator(data);
+          getData();
+        }
       })
       .catch((err) => {
         console.log("Error Reading data " + err);
