@@ -430,10 +430,10 @@ const ProductsForRentDetails = (props) => {
               )}
             </ul>
           ) : (
-            <h1>
+            <h3 className="form-container__error-msg">
               Nie można wyświetlić liczników, skontaktuj się z właścicielem
               lokalu aby otrzymać uprawniena do tych informacji.
-            </h1>
+            </h3>
           )
         ) : (
           <form onSubmit={handleSubmit}>
