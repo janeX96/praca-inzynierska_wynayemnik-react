@@ -12,6 +12,8 @@ const Administrators = (props) => {
   const [administrators, setAdministrators] = useState([]);
   const [chosenId, setChosenId] = useState(-1);
   const [chosenEmail, setChosenEmail] = useState("");
+  const [chosenFirstName, setChosenFirstName] = useState();
+  const [chosenLastName, setChosenLastName] = useState();
   const [showNewAdministrator, setShowNewAdministrator] = useState(false);
 
   const getData = async () => {
@@ -32,9 +34,11 @@ const Administrators = (props) => {
     getData();
   }, []);
 
-  const handleAction = (id, email) => {
+  const handleAction = (id, email, firstName, lastName) => {
     setChosenId(id);
     setChosenEmail(email);
+    setChosenFirstName(firstName);
+    setChosenLastName(lastName);
     getData();
   };
 
@@ -75,7 +79,9 @@ const Administrators = (props) => {
       cellClick: function (e, cell) {
         handleAction(
           cell.getRow().getData().userAccountId,
-          cell.getRow().getData().email
+          cell.getRow().getData().email,
+          cell.getRow().getData().firstName,
+          cell.getRow().getData().lastName
         );
       },
     },
@@ -117,6 +123,8 @@ const Administrators = (props) => {
             action={handleAction}
             administratorId={chosenId}
             administratorEmail={chosenEmail}
+            administartorFirstName={chosenFirstName}
+            administartorLastName={chosenLastName}
             roles={props.roles}
           />
         ) : showNewAdministrator ? (

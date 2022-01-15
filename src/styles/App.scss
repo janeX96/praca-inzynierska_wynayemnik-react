@@ -125,6 +125,10 @@ body {
       color: $error-color;
     }
 
+    &__field-special {
+      color: $edit-color;
+    }
+
     &__history {
       margin-top: 20px;
       font-size: 18px;
