@@ -309,6 +309,7 @@ const RentDetails = (props) => {
           handleReturn={handleReturn}
           payments={payments}
           locationId={rent.premises.location.locationId}
+          counterMediaRent={rent.counterMediaRent}
         />
       ) : showPayments ? (
         <PaymentsForRent

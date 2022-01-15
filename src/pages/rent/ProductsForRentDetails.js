@@ -397,37 +397,44 @@ const ProductsForRentDetails = (props) => {
       <div className="form-container">
         <h1>Media</h1>
         {props.roles[0] === "client" ? (
-          <ul>
-            {products !== undefined && products !== null && (
-              <>
-                {products.map((data) => (
-                  <li>
-                    <h3
-                      className="details-container__history"
-                      onClick={() => {
-                        const newVal = !showMediaRentsByDate[data.startDate];
-                        setShowMediaRentsByDate({
-                          ...showMediaRentsByDate,
-                          [data.startDate]: newVal,
-                        });
-                      }}
-                    >
-                      {data.startDate}
-                    </h3>
-
-                    {showMediaRentsByDate[data.startDate] && (
-                      <div
-                        className="table-container"
-                        style={{ marginLeft: "0" }}
+          props.counterMediaRent ? (
+            <ul>
+              {products !== undefined && products !== null && (
+                <>
+                  {products.map((data) => (
+                    <li>
+                      <h3
+                        className="details-container__history"
+                        onClick={() => {
+                          const newVal = !showMediaRentsByDate[data.startDate];
+                          setShowMediaRentsByDate({
+                            ...showMediaRentsByDate,
+                            [data.startDate]: newVal,
+                          });
+                        }}
                       >
-                        {renderTable(data.mediaRents)}
-                      </div>
-                    )}
-                  </li>
-                ))}
-              </>
-            )}
-          </ul>
+                        {data.startDate}
+                      </h3>
+
+                      {showMediaRentsByDate[data.startDate] && (
+                        <div
+                          className="table-container"
+                          style={{ marginLeft: "0" }}
+                        >
+                          {renderTable(data.mediaRents)}
+                        </div>
+                      )}
+                    </li>
+                  ))}
+                </>
+              )}
+            </ul>
+          ) : (
+            <h1>
+              Nie można wyświetlić liczników, skontaktuj się z właścicielem
+              lokalu aby otrzymać uprawniena do tych informacji.
+            </h1>
+          )
         ) : (
           <form onSubmit={handleSubmit}>
             {products !== undefined && values !== undefined
