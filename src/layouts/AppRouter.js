@@ -17,6 +17,7 @@ import Rent from "../pages/rent/newRent/Rent";
 import roles from "../resources/roles";
 import { ToastContainer } from "react-toastify";
 import Rents from "../pages/rent/Rents";
+import Clients from "../pages/Clients";
 
 const AppRouter = () => {
   const { initialized } = useKeycloak();
@@ -68,6 +69,12 @@ const AppRouter = () => {
                   path="/owner-administrators"
                   component={Administrators}
                 />
+                <PrivateRoute
+                  roles={[roles.OWNER]}
+                  path="/owner-clients"
+                  component={Clients}
+                />
+                {/* for admin */}
                 <PrivateRoute
                   roles={[roles.ADMIN]}
                   path="/admin-premises"

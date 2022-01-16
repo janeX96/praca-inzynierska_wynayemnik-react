@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
-import { BsTrashFill } from "react-icons/bs";
 import { ImCancelCircle } from "react-icons/im";
 import { toast } from "react-toastify";
-import roles from "../../resources/roles";
 import { owner, admin, client, general } from "../../resources/urls";
 import { GET, PATCH } from "../../utilities/Request";
 import BailsForRent from "./BailsForRent";
