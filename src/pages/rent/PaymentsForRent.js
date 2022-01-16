@@ -17,6 +17,7 @@ const PaymentsForRent = (props) => {
   const [chosenId, setChosenId] = useState(-1);
   const handleReturn = () => {
     setShowPaymentForm(false);
+    setChosenId(-1);
     props.reloadPayments();
   };
   var actionButton = function (cell, formatterParams, onRendered) {
@@ -102,6 +103,7 @@ const PaymentsForRent = (props) => {
           roles={props.roles}
           rentId={props.rentId}
           paymentId={chosenId}
+          handleReturn={handleReturn}
         />
       ) : showPaymentForm ? (
         <PaymentForm

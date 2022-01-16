@@ -144,6 +144,15 @@ const PaymentDetails = (props) => {
       <h1 className="content-container__title">Szczegóły płatności</h1>
       <div className="details-container">
         {payment !== undefined && renderData()}
+        <div className="details-container__buttons">
+          <button
+            className="details-container__button--return"
+            onClick={() => props.handleReturn()}
+            style={{ marginTop: "10%" }}
+          >
+            Powrót
+          </button>
+        </div>
       </div>
     </>
   );
