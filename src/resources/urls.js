@@ -44,6 +44,7 @@ const paths = {
     paymentsSuffix: "/payments",
     newPaymentPrefix: "/rent/", //{id}
     newPaymentSuffix: "/payment",
+    paymentDetailsSuffix: "/payment/",
     addAllMediaCountersPrefix: "/rent/", //{id}
     addAllMediaCountersSuffix: "/allMediaRent",
     getAllMediaRentPrefix: "/rent/", //{id},
@@ -122,6 +123,7 @@ const owner = {
     deleteBail: `${httpPrefix}${port}${ownerPrefix}${paths.rent.defaultPrefix}`, //{id}
     updateBail: `${httpPrefix}${port}${ownerPrefix}${paths.rent.defaultPrefix}`, //{id}
     changeUserCountersAccess: `${httpPrefix}${port}${ownerPrefix}${paths.rent.changeUserCountersAccessPrefix}`, //{id}
+    paymentDetails: `${httpPrefix}${port}${ownerPrefix}${paths.rent.defaultPrefix}`, //{id}
   },
   bail: {
     inverseIsCome: `${httpPrefix}${port}${ownerPrefix}${paths.bail.inverseIsComePrefix}`,
@@ -234,6 +236,7 @@ const general = {
     addProductPrefix: paths.rent.addProductPrefix,
     deleteBailPrefix: paths.rent.deleteBailPrefix,
     updateBailPrefix: paths.rent.updateBailPrefix,
+    paymentDetailsSuffix: paths.rent.paymentDetailsSuffix,
   },
 };
 
