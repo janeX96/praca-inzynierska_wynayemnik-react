@@ -371,8 +371,9 @@ const ProductsForRentDetails = (props) => {
         options={{
           movableColumns: true,
           movableRows: true,
-          pagination: true,
-          paginationSize: 7,
+          pagination: "local",
+          paginationSizeSelector: [5, 10, 20, 50],
+          paginationSize: 5,
           setFilter: true,
         }}
         layout="fitColumns"

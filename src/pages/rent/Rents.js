@@ -164,7 +164,6 @@ const Rents = (props) => {
           pagination: "local",
           paginationSizeSelector: [5, 10, 20, 50],
           paginationSize: 5,
-
           setFilter: true,
         }}
         layout="fitColumns"
