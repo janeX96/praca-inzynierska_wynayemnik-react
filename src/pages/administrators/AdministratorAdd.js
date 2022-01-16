@@ -10,30 +10,34 @@ const AdministratorAdd = (props) => {
   const [idAdministrator, setIdAdministrator] = useState(-1);
   const [administratorEmail, setAdministratorEmail] = useState("");
 
-  useEffect(() => {
-    getData();
-  }, [idAdministrator]);
+  // useEffect(() => {
+  //   getData();
+  // }, [idAdministrator]);
 
-  const getData = async () => {
-    console.log(idAdministrator);
-    GET(`${owner.administrators.ownAndNot}${idAdministrator}`)
+  const getData = (id) => {
+    const adminId = idAdministrator === -1 ? id : idAdministrator;
+    GET(`${owner.administrators.ownAndNot}${adminId}`)
       .then((data) => {
-        data.map(
-          (e) =>
-            (e.administratorActive = e.administratorActive
-              ? "Aktywny"
-              : "Nieaktywny")
-        );
-        setPremises(data);
+        if (data.error !== undefined) {
+          toast.error(data.error);
+        } else {
+          data.map(
+            (e) =>
+              (e.administratorActive = e.administratorActive
+                ? "Aktywny"
+                : "Nieaktywny")
+          );
+          setPremises(data);
+        }
       })
       .catch((err) => {
         console.log("Error Reading data " + err);
       });
   };
 
-  const handleAction = (id) => {
-    PATCH(`${owner.administrators.set}${administratorEmail}/${id}`)
-      .then(() => {
+  const handleAction = async (id) => {
+    await PATCH(`${owner.administrators.set}${administratorEmail}/${id}`)
+      .then((res) => {
         getData();
       })
       .catch((err) => {
@@ -46,11 +50,11 @@ const AdministratorAdd = (props) => {
 
     GET(`${user.userAccountGetByEmail}${administratorEmail}`)
       .then((data) => {
-        if (!data.ok) {
+        if (data.error !== undefined) {
           toast.error(data.error);
         } else {
           setIdAdministrator(data);
-          getData();
+          getData(data);
         }
       })
       .catch((err) => {
