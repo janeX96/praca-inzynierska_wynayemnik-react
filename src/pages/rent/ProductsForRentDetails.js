@@ -127,7 +127,7 @@ const ProductsForRentDetails = (props) => {
 
       if (lessThanMonthAgo !== undefined) {
         setCountersAvailable(false);
-        setLastPaymentDate(lessThanMonthAgo.paymentDate);
+        setLastPaymentDate(lessThanMonthAgo.startDate);
       } else {
         setCountersAvailable(true);
       }
