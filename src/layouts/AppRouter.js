@@ -17,11 +17,33 @@ import Rent from "../pages/rent/newRent/Rent";
 import roles from "../resources/roles";
 import { ToastContainer } from "react-toastify";
 import Rents from "../pages/rent/Rents";
+import Clients from "../pages/Clients";
+import { useEffect, useState } from "react";
+import keycloakErr from "../images/keycloakErr.jpg";
 
 const AppRouter = () => {
   const { initialized } = useKeycloak();
+  const [keycloakError, setKeycloakError] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setKeycloakError(true);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, []);
+
   if (!initialized) {
-    return <h3>Loading keycloak...</h3>;
+    return keycloakError ? (
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <img
+          src={keycloakErr}
+          alt="keycloak error"
+          style={{ width: "30%", margin: "auto" }}
+        />
+      </div>
+    ) : (
+      <h3>Loading keycloak...</h3>
+    );
   }
 
   return (
@@ -68,6 +90,12 @@ const AppRouter = () => {
                   path="/owner-administrators"
                   component={Administrators}
                 />
+                <PrivateRoute
+                  roles={[roles.OWNER]}
+                  path="/owner-clients"
+                  component={Clients}
+                />
+                {/* for admin */}
                 <PrivateRoute
                   roles={[roles.ADMIN]}
                   path="/admin-premises"

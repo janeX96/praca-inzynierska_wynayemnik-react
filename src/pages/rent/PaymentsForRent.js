@@ -7,15 +7,17 @@ import PaymentForm from "./PaymentForm";
 import "react-tabulator/lib/styles.css"; // required styles
 import "react-tabulator/lib/css/tabulator.min.css"; // theme
 import { ReactTabulator as Tabulator } from "react-tabulator";
+import PaymentDetails from "./PaymentDetails";
 
 const PaymentsForRent = (props) => {
   const [payments, setPayments] = useState(
     props.payments !== undefined && props.payments
   );
   const [showPaymentForm, setShowPaymentForm] = useState(false);
-
+  const [chosenId, setChosenId] = useState(-1);
   const handleReturn = () => {
     setShowPaymentForm(false);
+    setChosenId(-1);
     props.reloadPayments();
   };
   var actionButton = function (cell, formatterParams, onRendered) {
@@ -62,7 +64,7 @@ const PaymentsForRent = (props) => {
       width: 150,
       align: "center",
       cellClick: function (e, cell) {
-        // handleAction(cell.getRow().getData().premisesId);
+        setChosenId(cell.getRow().getData().paymentId);
       },
     },
   ];
@@ -75,8 +77,9 @@ const PaymentsForRent = (props) => {
         options={{
           movableColumns: true,
           movableRows: true,
-          pagination: true,
-          paginationSize: 7,
+          pagination: "local",
+          paginationSizeSelector: [5, 10, 20, 50],
+          paginationSize: 5,
           setFilter: true,
         }}
         layout="fitColumns"
@@ -88,7 +91,7 @@ const PaymentsForRent = (props) => {
         resizableRows="true"
         initialSort={[
           //set the initial sort order of the data
-          { column: "location.locationName", dir: "asc" },
+          { column: "startDate", dir: "asc" },
         ]}
       />
     );
@@ -96,7 +99,14 @@ const PaymentsForRent = (props) => {
 
   return (
     <>
-      {showPaymentForm ? (
+      {chosenId > 0 ? (
+        <PaymentDetails
+          roles={props.roles}
+          rentId={props.rentId}
+          paymentId={chosenId}
+          handleReturn={handleReturn}
+        />
+      ) : showPaymentForm ? (
         <PaymentForm
           handleReturn={handleReturn}
           rentId={props.rentId}

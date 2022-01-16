@@ -127,7 +127,7 @@ const ProductsForRentDetails = (props) => {
 
       if (lessThanMonthAgo !== undefined) {
         setCountersAvailable(false);
-        setLastPaymentDate(lessThanMonthAgo.paymentDate);
+        setLastPaymentDate(lessThanMonthAgo.startDate);
       } else {
         setCountersAvailable(true);
       }
@@ -371,8 +371,9 @@ const ProductsForRentDetails = (props) => {
         options={{
           movableColumns: true,
           movableRows: true,
-          pagination: true,
-          paginationSize: 7,
+          pagination: "local",
+          paginationSizeSelector: [5, 10, 20, 50],
+          paginationSize: 5,
           setFilter: true,
         }}
         layout="fitColumns"

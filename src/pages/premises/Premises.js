@@ -132,7 +132,8 @@ const Premises = (props) => {
         options={{
           movableColumns: true,
           movableRows: true,
-          pagination: true,
+          pagination: "local",
+          paginationSizeSelector: [5, 10, 20, 50],
           paginationSize: 5,
           setFilter: true,
         }}
