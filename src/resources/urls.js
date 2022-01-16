@@ -1,6 +1,6 @@
 const httpPrefix = "http://";
-const port = "188.68.236.176:8080";
-// const port = "localhost:8080";
+// const port = "188.68.236.176:8080";
+const port = "localhost:8080";
 
 const paths = {
   administrators: {
@@ -57,6 +57,7 @@ const paths = {
     addProductPrefix: "/product/",
     deleteBailPrefix: "/bail/",
     updateBailPrefix: "/bail/",
+    changeUserCountersAccessPrefix: "/change-counter-media-rent/",
   },
   bail: {
     inverseIsComePrefix: "/inverse-isCome/", //{id}
@@ -118,6 +119,7 @@ const owner = {
     addProduct: `${httpPrefix}${port}${ownerPrefix}${paths.rent.defaultPrefix}`, //{id}
     deleteBail: `${httpPrefix}${port}${ownerPrefix}${paths.rent.defaultPrefix}`, //{id}
     updateBail: `${httpPrefix}${port}${ownerPrefix}${paths.rent.defaultPrefix}`, //{id}
+    changeUserCountersAccess: `${httpPrefix}${port}${ownerPrefix}${paths.rent.changeUserCountersAccessPrefix}`, //{id}
   },
   bail: {
     inverseIsCome: `${httpPrefix}${port}${ownerPrefix}${paths.bail.inverseIsComePrefix}`,
@@ -172,6 +174,7 @@ const admin = {
     addProduct: `${httpPrefix}${port}${adminPrefix}${paths.rent.defaultPrefix}`, //{id}
     deleteBail: `${httpPrefix}${port}${adminPrefix}${paths.rent.defaultPrefix}`, //{id}
     updateBail: `${httpPrefix}${port}${adminPrefix}${paths.rent.defaultPrefix}`, //{id}
+    changeUserCountersAccess: `${httpPrefix}${port}${adminPrefix}${paths.rent.changeUserCountersAccessPrefix}`, //{id}
   },
   bail: {
     inverseIsCome: `${httpPrefix}${port}${adminPrefix}${paths.bail.inverseIsComePrefix}`,
