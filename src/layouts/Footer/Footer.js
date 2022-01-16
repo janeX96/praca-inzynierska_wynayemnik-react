@@ -8,6 +8,7 @@ class Footer extends Component {
         <br />
         <p>wynayemnik.pl</p>
         <p>Projekt pracy inżynierskiej</p>
+        <p>v0.2.2</p>
       </div>
     );
   }
