@@ -6,6 +6,7 @@ import "react-tabulator/lib/styles.css";
 import "react-tabulator/lib/css/tabulator.min.css";
 import { ReactTabulator as Tabulator } from "react-tabulator";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 const Rents = (props) => {
   const [rents, setRents] = useState(props.data);
@@ -148,7 +149,18 @@ const Rents = (props) => {
             {props.roles[0] === "admin" && (
               <h1 className="content-container__title">Wynajmy</h1>
             )}
-            <div className="table-container">{renderTable()}</div>
+
+            <div className="table-container">
+              <Link to="/owner-clients">
+                <h2
+                  className="details-container__history"
+                  style={{ fontSize: "24px" }}
+                >
+                  Pokaż moich najemców
+                </h2>
+              </Link>
+              {renderTable()}
+            </div>
             <div className="contant-btns">
               {props.data !== undefined ? (
                 <button

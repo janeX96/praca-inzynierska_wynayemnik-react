@@ -3,6 +3,7 @@ const httpPrefix = "http://";
 const port = "localhost:8080";
 
 const paths = {
+  clientsAll: "/user/clients",
   administrators: {
     all: "/administrators",
     set: "/set-administrator/",
@@ -66,6 +67,7 @@ const paths = {
 
 const ownerPrefix = "/owner";
 const owner = {
+  clientsAll: `${httpPrefix}${port}${paths.clientsAll}`,
   administrators: {
     all: `${httpPrefix}${port}${ownerPrefix}${paths.administrators.all}`,
     set: `${httpPrefix}${port}${ownerPrefix}${paths.administrators.set}`,
