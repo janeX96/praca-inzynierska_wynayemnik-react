@@ -161,8 +161,10 @@ const Rents = (props) => {
         options={{
           movableColumns: true,
           movableRows: true,
-          pagination: true,
-          paginationSize: 7,
+          pagination: "local",
+          paginationSizeSelector: [5, 10, 20, 50],
+          paginationSize: 5,
+
           setFilter: true,
         }}
         layout="fitColumns"
@@ -199,14 +201,17 @@ const Rents = (props) => {
             )}
 
             <div className="table-container">
-              <Link to="/owner-clients">
-                <h2
-                  className="details-container__history"
-                  style={{ fontSize: "24px" }}
-                >
-                  Pokaż moich najemców
-                </h2>
-              </Link>
+              {props.roles[0] === "owner" && (
+                <Link to="/owner-clients">
+                  <h2
+                    className="details-container__history"
+                    style={{ fontSize: "24px" }}
+                  >
+                    Pokaż moich najemców
+                  </h2>
+                </Link>
+              )}
+
               {renderTable()}
             </div>
             <div className="contant-btns">
