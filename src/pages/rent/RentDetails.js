@@ -129,6 +129,32 @@ const RentDetails = (props) => {
     }
   };
 
+  const handleChangeCountersAccess = () => {
+    if (
+      window.confirm(
+        "Czy na pewno chcesz zmienić uprawnienia temu użytkownikowi?"
+      )
+    ) {
+      let urlByRole =
+        props.roles[0] === "owner"
+          ? owner.rent.changeUserCountersAccess
+          : props.roles[0] === "admin"
+          ? admin.rent.changeUserCountersAccess
+          : "";
+
+      PATCH(`${urlByRole}${rent.rentId}`)
+        .then((res) => {
+          if (res) {
+            toast.success("Zmieniono uprawienia użytkownikowi");
+          } else {
+            toast.error("Nie udało się zmienić uprawień...");
+          }
+          return res;
+        })
+        .then((res) => getData());
+    }
+  };
+
   const handleDelete = () => {
     if (window.confirm("Czy na pewno chcesz usunąć ten wynajem?")) {
       let urlByRole =
@@ -229,20 +255,28 @@ const RentDetails = (props) => {
               Nr rejestracyjny: <b>{rent.carNumber}</b>
             </li>
             {(props.roles[0] === "owner" || props.roles[0] === "admin") && (
-              <li>
-                Dostępne dla klienta:{" "}
-                <b
-                  className="details-container__history"
-                  onClick={handleChangeAccess}
-                >
-                  {rent.clientAccess ? "tak" : "nie"}
-                </b>
-              </li>
+              <>
+                <li>
+                  Dostępne dla klienta:{" "}
+                  <b
+                    className="details-container__history"
+                    onClick={handleChangeAccess}
+                  >
+                    {rent.clientAccess ? "tak" : "nie"}
+                  </b>
+                </li>
+                <li>
+                  Liczniki dostepne dla klienta:{" "}
+                  <b
+                    className="details-container__history"
+                    onClick={handleChangeCountersAccess}
+                  >
+                    {rent.counterMediaRent ? "tak" : "nie"}
+                  </b>
+                </li>
+              </>
             )}
-            <li>
-              Liczniki dostepne dla klienta:{" "}
-              <b>{rent.counterMediaRent ? "tak" : "nie"}</b>
-            </li>
+
             {rent.paymentValues.length > 0 ? (
               <li>
                 paymentValues:
