@@ -60,11 +60,11 @@ const Administrators = (props) => {
       field: "userAccountId",
     },
     {
-      title: "Imie",
+      title: "Nazwisko",
       field: "lastName",
     },
     {
-      title: "Nazwisko",
+      title: "Imie",
       field: "firstName",
     },
     {
