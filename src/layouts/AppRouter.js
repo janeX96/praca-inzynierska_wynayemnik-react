@@ -20,6 +20,7 @@ import Rents from "../pages/rent/Rents";
 import Clients from "../pages/Clients";
 import { useEffect, useState } from "react";
 import keycloakErr from "../images/keycloakErr.jpg";
+import NotFound from "../pages/NotFound";
 
 const AppRouter = () => {
   const { initialized } = useKeycloak();
@@ -122,6 +123,7 @@ const AppRouter = () => {
                   path="/client-rents"
                   component={Rents}
                 />
+                <Route component={NotFound} />
               </Switch>
             </section>
           </main>
