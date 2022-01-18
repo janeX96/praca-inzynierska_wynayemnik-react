@@ -4,19 +4,7 @@ import { owner, admin, general } from "../../../resources/urls";
 import { GET } from "../../../utilities/Request";
 
 const RentForm = (props) => {
-  const getDateToday = () => {
-    var today = new Date();
-    var dd = String(today.getDate()).padStart(2, "0");
-    var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-    var yyyy = today.getFullYear();
-    var time =
-      today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-
-    today = yyyy + "-" + mm + "-" + dd + "T" + time;
-    return today;
-  };
-
-  const [today, setToday] = useState(getDateToday);
+  const [today, setToday] = useState();
   const [premisesTypes, setPremisesTypes] = useState({ types: [] });
   const [rentDetails, setRentDetails] = useState({
     bailValue: props.default.bailValue,
@@ -42,6 +30,18 @@ const RentForm = (props) => {
     startDateError: false,
     premisesTypeError: false,
   });
+
+  const getDateToday = () => {
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, "0");
+    var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+    var yyyy = today.getFullYear();
+    var time =
+      today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+
+    today = yyyy + "-" + mm + "-" + dd + "T" + time;
+    return today;
+  };
 
   const messages = {
     bailValue_incorrect: "Podaj wartość kaucji",
@@ -148,6 +148,8 @@ const RentForm = (props) => {
 
   useEffect(() => {
     getPremisesTypes();
+    const t = getDateToday();
+    setToday(t);
   }, []);
 
   const handleChange = (e) => {
@@ -387,7 +389,7 @@ const RentForm = (props) => {
                   id="statePaymentValue"
                   name="statePaymentValue"
                   checked={rentDetails.statePaymentValue}
-                  // onChange={handleChange}
+                  onChange={handleChange}
                 />
               </div>
             </div>
