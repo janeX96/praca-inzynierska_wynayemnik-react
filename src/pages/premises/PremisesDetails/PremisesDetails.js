@@ -87,6 +87,7 @@ const PremisesDetails = ({
         if (rent.state === "IN_PROGRESS") {
           setActiveRent(rent);
         }
+        return rent;
       });
     });
   };

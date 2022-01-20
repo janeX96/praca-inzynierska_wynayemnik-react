@@ -1,7 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { POST } from "../../../utilities/Request";
-import Confirmation from "./Confirmation";
-import Rents from "../Rents";
 import { owner, admin } from "../../../resources/urls";
 import { toast } from "react-toastify";
 
@@ -29,7 +27,6 @@ const RentSummary = ({
   userAccount: { email, firstName, lastName, phoneNumber, sharing },
 }) => {
   const [sending, setSending] = useState(false);
-  const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
 
   const createRentRequest = async (obj) => {
@@ -49,17 +46,14 @@ const RentSummary = ({
             // console.log("UDAŁO SIE!!!");
             toast.success("Wynajem został dodany");
             handleReturn();
-            setSuccess(true);
             setSending(false);
           } else {
             response.json().then((res) => {
               const err = res.error;
-              // console.log("BLAD: ", res.error);
               setError(err);
             });
 
             setSending(false);
-            setSuccess(false);
           }
           return response.json();
         })
@@ -199,7 +193,7 @@ const RentSummary = ({
                     value={rentValue}
                   />
                 ) : (
-                  paymentValues.map((p) => {
+                  paymentValues.map((p) => (
                     <input
                       className="form-container__input"
                       type="text"
@@ -212,8 +206,8 @@ const RentSummary = ({
                         ", kwota: " +
                         p.value
                       }
-                    />;
-                  })
+                    />
+                  ))
                 )}
               </div>
             </div>

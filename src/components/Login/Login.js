@@ -1,5 +1,4 @@
 import React from "react";
-import "./Login.css";
 import { useHistory } from "react-router-dom";
 import keycloak from "../../auth/keycloak";
 

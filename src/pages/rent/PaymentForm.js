@@ -37,6 +37,7 @@ const PaymentForm = (props) => {
       let mediaArr = [];
       res.map((m) => {
         mediaArr.push(m.mediaRentId);
+        return m;
       });
       setMediaForPayment(mediaArr);
     });
@@ -85,7 +86,11 @@ const PaymentForm = (props) => {
         if (mediaSet.has(id)) {
           const obj = { mediaRentId: id, name: m.product.productName };
           mediaArr.push(obj);
+
+          return m;
         }
+
+        return m;
       });
 
       setPayment({ ...payment, positionOnPaymentSet: mediaArr });

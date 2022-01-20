@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import RentBillingPeriods from "./RentBillingPeriods";
-import { owner, admin, general } from "../../../resources/urls";
+import { general } from "../../../resources/urls";
 import { GET } from "../../../utilities/Request";
 
 const RentForm = (props) => {
@@ -16,7 +16,7 @@ const RentForm = (props) => {
     return today;
   };
 
-  const [today, setToday] = useState(getDateToday);
+  const today = getDateToday();
   const [premisesTypes, setPremisesTypes] = useState({ types: [] });
   const [rentDetails, setRentDetails] = useState({
     bailValue: props.default.bailValue,
@@ -205,7 +205,6 @@ const RentForm = (props) => {
       props.stepBack();
     }
   };
-  const handleBack = () => {};
 
   const addBillingPeriod = (billingPeriod) => {
     let billingPeriods = [...rentDetails.paymentValues];

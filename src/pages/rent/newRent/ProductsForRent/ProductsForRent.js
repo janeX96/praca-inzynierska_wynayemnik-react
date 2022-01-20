@@ -3,7 +3,6 @@ import "./ProductsForRent.css";
 import { GET } from "../../../../utilities/Request";
 import { owner, admin } from "../../../../resources/urls";
 const ProductsForRent = (props) => {
-  const [allProducts, setAllProducts] = useState([]);
   const [availableProducts, setAvailableProducts] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState(props.selectedSave);
   const [description, setDescription] = useState(props.default.description);
@@ -49,7 +48,6 @@ const ProductsForRent = (props) => {
         : "";
     return await GET(`${prefix}${props.locationId}${suffix}`)
       .then((res) => {
-        setAllProducts(res);
         return res;
       })
       .catch((err) => {
@@ -100,10 +98,13 @@ const ProductsForRent = (props) => {
         if (selected.productId === product.productId) {
           exists = true;
         }
+
+        return selected;
       });
       if (!exists) {
         products.push(product);
       }
+      return product;
     });
 
     setAvailableProducts(products);

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import LoadData from "../LoadData";
 import "../../styles/App.scss";
 import PremisesDetails from "./PremisesDetails/PremisesDetails";
 import { Link } from "react-router-dom";
@@ -7,8 +6,8 @@ import { BsPlusSquareFill } from "react-icons/bs";
 import { owner, admin } from "../../resources/urls";
 import { GET } from "../../utilities/Request";
 import { toast } from "react-toastify";
-import "react-tabulator/lib/styles.css"; // required styles
-import "react-tabulator/lib/css/tabulator.min.css"; // theme
+import "react-tabulator/lib/styles.css";
+import "react-tabulator/lib/css/tabulator.min.css";
 import { ReactTabulator as Tabulator } from "react-tabulator";
 
 const Premises = (props) => {
@@ -40,6 +39,7 @@ const Premises = (props) => {
           } else {
             prem.furnished = "nie";
           }
+          return prem;
         });
         setState({ ...state, data: res });
       } else {

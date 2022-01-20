@@ -65,6 +65,7 @@ const ProductsForRentDetails = (props) => {
               ...showMediaRentsByDate,
               [date.startDate]: false,
             });
+            return date;
           });
         } else {
           let valuesObj = {};
@@ -75,6 +76,8 @@ const ProductsForRentDetails = (props) => {
               quantity: false,
             };
             Object.assign(valuesObj, obj);
+
+            return prod;
           });
           setValues(valuesObj);
         }

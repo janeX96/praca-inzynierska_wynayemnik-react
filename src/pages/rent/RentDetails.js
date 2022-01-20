@@ -54,6 +54,7 @@ const RentDetails = (props) => {
             if (p.paidDate !== null) {
               p.paidDate = paidDate.split("T")[0];
             }
+            return p;
           });
           setPayments(res);
         } else {
@@ -153,25 +154,27 @@ const RentDetails = (props) => {
     }
   };
 
-  const handleDelete = () => {
-    if (window.confirm("Czy na pewno chcesz usunąć ten wynajem?")) {
-      let urlByRole =
-        props.roles[0] === "owner"
-          ? owner.rent.deleteRent
-          : props.roles[0] === "admin"
-          ? admin.rent.deleteRent
-          : "";
-      PATCH(`${urlByRole}${rent.rentId}`).then((res) => {
-        if (res) {
-          toast.success("Wynajem został usunięty");
-          props.handleReturn();
-        } else {
-          toast.error("Nie udało się usunąć wynajmu...");
-        }
-        return res;
-      });
-    }
-  };
+  //delete rent maybe will by used in future
+
+  // const handleDelete = () => {
+  //   if (window.confirm("Czy na pewno chcesz usunąć ten wynajem?")) {
+  //     let urlByRole =
+  //       props.roles[0] === "owner"
+  //         ? owner.rent.deleteRent
+  //         : props.roles[0] === "admin"
+  //         ? admin.rent.deleteRent
+  //         : "";
+  //     PATCH(`${urlByRole}${rent.rentId}`).then((res) => {
+  //       if (res) {
+  //         toast.success("Wynajem został usunięty");
+  //         props.handleReturn();
+  //       } else {
+  //         toast.error("Nie udało się usunąć wynajmu...");
+  //       }
+  //       return res;
+  //     });
+  //   }
+  // };
 
   const handleCancelRent = () => {
     if (window.confirm("Czy na pewno chcesz anulować ten wynajem?")) {

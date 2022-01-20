@@ -1,5 +1,5 @@
 import "../../../styles/App.scss";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { GET } from "../../../utilities/Request";
 import { user as userReq } from "../../../resources/urls";
 
@@ -8,7 +8,7 @@ const UserFormForRent = (props) => {
   const [userEmail, setUserEmail] = useState(
     props.defaultEmail.length > 0 ? props.defaultEmail : props.defaultUser.email
   );
-  const [emailSubmit, setEmailSubmit] = useState(false);
+
   const [user, setUser] = useState({
     toCreate:
       props.defaultUser.email.length > 0 && !props.defaultEmail.length > 0,
@@ -363,7 +363,6 @@ const UserFormForRent = (props) => {
   };
 
   const addressHandleChange = (e) => {
-    const type = e.target.type;
     const name = e.target.name;
     const val = e.target.value;
 
@@ -371,7 +370,6 @@ const UserFormForRent = (props) => {
   };
 
   const companyHandleChange = (e) => {
-    const type = e.target.type;
     const name = e.target.name;
     const val = e.target.value;
 

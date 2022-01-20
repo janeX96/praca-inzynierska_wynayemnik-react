@@ -28,6 +28,7 @@ const Rents = (props) => {
           const endDate = rent.endDate;
           rent.startDate = startDate.split("T")[0];
           rent.endDate = endDate.split("T")[0];
+          return rent;
         });
         setRents(res);
       } else {
@@ -51,36 +52,10 @@ const Rents = (props) => {
     getData();
   };
   var actionButton = function (cell, formatterParams, onRendered) {
-    //plain text value
-
     return `<button>Szczegóły</button>`;
   };
 
-  // var styleMutator = function (value, data, type, params, component) {
-  //   //value - original value of the cell
-  //   //data - the data for the row
-  //   //type - the type of mutation occurring  (data|edit)
-  //   //params - the mutatorParams object from the column definition
-  //   //component - when the "type" argument is "edit", this contains the cell component for the edited cell, otherwise it is the column component for the column
-
-  //   return value
-  //     ? "details-container__field-avb"
-  //     : "details-container__field-hired"; //return the new value for the cell data.
-  // };
-
-  // var customMutator = function (value, data, type, params, component) {
-  //   //value - original value of the cell
-  //   //data - the data for the row
-  //   //type - the type of mutation occurring  (data|edit)
-  //   //params - the mutatorParams object from the column definition
-  //   //component - when the "type" argument is "edit", this contains the cell component for the edited cell, otherwise it is the column component for the column
-
-  //   return value ? "wystawiona" : "niewystawiona"; //return the new value for the cell data.
-  // };
-
   var cellClassFormatter = function (cell, formatterParams) {
-    //cell - the cell component
-    //formatterParams - parameters set for the column
     cell.getElement().style.fontWeight = "bold";
     if (cell.getValue()) {
       cell.getElement().classList.add("details-container__field-avb");
@@ -88,7 +63,7 @@ const Rents = (props) => {
       cell.getElement().classList.add("details-container__field-hired");
     }
 
-    return cell.getValue() ? "wystawiona" : "niewystawiona"; //return the contents of the cell;
+    return cell.getValue() ? "wystawiona" : "niewystawiona";
   };
 
   const columns = [
@@ -136,13 +111,6 @@ const Rents = (props) => {
       title: "Miesięczna płatność",
       field: "paymentThisMonth",
       formatter: cellClassFormatter,
-      // formatter: function (cell, formatterParams, onRendered) {
-      //   //cell - the cell component
-      //   //formatterParams - parameters set for the column
-      //   //onRendered - function to call when the formatter has been rendered
-
-      //   return cell.getValue() ? "wystawiona" : "niewystawiona"; //return the contents of the cell;
-      // },
     },
     {
       formatter: actionButton,

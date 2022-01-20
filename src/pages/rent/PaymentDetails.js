@@ -114,25 +114,13 @@ const PaymentDetails = (props) => {
             Przychodząca:
             <b>{payment.income ? "tak" : "nie"}</b>
           </li>
-          {/* <li>
-            <div className="table-container">
-              Pozycje:
-              {payment.positionOnPaymentSet.map((position) => (
-                <ul>
-                  <li>{position.name}</li>
-
-                
-                </ul>
-              ))}
-            </div>
-          </li> */}
         </ul>
         <b>Pozycje:</b>
         {payment.positionOnPaymentSet.map((position) => (
           <ul>
             <li>{position.name}</li>
 
-            {/* {renderTable(position)} todo*/}
+            {/* {renderTable(position)}*/}
           </ul>
         ))}
       </>
