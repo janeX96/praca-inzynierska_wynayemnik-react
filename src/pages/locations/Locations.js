@@ -104,7 +104,7 @@ const Locations = (props) => {
         history="true"
         movableColumns="true"
         resizableRows="true"
-        initialSort={[{ column: "location.locationName", dir: "asc" }]}
+        initialSort={[{ column: "locationName", dir: "asc" }]}
       />
     );
   };
