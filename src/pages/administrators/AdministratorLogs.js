@@ -140,6 +140,7 @@ const AdministratorLogs = (props) => {
         columns={columns}
         data={administrator}
         options={{
+          debugInvalidOptions: false,
           movableColumns: true,
           movableRows: true,
           pagination: "local",
@@ -168,6 +169,7 @@ const AdministratorLogs = (props) => {
         columns={columnsPremises}
         data={premises}
         options={{
+          debugInvalidOptions: false,
           movableColumns: true,
           movableRows: true,
           pagination: "local",

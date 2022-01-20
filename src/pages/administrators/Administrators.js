@@ -92,6 +92,7 @@ const Administrators = (props) => {
         columns={columns}
         data={administrators}
         options={{
+          debugInvalidOptions: false,
           movableColumns: true,
           movableRows: true,
           pagination: "local",

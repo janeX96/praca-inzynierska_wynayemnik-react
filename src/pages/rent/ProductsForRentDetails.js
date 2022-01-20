@@ -372,6 +372,7 @@ const ProductsForRentDetails = (props) => {
         columns={columns}
         data={data}
         options={{
+          debugInvalidOptions: false,
           movableColumns: true,
           movableRows: true,
           pagination: "local",

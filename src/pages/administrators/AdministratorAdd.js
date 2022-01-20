@@ -105,6 +105,7 @@ const AdministratorAdd = (props) => {
         columns={columnsPremises}
         data={premises}
         options={{
+          debugInvalidOptions: false,
           movableColumns: true,
           movableRows: true,
           pagination: "local",

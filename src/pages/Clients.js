@@ -52,6 +52,7 @@ const Clients = () => {
         columns={columns}
         data={clients}
         options={{
+          debugInvalidOptions: false,
           movableColumns: true,
           movableRows: true,
           pagination: "local",

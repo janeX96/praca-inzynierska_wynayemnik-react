@@ -127,6 +127,7 @@ const Rents = (props) => {
         columns={columns}
         data={rents}
         options={{
+          debugInvalidOptions: false,
           movableColumns: true,
           movableRows: true,
           pagination: "local",
@@ -143,7 +144,7 @@ const Rents = (props) => {
         resizableRows="true"
         initialSort={[
           //set the initial sort order of the data
-          { column: "location.locationName", dir: "asc" },
+          { column: "premises.location.locationName", dir: "asc" },
         ]}
       />
     );

@@ -130,6 +130,7 @@ const Premises = (props) => {
         columns={columns}
         data={state.data}
         options={{
+          debugInvalidOptions: false,
           movableColumns: true,
           movableRows: true,
           pagination: "local",

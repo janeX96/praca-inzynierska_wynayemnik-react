@@ -89,6 +89,7 @@ const Locations = (props) => {
         columns={columns}
         data={locations}
         options={{
+          debugInvalidOptions: false,
           movableColumns: true,
           movableRows: true,
           pagination: "local",
