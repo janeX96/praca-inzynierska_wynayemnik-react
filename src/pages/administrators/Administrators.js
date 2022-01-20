@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { GET } from "../../utilities/Request";
 import { owner } from "../../resources/urls";
 import { ReactTabulator as Tabulator } from "react-tabulator";
-import { Link } from "react-router-dom";
 import { BsPlusSquareFill } from "react-icons/bs";
 import AdministratorLogs from "./AdministratorLogs";
 import AdministratorAdd from "./AdministratorAdd";

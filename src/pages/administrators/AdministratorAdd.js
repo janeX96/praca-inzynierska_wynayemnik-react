@@ -1,18 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { ReactTabulator as Tabulator } from "react-tabulator";
 import { GET, PATCH } from "../../utilities/Request";
 import { owner, user } from "../../resources/urls";
-import * as path from "path";
 import { toast } from "react-toastify";
 
 const AdministratorAdd = (props) => {
   const [premises, setPremises] = useState([]);
   const [idAdministrator, setIdAdministrator] = useState(-1);
   const [administratorEmail, setAdministratorEmail] = useState("");
-
-  // useEffect(() => {
-  //   getData();
-  // }, [idAdministrator]);
 
   const getData = (id) => {
     const adminId = idAdministrator === -1 ? id : idAdministrator;
