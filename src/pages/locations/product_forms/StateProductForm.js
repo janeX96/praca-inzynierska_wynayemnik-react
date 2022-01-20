@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import "../../../styles/App.css";
 
 const StateProductForm = (props) => {
@@ -275,6 +275,7 @@ const StateProductForm = (props) => {
                     if (p === option.label) {
                       exist = true;
                     }
+                    return p;
                   });
 
                   return (
