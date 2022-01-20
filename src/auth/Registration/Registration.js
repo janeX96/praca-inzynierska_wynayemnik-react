@@ -279,7 +279,9 @@ const Registration = () => {
                   onChange={handleReCAPTCHA}
                 />
                 {data.errors.reCaptchaError && (
-                  <span className="error-msg">{messages.reCaptchaErr}</span>
+                  <span className="form-container__error-msg">
+                    {messages.reCaptchaErr}
+                  </span>
                 )}
               </div>
             </div>
