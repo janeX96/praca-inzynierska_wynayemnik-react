@@ -11,12 +11,15 @@ const RentBillingPeriods = (props) => {
     endDateError: false,
     valueError: false,
   });
-  const [lastDate, setLastDate] = useState(props.startDate);
+  const [lastDate, setLastDate] = useState(props.startDate.split("T")[0]);
+  const [rentEndDate, setRentEndDate] = useState(props.endDate.split("T")[0]);
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
     setBillingPeriod({ ...billingPeriod, [name]: value });
   };
+
+  const [firstPeriod, setFirstPeriod] = useState(true);
 
   const messages = {
     startDate_incorrect: "Musisz wybrać datę początkową",
@@ -49,8 +52,23 @@ const RentBillingPeriods = (props) => {
     var validation = formValidation();
 
     if (validation.correct) {
+      if (firstPeriod) {
+        setFirstPeriod(false);
+      }
       props.addBillingPeriod(billingPeriod);
-      setLastDate(billingPeriod.endDate);
+      var date = new Date(billingPeriod.endDate);
+
+      // if (firstPeriod) {
+      date.setDate(date.getDate() + 1);
+      date = formatDate(date);
+      console.log("Next startdate: ", date);
+      // } else {
+      // date = calcEndOfPeriod();
+      // date = formatDate(date);
+      // console.log("Next startdate: ", date);
+      // }
+
+      setLastDate(date);
       setBillingPeriod({
         startDate: "",
         endDate: "",
@@ -71,6 +89,34 @@ const RentBillingPeriods = (props) => {
     }
   };
 
+  const formatDate = (date) => {
+    var dd = String(date.getDate()).padStart(2, "0");
+    var mm = String(date.getMonth() + 1).padStart(2, "0");
+    var yyyy = date.getFullYear();
+
+    const formattedDate = yyyy + "-" + mm + "-" + dd;
+    return formattedDate;
+  };
+
+  const calcEndOfPeriod = () => {
+    const d1 = new Date(lastDate);
+    const lastMonth = d1.getMonth();
+
+    let newDate = new Date(lastDate);
+
+    newDate.setMonth(lastMonth + 1, 0);
+
+    newDate = formatDate(newDate);
+
+    console.log("newdate: ", newDate);
+
+    if (newDate > rentEndDate || newDate === rentEndDate) {
+      return rentEndDate;
+    }
+
+    return newDate;
+  };
+
   return (
     <div className="form-container">
       <form onSubmit={handleSubmit}>
@@ -81,11 +127,11 @@ const RentBillingPeriods = (props) => {
           <div className="row__col-75">
             <input
               className="form-container__input"
-              type="datetime-local"
+              type="date"
               id="startDate"
               name="startDate"
               min={lastDate}
-              max={props.endDate}
+              max={lastDate}
               onChange={handleChange}
               value={billingPeriod.startDate}
             />
@@ -104,11 +150,11 @@ const RentBillingPeriods = (props) => {
           <div className="row__col-75">
             <input
               className="form-container__input"
-              type="datetime-local"
+              type="date"
               id="endDate"
               name="endDate"
-              min={lastDate}
-              max={props.endDate}
+              min={calcEndOfPeriod()}
+              max={calcEndOfPeriod()}
               onChange={handleChange}
               value={billingPeriod.endDate}
             />
@@ -140,7 +186,9 @@ const RentBillingPeriods = (props) => {
           </div>
         </div>
         <div className="form-container__buttons">
-          <button type="submit">Dodaj</button>
+          <button disabled={lastDate > rentEndDate} type="submit">
+            Dodaj
+          </button>
         </div>
       </form>
     </div>
