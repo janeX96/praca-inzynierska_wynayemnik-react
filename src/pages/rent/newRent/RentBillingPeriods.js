@@ -19,6 +19,8 @@ const RentBillingPeriods = (props) => {
     setBillingPeriod({ ...billingPeriod, [name]: value });
   };
 
+  const [firstPeriod, setFirstPeriod] = useState(true);
+
   const messages = {
     startDate_incorrect: "Musisz wybrać datę początkową",
     endDate_incorrect: "Musisz wybrać datę końcową",
@@ -50,8 +52,23 @@ const RentBillingPeriods = (props) => {
     var validation = formValidation();
 
     if (validation.correct) {
+      if (firstPeriod) {
+        setFirstPeriod(false);
+      }
       props.addBillingPeriod(billingPeriod);
-      setLastDate(billingPeriod.endDate);
+      var date = new Date(billingPeriod.endDate);
+
+      // if (firstPeriod) {
+      date.setDate(date.getDate() + 1);
+      date = formatDate(date);
+      console.log("Next startdate: ", date);
+      // } else {
+      // date = calcEndOfPeriod();
+      // date = formatDate(date);
+      // console.log("Next startdate: ", date);
+      // }
+
+      setLastDate(date);
       setBillingPeriod({
         startDate: "",
         endDate: "",
@@ -70,6 +87,34 @@ const RentBillingPeriods = (props) => {
         valueError: !validation.value,
       });
     }
+  };
+
+  const formatDate = (date) => {
+    var dd = String(date.getDate()).padStart(2, "0");
+    var mm = String(date.getMonth() + 1).padStart(2, "0");
+    var yyyy = date.getFullYear();
+
+    const formattedDate = yyyy + "-" + mm + "-" + dd;
+    return formattedDate;
+  };
+
+  const calcEndOfPeriod = () => {
+    const d1 = new Date(lastDate);
+    const lastMonth = d1.getMonth();
+
+    let newDate = new Date(lastDate);
+
+    newDate.setMonth(lastMonth + 1, 0);
+
+    newDate = formatDate(newDate);
+
+    console.log("newdate: ", newDate);
+
+    if (newDate > rentEndDate || newDate === rentEndDate) {
+      return rentEndDate;
+    }
+
+    return newDate;
   };
 
   return (
@@ -108,8 +153,8 @@ const RentBillingPeriods = (props) => {
               type="date"
               id="endDate"
               name="endDate"
-              min={lastDate}
-              max={rentEndDate}
+              min={calcEndOfPeriod()}
+              max={calcEndOfPeriod()}
               onChange={handleChange}
               value={billingPeriod.endDate}
             />
@@ -141,7 +186,9 @@ const RentBillingPeriods = (props) => {
           </div>
         </div>
         <div className="form-container__buttons">
-          <button type="submit">Dodaj</button>
+          <button disabled={lastDate > rentEndDate} type="submit">
+            Dodaj
+          </button>
         </div>
       </form>
     </div>
