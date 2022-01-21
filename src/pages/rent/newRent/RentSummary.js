@@ -43,7 +43,6 @@ const RentSummary = ({
       POST(urlByRole, json)
         .then((response) => {
           if (response.ok) {
-            // console.log("UDAŁO SIE!!!");
             toast.success("Wynajem został dodany");
             handleReturn();
             setSending(false);
@@ -57,9 +56,7 @@ const RentSummary = ({
           }
           return response.json();
         })
-        .catch((err) => {
-          console.log("Error: ", err);
-        });
+        .catch((err) => {});
     }
   };
 
@@ -71,8 +68,6 @@ const RentSummary = ({
       if (userEmail.length === 0) {
         obj.email = null;
       }
-
-      console.log("Objekt do wysłania: ", obj);
       createRentRequest(obj);
     } else {
       stepBack();

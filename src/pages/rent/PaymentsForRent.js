@@ -70,6 +70,7 @@ const PaymentsForRent = (props) => {
         columns={columns}
         data={payments}
         options={{
+          debugInvalidOptions: false,
           movableColumns: true,
           movableRows: true,
           pagination: "local",

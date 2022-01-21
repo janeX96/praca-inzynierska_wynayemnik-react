@@ -118,7 +118,7 @@ const PaymentDetails = (props) => {
         <b>Pozycje:</b>
         {payment.positionOnPaymentSet.map((position) => (
           <ul>
-            <li>{position.name}</li>
+            <li key={position.name}>{position.name}</li>
 
             {/* {renderTable(position)}*/}
           </ul>

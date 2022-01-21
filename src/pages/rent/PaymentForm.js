@@ -210,7 +210,7 @@ const PaymentForm = (props) => {
               id="paymentTypeId"
               className="form-container--table__input--250"
               value={payment.paymentTypeId}
-              // onChange={}
+              readOnly={true}
             >
               <option value="1">1</option>
             </select>

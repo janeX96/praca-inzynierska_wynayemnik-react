@@ -189,7 +189,7 @@ const PremisesDetails = ({
                     Poziom: <b>{data.premisesLevel}</b>
                   </li>
                   <li>
-                    Dodano: <b>{data.createdDate}</b>
+                    Dodano: <b>{data.createdDate.split("T")[0]}</b>
                   </li>
                   <li
                     onClick={() => setShowActiveRent(true)}

@@ -38,9 +38,7 @@ const ProductsForRentDetails = (props) => {
           toast.error("Błąd połączenia z serwerem...");
         }
       })
-      .catch((err) => {
-        console.log("Error Reading data " + err);
-      });
+      .catch((err) => {});
   };
 
   const getMediaStandardProducts = () => {
@@ -198,7 +196,7 @@ const ProductsForRentDetails = (props) => {
     e.preventDefault();
 
     const validation = formValidation();
-    console.log("correct: ", validation.correct);
+
     if (!sending) {
       setSending(true);
       if (validation.correct) {
@@ -305,8 +303,9 @@ const ProductsForRentDetails = (props) => {
               name="newProductnewProduct"
               className="form-container__input"
               onChange={handleAddProduct}
+              defaultValue={""}
             >
-              <option value="" selected="true"></option>
+              <option value=""></option>
               {productsForLocation.map((prod) => (
                 <option value={prod.productId}>{prod.productName}</option>
               ))}
@@ -407,7 +406,7 @@ const ProductsForRentDetails = (props) => {
               {products !== undefined && products !== null && (
                 <>
                   {products.map((data) => (
-                    <li>
+                    <li key={data.startDate}>
                       <h3
                         className="details-container__history"
                         onClick={() => {

@@ -206,7 +206,6 @@ const UserFormForRent = (props) => {
 
     await GET(`${userReq.findByEmail}?email=${userEmail}`)
       .then((res) => {
-        console.log("ODP: ", res);
         if (res != null) {
           userExists = true;
           return res;
@@ -278,9 +277,7 @@ const UserFormForRent = (props) => {
         }
         return userExists;
       })
-      .catch((err) => {
-        console.log("Error Reading data " + err);
-      });
+      .catch((err) => {});
 
     return userExists;
   };

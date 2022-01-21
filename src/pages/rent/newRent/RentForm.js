@@ -141,9 +141,7 @@ const RentForm = (props) => {
         });
         setPremisesTypes({ types });
       })
-      .catch((err) => {
-        console.log("Error Reading data " + err);
-      });
+      .catch((err) => {});
   };
 
   useEffect(() => {
@@ -172,7 +170,7 @@ const RentForm = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const action = e.currentTarget.dataset.name;
-    console.log(action);
+
     const validation = formValidation();
 
     if (action === "next") {
