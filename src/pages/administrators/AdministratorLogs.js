@@ -38,14 +38,10 @@ const AdministratorLogs = (props) => {
 
         setAdministrator(data);
       })
-      .catch((err) => {
-        console.log("Error Reading data " + err);
-      });
+      .catch((err) => {});
 
     GET(`${owner.administrators.ownAndNot}${props.administratorId}`)
       .then((data) => {
-        console.log(`${owner.administrators.logs}${props.administratorId}`);
-        console.log(data);
         data.map(
           (e) =>
             (e.administratorActive = e.administratorActive
@@ -54,9 +50,7 @@ const AdministratorLogs = (props) => {
         );
         setPremises(data);
       })
-      .catch((err) => {
-        console.log("Error Reading data " + err);
-      });
+      .catch((err) => {});
   };
 
   const columns = [
@@ -82,14 +76,9 @@ const AdministratorLogs = (props) => {
   const handleAction = (id) => {
     PATCH(`${owner.administrators.set}${props.administratorEmail}/${id}`)
       .then(() => {
-        console.log(
-          `${owner.administrators.set}${props.administratorEmail}/${id}`
-        );
         getData();
       })
-      .catch((err) => {
-        console.log("Error Reading data " + err);
-      });
+      .catch((err) => {});
   };
 
   const columnsPremises = [
@@ -250,9 +239,7 @@ const AdministratorLogs = (props) => {
 
         setAdministrator(data);
       })
-      .catch((err) => {
-        console.log("Error Reading data " + err);
-      });
+      .catch((err) => {});
   };
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -283,9 +270,7 @@ const AdministratorLogs = (props) => {
 
           setAdministrator(data);
         })
-        .catch((err) => {
-          console.log("Error Reading data " + err);
-        });
+        .catch((err) => {});
     } else {
       setErrors({
         endDateError: !validation.endDate,
