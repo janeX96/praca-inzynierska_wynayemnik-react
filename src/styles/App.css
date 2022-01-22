@@ -395,3 +395,11 @@ body {
     margin-top: 0;
   }
 }
+
+.content-container .custom-tabulator .tabulator-page {
+  background-color: #83838a;
+}
+
+.content-container .custom-tabulator .tabulator-page.active {
+  color: #324aa8;
+}

@@ -87,6 +87,7 @@ const PremisesDetails = ({
         if (rent.state === "IN_PROGRESS") {
           setActiveRent(rent);
         }
+        return rent;
       });
     });
   };
@@ -188,7 +189,7 @@ const PremisesDetails = ({
                     Poziom: <b>{data.premisesLevel}</b>
                   </li>
                   <li>
-                    Dodano: <b>{data.createdDate}</b>
+                    Dodano: <b>{data.createdDate.split("T")[0]}</b>
                   </li>
                   <li
                     onClick={() => setShowActiveRent(true)}

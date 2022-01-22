@@ -30,7 +30,7 @@ const MediaQuantityProductForm = (props) => {
         }
   );
 
-  const [premisesTypes, setPremisesTypes] = useState(props.premisesTypes);
+  const premisesTypes = props.premisesTypes;
 
   const [pattern, setPattern] = useState(
     props.data !== undefined
@@ -194,8 +194,6 @@ const MediaQuantityProductForm = (props) => {
       attr2,
     };
   };
-  //todo
-  const reactiveValidation = () => {};
 
   return (
     <div className="form-container">
@@ -361,6 +359,7 @@ const MediaQuantityProductForm = (props) => {
                     if (p === option.label) {
                       exist = true;
                     }
+                    return p;
                   });
 
                   return (

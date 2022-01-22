@@ -324,4 +324,12 @@ body {
       margin-top: 0;
     }
   }
+  .custom-tabulator {
+    .tabulator-page {
+      background-color: $main-color-light;
+    }
+    .tabulator-page.active {
+      color: $edit-color;
+    }
+  }
 }

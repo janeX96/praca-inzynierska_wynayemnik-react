@@ -22,10 +22,7 @@
   justify-content: center;
   margin-right: 100px;
 }
-.logo {
-  // width: 100px;
-  // height: 45px;
-}
+
 .nav-options {
   padding-left: 25px;
   display: grid;
@@ -33,6 +30,7 @@
   grid-gap: 50px;
   list-style-type: none;
 }
+
 .mobile-option {
   display: none;
 }
@@ -40,6 +38,7 @@
 .option {
   font-size: 18px;
 }
+
 .option :hover {
   color: $main-color-dark;
   border-bottom: solid 5px $main-color-dark;
@@ -135,13 +134,12 @@
 
 .dropdown__content > ul {
   list-style-type: none;
-  /* padding-right: 0%; */
   padding-left: 10%;
-  /* margin-right: 40px; */
 }
 
 .dropdown__content > ul > li > p,
-a {
+a,
+.opt {
   color: $text-color-light;
   text-decoration: none;
   cursor: pointer;
@@ -153,10 +151,6 @@ a {
 
 .dropdown--active .dropdown__content {
   display: block;
-}
-
-.dropdown__trigger :hover {
-  // background-color: $main-color-dark;
 }
 
 .login-btns {

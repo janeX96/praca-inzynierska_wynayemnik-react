@@ -14,7 +14,7 @@ const RentDetails = (props) => {
   const [showPayments, setShowPayments] = useState(false);
   const [showBails, setShowBails] = useState(false);
   const [sumOfBails, setSumOfBails] = useState(0);
-
+  const [showRentValues, setShowRentValues] = useState(false);
   const getData = () => {
     let urlByRole =
       props.roles[0] === "owner"
@@ -54,6 +54,7 @@ const RentDetails = (props) => {
             if (p.paidDate !== null) {
               p.paidDate = paidDate.split("T")[0];
             }
+            return p;
           });
           setPayments(res);
         } else {
@@ -153,25 +154,27 @@ const RentDetails = (props) => {
     }
   };
 
-  const handleDelete = () => {
-    if (window.confirm("Czy na pewno chcesz usunąć ten wynajem?")) {
-      let urlByRole =
-        props.roles[0] === "owner"
-          ? owner.rent.deleteRent
-          : props.roles[0] === "admin"
-          ? admin.rent.deleteRent
-          : "";
-      PATCH(`${urlByRole}${rent.rentId}`).then((res) => {
-        if (res) {
-          toast.success("Wynajem został usunięty");
-          props.handleReturn();
-        } else {
-          toast.error("Nie udało się usunąć wynajmu...");
-        }
-        return res;
-      });
-    }
-  };
+  //delete rent maybe will by used in future
+
+  // const handleDelete = () => {
+  //   if (window.confirm("Czy na pewno chcesz usunąć ten wynajem?")) {
+  //     let urlByRole =
+  //       props.roles[0] === "owner"
+  //         ? owner.rent.deleteRent
+  //         : props.roles[0] === "admin"
+  //         ? admin.rent.deleteRent
+  //         : "";
+  //     PATCH(`${urlByRole}${rent.rentId}`).then((res) => {
+  //       if (res) {
+  //         toast.success("Wynajem został usunięty");
+  //         props.handleReturn();
+  //       } else {
+  //         toast.error("Nie udało się usunąć wynajmu...");
+  //       }
+  //       return res;
+  //     });
+  //   }
+  // };
 
   const handleCancelRent = () => {
     if (window.confirm("Czy na pewno chcesz anulować ten wynajem?")) {
@@ -192,6 +195,16 @@ const RentDetails = (props) => {
         return res;
       });
     }
+  };
+
+  const renderRentValues = () => {
+    return (
+      <ul>
+        {/* {rent.paymentValues.map((value) => (
+          <li> TODO</li>
+        ))} */}
+      </ul>
+    );
   };
 
   const renderDetails = () => {
@@ -236,9 +249,22 @@ const RentDetails = (props) => {
             <li>
               Opis: <b>{rent.description}</b>
             </li>
-            <li>
-              Czynsz: <b>{rent.rentValue} zł</b>
-            </li>
+
+            {rent.statePaymentValue ? (
+              <li>
+                Czynsz: <b>{rent.rentValue} zł</b>
+              </li>
+            ) : (
+              <li>
+                <b
+                  className="details-container__history"
+                  onClick={() => setShowRentValues(!showRentValues)}
+                >
+                  Zobacz wartości czynszu
+                </b>
+                {showRentValues && <>{renderRentValues()}</>}
+              </li>
+            )}
 
             <li style={{ borderStyle: "groove", marginRight: "70%" }}>
               Kaucja: <b>{rent.bailValue} zł</b>
@@ -275,7 +301,7 @@ const RentDetails = (props) => {
               </>
             )}
 
-            {rent.paymentValues.length > 0 ? (
+            {/* {rent.paymentValues.length > 0 ? (
               <li>
                 paymentValues:
                 <ul>
@@ -288,7 +314,7 @@ const RentDetails = (props) => {
               </li>
             ) : (
               ""
-            )}
+            )} */}
 
             {rent.cancelledDate !== null ? (
               <li>

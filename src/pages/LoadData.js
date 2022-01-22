@@ -1,5 +1,4 @@
 import React from "react";
-import { useState } from "react";
 import "../styles/App.scss";
 import Table from "../components/Table/Table";
 

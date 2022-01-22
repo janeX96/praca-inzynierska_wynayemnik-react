@@ -22,7 +22,6 @@ const GET = async (url) => {
       return res;
     })
     .catch((err) => {
-      console.error("Request error: ", err);
       return null;
     });
 };

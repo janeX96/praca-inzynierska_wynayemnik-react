@@ -1,18 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { BsPlusSquareFill } from "react-icons/bs";
-import { admin, client, general, owner } from "../../resources/urls";
-import { GET } from "../../utilities/Request";
-import LoadData from "../LoadData";
 import PaymentForm from "./PaymentForm";
-import "react-tabulator/lib/styles.css"; // required styles
-import "react-tabulator/lib/css/tabulator.min.css"; // theme
+import "react-tabulator/lib/styles.css";
+import "react-tabulator/lib/css/tabulator.min.css";
 import { ReactTabulator as Tabulator } from "react-tabulator";
 import PaymentDetails from "./PaymentDetails";
 
 const PaymentsForRent = (props) => {
-  const [payments, setPayments] = useState(
-    props.payments !== undefined && props.payments
-  );
   const [showPaymentForm, setShowPaymentForm] = useState(false);
   const [chosenId, setChosenId] = useState(-1);
   const handleReturn = () => {
@@ -20,9 +14,10 @@ const PaymentsForRent = (props) => {
     setChosenId(-1);
     props.reloadPayments();
   };
-  var actionButton = function (cell, formatterParams, onRendered) {
-    //plain text value
 
+  const payments = props.payments !== undefined && props.payments;
+
+  var actionButton = function (cell, formatterParams, onRendered) {
     return `<button>Szczegóły</button>`;
   };
   const columns = [
@@ -72,15 +67,32 @@ const PaymentsForRent = (props) => {
   const renderTable = () => {
     return (
       <Tabulator
+        className="custom-tabulator"
         columns={columns}
         data={payments}
         options={{
+          debugInvalidOptions: false,
           movableColumns: true,
           movableRows: true,
           pagination: "local",
           paginationSizeSelector: [5, 10, 20, 50],
           paginationSize: 5,
           setFilter: true,
+          langs: {
+            default: {
+              pagination: {
+                page_size: "Wyniki na stronie",
+                first: "Pierwsza",
+                first_title: "Pierwsza",
+                last: "Ostatnia",
+                last_title: "Ostatnia",
+                prev: "Poprzednia",
+                prev_title: "Poprzednia",
+                next: "Następna",
+                next_title: "Następna",
+              },
+            },
+          },
         }}
         layout="fitColumns"
         responsiveLayout="hide"

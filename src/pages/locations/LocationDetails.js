@@ -34,7 +34,6 @@ const LocationDetails = (props) => {
   const [sending, setSending] = useState(false);
 
   const [updateProductId, setUpdateProductId] = useState(-1);
-  // const [premisesTypesForProduct, setpremisesTypesForProduct] = useState();
 
   const getLocationData = async () => {
     let urlByRole =
@@ -199,7 +198,7 @@ const LocationDetails = (props) => {
       const url = `${urlByRole}${props.id}${suffix}`;
 
       let json = JSON.stringify(product.obj);
-      // console.log("Dodaję: ", product.obj);
+
       POST(url, json)
         .then((response) => {
           if (response.ok) {
@@ -207,7 +206,6 @@ const LocationDetails = (props) => {
             toast.success("Produkt został dodany");
             setSending(false);
           }
-          // return response.json();
         })
         .catch((err) => {
           console.log("nie udane wysłanie żądania: ", err);
@@ -248,7 +246,6 @@ const LocationDetails = (props) => {
             toast.error(`Nie udało się aktualizować produktu: ${res.error}`);
           });
         }
-        // return response.json();
       })
       .catch((err) => {
         console.log("nie udane wysłanie żądania: ", err);
@@ -267,7 +264,6 @@ const LocationDetails = (props) => {
             mediaStandardProducts={mediaStandardProducts}
           />
         );
-        break;
 
       case "state":
         return (
@@ -276,7 +272,6 @@ const LocationDetails = (props) => {
             premisesTypes={premisesTypes}
           />
         );
-        break;
 
       case "calculated":
         return (
@@ -285,7 +280,6 @@ const LocationDetails = (props) => {
             premisesTypes={premisesTypes}
           />
         );
-        break;
 
       case "disposable":
         return (
@@ -294,7 +288,6 @@ const LocationDetails = (props) => {
             premisesTypes={premisesTypes}
           />
         );
-        break;
 
       case "media-standard":
         return (
@@ -303,7 +296,6 @@ const LocationDetails = (props) => {
             premisesTypes={premisesTypes}
           />
         );
-        break;
 
       case "updateProduct":
         return (
@@ -316,11 +308,9 @@ const LocationDetails = (props) => {
             // premisesTypesForProduct={premisesTypesForProduct}
           />
         );
-        break;
 
       default:
         return null;
-        break;
     }
   };
 
@@ -329,27 +319,9 @@ const LocationDetails = (props) => {
     setProductType(value);
   };
 
-  // const getPremisesTypesForProduct = (id) => {
-  //   let urlByRole = owner.defaultPrefix;
-  //   let url = general.productsForLocation.premisesTypesForProductPrefix;
-  //   // props.roles[0] === "owner"
-  //   //   ? owner.defaultPrefix
-  //   //   : props.roles[0] === "admin"
-  //   //   ? admin.defaultPrefix
-  //   //   : "";
-
-  //   GET(
-  //     // `${urlByRole}${general.productsForLocation.premisesTypesForProductPrefix}${id}`
-  //     `${url}${id}`
-  //   ).then((res) => {
-  //     setpremisesTypesForProduct(res);
-  //   });
-  // };
-
   const handleEdit = (id) => {
     setUpdateProductId(id);
     setProductType("updateProduct");
-    // getPremisesTypesForProduct(id);
   };
 
   const formValidation = () => {
@@ -357,7 +329,6 @@ const LocationDetails = (props) => {
     let postCode = false;
     let street = false;
     let streetNumber = false;
-    // let locationName = false;
 
     if (
       location.address.city.length > 2 &&
@@ -398,7 +369,6 @@ const LocationDetails = (props) => {
 
   const handleChange = (e) => {
     const name = e.target.name;
-    const type = e.target.type;
     const value = e.target.value;
 
     if (name === "locationName") {

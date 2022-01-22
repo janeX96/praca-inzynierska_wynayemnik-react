@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useKeycloak } from "@react-keycloak/web";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "../styles/App.scss";
@@ -18,7 +18,6 @@ import roles from "../resources/roles";
 import { ToastContainer } from "react-toastify";
 import Rents from "../pages/rent/Rents";
 import Clients from "../pages/Clients";
-import { useEffect, useState } from "react";
 import keycloakErr from "../images/keycloakErr.jpg";
 import NotFound from "../pages/NotFound";
 
@@ -47,6 +46,30 @@ const AppRouter = () => {
     );
   }
 
+  const privateRoutes = [
+    { roles: roles.OWNER, path: "/owner-premises", component: Premises },
+    {
+      roles: roles.OWNER,
+      path: "/owner-premises-new",
+      component: Owner_NewPremises,
+    },
+    { roles: roles.OWNER, path: "/owner-locations", component: Locations },
+    { roles: roles.OWNER, path: "/owner-rent-new", component: Rent },
+    { roles: roles.OWNER, path: "/owner-rents", component: Rents },
+    {
+      roles: roles.OWNER,
+      path: "/owner-administrators",
+      component: Administrators,
+    },
+    { roles: roles.OWNER, path: "/owner-clients", component: Clients },
+
+    { roles: roles.ADMIN, path: "/admin-premises", component: Premises },
+    { roles: roles.ADMIN, path: "/admin-locations", component: Locations },
+    { roles: roles.ADMIN, path: "/admin-rent-new", component: Rent },
+    { roles: roles.ADMIN, path: "/admin-rents", component: Rents },
+
+    { roles: roles.CLIENT, path: "/client-rents", component: Rents },
+  ];
   return (
     <>
       <Router>
@@ -60,69 +83,14 @@ const AppRouter = () => {
                 <Route path="/login" component={Login} />
                 <Route path="/registration" component={Registration} />
                 <Route path="/user-profile" component={UserProfile} />
-                {/* for owner */}
-                <PrivateRoute
-                  roles={[roles.OWNER]}
-                  path="/owner-premises"
-                  component={Premises}
-                />
-                <PrivateRoute
-                  roles={[roles.OWNER]}
-                  path="/owner-premises-new"
-                  component={Owner_NewPremises}
-                />
-                <PrivateRoute
-                  roles={[roles.OWNER]}
-                  path="/owner-locations"
-                  component={Locations}
-                />
-                <PrivateRoute
-                  roles={[roles.OWNER]}
-                  path="/owner-rent-new"
-                  component={Rent}
-                />
-                <PrivateRoute
-                  roles={[roles.OWNER]}
-                  path="/owner-rents"
-                  component={Rents}
-                />
-                <PrivateRoute
-                  roles={[roles.OWNER]}
-                  path="/owner-administrators"
-                  component={Administrators}
-                />
-                <PrivateRoute
-                  roles={[roles.OWNER]}
-                  path="/owner-clients"
-                  component={Clients}
-                />
-                {/* for admin */}
-                <PrivateRoute
-                  roles={[roles.ADMIN]}
-                  path="/admin-premises"
-                  component={Premises}
-                />
-                <PrivateRoute
-                  roles={[roles.ADMIN]}
-                  path="/admin-locations"
-                  component={Locations}
-                />
-                <PrivateRoute
-                  roles={[roles.ADMIN]}
-                  path="/admin-rent-new"
-                  component={Rent}
-                />
-                <PrivateRoute
-                  roles={[roles.ADMIN]}
-                  path="/admin-rents"
-                  component={Rents}
-                />
-                {/* for client */}
-                <PrivateRoute
-                  roles={[roles.CLIENT]}
-                  path="/client-rents"
-                  component={Rents}
-                />
+                {privateRoutes.map((route) => (
+                  <PrivateRoute
+                    key={route.path}
+                    roles={[route.roles]}
+                    path={route.path}
+                    component={route.component}
+                  />
+                ))}
                 <Route component={NotFound} />
               </Switch>
             </section>

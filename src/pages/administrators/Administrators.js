@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { GET } from "../../utilities/Request";
 import { owner } from "../../resources/urls";
 import { ReactTabulator as Tabulator } from "react-tabulator";
-import { Link } from "react-router-dom";
 import { BsPlusSquareFill } from "react-icons/bs";
 import AdministratorLogs from "./AdministratorLogs";
 import AdministratorAdd from "./AdministratorAdd";
@@ -90,15 +89,32 @@ const Administrators = (props) => {
   const renderTable = () => {
     return (
       <Tabulator
+        className="custom-tabulator"
         columns={columns}
         data={administrators}
         options={{
+          debugInvalidOptions: false,
           movableColumns: true,
           movableRows: true,
           pagination: "local",
           paginationSizeSelector: [5, 10, 20, 50],
           paginationSize: 5,
           setFilter: true,
+          langs: {
+            default: {
+              pagination: {
+                page_size: "Wyniki na stronie",
+                first: "Pierwsza",
+                first_title: "Pierwsza",
+                last: "Ostatnia",
+                last_title: "Ostatnia",
+                prev: "Poprzednia",
+                prev_title: "Poprzednia",
+                next: "Następna",
+                next_title: "Następna",
+              },
+            },
+          },
         }}
         layout="fitColumns"
         responsiveLayout="hide"
@@ -120,6 +136,7 @@ const Administrators = (props) => {
       <div className="content-container">
         {chosenId > 0 ? (
           <AdministratorLogs
+            className="custom-tabulator"
             key={chosenId}
             action={handleAction}
             administratorId={chosenId}

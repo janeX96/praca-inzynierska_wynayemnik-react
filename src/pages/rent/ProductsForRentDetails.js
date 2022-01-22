@@ -38,9 +38,7 @@ const ProductsForRentDetails = (props) => {
           toast.error("Błąd połączenia z serwerem...");
         }
       })
-      .catch((err) => {
-        console.log("Error Reading data " + err);
-      });
+      .catch((err) => {});
   };
 
   const getMediaStandardProducts = () => {
@@ -65,6 +63,7 @@ const ProductsForRentDetails = (props) => {
               ...showMediaRentsByDate,
               [date.startDate]: false,
             });
+            return date;
           });
         } else {
           let valuesObj = {};
@@ -75,6 +74,8 @@ const ProductsForRentDetails = (props) => {
               quantity: false,
             };
             Object.assign(valuesObj, obj);
+
+            return prod;
           });
           setValues(valuesObj);
         }
@@ -195,7 +196,7 @@ const ProductsForRentDetails = (props) => {
     e.preventDefault();
 
     const validation = formValidation();
-    console.log("correct: ", validation.correct);
+
     if (!sending) {
       setSending(true);
       if (validation.correct) {
@@ -302,8 +303,9 @@ const ProductsForRentDetails = (props) => {
               name="newProductnewProduct"
               className="form-container__input"
               onChange={handleAddProduct}
+              defaultValue={""}
             >
-              <option value="" selected="true"></option>
+              <option value=""></option>
               {productsForLocation.map((prod) => (
                 <option value={prod.productId}>{prod.productName}</option>
               ))}
@@ -366,15 +368,32 @@ const ProductsForRentDetails = (props) => {
   const renderTable = (data) => {
     return (
       <Tabulator
+        className="custom-tabulator"
         columns={columns}
         data={data}
         options={{
+          debugInvalidOptions: false,
           movableColumns: true,
           movableRows: true,
           pagination: "local",
           paginationSizeSelector: [5, 10, 20, 50],
           paginationSize: 5,
           setFilter: true,
+          langs: {
+            default: {
+              pagination: {
+                page_size: "Wyniki na stronie",
+                first: "Pierwsza",
+                first_title: "Pierwsza",
+                last: "Ostatnia",
+                last_title: "Ostatnia",
+                prev: "Poprzednia",
+                prev_title: "Poprzednia",
+                next: "Następna",
+                next_title: "Następna",
+              },
+            },
+          },
         }}
         layout="fitColumns"
         responsiveLayout="hide"
@@ -403,7 +422,7 @@ const ProductsForRentDetails = (props) => {
               {products !== undefined && products !== null && (
                 <>
                   {products.map((data) => (
-                    <li>
+                    <li key={data.startDate}>
                       <h3
                         className="details-container__history"
                         onClick={() => {

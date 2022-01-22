@@ -62,8 +62,6 @@ const Rent = (props) => {
 
   const [selectedProductsSave, setSelectedProductsSave] = useState([]);
 
-  const [emailChanged, setEmailChanged] = useState("");
-
   const setUser = (userAccount) => {
     setRent({ ...rent, userAccount });
   };
@@ -171,7 +169,7 @@ const Rent = (props) => {
             setAddress={setAddress}
           />
         );
-        break;
+
       case 2:
         return (
           <RentForm
@@ -184,7 +182,7 @@ const Rent = (props) => {
             setRentDetails={setRentDetails}
           />
         );
-        break;
+
       case 3:
         return (
           <ProductsForRent
@@ -199,7 +197,7 @@ const Rent = (props) => {
             selectedSave={selectedProductsSave}
           />
         );
-        break;
+
       case 4:
         return (
           <RentSummary
@@ -212,7 +210,6 @@ const Rent = (props) => {
             roles={roles}
           />
         );
-        break;
 
       default:
         break;
