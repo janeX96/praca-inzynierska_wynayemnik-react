@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "../../styles/App.scss";
-// import "./Registration.css";
 import ReCAPTCHA from "react-google-recaptcha";
 import RegistrationComplete from "./RegistrationComplete";
 import WaitIcon from "../../images/icons/wait-icon.png";
@@ -20,7 +19,6 @@ const Registration = () => {
     token: "",
     registerURL: "",
     sending: false,
-    // reCaptcha: false,
     errors: {
       passwordsNotSameError: false,
       passwordFormError: false,
@@ -33,7 +31,7 @@ const Registration = () => {
     async function getResources() {
       let res = await fetch("/resources.json");
       let response = await res.json();
-      // console.log(response.urls.register);
+
       setData({ ...data, registerURL: response.urls.register });
     }
     getResources();
@@ -122,13 +120,10 @@ const Registration = () => {
         };
 
         let jsonData = JSON.stringify(userData);
-        // console.log(jsonData);
         let errorMsg = "";
         await POST(user.register, jsonData, true)
           .then((res) => {
-            // console.log("Otrzymalem: ", res);
             if (res.ok) {
-              // console.log("REJESTRACJA POMYŚLNA");
               setData({ ...data, success: true });
             } else {
               res.json().then((res) => {
