@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
-import keycloak from "../../auth/keycloak";
-import LoadData from "../LoadData";
 import "../../styles/App.scss";
 import LocationDetails from "./LocationDetails";
 import { GET } from "../../utilities/Request";
 import { owner, admin } from "../../resources/urls";
-import "react-tabulator/lib/styles.css"; // required styles
-import "react-tabulator/lib/css/tabulator.min.css"; // theme
+import "react-tabulator/lib/styles.css";
+import "react-tabulator/lib/css/tabulator.min.css";
 import { ReactTabulator as Tabulator } from "react-tabulator";
 import { toast } from "react-toastify";
 
@@ -42,11 +40,11 @@ const Locations = (props) => {
     setChosenId(id);
     getData();
   };
-  var actionButton = function (cell, formatterParams, onRendered) {
-    //plain text value
 
+  var actionButton = function (cell, formatterParams, onRendered) {
     return `<button>Szczegóły</button>`;
   };
+
   const columns = [
     {
       title: "Id",
@@ -88,15 +86,32 @@ const Locations = (props) => {
   const renderTable = () => {
     return (
       <Tabulator
+        className="custom-tabulator"
         columns={columns}
         data={locations}
         options={{
+          debugInvalidOptions: false,
           movableColumns: true,
           movableRows: true,
           pagination: "local",
           paginationSizeSelector: [5, 10, 20, 50],
           paginationSize: 5,
           setFilter: true,
+          langs: {
+            default: {
+              pagination: {
+                page_size: "Wyniki na stronie",
+                first: "Pierwsza",
+                first_title: "Pierwsza",
+                last: "Ostatnia",
+                last_title: "Ostatnia",
+                prev: "Poprzednia",
+                prev_title: "Poprzednia",
+                next: "Następna",
+                next_title: "Następna",
+              },
+            },
+          },
         }}
         layout="fitColumns"
         responsiveLayout="hide"
@@ -105,16 +120,10 @@ const Locations = (props) => {
         history="true"
         movableColumns="true"
         resizableRows="true"
-        initialSort={[
-          //set the initial sort order of the data
-          { column: "location.locationName", dir: "asc" },
-        ]}
+        initialSort={[{ column: "locationName", dir: "asc" }]}
       />
     );
   };
-
-  // hiddenColumns: "address.addressId"
-  const initialState = { pageSize: 5, hiddenColumns: "locationId" };
 
   return (
     <>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { ReactComponent as MenuItem } from "../../images/icons/menu-svgrepo-com.svg";
 import "./Navbar.scss";
 import logo from "../../images/wynayemnik logo2.png";
@@ -120,7 +120,6 @@ const Navbar = () => {
               <div className="email">
                 {keycloak.tokenParsed.preferred_username}
               </div>
-
               <div className="panel-name">
                 Panel{" "}
                 {role === "owner"
@@ -190,9 +189,7 @@ const Navbar = () => {
                       </Link>
                     </li>
                     <li>
-                      <a>
-                        <Login />
-                      </a>
+                      <Login className="opt" />
                     </li>
                   </ul>
                 </DropdownContent>

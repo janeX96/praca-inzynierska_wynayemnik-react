@@ -1,18 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { ReactTabulator as Tabulator } from "react-tabulator";
 import { GET, PATCH } from "../../utilities/Request";
 import { owner, user } from "../../resources/urls";
-import * as path from "path";
 import { toast } from "react-toastify";
 
 const AdministratorAdd = (props) => {
   const [premises, setPremises] = useState([]);
   const [idAdministrator, setIdAdministrator] = useState(-1);
   const [administratorEmail, setAdministratorEmail] = useState("");
-
-  // useEffect(() => {
-  //   getData();
-  // }, [idAdministrator]);
 
   const getData = (id) => {
     const adminId = idAdministrator === -1 ? id : idAdministrator;
@@ -107,15 +102,32 @@ const AdministratorAdd = (props) => {
   const renderTableSet = () => {
     return (
       <Tabulator
+        className="custom-tabulator"
         columns={columnsPremises}
         data={premises}
         options={{
+          debugInvalidOptions: false,
           movableColumns: true,
           movableRows: true,
           pagination: "local",
           paginationSizeSelector: [5, 10, 20, 50],
           paginationSize: 5,
           setFilter: true,
+          langs: {
+            default: {
+              pagination: {
+                page_size: "Wyniki na stronie",
+                first: "Pierwsza",
+                first_title: "Pierwsza",
+                last: "Ostatnia",
+                last_title: "Ostatnia",
+                prev: "Poprzednia",
+                prev_title: "Poprzednia",
+                next: "Następna",
+                next_title: "Następna",
+              },
+            },
+          },
         }}
         layout="fitColumns"
         responsiveLayout="hide"

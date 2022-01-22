@@ -40,8 +40,6 @@ const PremisesEdit = (props) => {
     changed: "",
   });
 
-  // const [changed, setChanged] = useState("");
-
   let locations = [];
   let types = [];
   const getData = () => {
@@ -466,7 +464,9 @@ const PremisesEdit = (props) => {
               >
                 <option value=""></option>
                 {state.locations.map((option) => (
-                  <option value={option.value}>{option.label}</option>
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
                 ))}
               </select>
               {state.errors.location && (
@@ -672,7 +672,9 @@ const PremisesEdit = (props) => {
               >
                 <option value=""></option>
                 {state.premisesTypes.map((option) => (
-                  <option value={option.label}>{option.label}</option>
+                  <option key={option.label} value={option.label}>
+                    {option.label}
+                  </option>
                 ))}
               </select>
               {state.errors.premisesType && (

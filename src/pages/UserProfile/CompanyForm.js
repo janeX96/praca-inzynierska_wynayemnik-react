@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { user } from "../../resources/urls";
 import { POST } from "../../utilities/Request";

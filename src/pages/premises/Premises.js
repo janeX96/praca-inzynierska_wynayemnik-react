@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import LoadData from "../LoadData";
 import "../../styles/App.scss";
 import PremisesDetails from "./PremisesDetails/PremisesDetails";
 import { Link } from "react-router-dom";
@@ -7,8 +6,8 @@ import { BsPlusSquareFill } from "react-icons/bs";
 import { owner, admin } from "../../resources/urls";
 import { GET } from "../../utilities/Request";
 import { toast } from "react-toastify";
-import "react-tabulator/lib/styles.css"; // required styles
-import "react-tabulator/lib/css/tabulator.min.css"; // theme
+import "react-tabulator/lib/styles.css";
+import "react-tabulator/lib/css/tabulator.min.css";
 import { ReactTabulator as Tabulator } from "react-tabulator";
 
 const Premises = (props) => {
@@ -40,6 +39,7 @@ const Premises = (props) => {
           } else {
             prem.furnished = "nie";
           }
+          return prem;
         });
         setState({ ...state, data: res });
       } else {
@@ -127,14 +127,31 @@ const Premises = (props) => {
   const renderTable = () => {
     return (
       <Tabulator
+        className="custom-tabulator"
         columns={columns}
         data={state.data}
         options={{
+          debugInvalidOptions: false,
           movableColumns: true,
           movableRows: true,
           pagination: "local",
           paginationSizeSelector: [5, 10, 20, 50],
           paginationSize: 5,
+          langs: {
+            default: {
+              pagination: {
+                page_size: "Wyniki na stronie",
+                first: "Pierwsza",
+                first_title: "Pierwsza",
+                last: "Ostatnia",
+                last_title: "Ostatnia",
+                prev: "Poprzednia",
+                prev_title: "Poprzednia",
+                next: "Następna",
+                next_title: "Następna",
+              },
+            },
+          },
           setFilter: true,
         }}
         layout="fitColumns"
@@ -151,61 +168,6 @@ const Premises = (props) => {
       />
     );
   };
-
-  // var table = new Tabulator("#example-table", {
-  //   data: state.data, //load row data from array
-  //   layout: "fitColumns", //fit columns to width of table
-  //   responsiveLayout: "hide", //hide columns that dont fit on the table
-  //   tooltips: true, //show tool tips on cells
-  //   addRowPos: "top", //when adding a new row, add it to the top of the table
-  //   history: true, //allow undo and redo actions on the table
-  //   pagination: "local", //paginate the data
-  //   paginationSize: 7, //allow 7 rows per page of data
-  //   movableColumns: true, //allow column order to be changed
-  //   resizableRows: true, //allow row order to be changed
-  //   initialSort: [
-  //     //set the initial sort order of the data
-  //     { column: "name", dir: "asc" },
-  //   ],
-  //   columns: [
-  //     {
-  //       title: "Id",
-  //       field: "premisesId",
-  //     },
-  //     {
-  //       title: "Adres",
-  //       field: "location.locationName",
-  //     },
-  //     {
-  //       title: "Numer",
-  //       field: "premisesNumber",
-  //     },
-  //     {
-  //       title: "m2",
-  //       field: "area",
-  //     },
-  //     {
-  //       title: "Poziom",
-  //       field: "premisesLevel",
-  //     },
-  //     {
-  //       title: "Stan",
-  //       field: "state",
-  //     },
-  //     {
-  //       title: "Rodzaj",
-  //       field: "premisesType.type",
-  //     },
-  //     {
-  //       formatter: actionButton,
-  //       width: 100,
-  //       align: "center",
-  //       cellClick: function (e, cell) {
-  //         handleAction(cell.getRow().getData().premisesId);
-  //       },
-  //     },
-  //   ],
-  // });
 
   return (
     <>

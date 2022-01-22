@@ -37,9 +37,7 @@ const UserProfile = () => {
           toast.error("Błąd połączenia z serwerem...");
         }
       })
-      .catch((err) => {
-        console.log("Error Reading data " + err);
-      });
+      .catch((err) => {});
   };
 
   const getCompany = () => {
@@ -104,7 +102,6 @@ const UserProfile = () => {
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-    console.log(name);
     setFakturowniaSettings({ ...fakturowniaSettings, [name]: value });
   };
 
@@ -118,10 +115,7 @@ const UserProfile = () => {
   const changeIsNaturalPerson = async () => {
     const oldStatus = user.data.isNaturalPerson;
     const newStatus = oldStatus ? "firmę" : "osobę fizyczną";
-    console.log("preson:", user.data.isNaturalPerson);
-    console.log("isfak:");
     if (!user.data.isNaturalPerson && user.data.isFakturownia) {
-      console.log("aadadsa");
       PATCH(userReq.changeIsFakturownia).then((res) => {
         PATCH(userReq.updateIsNaturalPerson).then((res) => {
           if (res) {
@@ -297,12 +291,12 @@ const UserProfile = () => {
                       <li>
                         Nr: <b>{company[0].company.address.streetNumber}</b>
                       </li>
-                      <button
+                      {/* <button
                         className="details-container__button"
                         style={{ marginTop: "15px" }}
                       >
                         Edytuj dane
-                      </button>
+                      </button> */}
                     </>
                   )}
                 <li>

@@ -332,6 +332,7 @@ const CalculatedProductForm = (props) => {
                     if (p === option.label) {
                       exist = true;
                     }
+                    return p;
                   });
                   return (
                     <li key={option.value}>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "../../styles/App.css";
 import { PUT } from "../../utilities/Request";
 import { user } from "../../resources/urls";
@@ -14,7 +14,6 @@ const UserProfileEdit = (props) => {
     emailError: false,
   });
 
-  const [updateUrl, setUpdateUrl] = useState();
   const [loading, setLoading] = useState(false);
 
   const messages = {

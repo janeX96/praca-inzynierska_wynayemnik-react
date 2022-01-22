@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import "../../../styles/App.css";
 
 const MediaStandardProductForm = (props) => {
@@ -246,6 +246,7 @@ const MediaStandardProductForm = (props) => {
                     if (p === option.label) {
                       exist = true;
                     }
+                    return p;
                   });
 
                   return (

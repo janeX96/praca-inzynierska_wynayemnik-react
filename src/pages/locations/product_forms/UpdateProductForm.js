@@ -32,13 +32,11 @@ const UpdateProductForm = (props) => {
   const getPremisesTypesForProduct = async (id) => {
     let url = general.productsForLocation.premisesTypesForProductPrefix;
 
-    return await GET(
-      // `${urlByRole}${general.productsForLocation.premisesTypesForProductPrefix}${id}`
-      `${url}${id}`
-    ).then((res) => {
+    return await GET(`${url}${id}`).then((res) => {
       let typesArr = [];
       res.map((type) => {
         typesArr.push(type.type);
+        return type;
       });
 
       console.log("TAblica: ", typesArr);
@@ -64,7 +62,7 @@ const UpdateProductForm = (props) => {
             premisesTypesForProduct={premisesTypesForProduct}
           />
         );
-        break;
+
       case "MEDIA":
         if (product.subtypeMedia === "STANDARD") {
           return (
@@ -101,7 +99,7 @@ const UpdateProductForm = (props) => {
             premisesTypesForProduct={premisesTypesForProduct}
           />
         );
-        break;
+
       case "STATE":
         return (
           <StateProductForm
@@ -113,7 +111,6 @@ const UpdateProductForm = (props) => {
             premisesTypesForProduct={premisesTypesForProduct}
           />
         );
-        break;
 
       default:
         return null;

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { AiFillEdit } from "react-icons/ai";
 import { BsPlusSquareFill, BsTrashFill } from "react-icons/bs";
 import { toast } from "react-toastify";
-import { owner, admin, client, general } from "../../resources/urls";
+import { owner, admin, general } from "../../resources/urls";
 import { DELETE, GET, PATCH } from "../../utilities/Request";
 import LoadData from "../LoadData";
 import BailForm from "./BailForm";
@@ -28,6 +28,8 @@ const BailsForRent = (props) => {
           res.map((b) => {
             let isCome = b.come;
             b.come = isCome ? "tak" : "nie";
+
+            return b;
           });
           setBails(res);
         } else {
