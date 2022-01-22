@@ -368,6 +368,7 @@ const ProductsForRentDetails = (props) => {
   const renderTable = (data) => {
     return (
       <Tabulator
+        className="custom-tabulator"
         columns={columns}
         data={data}
         options={{
@@ -378,6 +379,21 @@ const ProductsForRentDetails = (props) => {
           paginationSizeSelector: [5, 10, 20, 50],
           paginationSize: 5,
           setFilter: true,
+          langs: {
+            default: {
+              pagination: {
+                page_size: "Wyniki na stronie",
+                first: "Pierwsza",
+                first_title: "Pierwsza",
+                last: "Ostatnia",
+                last_title: "Ostatnia",
+                prev: "Poprzednia",
+                prev_title: "Poprzednia",
+                next: "Następna",
+                next_title: "Następna",
+              },
+            },
+          },
         }}
         layout="fitColumns"
         responsiveLayout="hide"
