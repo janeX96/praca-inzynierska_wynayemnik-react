@@ -17,7 +17,7 @@ const Premises = (props) => {
 
   const [chosenId, setChosenId] = useState(-1);
 
-  const getData = useCallback(async () => {
+  const getData = () => {
     const urlByRole = (() => {
       const firstRole = props.roles[0];
 
@@ -52,7 +52,7 @@ const Premises = (props) => {
         toast.error("Błąd połączenia z serwerem...");
       }
     });
-  }, [props.roles, state]);
+  };
 
   //wybierając dany lokal zaamiętuję jego id, jeśi id jest >=0
   // to wyświetlam info, jeśli nie to pokazuje liste lokali
@@ -62,7 +62,7 @@ const Premises = (props) => {
 
   useEffect(() => {
     getData();
-  }, [chosenId, getData]);
+  }, [chosenId]);
 
   const deleteShowMessage = (res) => {
     handleAction(-1);
