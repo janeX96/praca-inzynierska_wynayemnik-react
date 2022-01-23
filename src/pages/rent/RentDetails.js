@@ -95,15 +95,21 @@ const RentDetails = (props) => {
   };
 
   useEffect(() => {
-    if (props.rent !== undefined) {
-      setRent(props.rent);
-    } else {
-      getData();
+    let mounted = true;
+    if (mounted) {
+      if (props.rent !== undefined) {
+        setRent(props.rent);
+      } else {
+        getData();
+      }
+      getPayments();
+      if (props.roles[0] !== "client") {
+        getSumOfBails();
+      }
     }
-    getPayments();
-    if (props.roles[0] !== "client") {
-      getSumOfBails();
-    }
+    return () => {
+      mounted = false;
+    };
   }, [showPayments, showProducts]);
 
   const handleChangeAccess = () => {

@@ -84,34 +84,44 @@ const PaymentForm = (props) => {
   };
 
   useEffect(() => {
-    const todayVal = getDateToday();
-    setToday(todayVal);
-    setPayment({
-      ...payment,
-      startDate: todayVal,
-    });
-    getMedia();
-    checkIssuedAllMediaRent();
+    let mounted = true;
+    if (mounted) {
+      const todayVal = getDateToday();
+      setToday(todayVal);
+      setPayment({
+        ...payment,
+        startDate: todayVal,
+      });
+      getMedia();
+      checkIssuedAllMediaRent();
+    }
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   useEffect(() => {
-    if (mediaForPayment !== undefined) {
-      let mediaArr = [];
-      let mediaSet = new Set(mediaForPayment);
-      media.map((m) => {
-        const id = parseInt(m.mediaRentId);
-        if (mediaSet.has(id)) {
-          const obj = { mediaRentId: id, name: m.product.productName };
-          mediaArr.push(obj);
-
+    let mounted = true;
+    if (mounted) {
+      if (mediaForPayment !== undefined) {
+        let mediaArr = [];
+        let mediaSet = new Set(mediaForPayment);
+        media.map((m) => {
+          const id = parseInt(m.mediaRentId);
+          if (mediaSet.has(id)) {
+            const obj = { mediaRentId: id, name: m.product.productName };
+            mediaArr.push(obj);
+            return m;
+          }
           return m;
-        }
+        });
 
-        return m;
-      });
-
-      setPayment({ ...payment, positionOnPaymentSet: mediaArr });
+        setPayment({ ...payment, positionOnPaymentSet: mediaArr });
+      }
     }
+    return () => {
+      mounted = false;
+    };
   }, [mediaForPayment]);
 
   const handleChange = (e) => {

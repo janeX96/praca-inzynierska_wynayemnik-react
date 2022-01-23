@@ -41,7 +41,13 @@ const BailsForRent = (props) => {
   }, [props.rentId, props.roles]);
 
   useEffect(() => {
-    getBails();
+    let mounted = true;
+    if (mounted) {
+      getBails();
+    }
+    return () => {
+      mounted = false;
+    };
   }, [getBails]);
 
   const handleReturn = () => {

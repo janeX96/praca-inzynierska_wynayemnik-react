@@ -38,9 +38,15 @@ const Rents = (props) => {
   };
 
   useEffect(() => {
-    if (props.data === undefined) {
-      getData();
+    let mounted = true;
+    if (mounted) {
+      if (props.data === undefined) {
+        getData();
+      }
     }
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   const handleAction = (id) => {
@@ -67,7 +73,6 @@ const Rents = (props) => {
   };
 
   var cellStateValueFormatter = function (cell, formatterParams) {
-    let val = "";
     switch (cell.getValue()) {
       case "IN_PROGRESS":
         return "W trakcie";

@@ -47,8 +47,14 @@ const UserProfile = () => {
   };
 
   useEffect(() => {
-    getData();
-    getCompany();
+    let mounted = true;
+    if (mounted) {
+      getData();
+      getCompany();
+    }
+    return () => {
+      mounted = false;
+    };
   }, [edit]);
 
   const handleChangeIsFakturownia = () => {

@@ -93,8 +93,14 @@ const PremisesDetails = ({
   }, [roles, premisesId]);
 
   useEffect(() => {
-    getData();
-    getRents();
+    let mounted = true;
+    if (mounted) {
+      getData();
+      getRents();
+    }
+    return () => {
+      mounted = false;
+    };
   }, [getData, getRents]);
 
   const handleEdited = (success) => {

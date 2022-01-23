@@ -56,37 +56,43 @@ const ProductsForRent = (props) => {
   };
 
   useEffect(() => {
-    if (selectedProducts.length > 0) {
-      //jeśli produkty były juz wcześniej wybrane
-      const selected = selectedProducts;
-      getAllProducts()
-        .then((r) => {
-          return r;
-        })
-        .then((r) => {
-          const allProds = r;
+    let mounted = true;
+    if (mounted) {
+      if (selectedProducts.length > 0) {
+        //jeśli produkty były juz wcześniej wybrane
+        const selected = selectedProducts;
+        getAllProducts()
+          .then((r) => {
+            return r;
+          })
+          .then((r) => {
+            const allProds = r;
 
-          selectAvailableProducts(allProds, selected);
-        });
-    } else {
-      //jeśli nie były jeszcze wybierane produkty to ustawiane są domyślne
-      getProductsForType(props.premisesType)
-        .then((res) => {
-          return res;
-        })
-        .then((res) => {
-          const selected = res;
-          getAllProducts()
-            .then((r) => {
-              return r;
-            })
-            .then((r) => {
-              const allProds = r;
+            selectAvailableProducts(allProds, selected);
+          });
+      } else {
+        //jeśli nie były jeszcze wybierane produkty to ustawiane są domyślne
+        getProductsForType(props.premisesType)
+          .then((res) => {
+            return res;
+          })
+          .then((res) => {
+            const selected = res;
+            getAllProducts()
+              .then((r) => {
+                return r;
+              })
+              .then((r) => {
+                const allProds = r;
 
-              selectAvailableProducts(allProds, selected);
-            });
-        });
+                selectAvailableProducts(allProds, selected);
+              });
+          });
+      }
     }
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   const selectAvailableProducts = (allProds, selectedProds) => {

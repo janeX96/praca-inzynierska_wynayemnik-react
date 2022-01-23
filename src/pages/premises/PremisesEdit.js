@@ -76,7 +76,13 @@ const PremisesEdit = (props) => {
   }, []);
 
   useEffect(() => {
-    getData();
+    let mounted = true;
+    if (mounted) {
+      getData();
+    }
+    return () => {
+      mounted = false;
+    };
   }, [getData]);
 
   useEffect(() => {

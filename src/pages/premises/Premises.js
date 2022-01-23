@@ -61,7 +61,13 @@ const Premises = (props) => {
   };
 
   useEffect(() => {
-    getData();
+    let mounted = true;
+    if (mounted) {
+      getData();
+    }
+    return () => {
+      mounted = false;
+    };
   }, [chosenId]);
 
   const deleteShowMessage = (res) => {

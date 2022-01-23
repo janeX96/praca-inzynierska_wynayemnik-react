@@ -25,7 +25,13 @@ const PaymentDetails = (props) => {
   }, [props.paymentId, props.rentId, props.roles]);
 
   useEffect(() => {
-    getData();
+    let mounted = true;
+    if (mounted) {
+      getData();
+    }
+    return () => {
+      mounted = false;
+    };
   }, [getData]);
 
   const columns = [
