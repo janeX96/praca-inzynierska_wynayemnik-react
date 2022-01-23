@@ -4,11 +4,12 @@ import { GET } from "../../utilities/Request";
 import "react-tabulator/lib/styles.css";
 import "react-tabulator/lib/css/tabulator.min.css";
 import { ReactTabulator as Tabulator } from "react-tabulator";
+import { useCallback } from "react";
 
 const PaymentDetails = (props) => {
   const [payment, setPayment] = useState();
 
-  const getData = () => {
+  const getData = useCallback(() => {
     let urlByRole =
       props.roles[0] === "owner"
         ? owner.rent.paymentDetails
@@ -21,11 +22,11 @@ const PaymentDetails = (props) => {
     ).then((res) => {
       setPayment(res);
     });
-  };
+  }, [props.paymentId, props.rentId, props.roles]);
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [getData]);
 
   const columns = [
     {
@@ -86,31 +87,31 @@ const PaymentDetails = (props) => {
     return (
       <>
         <ul>
-          <li>
+          <li key={payment.numberPayment}>
             Numer płatności:
             <b>{payment.numberPayment}</b>
           </li>
-          <li>
+          <li key={payment.status}>
             Status:
             <b>{payment.status}</b>
           </li>
-          <li>
+          <li key={payment.paymentType.name}>
             Rodzaj:
             <b>{payment.paymentType.name}</b>
           </li>
-          <li>
+          <li key={payment.startDate}>
             Data wystawienia:
             <b>{payment.startDate}</b>
           </li>
-          <li>
+          <li key={payment.paymentDate}>
             Termin płatności:
             <b>{payment.paymentDate}</b>
           </li>
-          <li>
+          <li key={"paidDate"}>
             Zapłacono:
             <b>{payment.paidDate !== null ? payment.paidDate : "---"}</b>
           </li>
-          <li>
+          <li key={payment.income}>
             Przychodząca:
             <b>{payment.income ? "tak" : "nie"}</b>
           </li>

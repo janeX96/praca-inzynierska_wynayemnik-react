@@ -137,7 +137,6 @@ const BailForm = (props) => {
                 onChange={handleChange}
                 value={bail.bailType}
               >
-                <option value="" selected="true"></option>
                 <option value="CARD_PAYMENT">płatność kartą/gotówką</option>
                 <option value="CARD_WITHDRAW">wypłata kartą/gotówką</option>
                 <option value="CONFIRMATION_OF_PAYMENT">

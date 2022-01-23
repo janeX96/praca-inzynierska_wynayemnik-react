@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { useState, useEffect } from "react";
 import { AiFillEdit } from "react-icons/ai";
 import { BsPlusSquareFill, BsTrashFill } from "react-icons/bs";
@@ -14,7 +15,7 @@ const BailsForRent = (props) => {
   const [updateBailId, setUpdateBailId] = useState(-1);
   const [updateBailObj, setUpdateBailObj] = useState();
 
-  const getBails = () => {
+  const getBails = useCallback(() => {
     let urlByRole =
       props.roles[0] === "owner"
         ? owner.rent.allBailsPrefix
@@ -37,11 +38,11 @@ const BailsForRent = (props) => {
         }
       }
     );
-  };
+  }, [props.rentId, props.roles]);
 
   useEffect(() => {
     getBails();
-  }, []);
+  }, [getBails]);
 
   const handleReturn = () => {
     setShowBailForm(false);
