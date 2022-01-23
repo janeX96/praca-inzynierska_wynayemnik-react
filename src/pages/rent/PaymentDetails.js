@@ -93,43 +93,41 @@ const PaymentDetails = (props) => {
     return (
       <>
         <ul>
-          <li key={"numberPayment"}>
+          <li>
             Numer płatności:
             <b>{payment.numberPayment}</b>
           </li>
-          <li key={"status"}>
+          <li>
             Status:
             <b>{payment.status}</b>
           </li>
-          <li key={"paymentType"}>
+          <li>
             Rodzaj:
             <b>{payment.paymentType.name}</b>
           </li>
-          <li key={"startDate"}>
+          <li>
             Data wystawienia:
             <b>{payment.startDate}</b>
           </li>
-          <li key={"paymentDate"}>
+          <li>
             Termin płatności:
             <b>{payment.paymentDate}</b>
           </li>
-          <li key={"paidDate"}>
+          <li>
             Zapłacono:
             <b>{payment.paidDate !== null ? payment.paidDate : "---"}</b>
           </li>
-          <li key={"income"}>
+          <li>
             Przychodząca:
             <b>{payment.income ? "tak" : "nie"}</b>
           </li>
         </ul>
         <b>Pozycje:</b>
-        {payment.positionOnPaymentSet.map((position) => (
-          <ul>
-            <li key={position.name}>{position.name}</li>
-
-            {/* {renderTable(position)}*/}
-          </ul>
-        ))}
+        <ul>
+          {payment.positionOnPaymentSet.map((position) => (
+            <li key={position.positionOnPaymentId}>{position.name}</li>
+          ))}
+        </ul>
       </>
     );
   };
