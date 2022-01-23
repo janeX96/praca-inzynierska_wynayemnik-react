@@ -24,7 +24,9 @@ const RentDetails = (props) => {
         : props.roles[0] === "client"
         ? client.rent.details
         : "";
-    GET(`${urlByRole}${props.rentId}`).then((res) => {
+    const rentId =
+      props.rentId !== undefined ? props.rentId : props.rent.rentId;
+    GET(`${urlByRole}${rentId}`).then((res) => {
       if (res !== null) {
         setRent(res);
       } else {
@@ -41,27 +43,27 @@ const RentDetails = (props) => {
         : props.roles[0] === "client"
         ? client.rent.payments
         : "";
-    GET(`${urlByRole}${props.rentId}${general.rent.paymentsSuffix}`).then(
-      (res) => {
-        if (res !== null) {
-          res.map((p) => {
-            //format dates
-            const startDate = p.startDate;
-            const paymentDate = p.paymentDate;
-            const paidDate = p.paidDate;
-            p.startDate = startDate.split("T")[0];
-            p.paymentDate = paymentDate.split("T")[0];
-            if (p.paidDate !== null) {
-              p.paidDate = paidDate.split("T")[0];
-            }
-            return p;
-          });
-          setPayments(res);
-        } else {
-          toast.error("Błąd połączenia z serwerem...");
-        }
+    const rentId =
+      props.rentId !== undefined ? props.rentId : props.rent.rentId;
+    GET(`${urlByRole}${rentId}${general.rent.paymentsSuffix}`).then((res) => {
+      if (res !== null) {
+        res.map((p) => {
+          //format dates
+          const startDate = p.startDate;
+          const paymentDate = p.paymentDate;
+          const paidDate = p.paidDate;
+          p.startDate = startDate.split("T")[0];
+          p.paymentDate = paymentDate.split("T")[0];
+          if (p.paidDate !== null) {
+            p.paidDate = paidDate.split("T")[0];
+          }
+          return p;
+        });
+        setPayments(res);
+      } else {
+        toast.error("Błąd połączenia z serwerem...");
       }
-    );
+    });
   };
 
   const getSumOfBails = () => {
@@ -71,7 +73,9 @@ const RentDetails = (props) => {
         : props.roles[0] === "admin"
         ? admin.rent.sumOfBails
         : "";
-    GET(`${urlByRole}${props.rentId}`).then((res) => {
+    const rentId =
+      props.rentId !== undefined ? props.rentId : props.rent.rentId;
+    GET(`${urlByRole}${rentId}`).then((res) => {
       if (res !== null) {
         setSumOfBails(res);
       } else {
