@@ -564,8 +564,7 @@ const LocationDetails = (props) => {
 
       <h1
         style={{
-          marginLeft: "150px",
-          color: "#737279",
+          margin: "0px 0px 0px 150px",
           paddingTop: "20px",
           fontSize: "30px",
         }}
