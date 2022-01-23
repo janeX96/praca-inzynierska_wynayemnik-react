@@ -257,6 +257,7 @@ const PaymentForm = (props) => {
               {media.map((m) => (
                 <>
                   <input
+                    key={m.product.productName}
                     disabled="true"
                     type="text"
                     id="productName"
@@ -265,6 +266,7 @@ const PaymentForm = (props) => {
                     value={m.product.productName}
                   />
                   <input
+                    key={m.quantity}
                     disabled="true"
                     type="text"
                     id="1"
@@ -274,6 +276,7 @@ const PaymentForm = (props) => {
                     //   onChange={}
                   />
                   <input
+                    key={m.product.quantityUnit}
                     disabled="true"
                     type="text"
                     id="1"
@@ -282,6 +285,7 @@ const PaymentForm = (props) => {
                     value={m.product.quantityUnit}
                   />
                   <input
+                    key={m.price}
                     disabled="true"
                     type="text"
                     id="1"
@@ -290,6 +294,7 @@ const PaymentForm = (props) => {
                     value={m.price}
                   />
                   <input
+                    key={m.vat}
                     disabled="true"
                     type="text"
                     id="1"
@@ -298,6 +303,7 @@ const PaymentForm = (props) => {
                     value={m.vat}
                   />
                   <input
+                    key={m.quantity * m.price}
                     disabled="true"
                     type="text"
                     id="1"
@@ -306,6 +312,7 @@ const PaymentForm = (props) => {
                     value={m.quantity * m.price}
                   />
                   <input
+                    key={m.price + m.price * (m.vat / 100)}
                     disabled="true"
                     type="text"
                     id="1"
@@ -314,6 +321,7 @@ const PaymentForm = (props) => {
                     value={m.price + m.price * (m.vat / 100)}
                   />
                   <input
+                    key={m.mediaRentId}
                     defaultChecked="true"
                     type="checkbox"
                     id="check"
