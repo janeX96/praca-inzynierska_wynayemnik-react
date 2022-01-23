@@ -295,10 +295,10 @@ const PaymentForm = (props) => {
               className="form-container--table__form"
             >
               {media.map((m) => (
-                <>
+                <div key={m.product.productName}>
                   <input
                     key={"productName"}
-                    disabled="true"
+                    disabled={true}
                     type="text"
                     id="productName"
                     name="productName"
@@ -307,7 +307,7 @@ const PaymentForm = (props) => {
                   />
                   <input
                     key={"quantity"}
-                    disabled="true"
+                    disabled={true}
                     type="text"
                     id="1"
                     name="1"
@@ -317,7 +317,7 @@ const PaymentForm = (props) => {
                   />
                   <input
                     key={"quantityUnit"}
-                    disabled="true"
+                    disabled={true}
                     type="text"
                     id="1"
                     name="1"
@@ -326,7 +326,7 @@ const PaymentForm = (props) => {
                   />
                   <input
                     key={"price"}
-                    disabled="true"
+                    disabled={true}
                     type="text"
                     id="1"
                     name="1"
@@ -335,7 +335,7 @@ const PaymentForm = (props) => {
                   />
                   <input
                     key={"vat"}
-                    disabled="true"
+                    disabled={true}
                     type="text"
                     id="1"
                     name="1"
@@ -344,7 +344,7 @@ const PaymentForm = (props) => {
                   />
                   <input
                     key={m.quantity * m.price}
-                    disabled="true"
+                    disabled={true}
                     type="text"
                     id="1"
                     name="1"
@@ -353,7 +353,7 @@ const PaymentForm = (props) => {
                   />
                   <input
                     key={m.price + m.price * (m.vat / 100)}
-                    disabled="true"
+                    disabled={true}
                     type="text"
                     id="1"
                     name="1"
@@ -362,14 +362,14 @@ const PaymentForm = (props) => {
                   />
                   <input
                     key={m.mediaRentId}
-                    defaultChecked="true"
+                    defaultChecked={true}
                     type="checkbox"
                     id="check"
                     name={m.mediaRentId}
                     className="form-container--table__input"
                     onChange={handleMediaForPayment}
                   />
-                </>
+                </div>
               ))}
               <div className="form-container__buttons">
                 <button onClick={props.handleReturn}>Powrót</button>

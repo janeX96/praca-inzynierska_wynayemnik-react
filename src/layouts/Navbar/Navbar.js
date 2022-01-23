@@ -14,11 +14,13 @@ import UserIcon from "../../images/icons/icon_user1.png";
 import keycloak from "../../auth/keycloak";
 import roles from "../../resources/roles";
 
-const Navbar = () => {
+const Navbar = (props) => {
   const [click, setClick] = useState(false);
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
-  const [role, setRole] = useState(keycloak.authenticated ? roles.OWNER : "");
+  const [role, setRole] = useState(
+    keycloak.authenticated ? props.defaultRole : ""
+  );
   const changeRole = (role) => setRole(role);
 
   let dropdown = null;

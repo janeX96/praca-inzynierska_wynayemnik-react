@@ -7,7 +7,9 @@ import { toast } from "react-toastify";
 const UserFormForRent = (props) => {
   const [sending, setSending] = useState(false);
   const [userEmail, setUserEmail] = useState(
-    props.defaultEmail.length > 0 ? props.defaultEmail : props.defaultUser.email
+    props.defaultEmail !== null && props.defaultEmail.length > 0
+      ? props.defaultEmail
+      : props.defaultUser.email
   );
 
   const [user, setUser] = useState({

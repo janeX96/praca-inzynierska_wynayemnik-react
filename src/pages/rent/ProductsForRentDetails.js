@@ -112,33 +112,39 @@ const ProductsForRentDetails = (props) => {
   };
 
   useEffect(() => {
-    var today = new Date();
+    let mounted = true;
+    if (mounted) {
+      var today = new Date();
 
-    let lessThanMonthAgo = "";
-    if (props.payments !== undefined && props.payments !== null) {
-      lessThanMonthAgo = props.payments.find((payment) => {
-        const paymentDate = new Date(payment.paymentDate);
-        var Difference_In_Time = paymentDate.getTime() - today.getTime();
-        var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+      let lessThanMonthAgo = "";
+      if (props.payments !== undefined && props.payments !== null) {
+        lessThanMonthAgo = props.payments.find((payment) => {
+          const paymentDate = new Date(payment.paymentDate);
+          var Difference_In_Time = paymentDate.getTime() - today.getTime();
+          var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
 
-        return Difference_In_Days < 30;
-      });
+          return Difference_In_Days < 30;
+        });
 
-      if (lessThanMonthAgo !== undefined) {
-        setCountersAvailable(false);
-        setLastPaymentDate(lessThanMonthAgo.startDate);
+        if (lessThanMonthAgo !== undefined) {
+          setCountersAvailable(false);
+          setLastPaymentDate(lessThanMonthAgo.startDate);
+        } else {
+          setCountersAvailable(true);
+        }
       } else {
         setCountersAvailable(true);
       }
-    } else {
-      setCountersAvailable(true);
-    }
 
-    getMediaStandardProducts();
-    if (props.roles[0] !== "client") {
-      getAllProducts();
-      getProductsForLocation();
+      getMediaStandardProducts();
+      if (props.roles[0] !== "client") {
+        getAllProducts();
+        getProductsForLocation();
+      }
     }
+    return () => {
+      mounted = false;
+    };
   }, [sending]);
 
   const formValidation = () => {
@@ -305,7 +311,9 @@ const ProductsForRentDetails = (props) => {
             >
               <option value=""></option>
               {productsForLocation.map((prod) => (
-                <option value={prod.productId}>{prod.productName}</option>
+                <option key={prod.productId} value={prod.productId}>
+                  {prod.productName}
+                </option>
               ))}
             </select>
           </>
@@ -322,7 +330,7 @@ const ProductsForRentDetails = (props) => {
           {allProducts !== undefined ? (
             <>
               {allProducts.map((prod) => (
-                <li key={prod.product.productId}>
+                <li key={prod.product.productName}>
                   {prod.product.productName}
                   <div className="icon-container" style={{ fontSize: "15px" }}>
                     <BsTrashFill
@@ -457,8 +465,7 @@ const ProductsForRentDetails = (props) => {
           <form onSubmit={handleSubmit}>
             {products !== undefined && values !== undefined
               ? products.map((prod) => (
-                  // })
-                  <>
+                  <div key={prod.product.productId}>
                     <div
                       className="form-container__row"
                       key={prod.product.productId}
@@ -506,7 +513,7 @@ const ProductsForRentDetails = (props) => {
                         />
                       </div>
                     </div>
-                  </>
+                  </div>
                 ))
               : ""}
             <div className="form-container__row">

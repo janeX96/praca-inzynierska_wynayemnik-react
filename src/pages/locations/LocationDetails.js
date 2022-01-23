@@ -118,15 +118,27 @@ const LocationDetails = (props) => {
   }, [props.id, props.roles]);
 
   useEffect(() => {
-    getLocationData();
-    getData();
-    getProducts();
-    getProductsMediaStandard();
+    let mounted = true;
+    if (mounted) {
+      getLocationData();
+      getData();
+      getProducts();
+      getProductsMediaStandard();
+    }
+    return () => {
+      mounted = false;
+    };
   }, [getLocationData, getData, getProducts, getProductsMediaStandard]);
 
   useEffect(() => {
-    getProducts();
-    getProductsMediaStandard();
+    let mounted = true;
+    if (mounted) {
+      getProducts();
+      getProductsMediaStandard();
+    }
+    return () => {
+      mounted = false;
+    };
   }, [productType, getProducts, getProductsMediaStandard]);
 
   const productTypes = [

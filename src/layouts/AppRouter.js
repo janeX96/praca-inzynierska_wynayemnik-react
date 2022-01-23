@@ -20,6 +20,7 @@ import Rents from "../pages/rent/Rents";
 import Clients from "../pages/Clients";
 import keycloakErr from "../images/keycloakErr.jpg";
 import NotFound from "../pages/NotFound";
+import keycloak from "../auth/keycloak";
 
 const AppRouter = () => {
   const { initialized } = useKeycloak();
@@ -46,6 +47,17 @@ const AppRouter = () => {
     );
   }
 
+  const defaultRole = () => {
+    if (keycloak.hasRealmRole(roles.OWNER)) {
+      return roles.OWNER;
+    }
+
+    if (keycloak.hasRealmRole(roles.ADMIN)) {
+      return roles.ADMIN;
+    }
+
+    return roles.CLIENT;
+  };
   const privateRoutes = [
     { roles: roles.OWNER, path: "/owner-premises", component: Premises },
     {
@@ -75,7 +87,7 @@ const AppRouter = () => {
       <Router>
         <div>
           <main>
-            {<Navbar />}
+            {<Navbar defaultRole={defaultRole} />}
             {<ToastContainer />}
             <section>
               <Switch>

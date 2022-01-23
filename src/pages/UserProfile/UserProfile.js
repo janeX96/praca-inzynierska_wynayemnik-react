@@ -175,7 +175,7 @@ const UserProfile = () => {
             <label htmlFor="" style={{ padding: "0 0 0 0" }}>
               ApiToken:{" "}
               <input
-                required="true"
+                required={true}
                 type="text"
                 name="apiToken"
                 id="apiToken"
@@ -188,7 +188,7 @@ const UserProfile = () => {
             <label htmlFor="" style={{ padding: "3px 0 0 0" }}>
               Prefix:{" "}
               <input
-                required="true"
+                required={true}
                 type="text"
                 name="prefix"
                 id="prefix"
