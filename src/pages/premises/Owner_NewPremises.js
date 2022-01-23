@@ -47,7 +47,6 @@ const Owner_NewPremises = () => {
   });
 
   const getData = () => {
-    // let postURL = "";
     let locations = [];
     let types = [];
 
@@ -89,15 +88,6 @@ const Owner_NewPremises = () => {
     if (state.changed.length > 0) {
       reactiveValidation();
     }
-
-    // if (state.submitMessage !== "") {
-    //   setTimeout(() => {
-    //     setState({
-    //       ...state,
-    //       submitMessage: "",
-    //     });
-    //   }, 3000);
-    // }
   }, [state.changed]);
 
   const messages = {

@@ -14,11 +14,13 @@ import UserIcon from "../../images/icons/icon_user1.png";
 import keycloak from "../../auth/keycloak";
 import roles from "../../resources/roles";
 
-const Navbar = () => {
+const Navbar = (props) => {
   const [click, setClick] = useState(false);
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
-  const [role, setRole] = useState(keycloak.authenticated ? roles.OWNER : "");
+  const [role, setRole] = useState(
+    keycloak.authenticated ? props.defaultRole : ""
+  );
   const changeRole = (role) => setRole(role);
 
   let dropdown = null;
@@ -61,7 +63,7 @@ const Navbar = () => {
                 </Link>
               </li>
             </>
-          ) : role === roles.ADMIN ? (
+          ) : role === roles.ADMINISTRATOR ? (
             <>
               <li className="option">
                 <Link
@@ -122,11 +124,11 @@ const Navbar = () => {
               </div>
               <div className="panel-name">
                 Panel{" "}
-                {role === "owner"
+                {role === roles.OWNER
                   ? "właściciela"
-                  : role === "admin"
+                  : role === roles.ADMINISTRATOR
                   ? "administratora"
-                  : "klienta"}{" "}
+                  : "klienta"}
               </div>
             </div>
             <div className="user-menu">
@@ -162,12 +164,12 @@ const Navbar = () => {
                         </Link>
                       </li>
                     )}
-                    {AuthorizedFunction([roles.ADMIN]) && (
+                    {AuthorizedFunction([roles.ADMINISTRATOR]) && (
                       <li>
                         <Link to="/">
                           <p
                             onClick={() => {
-                              changeRole(roles.ADMIN);
+                              changeRole(roles.ADMINISTRATOR);
                               dropdown.hide();
                             }}
                           >

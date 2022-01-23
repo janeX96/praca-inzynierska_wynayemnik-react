@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "../../styles/App.scss";
 import ReCAPTCHA from "react-google-recaptcha";
 import RegistrationComplete from "./RegistrationComplete";
@@ -26,19 +26,32 @@ const Registration = () => {
     },
   });
 
+  const getResources = useCallback(async () => {
+    let res = await fetch("/resources.json");
+    let response = await res.json();
+
+    setData({ ...data, registerURL: response.urls.register });
+  }, [data]);
+
   //zaciągam url do POST-a
-  useEffect(() => {
-    async function getResources() {
-      let res = await fetch("/resources.json");
-      let response = await res.json();
 
-      setData({ ...data, registerURL: response.urls.register });
+  const formValidation = () => {
+    let passwordSame = false;
+    let reCaptcha = false;
+
+    if (data.password === data.checkPassword) {
+      passwordSame = true;
     }
-    getResources();
-  }, []);
+    if ((data.token + "").length > 0) {
+      reCaptcha = true;
+    }
 
-  //reaktywna walidacja haseł i reCaptcha
-  useEffect(() => {
+    let correct = passwordSame && reCaptcha;
+
+    return { correct, passwordSame, reCaptcha };
+  };
+
+  const reactiveValid = () => {
     if (data.errors.passwordsNotSameError || data.errors.reCaptchaError) {
       const validation = formValidation();
       setData({
@@ -49,7 +62,13 @@ const Registration = () => {
         },
       });
     }
-  }, [data.password, data.checkPassword, data.token]);
+  };
+
+  //reaktywna walidacja haseł i reCaptcha
+  useEffect(() => {
+    getResources();
+    reactiveValid();
+  }, []);
 
   const handleChange = (event) => {
     setData({
@@ -68,22 +87,6 @@ const Registration = () => {
         },
       });
     }
-  };
-
-  const formValidation = () => {
-    let passwordSame = false;
-    let reCaptcha = false;
-
-    if (data.password === data.checkPassword) {
-      passwordSame = true;
-    }
-    if ((data.token + "").length > 0) {
-      reCaptcha = true;
-    }
-
-    let correct = passwordSame && reCaptcha;
-
-    return { correct, passwordSame, reCaptcha };
   };
 
   const messages = {

@@ -262,6 +262,7 @@ body {
 
 .content-container .form-container--table__column-titles .column-title:first-child {
   margin-right: 135px;
+  margin-left: 40px;
 }
 
 .content-container .form-container--table__form {

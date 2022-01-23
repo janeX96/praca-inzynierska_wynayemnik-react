@@ -63,10 +63,14 @@ const MediaQuantityProductForm = (props) => {
     attr2Error: "Wybierz pozycję z listy",
   };
 
-  useEffect(() => {
+  const updateAttribute = () => {
     const forAttribute =
       pattern.attr1 + " " + pattern.arithm + " " + pattern.attr2;
     setData({ ...data, obj: { ...data.obj, forAttribute } });
+  };
+
+  useEffect(() => {
+    updateAttribute();
   }, [pattern]);
 
   const handleSubmit = (e) => {
@@ -363,7 +367,7 @@ const MediaQuantityProductForm = (props) => {
                   });
 
                   return (
-                    <li>
+                    <li key={option.value}>
                       {option.label}
                       <input
                         className="form-container__input--checkbox"

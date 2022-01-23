@@ -12,14 +12,14 @@ const ProductsForRent = (props) => {
     let prefix =
       props.roles[0] === "owner"
         ? owner.productsForLocation.prefix
-        : props.roles[0] === "admin"
+        : props.roles[0] === "administrator"
         ? admin.productsForLocation.prefix
         : "";
 
     let productsForTypeUrl =
       props.roles[0] === "owner"
         ? owner.productsForLocation.productsForType
-        : props.roles[0] === "admin"
+        : props.roles[0] === "administrator"
         ? admin.productsForLocation.productsForType
         : "";
 
@@ -37,13 +37,13 @@ const ProductsForRent = (props) => {
     let prefix =
       props.roles[0] === "owner"
         ? owner.productsForLocation.prefix
-        : props.roles[0] === "admin"
+        : props.roles[0] === "administrator"
         ? admin.productsForLocation.prefix
         : "";
     let suffix =
       props.roles[0] === "owner"
         ? owner.productsForLocation.allProductsSuffix
-        : props.roles[0] === "admin"
+        : props.roles[0] === "administrator"
         ? admin.productsForLocation.allProductsSuffix
         : "";
     return await GET(`${prefix}${props.locationId}${suffix}`)
@@ -56,37 +56,43 @@ const ProductsForRent = (props) => {
   };
 
   useEffect(() => {
-    if (selectedProducts.length > 0) {
-      //jeśli produkty były juz wcześniej wybrane
-      const selected = selectedProducts;
-      getAllProducts()
-        .then((r) => {
-          return r;
-        })
-        .then((r) => {
-          const allProds = r;
+    let mounted = true;
+    if (mounted) {
+      if (selectedProducts.length > 0) {
+        //jeśli produkty były juz wcześniej wybrane
+        const selected = selectedProducts;
+        getAllProducts()
+          .then((r) => {
+            return r;
+          })
+          .then((r) => {
+            const allProds = r;
 
-          selectAvailableProducts(allProds, selected);
-        });
-    } else {
-      //jeśli nie były jeszcze wybierane produkty to ustawiane są domyślne
-      getProductsForType(props.premisesType)
-        .then((res) => {
-          return res;
-        })
-        .then((res) => {
-          const selected = res;
-          getAllProducts()
-            .then((r) => {
-              return r;
-            })
-            .then((r) => {
-              const allProds = r;
+            selectAvailableProducts(allProds, selected);
+          });
+      } else {
+        //jeśli nie były jeszcze wybierane produkty to ustawiane są domyślne
+        getProductsForType(props.premisesType)
+          .then((res) => {
+            return res;
+          })
+          .then((res) => {
+            const selected = res;
+            getAllProducts()
+              .then((r) => {
+                return r;
+              })
+              .then((r) => {
+                const allProds = r;
 
-              selectAvailableProducts(allProds, selected);
-            });
-        });
+                selectAvailableProducts(allProds, selected);
+              });
+          });
+      }
     }
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   const selectAvailableProducts = (allProds, selectedProds) => {

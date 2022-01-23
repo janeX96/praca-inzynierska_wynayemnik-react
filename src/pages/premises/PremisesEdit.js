@@ -2,6 +2,7 @@ import "../../styles/App.scss";
 import { useState, useEffect } from "react";
 import { owner, general } from "../../resources/urls";
 import { GET, PUT } from "../../utilities/Request";
+import { useCallback } from "react";
 
 const PremisesEdit = (props) => {
   const [state, setState] = useState({
@@ -42,7 +43,7 @@ const PremisesEdit = (props) => {
 
   let locations = [];
   let types = [];
-  const getData = () => {
+  const getData = useCallback(() => {
     GET(owner.locations)
       .then((data) => {
         const options = data.map((location) => {
@@ -72,11 +73,17 @@ const PremisesEdit = (props) => {
       .catch((err) => {
         console.log("Error Reading data " + err);
       });
-  };
+  }, []);
 
   useEffect(() => {
-    getData();
-  }, []);
+    let mounted = true;
+    if (mounted) {
+      getData();
+    }
+    return () => {
+      mounted = false;
+    };
+  }, [getData]);
 
   useEffect(() => {
     if (state.changed.length > 0) {

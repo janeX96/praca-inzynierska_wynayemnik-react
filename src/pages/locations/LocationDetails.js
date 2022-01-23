@@ -9,6 +9,7 @@ import { owner, general, admin } from "../../resources/urls";
 import { toast } from "react-toastify";
 import UpdateProductForm from "./product_forms/UpdateProductForm";
 import { AiFillEdit } from "react-icons/ai";
+import { useCallback } from "react";
 
 const LocationDetails = (props) => {
   const [location, setLocation] = useState({
@@ -35,35 +36,33 @@ const LocationDetails = (props) => {
 
   const [updateProductId, setUpdateProductId] = useState(-1);
 
-  const getLocationData = async () => {
+  const getLocationData = useCallback(async () => {
     let urlByRole =
       props.roles[0] === "owner"
         ? owner.locationDetails
-        : props.roles[0] === "admin"
+        : props.roles[0] === "administrator"
         ? admin.locationDetails
         : "";
     GET(`${urlByRole}${props.id}`)
       .then((data) => {
         setLocation(data);
       })
-      .catch((err) => {
-        console.log("Error Reading data " + err);
-      });
-  };
+      .catch((err) => {});
+  }, [props.id, props.roles]);
 
   //zaciągam produkty typu media standard
-  const getProductsMediaStandard = () => {
+  const getProductsMediaStandard = useCallback(() => {
     let urlByRole1 =
       props.roles[0] === "owner"
         ? owner.productsForLocation.prefix
-        : props.roles[0] === "admin"
+        : props.roles[0] === "administrator"
         ? admin.productsForLocation.prefix
         : "";
 
     let urlByRole2 =
       props.roles[0] === "owner"
         ? owner.productsForLocation.getAllMediaStandard
-        : props.roles[0] === "admin"
+        : props.roles[0] === "administrator"
         ? admin.productsForLocation.getAllMediaStandard
         : "";
 
@@ -72,9 +71,9 @@ const LocationDetails = (props) => {
     GET(url).then((res) => {
       setMediaStandardProducts(res);
     });
-  };
+  }, [props.id, props.roles]);
 
-  const getData = () => {
+  const getData = useCallback(() => {
     let premisesTypes = [];
 
     GET(general.premises.premisesTypes)
@@ -87,23 +86,21 @@ const LocationDetails = (props) => {
         });
         setPremisesTypes(premisesTypes);
       })
-      .catch((err) => {
-        console.log("Error Reading data " + err);
-      });
-  };
+      .catch((err) => {});
+  }, []);
 
-  const getProducts = () => {
+  const getProducts = useCallback(() => {
     let urlByRole1 =
       props.roles[0] === "owner"
         ? owner.productsForLocation.prefix
-        : props.roles[0] === "admin"
+        : props.roles[0] === "administrator"
         ? admin.productsForLocation.prefix
         : "";
 
     let urlByRole2 =
       props.roles[0] === "owner"
         ? owner.productsForLocation.allProductsSuffix
-        : props.roles[0] === "admin"
+        : props.roles[0] === "administrator"
         ? admin.productsForLocation.allProductsSuffix
         : "";
 
@@ -111,22 +108,32 @@ const LocationDetails = (props) => {
       .then((data) => {
         setProducts(data);
       })
-      .catch((err) => {
-        console.log("Error Reading data " + err);
-      });
-  };
+      .catch((err) => {});
+  }, [props.id, props.roles]);
 
   useEffect(() => {
-    getLocationData();
-    getData();
-    getProducts();
-    getProductsMediaStandard();
-  }, []);
+    let mounted = true;
+    if (mounted) {
+      getLocationData();
+      getData();
+      getProducts();
+      getProductsMediaStandard();
+    }
+    return () => {
+      mounted = false;
+    };
+  }, [getLocationData, getData, getProducts, getProductsMediaStandard]);
 
   useEffect(() => {
-    getProducts();
-    getProductsMediaStandard();
-  }, [productType]);
+    let mounted = true;
+    if (mounted) {
+      getProducts();
+      getProductsMediaStandard();
+    }
+    return () => {
+      mounted = false;
+    };
+  }, [productType, getProducts, getProductsMediaStandard]);
 
   const productTypes = [
     { value: "calculated", label: "Wyliczalny" },
@@ -145,7 +152,7 @@ const LocationDetails = (props) => {
           suffix =
             props.roles[0] === "owner"
               ? owner.productsForLocation.addMiediaQuantity
-              : props.roles[0] === "admin"
+              : props.roles[0] === "administrator"
               ? admin.productsForLocation.addMiediaQuantity
               : "";
           break;
@@ -153,7 +160,7 @@ const LocationDetails = (props) => {
           suffix =
             props.roles[0] === "owner"
               ? owner.productsForLocation.addMediaStandard
-              : props.roles[0] === "admin"
+              : props.roles[0] === "administrator"
               ? admin.productsForLocation.addMediaStandard
               : "";
           break;
@@ -161,7 +168,7 @@ const LocationDetails = (props) => {
           suffix =
             props.roles[0] === "owner"
               ? owner.productsForLocation.addCalculated
-              : props.roles[0] === "admin"
+              : props.roles[0] === "administrator"
               ? admin.productsForLocation.addCalculated
               : "";
           break;
@@ -169,7 +176,7 @@ const LocationDetails = (props) => {
           suffix =
             props.roles[0] === "owner"
               ? owner.productsForLocation.addDisposable
-              : props.roles[0] === "admin"
+              : props.roles[0] === "administrator"
               ? admin.productsForLocation.addDisposable
               : "";
           break;
@@ -178,7 +185,7 @@ const LocationDetails = (props) => {
           suffix =
             props.roles[0] === "owner"
               ? owner.productsForLocation.addState
-              : props.roles[0] === "admin"
+              : props.roles[0] === "administrator"
               ? admin.productsForLocation.addState
               : "";
           break;
@@ -191,7 +198,7 @@ const LocationDetails = (props) => {
       let urlByRole =
         props.roles[0] === "owner"
           ? owner.productsForLocation.prefix
-          : props.roles[0] === "admin"
+          : props.roles[0] === "administrator"
           ? admin.productsForLocation.prefix
           : "";
 
@@ -208,7 +215,6 @@ const LocationDetails = (props) => {
           }
         })
         .catch((err) => {
-          console.log("nie udane wysłanie żądania: ", err);
           setSending(false);
         });
     }
@@ -218,20 +224,19 @@ const LocationDetails = (props) => {
     let urlByRole1 =
       props.roles[0] === "owner"
         ? owner.productsForLocation.prefix
-        : props.roles[0] === "admin"
+        : props.roles[0] === "administrator"
         ? admin.productsForLocation.prefix
         : "";
 
     let urlByRole2 =
       props.roles[0] === "owner"
         ? owner.productsForLocation.updateProduct
-        : props.roles[0] === "admin"
+        : props.roles[0] === "administrator"
         ? admin.productsForLocation.updateProduct
         : "";
 
     const url = `${urlByRole1}${props.id}${urlByRole2}${updateProductId}`;
     let json = JSON.stringify(product.obj);
-    console.log("obiekt do wysalania: ", product);
 
     PUT(url, json)
       .then((response) => {
@@ -248,7 +253,6 @@ const LocationDetails = (props) => {
         }
       })
       .catch((err) => {
-        console.log("nie udane wysłanie żądania: ", err);
         setSending(false);
       });
   };
@@ -396,7 +400,6 @@ const LocationDetails = (props) => {
         }
       })
       .catch((err) => {
-        console.log("nie udane wysłanie żądania: ", err);
         setSending(false);
       });
   };
@@ -551,8 +554,7 @@ const LocationDetails = (props) => {
 
       <h1
         style={{
-          marginLeft: "150px",
-          color: "#737279",
+          margin: "0px 0px 0px 150px",
           paddingTop: "20px",
           fontSize: "30px",
         }}

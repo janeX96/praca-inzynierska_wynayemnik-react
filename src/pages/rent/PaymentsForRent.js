@@ -27,31 +27,31 @@ const PaymentsForRent = (props) => {
       visible: false,
     },
     {
-      title: "numberPayment",
+      title: "Numer płatności",
       field: "numberPayment",
     },
     {
-      title: "status",
+      title: "Status",
       field: "status",
     },
     {
-      title: "paymentType",
+      title: "Rodzaj",
       field: "paymentType.name",
     },
     {
-      title: "startDate",
+      title: "Początek",
       field: "startDate",
     },
     {
-      title: "paymentDate",
+      title: "Termin płatności",
       field: "paymentDate",
     },
     {
-      title: "paidDate",
+      title: "Data wpłaty",
       field: "paidDate",
     },
     {
-      title: "income",
+      title: "Przychodowa",
       field: "income",
     },
     {
@@ -129,7 +129,8 @@ const PaymentsForRent = (props) => {
           <h1 className="content-container__title">Płatności</h1>
           <div className="table-container">
             <div>
-              {(props.roles[0] === "owner" || props.roles[0] === "admin") && (
+              {(props.roles[0] === "owner" ||
+                props.roles[0] === "administrator") && (
                 <div className="icon-container">
                   <BsPlusSquareFill
                     className="icon-container__new-icon"

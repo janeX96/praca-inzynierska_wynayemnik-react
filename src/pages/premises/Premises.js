@@ -17,13 +17,19 @@ const Premises = (props) => {
 
   const [chosenId, setChosenId] = useState(-1);
 
-  const getData = async () => {
-    let urlByRole =
-      props.roles[0] === "owner"
-        ? owner.premises
-        : props.roles[0] === "admin"
-        ? admin.premises
-        : "";
+  const getData = () => {
+    const urlByRole = (() => {
+      const firstRole = props.roles[0];
+
+      switch (firstRole) {
+        case "owner":
+          return owner.premises;
+        case "administrator":
+          return admin.premises;
+        default:
+          return "";
+      }
+    })();
 
     GET(urlByRole).then((res) => {
       if (res !== null) {
@@ -55,7 +61,13 @@ const Premises = (props) => {
   };
 
   useEffect(() => {
-    getData();
+    let mounted = true;
+    if (mounted) {
+      getData();
+    }
+    return () => {
+      mounted = false;
+    };
   }, [chosenId]);
 
   const deleteShowMessage = (res) => {
@@ -186,7 +198,7 @@ const Premises = (props) => {
             {props.roles[0] === "owner" && (
               <h1 className="content-container__title">Moje lokale</h1>
             )}
-            {props.roles[0] === "admin" && (
+            {props.roles[0] === "administrator" && (
               <h1 className="content-container__title">Lokale</h1>
             )}
 

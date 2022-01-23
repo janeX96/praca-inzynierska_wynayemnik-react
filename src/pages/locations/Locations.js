@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import "../../styles/App.scss";
 import LocationDetails from "./LocationDetails";
 import { GET } from "../../utilities/Request";
@@ -12,11 +12,11 @@ const Locations = (props) => {
   const [locations, setLocations] = useState([]);
   const [chosenId, setChosenId] = useState("");
 
-  const getData = async () => {
+  const getData = useCallback(async () => {
     let urlByRole =
       props.roles[0] === "owner"
         ? owner.locations
-        : props.roles[0] === "admin"
+        : props.roles[0] === "administrator"
         ? admin.locations
         : "";
     GET(urlByRole)
@@ -30,11 +30,17 @@ const Locations = (props) => {
       .catch((err) => {
         console.log("Error Reading data " + err);
       });
-  };
+  }, [props.roles]);
 
   useEffect(() => {
-    getData();
-  }, []);
+    let mounted = true;
+    if (mounted) {
+      getData();
+    }
+    return () => {
+      mounted = false;
+    };
+  }, [getData]);
 
   const handleAction = (id) => {
     setChosenId(id);
@@ -140,7 +146,7 @@ const Locations = (props) => {
             {props.roles[0] === "owner" && (
               <h1 className="content-container__title">Moje Lokacje</h1>
             )}
-            {props.roles[0] === "admin" && (
+            {props.roles[0] === "administrator" && (
               <h1 className="content-container__title">Lokacje</h1>
             )}
             <div className="table-container">

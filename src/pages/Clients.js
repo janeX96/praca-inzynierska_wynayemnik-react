@@ -15,7 +15,13 @@ const Clients = () => {
   };
 
   useEffect(() => {
-    getData();
+    let mounted = true;
+    if (mounted) {
+      getData();
+    }
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   const columns = [

@@ -4,15 +4,16 @@ import { GET } from "../../utilities/Request";
 import "react-tabulator/lib/styles.css";
 import "react-tabulator/lib/css/tabulator.min.css";
 import { ReactTabulator as Tabulator } from "react-tabulator";
+import { useCallback } from "react";
 
 const PaymentDetails = (props) => {
   const [payment, setPayment] = useState();
 
-  const getData = () => {
+  const getData = useCallback(() => {
     let urlByRole =
       props.roles[0] === "owner"
         ? owner.rent.paymentDetails
-        : props.roles[0] === "admin"
+        : props.roles[0] === "administrator"
         ? admin.rent.paymentDetails
         : "";
 
@@ -21,11 +22,17 @@ const PaymentDetails = (props) => {
     ).then((res) => {
       setPayment(res);
     });
-  };
+  }, [props.paymentId, props.rentId, props.roles]);
 
   useEffect(() => {
-    getData();
-  }, []);
+    let mounted = true;
+    if (mounted) {
+      getData();
+    }
+    return () => {
+      mounted = false;
+    };
+  }, [getData]);
 
   const columns = [
     {
@@ -86,31 +93,31 @@ const PaymentDetails = (props) => {
     return (
       <>
         <ul>
-          <li>
+          <li key={"numberPayment"}>
             Numer płatności:
             <b>{payment.numberPayment}</b>
           </li>
-          <li>
+          <li key={"status"}>
             Status:
             <b>{payment.status}</b>
           </li>
-          <li>
+          <li key={"paymentType"}>
             Rodzaj:
             <b>{payment.paymentType.name}</b>
           </li>
-          <li>
+          <li key={"startDate"}>
             Data wystawienia:
             <b>{payment.startDate}</b>
           </li>
-          <li>
+          <li key={"paymentDate"}>
             Termin płatności:
             <b>{payment.paymentDate}</b>
           </li>
-          <li>
+          <li key={"paidDate"}>
             Zapłacono:
             <b>{payment.paidDate !== null ? payment.paidDate : "---"}</b>
           </li>
-          <li>
+          <li key={"income"}>
             Przychodząca:
             <b>{payment.income ? "tak" : "nie"}</b>
           </li>
