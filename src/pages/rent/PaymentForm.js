@@ -352,7 +352,7 @@ const PaymentForm = (props) => {
             </form>
           </>
         ) : (
-          "Brak mediów"
+          "Brak mediów do wystawienia płatności, wprowadź stany liczników w module 'produkty' i spróbuj ponownie."
         )}
 
         {media === undefined || media.length === 0 ? (

@@ -231,10 +231,10 @@ const RentDetails = (props) => {
               Rodzaj wynajmu: <b>{rent.premisesType.type}</b>
             </li>
             <li>
-              Rozpoczęcie: <b>{rent.startDate}</b>
+              Rozpoczęcie: <b>{rent.startDate.split("T")[0]}</b>
             </li>
             <li>
-              Zakończenie: <b>{rent.endDate}</b>
+              Zakończenie: <b>{rent.endDate.split("T")[0]}</b>
             </li>
             <li>
               Stan: <b>{rent.state}</b>
@@ -318,7 +318,7 @@ const RentDetails = (props) => {
 
             {rent.cancelledDate !== null ? (
               <li>
-                Usunięto: <b>{rent.cancelledDate}</b>
+                Usunięto: <b>{rent.cancelledDate.split("T")[0]}</b>
               </li>
             ) : (
               ""
