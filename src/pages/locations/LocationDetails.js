@@ -47,9 +47,7 @@ const LocationDetails = (props) => {
       .then((data) => {
         setLocation(data);
       })
-      .catch((err) => {
-        console.log("Error Reading data " + err);
-      });
+      .catch((err) => {});
   }, [props.id, props.roles]);
 
   //zaciągam produkty typu media standard
@@ -88,9 +86,7 @@ const LocationDetails = (props) => {
         });
         setPremisesTypes(premisesTypes);
       })
-      .catch((err) => {
-        console.log("Error Reading data " + err);
-      });
+      .catch((err) => {});
   }, []);
 
   const getProducts = useCallback(() => {
@@ -112,9 +108,7 @@ const LocationDetails = (props) => {
       .then((data) => {
         setProducts(data);
       })
-      .catch((err) => {
-        console.log("Error Reading data " + err);
-      });
+      .catch((err) => {});
   }, [props.id, props.roles]);
 
   useEffect(() => {
@@ -221,7 +215,6 @@ const LocationDetails = (props) => {
           }
         })
         .catch((err) => {
-          console.log("nie udane wysłanie żądania: ", err);
           setSending(false);
         });
     }
@@ -244,7 +237,6 @@ const LocationDetails = (props) => {
 
     const url = `${urlByRole1}${props.id}${urlByRole2}${updateProductId}`;
     let json = JSON.stringify(product.obj);
-    console.log("obiekt do wysalania: ", product);
 
     PUT(url, json)
       .then((response) => {
@@ -261,7 +253,6 @@ const LocationDetails = (props) => {
         }
       })
       .catch((err) => {
-        console.log("nie udane wysłanie żądania: ", err);
         setSending(false);
       });
   };
@@ -409,7 +400,6 @@ const LocationDetails = (props) => {
         }
       })
       .catch((err) => {
-        console.log("nie udane wysłanie żądania: ", err);
         setSending(false);
       });
   };
