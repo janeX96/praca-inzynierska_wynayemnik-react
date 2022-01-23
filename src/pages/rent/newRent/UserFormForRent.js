@@ -2,6 +2,7 @@ import "../../../styles/App.scss";
 import { useState } from "react";
 import { GET } from "../../../utilities/Request";
 import { user as userReq } from "../../../resources/urls";
+import { toast } from "react-toastify";
 
 const UserFormForRent = (props) => {
   const [sending, setSending] = useState(false);
@@ -210,6 +211,9 @@ const UserFormForRent = (props) => {
           userExists = true;
           return res;
         } else {
+          toast.info(
+            "Nie znaleziono konta przypisanego do tego adresu email, możesz je utworzyć."
+          );
           setUser({
             toCreate: true,
             userAccount: {
