@@ -182,6 +182,7 @@ const admin = {
     updateBail: `${httpPrefix}${port}${adminPrefix}${paths.rent.defaultPrefix}`, //{id}
     changeUserCountersAccess: `${httpPrefix}${port}${adminPrefix}${paths.rent.changeUserCountersAccessPrefix}`, //{id}
     checkIssuedAllMediaRentPrefix: `${httpPrefix}${port}${adminPrefix}${paths.rent.defaultPrefix}`, //{id}
+    paymentDetails: `${httpPrefix}${port}${adminPrefix}${paths.rent.defaultPrefix}`, //{id}
   },
   bail: {
     inverseIsCome: `${httpPrefix}${port}${adminPrefix}${paths.bail.inverseIsComePrefix}`,

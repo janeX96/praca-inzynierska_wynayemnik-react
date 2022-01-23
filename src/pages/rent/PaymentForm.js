@@ -71,6 +71,7 @@ const PaymentForm = (props) => {
       if (res.ok) {
         toast.success("Dodano media ilościowe");
         getMedia();
+        checkIssuedAllMediaRent();
       } else {
         res.json().then((res) => {
           const errMsg = res.error;
@@ -183,7 +184,7 @@ const PaymentForm = (props) => {
           props.roles[0] === "owner"
             ? owner.rent.newPayment
             : props.roles[0] === "administrator"
-            ? admin.newPayment
+            ? admin.rent.newPayment
             : "";
 
         const obj = { ...payment };
@@ -199,7 +200,7 @@ const PaymentForm = (props) => {
             props.handleReturn();
             setSending(false);
           } else {
-            toast.success("Nie udało się dodać płatności...");
+            toast.error("Nie udało się dodać płatności...");
             setSending(false);
           }
         });
@@ -294,83 +295,86 @@ const PaymentForm = (props) => {
               onSubmit={handleSubmit}
               className="form-container--table__form"
             >
-              {media.map((m) => (
-                <div key={m.product.productName}>
-                  <input
-                    key={"productName"}
-                    disabled={true}
-                    type="text"
-                    id="productName"
-                    name="productName"
-                    className="form-container--table__input--250"
-                    value={m.product.productName}
-                  />
-                  <input
-                    key={"quantity"}
-                    disabled={true}
-                    type="text"
-                    id="1"
-                    name="1"
-                    className="form-container--table__input"
-                    value={m.quantity}
-                    //   onChange={}
-                  />
-                  <input
-                    key={"quantityUnit"}
-                    disabled={true}
-                    type="text"
-                    id="1"
-                    name="1"
-                    className="form-container--table__input"
-                    value={m.product.quantityUnit}
-                  />
-                  <input
-                    key={"price"}
-                    disabled={true}
-                    type="text"
-                    id="1"
-                    name="1"
-                    className="form-container--table__input"
-                    value={m.price}
-                  />
-                  <input
-                    key={"vat"}
-                    disabled={true}
-                    type="text"
-                    id="1"
-                    name="1"
-                    className="form-container--table__input"
-                    value={m.vat}
-                  />
-                  <input
-                    key={m.quantity * m.price}
-                    disabled={true}
-                    type="text"
-                    id="1"
-                    name="1"
-                    className="form-container--table__input"
-                    value={m.quantity * m.price}
-                  />
-                  <input
-                    key={m.price + m.price * (m.vat / 100)}
-                    disabled={true}
-                    type="text"
-                    id="1"
-                    name="1"
-                    className="form-container--table__input"
-                    value={m.price + m.price * (m.vat / 100)}
-                  />
-                  <input
-                    key={m.mediaRentId}
-                    defaultChecked={true}
-                    type="checkbox"
-                    id="check"
-                    name={m.mediaRentId}
-                    className="form-container--table__input"
-                    onChange={handleMediaForPayment}
-                  />
-                </div>
-              ))}
+              <ul>
+                {media.map((m) => (
+                  <li key={m.product.productName} className="payment-position">
+                    <input
+                      key={"productName"}
+                      disabled={true}
+                      type="text"
+                      id="productName"
+                      name="productName"
+                      className="form-container--table__input--250"
+                      value={m.product.productName}
+                    />
+                    <input
+                      key={"quantity"}
+                      disabled={true}
+                      type="text"
+                      id="1"
+                      name="1"
+                      className="form-container--table__input"
+                      value={m.quantity}
+                      //   onChange={}
+                    />
+                    <input
+                      key={"quantityUnit"}
+                      disabled={true}
+                      type="text"
+                      id="1"
+                      name="1"
+                      className="form-container--table__input"
+                      value={m.product.quantityUnit}
+                    />
+                    <input
+                      key={"price"}
+                      disabled={true}
+                      type="text"
+                      id="1"
+                      name="1"
+                      className="form-container--table__input"
+                      value={m.price}
+                    />
+                    <input
+                      key={"vat"}
+                      disabled={true}
+                      type="text"
+                      id="1"
+                      name="1"
+                      className="form-container--table__input"
+                      value={m.vat}
+                    />
+                    <input
+                      key={m.quantity * m.price}
+                      disabled={true}
+                      type="text"
+                      id="1"
+                      name="1"
+                      className="form-container--table__input"
+                      value={m.quantity * m.price}
+                    />
+                    <input
+                      key={m.price + m.price * (m.vat / 100)}
+                      disabled={true}
+                      type="text"
+                      id="1"
+                      name="1"
+                      className="form-container--table__input"
+                      value={m.price + m.price * (m.vat / 100)}
+                    />
+                    <input
+                      key={m.mediaRentId}
+                      defaultChecked={true}
+                      type="checkbox"
+                      id="check"
+                      name={m.mediaRentId}
+                      className="form-container--table__input"
+                      onChange={handleMediaForPayment}
+                    />
+                  </li>
+                ))}
+              </ul>
+
               <div className="form-container__buttons">
                 <button onClick={props.handleReturn}>Powrót</button>
                 <button type="submit">Zapisz</button>
