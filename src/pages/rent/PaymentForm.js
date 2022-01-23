@@ -275,7 +275,7 @@ const PaymentForm = (props) => {
             disabled={issuedAllMediaRent}
             onClick={() => addMediaQuantRequest()}
           >
-            Podlicz media ilościowe
+            Wylicz media ilościowe
           </button>
         </div>
       </div>
