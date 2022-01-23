@@ -50,7 +50,7 @@ const BailForm = (props) => {
     let urlByRole =
       props.roles[0] === "owner"
         ? owner.rent.newBail
-        : props.roles[0] === "admin"
+        : props.roles[0] === "administrator"
         ? admin.rent.newBail
         : "";
 
@@ -76,7 +76,7 @@ const BailForm = (props) => {
     let urlByRole =
       props.roles[0] === "owner"
         ? owner.rent.updateBail
-        : props.roles[0] === "admin"
+        : props.roles[0] === "administrator"
         ? admin.rent.updateBail
         : "";
 

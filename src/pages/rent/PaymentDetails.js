@@ -13,7 +13,7 @@ const PaymentDetails = (props) => {
     let urlByRole =
       props.roles[0] === "owner"
         ? owner.rent.paymentDetails
-        : props.roles[0] === "admin"
+        : props.roles[0] === "administrator"
         ? admin.rent.paymentDetails
         : "";
 

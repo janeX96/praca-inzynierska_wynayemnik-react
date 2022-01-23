@@ -26,7 +26,7 @@ const PaymentForm = (props) => {
     let urlByRole =
       props.roles[0] === "owner"
         ? owner.rent.getAllMediaRent
-        : props.roles[0] === "admin"
+        : props.roles[0] === "administrator"
         ? admin.rent.getAllMediaRent
         : props.roles[0] === "client"
         ? client.rent.getAllMediaRent
@@ -48,7 +48,7 @@ const PaymentForm = (props) => {
     let urlByRole =
       props.roles[0] === "owner"
         ? owner.rent.checkIssuedAllMediaRentPrefix
-        : props.roles[0] === "admin"
+        : props.roles[0] === "administrator"
         ? admin.rent.checkIssuedAllMediaRentPrefix
         : "";
     GET(
@@ -62,7 +62,7 @@ const PaymentForm = (props) => {
     let urlByRole =
       props.roles[0] === "owner"
         ? owner.rent.sumMediaQuantity
-        : props.roles[0] === "admin"
+        : props.roles[0] === "administrator"
         ? admin.rent.sumMediaQuantity
         : "";
     POST(
@@ -182,7 +182,7 @@ const PaymentForm = (props) => {
         let urlByRole =
           props.roles[0] === "owner"
             ? owner.rent.newPayment
-            : props.roles[0] === "admin"
+            : props.roles[0] === "administrator"
             ? admin.newPayment
             : "";
 

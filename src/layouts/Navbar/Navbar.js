@@ -63,7 +63,7 @@ const Navbar = (props) => {
                 </Link>
               </li>
             </>
-          ) : role === roles.ADMIN ? (
+          ) : role === roles.ADMINISTRATOR ? (
             <>
               <li className="option">
                 <Link
@@ -124,11 +124,11 @@ const Navbar = (props) => {
               </div>
               <div className="panel-name">
                 Panel{" "}
-                {role === "owner"
+                {role === roles.OWNER
                   ? "właściciela"
-                  : role === "admin"
+                  : role === roles.ADMINISTRATOR
                   ? "administratora"
-                  : "klienta"}{" "}
+                  : "klienta"}
               </div>
             </div>
             <div className="user-menu">
@@ -164,12 +164,12 @@ const Navbar = (props) => {
                         </Link>
                       </li>
                     )}
-                    {AuthorizedFunction([roles.ADMIN]) && (
+                    {AuthorizedFunction([roles.ADMINISTRATOR]) && (
                       <li>
                         <Link to="/">
                           <p
                             onClick={() => {
-                              changeRole(roles.ADMIN);
+                              changeRole(roles.ADMINISTRATOR);
                               dropdown.hide();
                             }}
                           >

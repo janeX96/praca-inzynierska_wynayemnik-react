@@ -12,14 +12,14 @@ const ProductsForRent = (props) => {
     let prefix =
       props.roles[0] === "owner"
         ? owner.productsForLocation.prefix
-        : props.roles[0] === "admin"
+        : props.roles[0] === "administrator"
         ? admin.productsForLocation.prefix
         : "";
 
     let productsForTypeUrl =
       props.roles[0] === "owner"
         ? owner.productsForLocation.productsForType
-        : props.roles[0] === "admin"
+        : props.roles[0] === "administrator"
         ? admin.productsForLocation.productsForType
         : "";
 
@@ -37,13 +37,13 @@ const ProductsForRent = (props) => {
     let prefix =
       props.roles[0] === "owner"
         ? owner.productsForLocation.prefix
-        : props.roles[0] === "admin"
+        : props.roles[0] === "administrator"
         ? admin.productsForLocation.prefix
         : "";
     let suffix =
       props.roles[0] === "owner"
         ? owner.productsForLocation.allProductsSuffix
-        : props.roles[0] === "admin"
+        : props.roles[0] === "administrator"
         ? admin.productsForLocation.allProductsSuffix
         : "";
     return await GET(`${prefix}${props.locationId}${suffix}`)

@@ -24,7 +24,7 @@ const ProductsForRentDetails = (props) => {
     let urlByRole =
       props.roles[0] === "owner"
         ? owner.productsForLocation.prefix
-        : props.roles[0] === "admin"
+        : props.roles[0] === "administrator"
         ? admin.productsForLocation.prefix
         : "";
 
@@ -45,7 +45,7 @@ const ProductsForRentDetails = (props) => {
     let urlByRole =
       props.roles[0] === "owner"
         ? owner.rent.products
-        : props.roles[0] === "admin"
+        : props.roles[0] === "administrator"
         ? admin.rent.products
         : props.roles[0] === "client"
         ? client.rent.products
@@ -88,7 +88,7 @@ const ProductsForRentDetails = (props) => {
     let urlByRole =
       props.roles[0] === "owner"
         ? owner.rent.allProducts
-        : props.roles[0] === "admin"
+        : props.roles[0] === "administrator"
         ? admin.rent.allProducts
         : "";
 
@@ -163,7 +163,7 @@ const ProductsForRentDetails = (props) => {
     let urlByRole =
       props.roles[0] === "owner"
         ? owner.rent.addAllMediaCounters
-        : props.roles[0] === "admin"
+        : props.roles[0] === "administrator"
         ? admin.rent.addAllMediaCounters
         : "";
 
@@ -249,7 +249,7 @@ const ProductsForRentDetails = (props) => {
         let urlByRole =
           props.roles[0] === "owner"
             ? owner.rent.deleteProductPrefix
-            : props.roles[0] === "admin"
+            : props.roles[0] === "administrator"
             ? admin.rent.deleteProductPrefix
             : "";
 
@@ -275,7 +275,7 @@ const ProductsForRentDetails = (props) => {
       let urlByRole =
         props.roles[0] === "owner"
           ? owner.rent.addProduct
-          : props.roles[0] === "admin"
+          : props.roles[0] === "administrator"
           ? admin.rent.addProduct
           : "";
 

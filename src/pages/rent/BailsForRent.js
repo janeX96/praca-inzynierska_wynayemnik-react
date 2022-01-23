@@ -19,7 +19,7 @@ const BailsForRent = (props) => {
     let urlByRole =
       props.roles[0] === "owner"
         ? owner.rent.allBailsPrefix
-        : props.roles[0] === "admin"
+        : props.roles[0] === "administrator"
         ? admin.rent.allBailsPrefix
         : "";
 
@@ -63,7 +63,7 @@ const BailsForRent = (props) => {
         let urlByRole =
           props.roles[0] === "owner"
             ? owner.rent.deleteBail
-            : props.roles[0] === "admin"
+            : props.roles[0] === "administrator"
             ? admin.rent.deleteBail
             : "";
         DELETE(
@@ -92,7 +92,7 @@ const BailsForRent = (props) => {
       let urlByRole =
         props.roles[0] === "owner"
           ? owner.bail.inverseIsCome
-          : props.roles[0] === "admin"
+          : props.roles[0] === "administrator"
           ? admin.bail.inverseIsCome
           : "";
       PATCH(`${urlByRole}${id}`).then((res) => {

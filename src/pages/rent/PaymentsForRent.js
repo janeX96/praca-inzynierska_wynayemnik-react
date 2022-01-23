@@ -129,7 +129,8 @@ const PaymentsForRent = (props) => {
           <h1 className="content-container__title">Płatności</h1>
           <div className="table-container">
             <div>
-              {(props.roles[0] === "owner" || props.roles[0] === "admin") && (
+              {(props.roles[0] === "owner" ||
+                props.roles[0] === "administrator") && (
                 <div className="icon-container">
                   <BsPlusSquareFill
                     className="icon-container__new-icon"

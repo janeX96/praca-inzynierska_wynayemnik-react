@@ -40,7 +40,7 @@ const LocationDetails = (props) => {
     let urlByRole =
       props.roles[0] === "owner"
         ? owner.locationDetails
-        : props.roles[0] === "admin"
+        : props.roles[0] === "administrator"
         ? admin.locationDetails
         : "";
     GET(`${urlByRole}${props.id}`)
@@ -57,14 +57,14 @@ const LocationDetails = (props) => {
     let urlByRole1 =
       props.roles[0] === "owner"
         ? owner.productsForLocation.prefix
-        : props.roles[0] === "admin"
+        : props.roles[0] === "administrator"
         ? admin.productsForLocation.prefix
         : "";
 
     let urlByRole2 =
       props.roles[0] === "owner"
         ? owner.productsForLocation.getAllMediaStandard
-        : props.roles[0] === "admin"
+        : props.roles[0] === "administrator"
         ? admin.productsForLocation.getAllMediaStandard
         : "";
 
@@ -97,14 +97,14 @@ const LocationDetails = (props) => {
     let urlByRole1 =
       props.roles[0] === "owner"
         ? owner.productsForLocation.prefix
-        : props.roles[0] === "admin"
+        : props.roles[0] === "administrator"
         ? admin.productsForLocation.prefix
         : "";
 
     let urlByRole2 =
       props.roles[0] === "owner"
         ? owner.productsForLocation.allProductsSuffix
-        : props.roles[0] === "admin"
+        : props.roles[0] === "administrator"
         ? admin.productsForLocation.allProductsSuffix
         : "";
 
@@ -158,7 +158,7 @@ const LocationDetails = (props) => {
           suffix =
             props.roles[0] === "owner"
               ? owner.productsForLocation.addMiediaQuantity
-              : props.roles[0] === "admin"
+              : props.roles[0] === "administrator"
               ? admin.productsForLocation.addMiediaQuantity
               : "";
           break;
@@ -166,7 +166,7 @@ const LocationDetails = (props) => {
           suffix =
             props.roles[0] === "owner"
               ? owner.productsForLocation.addMediaStandard
-              : props.roles[0] === "admin"
+              : props.roles[0] === "administrator"
               ? admin.productsForLocation.addMediaStandard
               : "";
           break;
@@ -174,7 +174,7 @@ const LocationDetails = (props) => {
           suffix =
             props.roles[0] === "owner"
               ? owner.productsForLocation.addCalculated
-              : props.roles[0] === "admin"
+              : props.roles[0] === "administrator"
               ? admin.productsForLocation.addCalculated
               : "";
           break;
@@ -182,7 +182,7 @@ const LocationDetails = (props) => {
           suffix =
             props.roles[0] === "owner"
               ? owner.productsForLocation.addDisposable
-              : props.roles[0] === "admin"
+              : props.roles[0] === "administrator"
               ? admin.productsForLocation.addDisposable
               : "";
           break;
@@ -191,7 +191,7 @@ const LocationDetails = (props) => {
           suffix =
             props.roles[0] === "owner"
               ? owner.productsForLocation.addState
-              : props.roles[0] === "admin"
+              : props.roles[0] === "administrator"
               ? admin.productsForLocation.addState
               : "";
           break;
@@ -204,7 +204,7 @@ const LocationDetails = (props) => {
       let urlByRole =
         props.roles[0] === "owner"
           ? owner.productsForLocation.prefix
-          : props.roles[0] === "admin"
+          : props.roles[0] === "administrator"
           ? admin.productsForLocation.prefix
           : "";
 
@@ -231,14 +231,14 @@ const LocationDetails = (props) => {
     let urlByRole1 =
       props.roles[0] === "owner"
         ? owner.productsForLocation.prefix
-        : props.roles[0] === "admin"
+        : props.roles[0] === "administrator"
         ? admin.productsForLocation.prefix
         : "";
 
     let urlByRole2 =
       props.roles[0] === "owner"
         ? owner.productsForLocation.updateProduct
-        : props.roles[0] === "admin"
+        : props.roles[0] === "administrator"
         ? admin.productsForLocation.updateProduct
         : "";
 

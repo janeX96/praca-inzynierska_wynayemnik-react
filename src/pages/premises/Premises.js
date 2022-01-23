@@ -24,7 +24,7 @@ const Premises = (props) => {
       switch (firstRole) {
         case "owner":
           return owner.premises;
-        case "admin":
+        case "administrator":
           return admin.premises;
         default:
           return "";
@@ -198,7 +198,7 @@ const Premises = (props) => {
             {props.roles[0] === "owner" && (
               <h1 className="content-container__title">Moje lokale</h1>
             )}
-            {props.roles[0] === "admin" && (
+            {props.roles[0] === "administrator" && (
               <h1 className="content-container__title">Lokale</h1>
             )}
 

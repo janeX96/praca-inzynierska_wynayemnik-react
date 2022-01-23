@@ -19,7 +19,7 @@ const RentDetails = (props) => {
     let urlByRole =
       props.roles[0] === "owner"
         ? owner.rent.details
-        : props.roles[0] === "admin"
+        : props.roles[0] === "administrator"
         ? admin.rent.details
         : props.roles[0] === "client"
         ? client.rent.details
@@ -38,7 +38,7 @@ const RentDetails = (props) => {
     let urlByRole =
       props.roles[0] === "owner"
         ? owner.rent.payments
-        : props.roles[0] === "admin"
+        : props.roles[0] === "administrator"
         ? admin.rent.payments
         : props.roles[0] === "client"
         ? client.rent.payments
@@ -71,7 +71,7 @@ const RentDetails = (props) => {
     let urlByRole =
       props.roles[0] === "owner"
         ? owner.rent.sumOfBails
-        : props.roles[0] === "admin"
+        : props.roles[0] === "administrator"
         ? admin.rent.sumOfBails
         : "";
     const rentId =
@@ -121,7 +121,7 @@ const RentDetails = (props) => {
       let urlByRole =
         props.roles[0] === "owner"
           ? owner.rent.changeUserAccess
-          : props.roles[0] === "admin"
+          : props.roles[0] === "administrator"
           ? admin.rent.changeUserAccess
           : "";
       PATCH(`${urlByRole}${rent.rentId}`)
@@ -148,7 +148,7 @@ const RentDetails = (props) => {
       let urlByRole =
         props.roles[0] === "owner"
           ? owner.rent.changeUserCountersAccess
-          : props.roles[0] === "admin"
+          : props.roles[0] === "administrator"
           ? admin.rent.changeUserCountersAccess
           : "";
 
@@ -172,7 +172,7 @@ const RentDetails = (props) => {
   //     let urlByRole =
   //       props.roles[0] === "owner"
   //         ? owner.rent.deleteRent
-  //         : props.roles[0] === "admin"
+  //         : props.roles[0] === "administrator"
   //         ? admin.rent.deleteRent
   //         : "";
   //     PATCH(`${urlByRole}${rent.rentId}`).then((res) => {
@@ -192,7 +192,7 @@ const RentDetails = (props) => {
       let urlByRole =
         props.roles[0] === "owner"
           ? owner.rent.cancelRent
-          : props.roles[0] === "admin"
+          : props.roles[0] === "administrator"
           ? admin.rent.cancelRent
           : "";
       PATCH(`${urlByRole}${rent.rentId}`).then((res) => {
@@ -298,7 +298,8 @@ const RentDetails = (props) => {
             <li>
               Nr rejestracyjny: <b>{rent.carNumber}</b>
             </li>
-            {(props.roles[0] === "owner" || props.roles[0] === "admin") && (
+            {(props.roles[0] === "owner" ||
+              props.roles[0] === "administrator") && (
               <>
                 <li>
                   Dostępne dla klienta:{" "}
@@ -345,7 +346,8 @@ const RentDetails = (props) => {
                 Produkty
               </h3>
             </li>
-            {(props.roles[0] === "owner" || props.roles[0] === "admin") && (
+            {(props.roles[0] === "owner" ||
+              props.roles[0] === "administrator") && (
               <li style={{ marginRight: "80%" }}>
                 <h3
                   className="details-container__history"
@@ -400,7 +402,8 @@ const RentDetails = (props) => {
               >
                 Powrót
               </button>
-              {(props.roles[0] === "owner" || props.roles[0] === "admin") && (
+              {(props.roles[0] === "owner" ||
+                props.roles[0] === "administrator") && (
                 <div className="icon-container">
                   <ImCancelCircle
                     className="icon-container__delete-icon"
@@ -409,7 +412,7 @@ const RentDetails = (props) => {
                   <p>Anuluj</p>
                 </div>
               )}
-              {/* {(props.roles[0] === "owner" || props.roles[0] === "admin") && (
+              {/* {(props.roles[0] === "owner" || props.roles[0] === "administrator") && (
                 <div className="icon-container">
                   <BsTrashFill
                     className="icon-container__delete-icon"

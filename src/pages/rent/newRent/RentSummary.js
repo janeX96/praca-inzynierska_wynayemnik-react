@@ -37,7 +37,7 @@ const RentSummary = ({
       let urlByRole =
         roles[0] === "owner"
           ? owner.rent.new
-          : roles[0] === "admin"
+          : roles[0] === "administrator"
           ? admin.rent.new
           : "";
       POST(urlByRole, json)
