@@ -57,6 +57,7 @@ const Administrators = (props) => {
     {
       title: "Id",
       field: "userAccountId",
+      visible: false,
     },
     {
       title: "Nazwisko",

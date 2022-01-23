@@ -57,6 +57,7 @@ const RentDetails = (props) => {
           if (p.paidDate !== null) {
             p.paidDate = paidDate.split("T")[0];
           }
+          p.income = p.income ? "tak" : "nie";
           return p;
         });
         setPayments(res);
@@ -241,7 +242,16 @@ const RentDetails = (props) => {
               Zakończenie: <b>{rent.endDate.split("T")[0]}</b>
             </li>
             <li>
-              Stan: <b>{rent.state}</b>
+              Stan:{" "}
+              <b>
+                {rent.state === "IN_PROGRESS"
+                  ? "W trakcie"
+                  : rent.state === "CANCELLED"
+                  ? "Anulowany"
+                  : rent.state === "PLANNED"
+                  ? "Zaplanowany"
+                  : "Zakończony"}
+              </b>
             </li>
             <li>
               Najemca:{" "}
@@ -304,21 +314,6 @@ const RentDetails = (props) => {
                 </li>
               </>
             )}
-
-            {/* {rent.paymentValues.length > 0 ? (
-              <li>
-                paymentValues:
-                <ul>
-                  {rent.paymentValues.map((p) => (
-                    <li>
-                      <b>{p}</b>
-                    </li>
-                  ))}
-                </ul>
-              </li>
-            ) : (
-              ""
-            )} */}
 
             {rent.cancelledDate !== null ? (
               <li>

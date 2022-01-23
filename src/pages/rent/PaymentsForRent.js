@@ -27,31 +27,31 @@ const PaymentsForRent = (props) => {
       visible: false,
     },
     {
-      title: "numberPayment",
+      title: "Numer płatności",
       field: "numberPayment",
     },
     {
-      title: "status",
+      title: "Status",
       field: "status",
     },
     {
-      title: "paymentType",
+      title: "Rodzaj",
       field: "paymentType.name",
     },
     {
-      title: "startDate",
+      title: "Początek",
       field: "startDate",
     },
     {
-      title: "paymentDate",
+      title: "Termin płatności",
       field: "paymentDate",
     },
     {
-      title: "paidDate",
+      title: "Data wpłaty",
       field: "paidDate",
     },
     {
-      title: "income",
+      title: "Przychodowa",
       field: "income",
     },
     {

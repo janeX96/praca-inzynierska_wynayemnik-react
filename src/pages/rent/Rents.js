@@ -66,6 +66,26 @@ const Rents = (props) => {
     return cell.getValue() ? "wystawiona" : "niewystawiona";
   };
 
+  var cellStateValueFormatter = function (cell, formatterParams) {
+    let val = "";
+    switch (cell.getValue()) {
+      case "IN_PROGRESS":
+        return "W trakcie";
+
+      case "CANCELLED":
+        return "Anulowany";
+
+      case "PLANNED":
+        return "Zaplanowany";
+
+      case "FINISHED":
+        return "Zakończony";
+
+      default:
+        return "???";
+    }
+  };
+
   const columns = [
     {
       title: "Id",
@@ -81,12 +101,14 @@ const Rents = (props) => {
       title: "Stan",
       field: "state",
       editor: "select",
+      formatter: cellStateValueFormatter,
       headerFilter: true,
       headerFilterParams: {
         values: {
           CANCELLED: "anulowane",
           IN_PROGRESS: "trwające",
           PLANNED: "zaplanowane",
+          FINISHED: "zakończone",
         },
       },
     },

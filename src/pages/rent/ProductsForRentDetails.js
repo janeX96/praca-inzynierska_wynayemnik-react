@@ -459,7 +459,10 @@ const ProductsForRentDetails = (props) => {
               ? products.map((prod) => (
                   // })
                   <>
-                    <div className="form-container__row">
+                    <div
+                      className="form-container__row"
+                      key={prod.product.productId}
+                    >
                       <div className="row__col-25">
                         <div
                           className="icon-container"

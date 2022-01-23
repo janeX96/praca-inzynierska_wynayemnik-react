@@ -87,23 +87,23 @@ const PaymentDetails = (props) => {
     return (
       <>
         <ul>
-          <li key={payment.numberPayment}>
+          <li key={"numberPayment"}>
             Numer płatności:
             <b>{payment.numberPayment}</b>
           </li>
-          <li key={payment.status}>
+          <li key={"status"}>
             Status:
             <b>{payment.status}</b>
           </li>
-          <li key={payment.paymentType.name}>
+          <li key={"paymentType"}>
             Rodzaj:
             <b>{payment.paymentType.name}</b>
           </li>
-          <li key={payment.startDate}>
+          <li key={"startDate"}>
             Data wystawienia:
             <b>{payment.startDate}</b>
           </li>
-          <li key={payment.paymentDate}>
+          <li key={"paymentDate"}>
             Termin płatności:
             <b>{payment.paymentDate}</b>
           </li>
@@ -111,7 +111,7 @@ const PaymentDetails = (props) => {
             Zapłacono:
             <b>{payment.paidDate !== null ? payment.paidDate : "---"}</b>
           </li>
-          <li key={payment.income}>
+          <li key={"income"}>
             Przychodząca:
             <b>{payment.income ? "tak" : "nie"}</b>
           </li>
