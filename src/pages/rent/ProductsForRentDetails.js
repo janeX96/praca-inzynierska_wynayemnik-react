@@ -106,10 +106,8 @@ const ProductsForRentDetails = (props) => {
     var dd = String(today.getDate()).padStart(2, "0");
     var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
     var yyyy = today.getFullYear();
-    var time =
-      today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
 
-    today = yyyy + "-" + mm + "-" + dd + "T" + time;
+    today = yyyy + "-" + mm + "-" + dd + "T00:00:00";
     return today;
   };
 

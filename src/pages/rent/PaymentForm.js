@@ -55,6 +55,7 @@ const PaymentForm = (props) => {
     ).then((res) => {
       if (res.ok) {
         toast.success("Dodano media ilościowe");
+        getMedia();
       } else {
         res.json().then((res) => {
           const errMsg = res.error;
@@ -66,6 +67,7 @@ const PaymentForm = (props) => {
       }
     });
   };
+
   useEffect(() => {
     const todayVal = getDateToday();
     setToday(todayVal);
@@ -74,7 +76,6 @@ const PaymentForm = (props) => {
       startDate: todayVal,
     });
     getMedia();
-    addMediaQuantRequest();
   }, []);
 
   useEffect(() => {
@@ -149,35 +150,39 @@ const PaymentForm = (props) => {
 
     const validation = formValidation();
 
-    if (!sending && validation.correct) {
-      setSending(true);
-      let urlByRole =
-        props.roles[0] === "owner"
-          ? owner.rent.newPayment
-          : props.roles[0] === "admin"
-          ? admin.newPayment
-          : "";
+    if (!sending) {
+      if (validation.correct) {
+        setSending(true);
+        let urlByRole =
+          props.roles[0] === "owner"
+            ? owner.rent.newPayment
+            : props.roles[0] === "admin"
+            ? admin.newPayment
+            : "";
 
-      const obj = { ...payment };
+        const obj = { ...payment };
 
-      let json = JSON.stringify(obj);
+        let json = JSON.stringify(obj);
 
-      POST(
-        `${urlByRole}${props.rentId}${general.rent.newPaymentSuffix}`,
-        json
-      ).then((res) => {
-        if (res.ok) {
-          toast.success("Dodano płatność pomyślnie");
-          props.handleReturn();
-        } else {
-          toast.success("Nie udało się dodać płatności...");
-        }
-      });
+        POST(
+          `${urlByRole}${props.rentId}${general.rent.newPaymentSuffix}`,
+          json
+        ).then((res) => {
+          if (res.ok) {
+            toast.success("Dodano płatność pomyślnie");
+            props.handleReturn();
+            setSending(false);
+          } else {
+            toast.success("Nie udało się dodać płatności...");
+            setSending(false);
+          }
+        });
 
-      setErrors({ paymentDateError: false });
-    } else {
-      setSending(true);
-      setErrors({ paymentDateError: !validation.paymentDate });
+        setErrors({ paymentDateError: false });
+      } else {
+        setSending(false);
+        setErrors({ paymentDateError: !validation.paymentDate });
+      }
     }
   };
   return (
@@ -212,7 +217,7 @@ const PaymentForm = (props) => {
               value={payment.paymentTypeId}
               readOnly={true}
             >
-              <option value="1">1</option>
+              <option value="1">faktura</option>
             </select>
           </div>
         </div>
@@ -237,6 +242,15 @@ const PaymentForm = (props) => {
             )}
           </div>
         </div>
+
+        <div className="form-container__buttons">
+          <button
+            disabled={media === null || media === undefined}
+            onClick={() => addMediaQuantRequest()}
+          >
+            Podlicz media ilościowe
+          </button>
+        </div>
       </div>
       <div className="form-container--table">
         {media !== undefined && media.length > 0 ? (
@@ -257,7 +271,7 @@ const PaymentForm = (props) => {
               {media.map((m) => (
                 <>
                   <input
-                    key={m.product.productName}
+                    key={"productName"}
                     disabled="true"
                     type="text"
                     id="productName"
@@ -266,7 +280,7 @@ const PaymentForm = (props) => {
                     value={m.product.productName}
                   />
                   <input
-                    key={m.quantity}
+                    key={"quantity"}
                     disabled="true"
                     type="text"
                     id="1"
@@ -276,7 +290,7 @@ const PaymentForm = (props) => {
                     //   onChange={}
                   />
                   <input
-                    key={m.product.quantityUnit}
+                    key={"quantityUnit"}
                     disabled="true"
                     type="text"
                     id="1"
@@ -285,7 +299,7 @@ const PaymentForm = (props) => {
                     value={m.product.quantityUnit}
                   />
                   <input
-                    key={m.price}
+                    key={"price"}
                     disabled="true"
                     type="text"
                     id="1"
@@ -294,7 +308,7 @@ const PaymentForm = (props) => {
                     value={m.price}
                   />
                   <input
-                    key={m.vat}
+                    key={"vat"}
                     disabled="true"
                     type="text"
                     id="1"
