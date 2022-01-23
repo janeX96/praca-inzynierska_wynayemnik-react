@@ -9,6 +9,7 @@ import { owner, general, admin } from "../../resources/urls";
 import { toast } from "react-toastify";
 import UpdateProductForm from "./product_forms/UpdateProductForm";
 import { AiFillEdit } from "react-icons/ai";
+import { useCallback } from "react";
 
 const LocationDetails = (props) => {
   const [location, setLocation] = useState({
@@ -35,7 +36,7 @@ const LocationDetails = (props) => {
 
   const [updateProductId, setUpdateProductId] = useState(-1);
 
-  const getLocationData = async () => {
+  const getLocationData = useCallback(async () => {
     let urlByRole =
       props.roles[0] === "owner"
         ? owner.locationDetails
@@ -49,10 +50,10 @@ const LocationDetails = (props) => {
       .catch((err) => {
         console.log("Error Reading data " + err);
       });
-  };
+  }, [props.id, props.roles]);
 
   //zaciągam produkty typu media standard
-  const getProductsMediaStandard = () => {
+  const getProductsMediaStandard = useCallback(() => {
     let urlByRole1 =
       props.roles[0] === "owner"
         ? owner.productsForLocation.prefix
@@ -72,9 +73,9 @@ const LocationDetails = (props) => {
     GET(url).then((res) => {
       setMediaStandardProducts(res);
     });
-  };
+  }, [props.id, props.roles]);
 
-  const getData = () => {
+  const getData = useCallback(() => {
     let premisesTypes = [];
 
     GET(general.premises.premisesTypes)
@@ -90,9 +91,9 @@ const LocationDetails = (props) => {
       .catch((err) => {
         console.log("Error Reading data " + err);
       });
-  };
+  }, []);
 
-  const getProducts = () => {
+  const getProducts = useCallback(() => {
     let urlByRole1 =
       props.roles[0] === "owner"
         ? owner.productsForLocation.prefix
@@ -114,19 +115,19 @@ const LocationDetails = (props) => {
       .catch((err) => {
         console.log("Error Reading data " + err);
       });
-  };
+  }, [props.id, props.roles]);
 
   useEffect(() => {
     getLocationData();
     getData();
     getProducts();
     getProductsMediaStandard();
-  }, []);
+  }, [getLocationData, getData, getProducts, getProductsMediaStandard]);
 
   useEffect(() => {
     getProducts();
     getProductsMediaStandard();
-  }, [productType]);
+  }, [productType, getProducts, getProductsMediaStandard]);
 
   const productTypes = [
     { value: "calculated", label: "Wyliczalny" },

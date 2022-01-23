@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import "../../styles/App.scss";
 import LocationDetails from "./LocationDetails";
 import { GET } from "../../utilities/Request";
@@ -12,7 +12,7 @@ const Locations = (props) => {
   const [locations, setLocations] = useState([]);
   const [chosenId, setChosenId] = useState("");
 
-  const getData = async () => {
+  const getData = useCallback(async () => {
     let urlByRole =
       props.roles[0] === "owner"
         ? owner.locations
@@ -30,11 +30,11 @@ const Locations = (props) => {
       .catch((err) => {
         console.log("Error Reading data " + err);
       });
-  };
+  }, [props.roles]);
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [getData]);
 
   const handleAction = (id) => {
     setChosenId(id);

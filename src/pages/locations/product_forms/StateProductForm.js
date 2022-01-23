@@ -279,7 +279,7 @@ const StateProductForm = (props) => {
                   });
 
                   return (
-                    <li>
+                    <li key={option.value}>
                       {option.label}
                       <input
                         className="form-container__input--checkbox"

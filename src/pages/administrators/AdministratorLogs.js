@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { GET, PATCH } from "../../utilities/Request";
 import { owner } from "../../resources/urls";
 import { ReactTabulator as Tabulator } from "react-tabulator";
@@ -15,11 +15,7 @@ const AdministratorLogs = (props) => {
     startDateError: false,
   });
 
-  useEffect(() => {
-    getData();
-  }, []);
-
-  const getData = async () => {
+  const getData = useCallback(async () => {
     GET(`${owner.administrators.logs}${props.administratorId}`)
       .then((data) => {
         data.map((e) => {
@@ -51,7 +47,11 @@ const AdministratorLogs = (props) => {
         setPremises(data);
       })
       .catch((err) => {});
-  };
+  }, [props.administratorId]);
+
+  useEffect(() => {
+    getData();
+  }, [getData]);
 
   const columns = [
     {

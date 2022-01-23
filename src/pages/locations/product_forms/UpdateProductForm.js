@@ -7,6 +7,7 @@ import MediaStandardProductForm from "./MediaStandardProductForm";
 import MediaQuantityProductForm from "./MediaQuantityProductForm";
 import DisposableProductForm from "./DisposableProductForm";
 import StateProductForm from "./StateProductForm";
+import { useCallback } from "react";
 
 const UpdateProductForm = (props) => {
   const [product, setProduct] = useState({
@@ -20,14 +21,13 @@ const UpdateProductForm = (props) => {
   });
   const [premisesTypesForProduct, setpremisesTypesForProduct] = useState();
 
-  const getData = () => {
+  const getData = useCallback(() => {
     const url = `${owner.productsForLocation.prefix}${props.locationId}${owner.productsForLocation.productDetails}${props.updateProductId}`;
 
     GET(url).then((res) => {
-      console.log(res);
       setProduct(res);
     });
-  };
+  }, [props.locationId, props.updateProductId]);
 
   const getPremisesTypesForProduct = async (id) => {
     let url = general.productsForLocation.premisesTypesForProductPrefix;
@@ -39,7 +39,6 @@ const UpdateProductForm = (props) => {
         return type;
       });
 
-      console.log("TAblica: ", typesArr);
       setpremisesTypesForProduct(typesArr);
     });
   };
@@ -47,7 +46,7 @@ const UpdateProductForm = (props) => {
   useEffect(() => {
     getData();
     getPremisesTypesForProduct(props.updateProductId);
-  }, [props.updateProductId]);
+  }, [props.updateProductId, getData]);
 
   const renderForm = () => {
     switch (product.productType) {
