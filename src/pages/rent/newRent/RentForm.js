@@ -146,7 +146,13 @@ const RentForm = (props) => {
   };
 
   useEffect(() => {
-    getPremisesTypes();
+    let mounted = true;
+    if (mounted) {
+      getPremisesTypes();
+    }
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   const handleChange = (e) => {

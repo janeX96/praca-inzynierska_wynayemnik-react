@@ -37,7 +37,7 @@ const RentSummary = ({
       let urlByRole =
         roles[0] === "owner"
           ? owner.rent.new
-          : roles[0] === "admin"
+          : roles[0] === "administrator"
           ? admin.rent.new
           : "";
       POST(urlByRole, json)
@@ -78,7 +78,7 @@ const RentSummary = ({
     <div>
       <div className="form-container">
         <ul>
-          <li>
+          <li key={"Najemca"}>
             <div className="form-container__row">
               <div className="row__col-25">
                 <label>Najemca </label>
@@ -93,7 +93,7 @@ const RentSummary = ({
               </div>
             </div>
           </li>
-          <li>
+          <li key={"clientAccess"}>
             <div className="form-container__row">
               <div className="row__col-25"></div>
               <div className="row__col-75">
@@ -110,7 +110,7 @@ const RentSummary = ({
               </div>
             </div>
           </li>
-          <li>
+          <li key={"counterMediaRent"}>
             <div className="form-container__row">
               <div className="row__col-25"></div>
               <div className="row__col-75">
@@ -129,7 +129,7 @@ const RentSummary = ({
             </div>
           </li>
 
-          <li>
+          <li key={"period"}>
             <div className="form-container__row">
               <div className="row__col-25">
                 <label>Okres wynajmu: </label>
@@ -144,7 +144,7 @@ const RentSummary = ({
               </div>
             </div>
           </li>
-          <li>
+          <li key={"type"}>
             <div className="form-container__row">
               <div className="row__col-25">
                 <label>Rodzaj wynajmu: </label>
@@ -159,7 +159,7 @@ const RentSummary = ({
               </div>
             </div>
           </li>
-          <li>
+          <li key={"bail"}>
             <div className="form-container__row">
               <div className="row__col-25">
                 <label>Kaucja: </label>
@@ -174,7 +174,7 @@ const RentSummary = ({
               </div>
             </div>
           </li>
-          <li>
+          <li key={"rentValue"}>
             <div className="form-container__row">
               <div className="row__col-25">
                 <label>Kwota czynszu: </label>
@@ -207,7 +207,7 @@ const RentSummary = ({
               </div>
             </div>
           </li>
-          <li>
+          <li key={"day"}>
             <div className="form-container__row">
               <div className="row__col-25">
                 <label>Dzień płatności: </label>
@@ -223,7 +223,7 @@ const RentSummary = ({
             </div>
           </li>
           {carNumber.length > 0 && (
-            <li>
+            <li key={"carNumber"}>
               <div className="form-container__row">
                 <div className="row__col-25">
                   <label>Nr rejestracyjny pojazdu: </label>
@@ -239,7 +239,7 @@ const RentSummary = ({
               </div>
             </li>
           )}
-          <li>
+          <li key={"desc"}>
             <div className="form-container__row">
               <div className="row__col-25">
                 <label>Uwagi: </label>
@@ -254,7 +254,7 @@ const RentSummary = ({
               </div>
             </div>
           </li>
-          <li>
+          <li key={"products"}>
             <div className="form-container__row">
               <div className="row__col-25">
                 <label>Załączone produkty: </label>
@@ -263,7 +263,7 @@ const RentSummary = ({
                 <ul>
                   {products.map((product) => {
                     return (
-                      <li>
+                      <li key={product.productName}>
                         <input
                           className="form-container__input"
                           type="text"

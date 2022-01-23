@@ -1,6 +1,6 @@
 const roles = {
   OWNER: "owner",
-  ADMIN: "admin",
+  ADMINISTRATOR: "administrator",
   CLIENT: "client",
 };
 

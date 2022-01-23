@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "../../../styles/App.scss";
 import PremisesEdit from "../PremisesEdit";
 import { BsTrashFill } from "react-icons/bs";
@@ -51,11 +51,11 @@ const PremisesDetails = ({
   const [newRentForm, setNewRentForm] = useState(false);
   const [premises, setPremises] = useState();
 
-  const getData = () => {
+  const getData = useCallback(() => {
     let urlByRole =
       roles[0] === "owner"
         ? owner.premisesDetails
-        : roles[0] === "admin"
+        : roles[0] === "administrator"
         ? admin.premisesDetails
         : "";
 
@@ -72,13 +72,13 @@ const PremisesDetails = ({
         toast.error("Błąd połączenia z serwerem...");
       }
     });
-  };
+  }, [roles, premisesId]);
 
-  const getRents = () => {
+  const getRents = useCallback(() => {
     let urlByRole =
       roles[0] === "owner"
         ? owner.rent.rents
-        : roles[0] === "admin"
+        : roles[0] === "administrator"
         ? admin.rent.rents
         : "";
     GET(`${urlByRole}${premisesId}`).then((res) => {
@@ -90,12 +90,18 @@ const PremisesDetails = ({
         return rent;
       });
     });
-  };
+  }, [roles, premisesId]);
 
   useEffect(() => {
-    getData();
-    getRents();
-  }, []);
+    let mounted = true;
+    if (mounted) {
+      getData();
+      getRents();
+    }
+    return () => {
+      mounted = false;
+    };
+  }, [getData, getRents]);
 
   const handleEdited = (success) => {
     setEdit(false);

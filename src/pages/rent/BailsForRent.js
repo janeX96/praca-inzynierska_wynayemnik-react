@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { useState, useEffect } from "react";
 import { AiFillEdit } from "react-icons/ai";
 import { BsPlusSquareFill, BsTrashFill } from "react-icons/bs";
@@ -14,11 +15,11 @@ const BailsForRent = (props) => {
   const [updateBailId, setUpdateBailId] = useState(-1);
   const [updateBailObj, setUpdateBailObj] = useState();
 
-  const getBails = () => {
+  const getBails = useCallback(() => {
     let urlByRole =
       props.roles[0] === "owner"
         ? owner.rent.allBailsPrefix
-        : props.roles[0] === "admin"
+        : props.roles[0] === "administrator"
         ? admin.rent.allBailsPrefix
         : "";
 
@@ -37,11 +38,17 @@ const BailsForRent = (props) => {
         }
       }
     );
-  };
+  }, [props.rentId, props.roles]);
 
   useEffect(() => {
-    getBails();
-  }, []);
+    let mounted = true;
+    if (mounted) {
+      getBails();
+    }
+    return () => {
+      mounted = false;
+    };
+  }, [getBails]);
 
   const handleReturn = () => {
     setShowBailForm(false);
@@ -56,7 +63,7 @@ const BailsForRent = (props) => {
         let urlByRole =
           props.roles[0] === "owner"
             ? owner.rent.deleteBail
-            : props.roles[0] === "admin"
+            : props.roles[0] === "administrator"
             ? admin.rent.deleteBail
             : "";
         DELETE(
@@ -85,7 +92,7 @@ const BailsForRent = (props) => {
       let urlByRole =
         props.roles[0] === "owner"
           ? owner.bail.inverseIsCome
-          : props.roles[0] === "admin"
+          : props.roles[0] === "administrator"
           ? admin.bail.inverseIsCome
           : "";
       PATCH(`${urlByRole}${id}`).then((res) => {

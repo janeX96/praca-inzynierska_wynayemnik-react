@@ -24,7 +24,7 @@ const ProductsForRentDetails = (props) => {
     let urlByRole =
       props.roles[0] === "owner"
         ? owner.productsForLocation.prefix
-        : props.roles[0] === "admin"
+        : props.roles[0] === "administrator"
         ? admin.productsForLocation.prefix
         : "";
 
@@ -45,7 +45,7 @@ const ProductsForRentDetails = (props) => {
     let urlByRole =
       props.roles[0] === "owner"
         ? owner.rent.products
-        : props.roles[0] === "admin"
+        : props.roles[0] === "administrator"
         ? admin.rent.products
         : props.roles[0] === "client"
         ? client.rent.products
@@ -88,7 +88,7 @@ const ProductsForRentDetails = (props) => {
     let urlByRole =
       props.roles[0] === "owner"
         ? owner.rent.allProducts
-        : props.roles[0] === "admin"
+        : props.roles[0] === "administrator"
         ? admin.rent.allProducts
         : "";
 
@@ -106,41 +106,45 @@ const ProductsForRentDetails = (props) => {
     var dd = String(today.getDate()).padStart(2, "0");
     var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
     var yyyy = today.getFullYear();
-    var time =
-      today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
 
-    today = yyyy + "-" + mm + "-" + dd + "T" + time;
+    today = yyyy + "-" + mm + "-" + dd + "T00:00:00";
     return today;
   };
 
   useEffect(() => {
-    var today = new Date();
+    let mounted = true;
+    if (mounted) {
+      var today = new Date();
 
-    let lessThanMonthAgo = "";
-    if (props.payments !== undefined && props.payments !== null) {
-      lessThanMonthAgo = props.payments.find((payment) => {
-        const paymentDate = new Date(payment.paymentDate);
-        var Difference_In_Time = paymentDate.getTime() - today.getTime();
-        var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+      let lessThanMonthAgo = "";
+      if (props.payments !== undefined && props.payments !== null) {
+        lessThanMonthAgo = props.payments.find((payment) => {
+          const paymentDate = new Date(payment.paymentDate);
+          var Difference_In_Time = paymentDate.getTime() - today.getTime();
+          var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
 
-        return Difference_In_Days < 30;
-      });
+          return Difference_In_Days < 30;
+        });
 
-      if (lessThanMonthAgo !== undefined) {
-        setCountersAvailable(false);
-        setLastPaymentDate(lessThanMonthAgo.startDate);
+        if (lessThanMonthAgo !== undefined) {
+          setCountersAvailable(false);
+          setLastPaymentDate(lessThanMonthAgo.startDate);
+        } else {
+          setCountersAvailable(true);
+        }
       } else {
         setCountersAvailable(true);
       }
-    } else {
-      setCountersAvailable(true);
-    }
 
-    getMediaStandardProducts();
-    if (props.roles[0] !== "client") {
-      getAllProducts();
-      getProductsForLocation();
+      getMediaStandardProducts();
+      if (props.roles[0] !== "client") {
+        getAllProducts();
+        getProductsForLocation();
+      }
     }
+    return () => {
+      mounted = false;
+    };
   }, [sending]);
 
   const formValidation = () => {
@@ -159,7 +163,7 @@ const ProductsForRentDetails = (props) => {
     let urlByRole =
       props.roles[0] === "owner"
         ? owner.rent.addAllMediaCounters
-        : props.roles[0] === "admin"
+        : props.roles[0] === "administrator"
         ? admin.rent.addAllMediaCounters
         : "";
 
@@ -245,7 +249,7 @@ const ProductsForRentDetails = (props) => {
         let urlByRole =
           props.roles[0] === "owner"
             ? owner.rent.deleteProductPrefix
-            : props.roles[0] === "admin"
+            : props.roles[0] === "administrator"
             ? admin.rent.deleteProductPrefix
             : "";
 
@@ -271,7 +275,7 @@ const ProductsForRentDetails = (props) => {
       let urlByRole =
         props.roles[0] === "owner"
           ? owner.rent.addProduct
-          : props.roles[0] === "admin"
+          : props.roles[0] === "administrator"
           ? admin.rent.addProduct
           : "";
 
@@ -307,7 +311,9 @@ const ProductsForRentDetails = (props) => {
             >
               <option value=""></option>
               {productsForLocation.map((prod) => (
-                <option value={prod.productId}>{prod.productName}</option>
+                <option key={prod.productId} value={prod.productId}>
+                  {prod.productName}
+                </option>
               ))}
             </select>
           </>
@@ -324,7 +330,7 @@ const ProductsForRentDetails = (props) => {
           {allProducts !== undefined ? (
             <>
               {allProducts.map((prod) => (
-                <li key={prod.product.productId}>
+                <li key={prod.product.productName}>
                   {prod.product.productName}
                   <div className="icon-container" style={{ fontSize: "15px" }}>
                     <BsTrashFill
@@ -459,9 +465,11 @@ const ProductsForRentDetails = (props) => {
           <form onSubmit={handleSubmit}>
             {products !== undefined && values !== undefined
               ? products.map((prod) => (
-                  // })
-                  <>
-                    <div className="form-container__row">
+                  <div key={prod.product.productId}>
+                    <div
+                      className="form-container__row"
+                      key={prod.product.productId}
+                    >
                       <div className="row__col-25">
                         <div
                           className="icon-container"
@@ -505,7 +513,7 @@ const ProductsForRentDetails = (props) => {
                         />
                       </div>
                     </div>
-                  </>
+                  </div>
                 ))
               : ""}
             <div className="form-container__row">

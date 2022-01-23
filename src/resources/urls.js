@@ -60,6 +60,7 @@ const paths = {
     deleteBailPrefix: "/bail/",
     updateBailPrefix: "/bail/",
     changeUserCountersAccessPrefix: "/change-counter-media-rent/",
+    checkIssuedAllMediaRentSuffix: "/checkIssuedAllMediaRent",
   },
   bail: {
     inverseIsComePrefix: "/inverse-isCome/", //{id}
@@ -124,6 +125,7 @@ const owner = {
     updateBail: `${httpPrefix}${port}${ownerPrefix}${paths.rent.defaultPrefix}`, //{id}
     changeUserCountersAccess: `${httpPrefix}${port}${ownerPrefix}${paths.rent.changeUserCountersAccessPrefix}`, //{id}
     paymentDetails: `${httpPrefix}${port}${ownerPrefix}${paths.rent.defaultPrefix}`, //{id}
+    checkIssuedAllMediaRentPrefix: `${httpPrefix}${port}${ownerPrefix}${paths.rent.defaultPrefix}`, //{id}
   },
   bail: {
     inverseIsCome: `${httpPrefix}${port}${ownerPrefix}${paths.bail.inverseIsComePrefix}`,
@@ -179,6 +181,8 @@ const admin = {
     deleteBail: `${httpPrefix}${port}${adminPrefix}${paths.rent.defaultPrefix}`, //{id}
     updateBail: `${httpPrefix}${port}${adminPrefix}${paths.rent.defaultPrefix}`, //{id}
     changeUserCountersAccess: `${httpPrefix}${port}${adminPrefix}${paths.rent.changeUserCountersAccessPrefix}`, //{id}
+    checkIssuedAllMediaRentPrefix: `${httpPrefix}${port}${adminPrefix}${paths.rent.defaultPrefix}`, //{id}
+    paymentDetails: `${httpPrefix}${port}${adminPrefix}${paths.rent.defaultPrefix}`, //{id}
   },
   bail: {
     inverseIsCome: `${httpPrefix}${port}${adminPrefix}${paths.bail.inverseIsComePrefix}`,
@@ -219,7 +223,6 @@ const general = {
   productsForLocation: {
     allProductsSuffix: "/productGroupType",
     premisesTypesForProductPrefix: `${httpPrefix}${port}${paths.productsForLocation.premisesTypesForProduct}`,
-    // paths.productsForLocation.premisesTypesForProduct,
   },
 
   rent: {
@@ -237,6 +240,7 @@ const general = {
     deleteBailPrefix: paths.rent.deleteBailPrefix,
     updateBailPrefix: paths.rent.updateBailPrefix,
     paymentDetailsSuffix: paths.rent.paymentDetailsSuffix,
+    checkIssuedAllMediaRentSuffix: paths.rent.checkIssuedAllMediaRentSuffix,
   },
 };
 

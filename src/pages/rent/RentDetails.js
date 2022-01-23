@@ -19,12 +19,14 @@ const RentDetails = (props) => {
     let urlByRole =
       props.roles[0] === "owner"
         ? owner.rent.details
-        : props.roles[0] === "admin"
+        : props.roles[0] === "administrator"
         ? admin.rent.details
         : props.roles[0] === "client"
         ? client.rent.details
         : "";
-    GET(`${urlByRole}${props.rentId}`).then((res) => {
+    const rentId =
+      props.rentId !== undefined ? props.rentId : props.rent.rentId;
+    GET(`${urlByRole}${rentId}`).then((res) => {
       if (res !== null) {
         setRent(res);
       } else {
@@ -36,42 +38,45 @@ const RentDetails = (props) => {
     let urlByRole =
       props.roles[0] === "owner"
         ? owner.rent.payments
-        : props.roles[0] === "admin"
+        : props.roles[0] === "administrator"
         ? admin.rent.payments
         : props.roles[0] === "client"
         ? client.rent.payments
         : "";
-    GET(`${urlByRole}${props.rentId}${general.rent.paymentsSuffix}`).then(
-      (res) => {
-        if (res !== null) {
-          res.map((p) => {
-            //format dates
-            const startDate = p.startDate;
-            const paymentDate = p.paymentDate;
-            const paidDate = p.paidDate;
-            p.startDate = startDate.split("T")[0];
-            p.paymentDate = paymentDate.split("T")[0];
-            if (p.paidDate !== null) {
-              p.paidDate = paidDate.split("T")[0];
-            }
-            return p;
-          });
-          setPayments(res);
-        } else {
-          toast.error("Błąd połączenia z serwerem...");
-        }
+    const rentId =
+      props.rentId !== undefined ? props.rentId : props.rent.rentId;
+    GET(`${urlByRole}${rentId}${general.rent.paymentsSuffix}`).then((res) => {
+      if (res !== null) {
+        res.map((p) => {
+          //format dates
+          const startDate = p.startDate;
+          const paymentDate = p.paymentDate;
+          const paidDate = p.paidDate;
+          p.startDate = startDate.split("T")[0];
+          p.paymentDate = paymentDate.split("T")[0];
+          if (p.paidDate !== null) {
+            p.paidDate = paidDate.split("T")[0];
+          }
+          p.income = p.income ? "tak" : "nie";
+          return p;
+        });
+        setPayments(res);
+      } else {
+        toast.error("Błąd połączenia z serwerem...");
       }
-    );
+    });
   };
 
   const getSumOfBails = () => {
     let urlByRole =
       props.roles[0] === "owner"
         ? owner.rent.sumOfBails
-        : props.roles[0] === "admin"
+        : props.roles[0] === "administrator"
         ? admin.rent.sumOfBails
         : "";
-    GET(`${urlByRole}${props.rentId}`).then((res) => {
+    const rentId =
+      props.rentId !== undefined ? props.rentId : props.rent.rentId;
+    GET(`${urlByRole}${rentId}`).then((res) => {
       if (res !== null) {
         setSumOfBails(res);
       } else {
@@ -90,15 +95,21 @@ const RentDetails = (props) => {
   };
 
   useEffect(() => {
-    if (props.rent !== undefined) {
-      setRent(props.rent);
-    } else {
-      getData();
+    let mounted = true;
+    if (mounted) {
+      if (props.rent !== undefined) {
+        setRent(props.rent);
+      } else {
+        getData();
+      }
+      getPayments();
+      if (props.roles[0] !== "client") {
+        getSumOfBails();
+      }
     }
-    getPayments();
-    if (props.roles[0] !== "client") {
-      getSumOfBails();
-    }
+    return () => {
+      mounted = false;
+    };
   }, [showPayments, showProducts]);
 
   const handleChangeAccess = () => {
@@ -110,7 +121,7 @@ const RentDetails = (props) => {
       let urlByRole =
         props.roles[0] === "owner"
           ? owner.rent.changeUserAccess
-          : props.roles[0] === "admin"
+          : props.roles[0] === "administrator"
           ? admin.rent.changeUserAccess
           : "";
       PATCH(`${urlByRole}${rent.rentId}`)
@@ -137,7 +148,7 @@ const RentDetails = (props) => {
       let urlByRole =
         props.roles[0] === "owner"
           ? owner.rent.changeUserCountersAccess
-          : props.roles[0] === "admin"
+          : props.roles[0] === "administrator"
           ? admin.rent.changeUserCountersAccess
           : "";
 
@@ -161,7 +172,7 @@ const RentDetails = (props) => {
   //     let urlByRole =
   //       props.roles[0] === "owner"
   //         ? owner.rent.deleteRent
-  //         : props.roles[0] === "admin"
+  //         : props.roles[0] === "administrator"
   //         ? admin.rent.deleteRent
   //         : "";
   //     PATCH(`${urlByRole}${rent.rentId}`).then((res) => {
@@ -181,7 +192,7 @@ const RentDetails = (props) => {
       let urlByRole =
         props.roles[0] === "owner"
           ? owner.rent.cancelRent
-          : props.roles[0] === "admin"
+          : props.roles[0] === "administrator"
           ? admin.rent.cancelRent
           : "";
       PATCH(`${urlByRole}${rent.rentId}`).then((res) => {
@@ -231,13 +242,22 @@ const RentDetails = (props) => {
               Rodzaj wynajmu: <b>{rent.premisesType.type}</b>
             </li>
             <li>
-              Rozpoczęcie: <b>{rent.startDate}</b>
+              Rozpoczęcie: <b>{rent.startDate.split("T")[0]}</b>
             </li>
             <li>
-              Zakończenie: <b>{rent.endDate}</b>
+              Zakończenie: <b>{rent.endDate.split("T")[0]}</b>
             </li>
             <li>
-              Stan: <b>{rent.state}</b>
+              Stan:{" "}
+              <b>
+                {rent.state === "IN_PROGRESS"
+                  ? "W trakcie"
+                  : rent.state === "CANCELLED"
+                  ? "Anulowany"
+                  : rent.state === "PLANNED"
+                  ? "Zaplanowany"
+                  : "Zakończony"}
+              </b>
             </li>
             <li>
               Najemca:{" "}
@@ -278,7 +298,8 @@ const RentDetails = (props) => {
             <li>
               Nr rejestracyjny: <b>{rent.carNumber}</b>
             </li>
-            {(props.roles[0] === "owner" || props.roles[0] === "admin") && (
+            {(props.roles[0] === "owner" ||
+              props.roles[0] === "administrator") && (
               <>
                 <li>
                   Dostępne dla klienta:{" "}
@@ -301,24 +322,9 @@ const RentDetails = (props) => {
               </>
             )}
 
-            {/* {rent.paymentValues.length > 0 ? (
-              <li>
-                paymentValues:
-                <ul>
-                  {rent.paymentValues.map((p) => (
-                    <li>
-                      <b>{p}</b>
-                    </li>
-                  ))}
-                </ul>
-              </li>
-            ) : (
-              ""
-            )} */}
-
             {rent.cancelledDate !== null ? (
               <li>
-                Usunięto: <b>{rent.cancelledDate}</b>
+                Usunięto: <b>{rent.cancelledDate.split("T")[0]}</b>
               </li>
             ) : (
               ""
@@ -340,7 +346,8 @@ const RentDetails = (props) => {
                 Produkty
               </h3>
             </li>
-            {(props.roles[0] === "owner" || props.roles[0] === "admin") && (
+            {(props.roles[0] === "owner" ||
+              props.roles[0] === "administrator") && (
               <li style={{ marginRight: "80%" }}>
                 <h3
                   className="details-container__history"
@@ -395,7 +402,8 @@ const RentDetails = (props) => {
               >
                 Powrót
               </button>
-              {(props.roles[0] === "owner" || props.roles[0] === "admin") && (
+              {(props.roles[0] === "owner" ||
+                props.roles[0] === "administrator") && (
                 <div className="icon-container">
                   <ImCancelCircle
                     className="icon-container__delete-icon"
@@ -404,7 +412,7 @@ const RentDetails = (props) => {
                   <p>Anuluj</p>
                 </div>
               )}
-              {/* {(props.roles[0] === "owner" || props.roles[0] === "admin") && (
+              {/* {(props.roles[0] === "owner" || props.roles[0] === "administrator") && (
                 <div className="icon-container">
                   <BsTrashFill
                     className="icon-container__delete-icon"

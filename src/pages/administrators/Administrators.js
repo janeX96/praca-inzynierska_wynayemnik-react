@@ -30,7 +30,13 @@ const Administrators = (props) => {
   };
 
   useEffect(() => {
-    getData();
+    let mounted = true;
+    if (mounted) {
+      getData();
+    }
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   const handleAction = (id, email, firstName, lastName) => {
@@ -57,6 +63,7 @@ const Administrators = (props) => {
     {
       title: "Id",
       field: "userAccountId",
+      visible: false,
     },
     {
       title: "Nazwisko",

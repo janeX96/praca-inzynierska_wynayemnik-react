@@ -15,7 +15,7 @@ const Rents = (props) => {
     let urlByRole =
       props.roles[0] === "owner"
         ? owner.rent.all
-        : props.roles[0] === "admin"
+        : props.roles[0] === "administrator"
         ? admin.rent.all
         : props.roles[0] === "client"
         ? client.rent.all
@@ -38,9 +38,15 @@ const Rents = (props) => {
   };
 
   useEffect(() => {
-    if (props.data === undefined) {
-      getData();
+    let mounted = true;
+    if (mounted) {
+      if (props.data === undefined) {
+        getData();
+      }
     }
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   const handleAction = (id) => {
@@ -66,6 +72,25 @@ const Rents = (props) => {
     return cell.getValue() ? "wystawiona" : "niewystawiona";
   };
 
+  var cellStateValueFormatter = function (cell, formatterParams) {
+    switch (cell.getValue()) {
+      case "IN_PROGRESS":
+        return "W trakcie";
+
+      case "CANCELLED":
+        return "Anulowany";
+
+      case "PLANNED":
+        return "Zaplanowany";
+
+      case "FINISHED":
+        return "Zakończony";
+
+      default:
+        return "???";
+    }
+  };
+
   const columns = [
     {
       title: "Id",
@@ -81,12 +106,14 @@ const Rents = (props) => {
       title: "Stan",
       field: "state",
       editor: "select",
+      formatter: cellStateValueFormatter,
       headerFilter: true,
       headerFilterParams: {
         values: {
           CANCELLED: "anulowane",
           IN_PROGRESS: "trwające",
           PLANNED: "zaplanowane",
+          FINISHED: "zakończone",
         },
       },
     },
@@ -180,7 +207,7 @@ const Rents = (props) => {
             {(props.roles[0] === "owner" || props.roles[0] === "client") && (
               <h1 className="content-container__title">Moje wynajmy</h1>
             )}
-            {props.roles[0] === "admin" && (
+            {props.roles[0] === "administrator" && (
               <h1 className="content-container__title">Wynajmy</h1>
             )}
 

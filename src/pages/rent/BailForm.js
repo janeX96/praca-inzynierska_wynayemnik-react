@@ -50,7 +50,7 @@ const BailForm = (props) => {
     let urlByRole =
       props.roles[0] === "owner"
         ? owner.rent.newBail
-        : props.roles[0] === "admin"
+        : props.roles[0] === "administrator"
         ? admin.rent.newBail
         : "";
 
@@ -76,7 +76,7 @@ const BailForm = (props) => {
     let urlByRole =
       props.roles[0] === "owner"
         ? owner.rent.updateBail
-        : props.roles[0] === "admin"
+        : props.roles[0] === "administrator"
         ? admin.rent.updateBail
         : "";
 
@@ -137,7 +137,7 @@ const BailForm = (props) => {
                 onChange={handleChange}
                 value={bail.bailType}
               >
-                <option value="" selected="true"></option>
+                <option value=""></option>
                 <option value="CARD_PAYMENT">płatność kartą/gotówką</option>
                 <option value="CARD_WITHDRAW">wypłata kartą/gotówką</option>
                 <option value="CONFIRMATION_OF_PAYMENT">

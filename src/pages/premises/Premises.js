@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import "../../styles/App.scss";
 import PremisesDetails from "./PremisesDetails/PremisesDetails";
 import { Link } from "react-router-dom";
@@ -17,14 +17,14 @@ const Premises = (props) => {
 
   const [chosenId, setChosenId] = useState(-1);
 
-  const getData = useCallback(async () => {
+  const getData = () => {
     const urlByRole = (() => {
       const firstRole = props.roles[0];
 
       switch (firstRole) {
         case "owner":
           return owner.premises;
-        case "admin":
+        case "administrator":
           return admin.premises;
         default:
           return "";
@@ -52,7 +52,7 @@ const Premises = (props) => {
         toast.error("Błąd połączenia z serwerem...");
       }
     });
-  }, [props.roles, state]);
+  };
 
   //wybierając dany lokal zaamiętuję jego id, jeśi id jest >=0
   // to wyświetlam info, jeśli nie to pokazuje liste lokali
@@ -61,8 +61,14 @@ const Premises = (props) => {
   };
 
   useEffect(() => {
-    getData();
-  }, [chosenId, getData]);
+    let mounted = true;
+    if (mounted) {
+      getData();
+    }
+    return () => {
+      mounted = false;
+    };
+  }, [chosenId]);
 
   const deleteShowMessage = (res) => {
     handleAction(-1);
@@ -192,7 +198,7 @@ const Premises = (props) => {
             {props.roles[0] === "owner" && (
               <h1 className="content-container__title">Moje lokale</h1>
             )}
-            {props.roles[0] === "admin" && (
+            {props.roles[0] === "administrator" && (
               <h1 className="content-container__title">Lokale</h1>
             )}
 
