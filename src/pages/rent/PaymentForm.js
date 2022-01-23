@@ -20,6 +20,7 @@ const PaymentForm = (props) => {
   const [errors, setErrors] = useState({
     paymentDateError: false,
   });
+  const [issuedAllMediaRent, setIssuedAllMediaRent] = useState(false);
 
   const getMedia = () => {
     let urlByRole =
@@ -40,6 +41,20 @@ const PaymentForm = (props) => {
         return m;
       });
       setMediaForPayment(mediaArr);
+    });
+  };
+
+  const checkIssuedAllMediaRent = () => {
+    let urlByRole =
+      props.roles[0] === "owner"
+        ? owner.rent.checkIssuedAllMediaRentPrefix
+        : props.roles[0] === "admin"
+        ? admin.rent.checkIssuedAllMediaRentPrefix
+        : "";
+    GET(
+      `${urlByRole}${props.rentId}${general.rent.checkIssuedAllMediaRentSuffix}`
+    ).then((res) => {
+      setIssuedAllMediaRent(res);
     });
   };
 
@@ -76,6 +91,7 @@ const PaymentForm = (props) => {
       startDate: todayVal,
     });
     getMedia();
+    checkIssuedAllMediaRent();
   }, []);
 
   useEffect(() => {
@@ -245,7 +261,7 @@ const PaymentForm = (props) => {
 
         <div className="form-container__buttons">
           <button
-            disabled={media === null || media === undefined}
+            disabled={issuedAllMediaRent}
             onClick={() => addMediaQuantRequest()}
           >
             Podlicz media ilościowe
