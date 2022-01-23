@@ -362,7 +362,7 @@ const PaymentForm = (props) => {
                       className="form-container--table__input"
                       value={m.price + m.price * (m.vat / 100)}
                     />
-                    <input
+                    {/* <input
                       key={m.mediaRentId}
                       defaultChecked={true}
                       type="checkbox"
@@ -370,7 +370,7 @@ const PaymentForm = (props) => {
                       name={m.mediaRentId}
                       className="form-container--table__input"
                       onChange={handleMediaForPayment}
-                    />
+                    /> */}
                   </li>
                 ))}
               </ul>
