@@ -245,7 +245,7 @@ const PremisesDetails = ({
                     </div>
                   )}
 
-                  {roles[0] === "owner" && (
+                  {/* {roles[0] === "owner" && (
                     <div className="icon-container">
                       <BsTrashFill
                         className="icon-container__delete-icon"
@@ -253,7 +253,7 @@ const PremisesDetails = ({
                       />
                       <p>Usuń</p>
                     </div>
-                  )}
+                  )} */}
                 </div>
               </div>
             </>
