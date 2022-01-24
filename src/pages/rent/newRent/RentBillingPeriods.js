@@ -12,7 +12,7 @@ const RentBillingPeriods = (props) => {
     valueError: false,
   });
   const [lastDate, setLastDate] = useState(props.startDate.split("T")[0]);
-  const [rentEndDate, setRentEndDate] = useState(props.endDate.split("T")[0]);
+  const rentEndDate = props.endDate.split("T")[0];
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -35,7 +35,15 @@ const RentBillingPeriods = (props) => {
       startDate = true;
     }
     if (billingPeriod.endDate.length > 0) {
-      endDate = true;
+      if (!firstPeriod) {
+        if (calcEndOfPeriod() === rentEndDate) {
+          endDate = true;
+        } else {
+          endDate = billingPeriod.endDate > calcEndOfPeriod() ? true : false;
+        }
+      } else {
+        endDate = true;
+      }
     }
     if (billingPeriod.value.length > 0) {
       value = true;
@@ -154,7 +162,7 @@ const RentBillingPeriods = (props) => {
               id="endDate"
               name="endDate"
               min={calcEndOfPeriod()}
-              max={calcEndOfPeriod()}
+              max={rentEndDate}
               onChange={handleChange}
               value={billingPeriod.endDate}
             />

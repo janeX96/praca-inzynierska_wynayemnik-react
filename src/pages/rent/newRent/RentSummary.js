@@ -77,219 +77,208 @@ const RentSummary = ({
   return (
     <div>
       <div className="form-container">
-        <ul>
-          <li key={"Najemca"}>
-            <div className="form-container__row">
-              <div className="row__col-25">
-                <label>Najemca </label>
-              </div>
-              <div className="row__col-75">
-                <input
-                  className="form-container__input"
-                  type="text"
-                  value={email + " - " + firstName + ", " + lastName}
-                  disabled
-                />
-              </div>
-            </div>
-          </li>
-          <li key={"clientAccess"}>
-            <div className="form-container__row">
-              <div className="row__col-25"></div>
-              <div className="row__col-75">
-                <input
-                  className="form-container__input"
-                  type="text"
-                  disabled
-                  value={
-                    clientAccess
-                      ? "Klient ma dostęp do konta"
-                      : "Klient nie ma dostępu do konta"
-                  }
-                />
-              </div>
-            </div>
-          </li>
-          <li key={"counterMediaRent"}>
-            <div className="form-container__row">
-              <div className="row__col-25"></div>
-              <div className="row__col-75">
-                {" "}
-                <input
-                  className="form-container__input"
-                  type="text"
-                  disabled
-                  value={
-                    counterMediaRent
-                      ? "Klient ma wgląd do liczników"
-                      : "Klient nie ma wglądu do liczników"
-                  }
-                />
-              </div>
-            </div>
-          </li>
+        <div className="form-container__row">
+          <div className="row__col-25">
+            <label>Najemca </label>
+          </div>
+          <div className="row__col-75">
+            <input
+              className="form-container__input"
+              type="text"
+              value={email + " - " + firstName + ", " + lastName}
+              disabled
+            />
+          </div>
+        </div>
 
-          <li key={"period"}>
-            <div className="form-container__row">
-              <div className="row__col-25">
-                <label>Okres wynajmu: </label>
-              </div>
-              <div className="row__col-75">
+        <div className="form-container__row">
+          <div className="row__col-25"> -</div>
+          <div className="row__col-75">
+            <input
+              className="form-container__input"
+              type="text"
+              disabled
+              value={
+                clientAccess
+                  ? "Klient ma dostęp do konta"
+                  : "Klient nie ma dostępu do konta"
+              }
+            />
+          </div>
+        </div>
+
+        <div className="form-container__row">
+          <div className="row__col-25">-</div>
+          <div className="row__col-75">
+            <input
+              className="form-container__input"
+              type="text"
+              disabled
+              value={
+                counterMediaRent
+                  ? "Klient ma wgląd do liczników"
+                  : "Klient nie ma wglądu do liczników"
+              }
+            />
+          </div>
+        </div>
+
+        <div className="form-container__row">
+          <div className="row__col-25">
+            <label>Okres: </label>
+          </div>
+          <div className="row__col-75">
+            <input
+              className="form-container__input"
+              type="text"
+              disabled
+              value={"od: " + startDate.split("T")[0]}
+            />
+          </div>
+          <div className="row__col-75">
+            <input
+              className="form-container__input"
+              type="text"
+              disabled
+              value={"do: " + endDate.split("T")[0]}
+            />
+          </div>
+        </div>
+
+        <div className="form-container__row">
+          <div className="row__col-25">
+            <label>Rodzaj: </label>
+          </div>
+          <div className="row__col-75">
+            <input
+              className="form-container__input"
+              type="text"
+              disabled
+              value={premisesType.type}
+            />
+          </div>
+        </div>
+
+        <div className="form-container__row">
+          <div className="row__col-25">
+            <label>Kaucja: </label>
+          </div>
+          <div className="row__col-75">
+            <input
+              className="form-container__input"
+              type="text"
+              disabled
+              value={bailValue}
+            />
+          </div>
+        </div>
+
+        <div className="form-container__row">
+          <div className="row__col-25">
+            <label>Kwota czynszu: </label>
+          </div>
+          <div className="row__col-75">
+            {statePaymentValue ? (
+              <input
+                className="form-container__input"
+                type="text"
+                disabled
+                value={rentValue}
+              />
+            ) : (
+              paymentValues.map((p) => (
                 <input
                   className="form-container__input"
                   type="text"
                   disabled
-                  value={"od: " + startDate + " do: " + endDate}
+                  value={
+                    "od: " +
+                    p.startDate +
+                    " do: " +
+                    p.endDate +
+                    ", kwota: " +
+                    p.value
+                  }
                 />
-              </div>
+              ))
+            )}
+          </div>
+        </div>
+
+        <div className="form-container__row">
+          <div className="row__col-25">
+            <label>Dzień płatności: </label>
+          </div>
+          <div className="row__col-75">
+            <input
+              className="form-container__input"
+              type="text"
+              disabled
+              value={paymentDay}
+            />
+          </div>
+        </div>
+
+        {carNumber.length > 0 && (
+          <div className="form-container__row">
+            <div className="row__col-25">
+              <label>Nr rejestracyjny pojazdu: </label>
             </div>
-          </li>
-          <li key={"type"}>
-            <div className="form-container__row">
-              <div className="row__col-25">
-                <label>Rodzaj wynajmu: </label>
-              </div>
-              <div className="row__col-75">
-                <input
-                  className="form-container__input"
-                  type="text"
-                  disabled
-                  value={premisesType.type}
-                />
-              </div>
+            <div className="row__col-75">
+              <input
+                className="form-container__input"
+                type="text"
+                disabled
+                value={carNumber}
+              />
             </div>
-          </li>
-          <li key={"bail"}>
-            <div className="form-container__row">
-              <div className="row__col-25">
-                <label>Kaucja: </label>
-              </div>
-              <div className="row__col-75">
-                <input
-                  className="form-container__input"
-                  type="text"
-                  disabled
-                  value={bailValue}
-                />
-              </div>
-            </div>
-          </li>
-          <li key={"rentValue"}>
-            <div className="form-container__row">
-              <div className="row__col-25">
-                <label>Kwota czynszu: </label>
-              </div>
-              <div className="row__col-75">
-                {statePaymentValue ? (
-                  <input
-                    className="form-container__input"
-                    type="text"
-                    disabled
-                    value={rentValue}
-                  />
-                ) : (
-                  paymentValues.map((p) => (
-                    <input
-                      className="form-container__input"
-                      type="text"
-                      disabled
-                      value={
-                        "od: " +
-                        p.startDate +
-                        " do: " +
-                        p.endDate +
-                        ", kwota: " +
-                        p.value
-                      }
-                    />
-                  ))
-                )}
-              </div>
-            </div>
-          </li>
-          <li key={"day"}>
-            <div className="form-container__row">
-              <div className="row__col-25">
-                <label>Dzień płatności: </label>
-              </div>
-              <div className="row__col-75">
-                <input
-                  className="form-container__input"
-                  type="text"
-                  disabled
-                  value={paymentDay}
-                />
-              </div>
-            </div>
-          </li>
-          {carNumber.length > 0 && (
-            <li key={"carNumber"}>
-              <div className="form-container__row">
-                <div className="row__col-25">
-                  <label>Nr rejestracyjny pojazdu: </label>
-                </div>
-                <div className="row__col-75">
-                  <input
-                    className="form-container__input"
-                    type="text"
-                    disabled
-                    value={carNumber}
-                  />
-                </div>
-              </div>
-            </li>
-          )}
-          <li key={"desc"}>
-            <div className="form-container__row">
-              <div className="row__col-25">
-                <label>Uwagi: </label>
-              </div>
-              <div className="row__col-75">
-                <input
-                  className="form-container__input"
-                  type="text"
-                  disabled
-                  value={description.length > 0 ? description : "brak"}
-                />
-              </div>
-            </div>
-          </li>
-          <li key={"products"}>
-            <div className="form-container__row">
-              <div className="row__col-25">
-                <label>Załączone produkty: </label>
-              </div>
-              <div className="row__col-75">
-                <ul>
-                  {products.map((product) => {
-                    return (
-                      <li key={product.productName}>
-                        <input
-                          className="form-container__input"
-                          type="text"
-                          disabled
-                          value={
-                            product.productName +
-                            ", stan licznika: " +
-                            product.counter
-                          }
-                        />
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-            </div>
-          </li>
-          {error && (
-            <span
-              className="form-container__error-msg"
-              style={{ fontSize: "25px" }}
-            >
-              {error}
-            </span>
-          )}
-        </ul>
+          </div>
+        )}
+
+        <div className="form-container__row">
+          <div className="row__col-25">
+            <label>Uwagi: </label>
+          </div>
+          <div className="row__col-75">
+            <input
+              className="form-container__input"
+              type="text"
+              disabled
+              value={description.length > 0 ? description : "brak"}
+            />
+          </div>
+        </div>
+
+        <div className="form-container__row">
+          <div className="row__col-25">
+            <label>Załączone produkty: </label>
+          </div>
+          <div className="row__col-75" style={{ width: "300px" }}>
+            <ul style={{ "list-style": "square" }}>
+              {products.map((product) => {
+                return (
+                  <li key={product.productName}>
+                    <b>{product.productName}</b>
+                    {product.productType === "MEDIA" &&
+                    product.subtypeMedia === "STANDARD"
+                      ? ", stan licznika:" + product.counter
+                      : ""}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        </div>
+
+        {error && (
+          <span
+            className="form-container__error-msg"
+            style={{ fontSize: "25px" }}
+          >
+            {error}
+          </span>
+        )}
+
         <div className="form-container__buttons">
           <button onClick={handleConfirm} data-name="back">
             Powrót

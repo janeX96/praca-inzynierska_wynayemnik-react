@@ -106,6 +106,20 @@ const BailsForRent = (props) => {
     }
   };
 
+  const translateType = (val) => {
+    switch (val) {
+      case "CARD_PAYMENT":
+        return "Wpłata kart/got";
+      case "CARD_WITHDRAW":
+        return "Wypłata kart/got";
+      case "CONFIRMATION_PAYMENT":
+        return "Wpłata przel.";
+      case "CONFIRMATION_WITHDRAW":
+        return "Wypłata przel.";
+      default:
+        return "UNKNOWN";
+    }
+  };
   const columns = [
     {
       Header: "Id",
@@ -118,6 +132,7 @@ const BailsForRent = (props) => {
     {
       Header: "Rodzaj",
       accessor: "bailType",
+      Cell: ({ cell }) => <>{translateType(cell.row.values.bailType)}</>,
     },
     {
       Header: "Opis",
