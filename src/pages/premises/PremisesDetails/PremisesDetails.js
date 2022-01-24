@@ -77,6 +77,8 @@ const PremisesDetails = ({ premisesId, action, reloadData, roles }) => {
     GET(`${urlByRole}${premisesId}`).then((res) => {
       setRents(res);
       res.find((rent) => {
+        rent.startDate = rent.startDate.split("T")[0];
+        rent.endDate = rent.startDate.split("T")[0];
         if (rent.state === "IN_PROGRESS") {
           setActiveRent(rent);
         }
