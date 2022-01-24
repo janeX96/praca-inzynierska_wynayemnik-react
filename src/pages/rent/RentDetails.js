@@ -199,7 +199,6 @@ const RentDetails = (props) => {
         if (res) {
           toast.success("Wynajem został anulowany");
           getData();
-          // props.handleReturn();
         } else {
           toast.error("Nie udało się anulować wynajmu...");
         }
@@ -211,9 +210,12 @@ const RentDetails = (props) => {
   const renderRentValues = () => {
     return (
       <ul>
-        {/* {rent.paymentValues.map((value) => (
-          <li> TODO</li>
-        ))} */}
+        {rent.paymentValues.map((value) => (
+          <li key={value.startDate}>
+            <b> {value.value}</b> ({value.startDate.split("T")[0]} -{" "}
+            {value.endDate.split("T")[0]})
+          </li>
+        ))}
       </ul>
     );
   };

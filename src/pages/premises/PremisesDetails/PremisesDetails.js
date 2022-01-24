@@ -1,24 +1,17 @@
 import React, { useState, useEffect, useCallback } from "react";
 import "../../../styles/App.scss";
 import PremisesEdit from "../PremisesEdit";
-import { BsTrashFill } from "react-icons/bs";
 import { AiFillEdit } from "react-icons/ai";
 import { FaKey } from "react-icons/fa";
 import { owner, admin } from "../../../resources/urls";
-import { GET, PATCH } from "../../../utilities/Request";
+import { GET } from "../../../utilities/Request";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Rents from "../../rent/Rents";
 import RentDetails from "../../rent/RentDetails";
 import Rent from "../../rent/newRent/Rent";
 
-const PremisesDetails = ({
-  premisesId,
-  deleteShowMessage,
-  action,
-  reloadData,
-  roles,
-}) => {
+const PremisesDetails = ({ premisesId, action, reloadData, roles }) => {
   const [edit, setEdit] = useState(false);
   const [data, setData] = useState({
     premisesId: 0,
@@ -84,6 +77,8 @@ const PremisesDetails = ({
     GET(`${urlByRole}${premisesId}`).then((res) => {
       setRents(res);
       res.find((rent) => {
+        rent.startDate = rent.startDate.split("T")[0];
+        rent.endDate = rent.startDate.split("T")[0];
         if (rent.state === "IN_PROGRESS") {
           setActiveRent(rent);
         }
@@ -93,14 +88,8 @@ const PremisesDetails = ({
   }, [roles, premisesId]);
 
   useEffect(() => {
-    let mounted = true;
-    if (mounted) {
-      getData();
-      getRents();
-    }
-    return () => {
-      mounted = false;
-    };
+    getData();
+    getRents();
   }, [getData, getRents]);
 
   const handleEdited = (success) => {
@@ -113,17 +102,17 @@ const PremisesDetails = ({
     getData();
   };
 
-  const handleDelete = () => {
-    if (window.confirm("Czy na pewno chcesz usunąć ten lokal?")) {
-      PATCH(`${owner.premisesDelete}${premisesId}`)
-        .then((response) => {
-          deleteShowMessage(response);
-        })
-        .catch((err) => {
-          console.log("Error :", err);
-        });
-    }
-  };
+  // const handleDelete = () => {
+  //   if (window.confirm("Czy na pewno chcesz usunąć ten lokal?")) {
+  //     PATCH(`${owner.premisesDelete}${premisesId}`)
+  //       .then((response) => {
+  //         deleteShowMessage(response);
+  //       })
+  //       .catch((err) => {
+  //         console.log("Error :", err);
+  //       });
+  //   }
+  // };
 
   const handleReturn = () => {
     setNewRentForm(false);
@@ -245,7 +234,7 @@ const PremisesDetails = ({
                     </div>
                   )}
 
-                  {roles[0] === "owner" && (
+                  {/* {roles[0] === "owner" && (
                     <div className="icon-container">
                       <BsTrashFill
                         className="icon-container__delete-icon"
@@ -253,7 +242,7 @@ const PremisesDetails = ({
                       />
                       <p>Usuń</p>
                     </div>
-                  )}
+                  )} */}
                 </div>
               </div>
             </>

@@ -6,7 +6,7 @@ const ProductsForRent = (props) => {
   const [availableProducts, setAvailableProducts] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState(props.selectedSave);
   const [description, setDescription] = useState(props.default.description);
-
+  const [countersError, setCountersError] = useState(false);
   //defaut selected
   const getProductsForType = async (type) => {
     let prefix =
@@ -166,6 +166,25 @@ const ProductsForRent = (props) => {
     props.saveSelectedProducts(selectedProducts);
 
     if (action === "next") {
+      // let countersOk = true;
+      // selectedProducts.map((p) => {
+      //   if (
+      //     p.productType === "MEDIA" &&
+      //     p.subtypeMedia === "STANDARD" &&
+      //     p.counter === undefined
+      //   ) {
+      //     countersOk = false;
+      //   }
+
+      //   return p;
+      // });
+
+      // if (countersOk) {
+      //   setCountersError(false);
+      //   props.stepDone(3);
+      // } else {
+      //   setCountersError(true);
+      // }
       props.stepDone(3);
     } else {
       props.stepBack();
@@ -200,35 +219,44 @@ const ProductsForRent = (props) => {
             {selectedProducts.map((product) => (
               <li key={product.productId}>
                 <div className="row">
-                  <div className="col-25"> {product.productName}</div>
-                  <div className="col-75"></div>
-                </div>
+                  <div className="col-25" style={{ marginLeft: "0px" }}>
+                    <b>{product.productName}</b>
+                    {product.productType === "MEDIA" &&
+                    product.subtypeMedia === "STANDARD"
+                      ? ", stan: " +
+                        (product.counter !== undefined
+                          ? product.counter
+                          : "---")
+                      : ""}
+                  </div>
+                  <div
+                    className="col-75"
+                    style={{ marginLeft: "0px", marginTop: "0px" }}
+                  >
+                    {product.productType === "MEDIA" &&
+                    product.subtypeMedia === "STANDARD" ? (
+                      <input
+                        type="number"
+                        min={0}
+                        id={product.productId}
+                        name={product.productId}
+                        onChange={handleCounterChange}
+                        placeholder="podaj stan licznika"
+                      />
+                    ) : (
+                      ""
+                    )}
 
-                {product.productType === "MEDIA" &&
-                product.subtypeMedia === "STANDARD"
-                  ? ", stan: " + product.counter
-                  : ""}
-                {product.productType === "MEDIA" &&
-                product.subtypeMedia === "STANDARD" ? (
-                  <input
-                    type="number"
-                    min={0}
-                    id={product.productId}
-                    name={product.productId}
-                    onChange={handleCounterChange}
-                    placeholder="podaj stan licznika"
-                  />
-                ) : (
-                  ""
-                )}
-                <button
-                  className="select-product-button"
-                  onClick={handleClick}
-                  data-id={product.productId}
-                  data-name="selected"
-                >
-                  {">"}
-                </button>
+                    <button
+                      className="select-product-button"
+                      onClick={handleClick}
+                      data-id={product.productId}
+                      data-name="selected"
+                    >
+                      {">"}
+                    </button>
+                  </div>
+                </div>
               </li>
             ))}
           </ul>
@@ -249,7 +277,8 @@ const ProductsForRent = (props) => {
                 {product.productName}
                 {product.productType === "MEDIA" &&
                 product.subtypeMedia === "STANDARD"
-                  ? ", stan: " + product.counter
+                  ? ", stan: " +
+                    (product.counter !== undefined ? product.counter : "---")
                   : ""}
               </li>
             ))}
@@ -257,7 +286,10 @@ const ProductsForRent = (props) => {
         </div>
       </div>
 
-      <div className="form-container">
+      <div
+        className="form-container"
+        style={{ maxWidth: "600px", marginTop: "0px", padding: "30px" }}
+      >
         <div className="form-container__row">
           <div className="row__col-25 ">
             <label htmlFor="description">Uwagi:</label>
@@ -275,7 +307,11 @@ const ProductsForRent = (props) => {
           </div>
         </div>
       </div>
-
+      {countersError && (
+        <span className="form-container__error-msg">
+          Musisz wpisać stan początkowy wybranych liczników
+        </span>
+      )}
       <div className="form-container__buttons" style={{ marginTop: "50px" }}>
         <button
           onClick={handleConfirm}
