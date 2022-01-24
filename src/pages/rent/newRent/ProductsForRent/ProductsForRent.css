@@ -10,7 +10,7 @@
   grid-template-columns: repeat(2, 1fr);
   width: 500px;
   margin-top: 100px;
-  margin-bottom: 100px;
+  margin-bottom: 50px;
 }
 
 .products-list {
@@ -22,6 +22,10 @@
   padding: 20px;
 }
 
+.products-list > ul {
+  list-style: none;
+}
+
 .products-list > ul > li:hover {
   background-color: azure;
   cursor: default;
@@ -29,6 +33,18 @@
 
 .select-product-button {
   cursor: pointer;
+}
+
+.row {
+  margin: 0 0 0 0;
+}
+
+.col-75 {
+  white-space: nowrap;
+}
+.col-75 > input {
+  display: inline-block;
+  max-width: 130px;
 }
 
 @media screen and (max-width: 600px) {
