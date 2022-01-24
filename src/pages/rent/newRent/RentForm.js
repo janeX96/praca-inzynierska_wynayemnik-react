@@ -378,7 +378,7 @@ const RentForm = (props) => {
               </div>
             </div>
 
-            <div className="form-container__row">
+            {/* <div className="form-container__row">
               <div className="row__col-25">
                 <label htmlFor="statePaymentValue">
                   Stała wartość czynszu:
@@ -392,9 +392,10 @@ const RentForm = (props) => {
                   name="statePaymentValue"
                   checked={rentDetails.statePaymentValue}
                   onChange={handleChange}
+                  
                 />
               </div>
-            </div>
+            </div> */}
 
             <div className="form-container__row">
               <div className="row__col-25">
