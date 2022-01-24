@@ -396,7 +396,9 @@ const UserFormForRent = (props) => {
               value={address.city}
             ></input>
             {errors.cityError && (
-              <span className="error-msg">{messages.city_incorrect}</span>
+              <span className="form-container__error-msg">
+                {messages.city_incorrect}
+              </span>
             )}
           </div>
         </div>
@@ -414,7 +416,9 @@ const UserFormForRent = (props) => {
               value={address.postCode}
             ></input>
             {errors.postCodeError && (
-              <span className="error-msg">{messages.postCode_incorrect}</span>
+              <span className="form-container__error-msg">
+                {messages.postCode_incorrect}
+              </span>
             )}
           </div>
         </div>
@@ -432,7 +436,9 @@ const UserFormForRent = (props) => {
               value={address.street}
             ></input>
             {errors.streetError && (
-              <span className="error-msg">{messages.street_incorrect}</span>
+              <span className="form-container__error-msg">
+                {messages.street_incorrect}
+              </span>
             )}
           </div>
         </div>
@@ -450,7 +456,7 @@ const UserFormForRent = (props) => {
               value={address.streetNumber}
             ></input>
             {errors.streetNumberError && (
-              <span className="error-msg">
+              <span className="form-container__error-msg">
                 {messages.streetNumber_incorrect}
               </span>
             )}
@@ -485,7 +491,7 @@ const UserFormForRent = (props) => {
                   value={company.companyName}
                 ></input>
                 {errors.companyNameError && (
-                  <span className="error-msg">
+                  <span className="form-container__error-msg">
                     {messages.companyName_incorrect}
                   </span>
                 )}
@@ -505,7 +511,9 @@ const UserFormForRent = (props) => {
                   value={company.nip}
                 ></input>
                 {errors.nipError && (
-                  <span className="error-msg">{messages.nip_incorrect}</span>
+                  <span className="form-container__error-msg">
+                    {messages.nip_incorrect}
+                  </span>
                 )}
               </div>
             </div>

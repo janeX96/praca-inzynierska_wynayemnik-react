@@ -160,7 +160,9 @@ const MediaStandardProductForm = (props) => {
               onChange={handleChange}
             />
             {errors.productName && (
-              <span className="error-msg">{messages.productNameError}</span>
+              <span className="form-container__error-msg">
+                {messages.productNameError}
+              </span>
             )}
           </div>
         </div>
@@ -178,7 +180,9 @@ const MediaStandardProductForm = (props) => {
               onChange={handleChange}
             />
             {errors.price && (
-              <span className="error-msg">{messages.priceError}</span>
+              <span className="form-container__error-msg">
+                {messages.priceError}
+              </span>
             )}
           </div>
         </div>
@@ -211,7 +215,9 @@ const MediaStandardProductForm = (props) => {
               onChange={handleChange}
             />
             {errors.quantityUnit && (
-              <span className="error-msg">{messages.quantityUnitError}</span>
+              <span className="form-container__error-msg">
+                {messages.quantityUnitError}
+              </span>
             )}
           </div>
         </div>
@@ -229,7 +235,9 @@ const MediaStandardProductForm = (props) => {
               onChange={handleChange}
             />
             {errors.vat && (
-              <span className="error-msg">{messages.vatError}</span>
+              <span className="form-container__error-msg">
+                {messages.vatError}
+              </span>
             )}
           </div>
         </div>
@@ -267,7 +275,9 @@ const MediaStandardProductForm = (props) => {
               </ul>
             }
             {errors.premisesTypes && (
-              <span className="error-msg">{messages.premisesTypesError}</span>
+              <span className="form-container__error-msg">
+                {messages.premisesTypesError}
+              </span>
             )}
           </div>
         </div>
