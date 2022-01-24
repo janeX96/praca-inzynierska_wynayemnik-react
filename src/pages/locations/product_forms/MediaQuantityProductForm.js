@@ -36,10 +36,10 @@ const MediaQuantityProductForm = (props) => {
     props.data !== undefined
       ? {
           attr1: props.data.forAttribute.split(" - ")[0],
-          arithm: "-",
+          arithm: "+",
           attr2: props.data.forAttribute.split(" - ")[1],
         }
-      : { attr1: "", arithm: "-", attr2: "" }
+      : { attr1: "", arithm: "+", attr2: "" }
   );
 
   const [errors, setErrors] = useState({
@@ -216,7 +216,9 @@ const MediaQuantityProductForm = (props) => {
               onChange={handleChange}
             />
             {errors.productName && (
-              <span className="error-msg">{messages.productNameError}</span>
+              <span className="form-container__error-msg">
+                {messages.productNameError}
+              </span>
             )}
           </div>
         </div>
@@ -237,7 +239,9 @@ const MediaQuantityProductForm = (props) => {
               onChange={handleChange}
             />{" "}
             {errors.price && (
-              <span className="error-msg">{messages.priceError}</span>
+              <span className="form-container__error-msg">
+                {messages.priceError}
+              </span>
             )}
           </div>
         </div>
@@ -274,7 +278,9 @@ const MediaQuantityProductForm = (props) => {
               onChange={handleChange}
             />
             {errors.vat && (
-              <span className="error-msg">{messages.vatError}</span>
+              <span className="form-container__error-msg">
+                {messages.vatError}
+              </span>
             )}
           </div>
         </div>
@@ -293,7 +299,9 @@ const MediaQuantityProductForm = (props) => {
               onChange={handleChange}
             />
             {errors.quantityUnit && (
-              <span className="error-msg">{messages.quantityUnitError}</span>
+              <span className="form-container__error-msg">
+                {messages.quantityUnitError}
+              </span>
             )}
           </div>
         </div>
@@ -318,7 +326,9 @@ const MediaQuantityProductForm = (props) => {
               ))}
             </select>{" "}
             {errors.attr1 && (
-              <span className="error-msg">{messages.attr1Error}</span>
+              <span className="form-container__error-msg">
+                {messages.attr1Error}
+              </span>
             )}
             <input
               className="form-container__input"
@@ -326,7 +336,7 @@ const MediaQuantityProductForm = (props) => {
               id="arithm"
               type="text"
               name="arithm"
-              disabled="true"
+              disabled={true}
               style={{ width: "15px" }}
               onChange={handleChange}
             />
@@ -345,7 +355,9 @@ const MediaQuantityProductForm = (props) => {
               ))}
             </select>
             {errors.attr2 && (
-              <span className="error-msg">{messages.attr2Error}</span>
+              <span className="form-container__error-msg">
+                {messages.attr2Error}
+              </span>
             )}
           </div>
         </div>
@@ -383,7 +395,7 @@ const MediaQuantityProductForm = (props) => {
                 })}
 
                 {errors.premisesTypes && (
-                  <span className="error-msg">
+                  <span className="form-container__error-msg">
                     {messages.premisesTypesError}
                   </span>
                 )}
