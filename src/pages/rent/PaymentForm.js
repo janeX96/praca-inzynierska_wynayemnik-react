@@ -212,6 +212,7 @@ const PaymentForm = (props) => {
       }
     }
   };
+
   return (
     <>
       <h1 className="content-container__title">Dodawanie płatności</h1>

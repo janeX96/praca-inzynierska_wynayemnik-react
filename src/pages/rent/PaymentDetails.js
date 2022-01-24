@@ -89,37 +89,51 @@ const PaymentDetails = (props) => {
     );
   };
 
+  const translateStatus = (status) => {
+    switch (status) {
+      case "ISSUED":
+        return "Wystawiona";
+
+      case "CANCELLED":
+        return "Anulowana";
+
+      case "PAID":
+        return "Zapłacona";
+
+      default:
+        return "???";
+    }
+  };
+
   const renderData = () => {
     return (
       <>
         <ul>
           <li>
-            Numer płatności:
-            <b>{payment.numberPayment}</b>
+            Numer płatności: <b>{payment.numberPayment}</b>
           </li>
           <li>
-            Status:
-            <b>{payment.status}</b>
+            Status: <b>{translateStatus(payment.status)}</b>
           </li>
           <li>
-            Rodzaj:
-            <b>{payment.paymentType.name}</b>
+            Rodzaj: <b>{payment.paymentType.name}</b>
           </li>
           <li>
-            Data wystawienia:
-            <b>{payment.startDate}</b>
+            Data wystawienia: <b>{payment.startDate.split("T")[0]}</b>
           </li>
           <li>
-            Termin płatności:
-            <b>{payment.paymentDate}</b>
+            Termin płatności: <b>{payment.paymentDate.split("T")[0]}</b>
           </li>
           <li>
-            Zapłacono:
-            <b>{payment.paidDate !== null ? payment.paidDate : "---"}</b>
+            Zapłacono:{" "}
+            <b>
+              {payment.paidDate !== null
+                ? payment.paidDate.split("T")[0]
+                : "---"}
+            </b>
           </li>
           <li>
-            Przychodząca:
-            <b>{payment.income ? "tak" : "nie"}</b>
+            Przychodząca: <b>{payment.income ? "tak" : "nie"}</b>
           </li>
         </ul>
         <b>Pozycje:</b>

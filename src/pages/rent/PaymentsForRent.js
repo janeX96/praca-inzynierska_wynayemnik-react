@@ -17,6 +17,22 @@ const PaymentsForRent = (props) => {
 
   const payments = props.payments !== undefined && props.payments;
 
+  var cellStateValueFormatter = function (cell, formatterParams) {
+    switch (cell.getValue()) {
+      case "ISSUED":
+        return "Wystawiona";
+
+      case "CANCELLED":
+        return "Anulowana";
+
+      case "PAID":
+        return "Zapłacona";
+
+      default:
+        return "???";
+    }
+  };
+
   var actionButton = function (cell, formatterParams, onRendered) {
     return `<button>Szczegóły</button>`;
   };
@@ -33,6 +49,16 @@ const PaymentsForRent = (props) => {
     {
       title: "Status",
       field: "status",
+      formatter: cellStateValueFormatter,
+      editor: "select",
+      headerFilter: true,
+      headerFilterParams: {
+        values: {
+          Wystawiona: "Wystawiona",
+          Anulowana: "Anulowana",
+          Zapłacona: "Zapłacona",
+        },
+      },
     },
     {
       title: "Rodzaj",
