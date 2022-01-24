@@ -320,7 +320,7 @@ const MediaQuantityProductForm = (props) => {
             >
               <option key="" value=""></option>
               {props.mediaStandardProducts.map((option) => (
-                <option key={option.productId} value={option.productName}>
+                <option key={option.productId} value={option.productId}>
                   {option.productName}
                 </option>
               ))}
@@ -349,7 +349,7 @@ const MediaQuantityProductForm = (props) => {
             >
               <option key="" value=""></option>
               {props.mediaStandardProducts.map((option) => (
-                <option key={option.productId} value={option.productName}>
+                <option key={option.productId} value={option.productId}>
                   {option.productName}
                 </option>
               ))}
