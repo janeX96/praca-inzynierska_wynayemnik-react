@@ -208,26 +208,6 @@ const CalculatedProductForm = (props) => {
             )}
           </div>
         </div>
-        <div className="form-container__row">
-          <div className="row__col-25">
-            <label htmlFor="price">Cena: </label>
-          </div>
-          <div className="row__col-75">
-            <input
-              className="form-container__input"
-              id="price"
-              type="number"
-              name="price"
-              value={product.obj.price}
-              onChange={handleChange}
-            />
-            {errors.price && (
-              <span className="form-container__error-msg">
-                {messages.priceError}
-              </span>
-            )}
-          </div>
-        </div>
 
         <div className="form-container__row">
           <div className="row__col-25">
@@ -255,7 +235,56 @@ const CalculatedProductForm = (props) => {
             )}
           </div>
         </div>
-
+        <div className="form-container__row">
+          <div className="row__col-25">
+            <label htmlFor="price">Cena: </label>
+          </div>
+          <div className="row__col-75">
+            <input
+              disabled={
+                product.obj.patternName.length === 0 ||
+                product.obj.patternName === "Czynsz" ||
+                product.obj.quantity.length > 0
+              }
+              className="form-container__input"
+              id="price"
+              type="number"
+              name="price"
+              value={product.obj.price}
+              onChange={handleChange}
+            />
+            {errors.price && (
+              <span className="form-container__error-msg">
+                {messages.priceError}
+              </span>
+            )}
+          </div>
+        </div>
+        <div className="form-container__row">
+          <div className="row__col-25">
+            <label htmlFor="quantity">Ilość: </label>
+          </div>
+          <div className="row__col-75">
+            <input
+              disabled={
+                product.obj.patternName === undefined ||
+                product.obj.patternName !== "Czynsz" ||
+                product.obj.price.length > 0
+              }
+              className="form-container__input"
+              id="quantity"
+              type="number"
+              name="quantity"
+              value={product.obj.quantity}
+              onChange={handleChange}
+            />
+            {errors.quantity && (
+              <span className="form-container__error-msg">
+                {messages.quantityError}
+              </span>
+            )}
+          </div>
+        </div>
         <div className="form-container__row">
           <div className="row__col-25">
             <label htmlFor="netto">Netto: </label>
@@ -271,26 +300,7 @@ const CalculatedProductForm = (props) => {
             />
           </div>
         </div>
-        <div className="form-container__row">
-          <div className="row__col-25">
-            <label htmlFor="quantity">Ilość: </label>
-          </div>
-          <div className="row__col-75">
-            <input
-              className="form-container__input"
-              id="quantity"
-              type="number"
-              name="quantity"
-              value={product.obj.quantity}
-              onChange={handleChange}
-            />
-            {errors.quantity && (
-              <span className="form-container__error-msg">
-                {messages.quantityError}
-              </span>
-            )}
-          </div>
-        </div>
+
         <div className="form-container__row">
           <div className="row__col-25">
             <label htmlFor="quantityUnit">Jedn. miary: </label>
