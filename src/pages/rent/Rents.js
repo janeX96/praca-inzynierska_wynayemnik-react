@@ -223,7 +223,11 @@ const Rents = (props) => {
                 </Link>
               )}
 
-              {renderTable()}
+              {rents !== undefined && rents.length > 0 ? (
+                renderTable()
+              ) : (
+                <h1>Brak</h1>
+              )}
             </div>
             <div className="contant-btns">
               {props.data !== undefined ? (

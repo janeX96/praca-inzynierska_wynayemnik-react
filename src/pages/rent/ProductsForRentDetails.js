@@ -327,7 +327,7 @@ const ProductsForRentDetails = (props) => {
         )}
 
         <ul>
-          {allProducts !== undefined ? (
+          {allProducts !== undefined && allProducts.length > 0 ? (
             <>
               {allProducts.map((prod) => (
                 <li key={prod.product.productName}>
@@ -345,7 +345,7 @@ const ProductsForRentDetails = (props) => {
               ))}
             </>
           ) : (
-            ""
+            <h3>Brak</h3>
           )}
         </ul>
       </div>
@@ -425,7 +425,9 @@ const ProductsForRentDetails = (props) => {
         {props.roles[0] === "client" ? (
           props.counterMediaRent ? (
             <ul>
-              {products !== undefined && products !== null && (
+              {products !== undefined &&
+              products !== null &&
+              products.length > 0 ? (
                 <>
                   {products.map((data) => (
                     <li key={data.startDate}>
@@ -453,6 +455,8 @@ const ProductsForRentDetails = (props) => {
                     </li>
                   ))}
                 </>
+              ) : (
+                <h3>Brak mediów</h3>
               )}
             </ul>
           ) : (
@@ -463,59 +467,63 @@ const ProductsForRentDetails = (props) => {
           )
         ) : (
           <form onSubmit={handleSubmit}>
-            {products !== undefined && values !== undefined
-              ? products.map((prod) => (
-                  <div key={prod.product.productId}>
-                    <div
-                      className="form-container__row"
-                      key={prod.product.productId}
-                    >
-                      <div className="row__col-25">
-                        <div
-                          className="icon-container"
-                          style={{ fontSize: "25px" }}
-                        >
-                          <BsTrashFill
-                            className="icon-container__delete-icon"
-                            onClick={() =>
-                              handleDeleteProduct(prod.product.productId)
-                            }
-                          />
-                          <p>Usuń</p>
-                        </div>
-                        <label htmlFor={prod.product.productId}>
-                          {prod.product.productName}
-                        </label>
-                      </div>
-                      <div className="row__col-75">
-                        <input
-                          disabled={!countersAvailable}
-                          placeholder={
-                            !countersAvailable
-                              ? `ostatnia płatność: ${lastPaymentDate}`
-                              : "Wprowadź stan licznika"
+            {products !== undefined &&
+            values !== undefined &&
+            products.length > 0 ? (
+              products.map((prod) => (
+                <div key={prod.product.productId}>
+                  <div
+                    className="form-container__row"
+                    key={prod.product.productId}
+                  >
+                    <div className="row__col-25">
+                      <div
+                        className="icon-container"
+                        style={{ fontSize: "25px" }}
+                      >
+                        <BsTrashFill
+                          className="icon-container__delete-icon"
+                          onClick={() =>
+                            handleDeleteProduct(prod.product.productId)
                           }
-                          className="form-container__input"
-                          type="number"
-                          name={prod.product.productId}
-                          id={prod.product.productId}
-                          value={values[prod.product.productId.counter]}
-                          onChange={handleChange}
                         />
-                        różnica:
-                        <input
-                          disabled={!countersAvailable}
-                          type="checkbox"
-                          name={prod.product.productId}
-                          id={prod.product.productId}
-                          value={values[prod.product.quantity]}
-                          onChange={handleChange}
-                        />
+                        <p>Usuń</p>
                       </div>
+                      <label htmlFor={prod.product.productId}>
+                        {prod.product.productName}
+                      </label>
+                    </div>
+                    <div className="row__col-75">
+                      <input
+                        disabled={!countersAvailable}
+                        placeholder={
+                          !countersAvailable
+                            ? `ostatnia płatność: ${lastPaymentDate}`
+                            : "Wprowadź stan licznika"
+                        }
+                        className="form-container__input"
+                        type="number"
+                        name={prod.product.productId}
+                        id={prod.product.productId}
+                        value={values[prod.product.productId.counter]}
+                        onChange={handleChange}
+                      />
+                      różnica:
+                      <input
+                        disabled={!countersAvailable}
+                        type="checkbox"
+                        name={prod.product.productId}
+                        id={prod.product.productId}
+                        value={values[prod.product.quantity]}
+                        onChange={handleChange}
+                      />
                     </div>
                   </div>
-                ))
-              : ""}
+                </div>
+              ))
+            ) : (
+              <h3>Brak produktów typu media standard</h3>
+            )}
             <div className="form-container__row">
               <div>
                 {error && (

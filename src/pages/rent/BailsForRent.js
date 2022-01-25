@@ -203,11 +203,16 @@ const BailsForRent = (props) => {
                 onClick={() => setShowBailForm(true)}
               />
             </div>
-            <LoadData
-              data={bails}
-              columns={columns}
-              initialState={initialState}
-            />
+
+            {bails !== undefined && bails.length > 0 ? (
+              <LoadData
+                data={bails}
+                columns={columns}
+                initialState={initialState}
+              />
+            ) : (
+              <h1>Brak</h1>
+            )}
 
             <button
               className="content-container__button"
