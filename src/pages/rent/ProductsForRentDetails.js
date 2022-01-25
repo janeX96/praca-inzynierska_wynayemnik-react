@@ -352,10 +352,15 @@ const ProductsForRentDetails = (props) => {
     );
   };
 
+  var cellDateFormatter = function (cell, formatterParams) {
+    return cell.getValue().split("T")[0];
+  };
+
   const columns = [
     {
       title: "Data",
       field: "startDate",
+      formatter: cellDateFormatter,
     },
     {
       title: "Produkt",
@@ -549,7 +554,12 @@ const ProductsForRentDetails = (props) => {
                 {props.roles[0] !== "client" && (
                   <div className="form-container__buttons">
                     <button
-                      disabled={!countersAvailable}
+                      disabled={
+                        !countersAvailable ||
+                        products === undefined ||
+                        products === null ||
+                        products.length === 0
+                      }
                       type="submit"
                       style={{ marginLeft: "55%" }}
                     >

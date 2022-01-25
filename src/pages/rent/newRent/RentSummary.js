@@ -254,7 +254,7 @@ const RentSummary = ({
             <label>Załączone produkty: </label>
           </div>
           <div className="row__col-75" style={{ width: "300px" }}>
-            <ul style={{ "list-style": "square" }}>
+            <ul style={{ listStyle: "square" }}>
               {products.map((product) => {
                 return (
                   <li key={product.productName}>
