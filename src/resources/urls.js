@@ -197,6 +197,7 @@ const client = {
     payments: `${httpPrefix}${port}${clientPrefix}${paths.rent.paymentsPrefix}`, //{id}
     getAllMediaRent: `${httpPrefix}${port}${clientPrefix}${paths.rent.getAllMediaRentPrefix}`, //{id}
     products: `${httpPrefix}${port}${clientPrefix}${paths.rent.rentDetails}`, //{id}
+    paymentDetails: `${httpPrefix}${port}${clientPrefix}${paths.rent.defaultPrefix}`, //{id}
   },
 };
 

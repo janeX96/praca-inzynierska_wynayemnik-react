@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { admin, general, owner } from "../../resources/urls";
+import { admin, client, general, owner } from "../../resources/urls";
 import { GET } from "../../utilities/Request";
 import "react-tabulator/lib/styles.css";
 import "react-tabulator/lib/css/tabulator.min.css";
@@ -15,8 +15,11 @@ const PaymentDetails = (props) => {
         ? owner.rent.paymentDetails
         : props.roles[0] === "administrator"
         ? admin.rent.paymentDetails
+        : props.roles[0] === "client"
+        ? client.rent.paymentDetails
         : "";
 
+    console.log("REQ: ", urlByRole);
     GET(
       `${urlByRole}${props.rentId}${general.rent.paymentDetailsSuffix}${props.paymentId}`
     ).then((res) => {
@@ -150,7 +153,7 @@ const PaymentDetails = (props) => {
     <>
       <h1 className="content-container__title">Szczegóły płatności</h1>
       <div className="details-container">
-        {payment !== undefined && renderData()}
+        {payment !== null && payment !== undefined && renderData()}
         <div className="details-container__buttons">
           <button
             className="details-container__button--return"
