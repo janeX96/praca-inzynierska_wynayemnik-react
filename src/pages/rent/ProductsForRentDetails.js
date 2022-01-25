@@ -190,7 +190,9 @@ const ProductsForRentDetails = (props) => {
       if (res.ok) {
         toast.success("Stan liczników został zapisany");
       } else {
-        toast.error("Nie udało się zapisać stanu liczników...");
+        toast.info(
+          "Stany liczników zostały już wprowadzone, możesz wystawić płatność za bieżący miesiąc."
+        );
       }
       return res;
     });
@@ -472,7 +474,10 @@ const ProductsForRentDetails = (props) => {
           )
         ) : (
           <form onSubmit={handleSubmit}>
-            <div style={{ borderStyle: "groove", padding: "20px" }}>
+            <div
+              className="form-container"
+              style={{ borderStyle: "groove", padding: "20px" }}
+            >
               <h1>Media</h1>
               {products !== undefined &&
               values !== undefined &&
@@ -487,36 +492,39 @@ const ProductsForRentDetails = (props) => {
                       style={{
                         whiteSpace: "nowrap",
                         marginRight: "15px",
-                        width: "auto",
+                        width: "300px",
                       }}
                     >
-                      <div
-                        className="icon-container"
-                        style={{
-                          fontSize: "25px",
-                          display: "inline-block",
-                          width: "50px",
-                        }}
-                      >
-                        <BsTrashFill
-                          className="icon-container__delete-icon"
-                          onClick={() =>
-                            handleDeleteProduct(prod.product.productId)
-                          }
-                        />
-                        <p>Usuń</p>
-                      </div>
                       <label
                         htmlFor={prod.product.productId}
                         style={{
                           display: "inline-block",
+                          width: "200px",
                         }}
                       >
+                        <div
+                          className="icon-container"
+                          style={{
+                            fontSize: "25px",
+                            display: "inline-block",
+                            width: "50px",
+                            marginTop: "0px",
+                          }}
+                        >
+                          <BsTrashFill
+                            className="icon-container__delete-icon"
+                            onClick={() =>
+                              handleDeleteProduct(prod.product.productId)
+                            }
+                          />
+                          <p>Usuń</p>
+                        </div>
                         {prod.product.productName}
                       </label>
                     </div>
                     <div className="row__col-75">
                       <input
+                        style={{ width: "200px" }}
                         disabled={!countersAvailable}
                         placeholder={
                           !countersAvailable
