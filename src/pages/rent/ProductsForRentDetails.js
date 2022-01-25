@@ -421,10 +421,10 @@ const ProductsForRentDetails = (props) => {
       <h1 className="content-container__title">Produkty wynajmu</h1>
 
       <div className="form-container">
-        <h1>Media</h1>
         {props.roles[0] === "client" ? (
           props.counterMediaRent ? (
             <ul>
+              <h1>Media</h1>
               {products !== undefined &&
               products !== null &&
               products.length > 0 ? (
@@ -467,19 +467,31 @@ const ProductsForRentDetails = (props) => {
           )
         ) : (
           <form onSubmit={handleSubmit}>
-            {products !== undefined &&
-            values !== undefined &&
-            products.length > 0 ? (
-              products.map((prod) => (
-                <div key={prod.product.productId}>
+            <div style={{ borderStyle: "groove", padding: "20px" }}>
+              <h1>Media</h1>
+              {products !== undefined &&
+              values !== undefined &&
+              products.length > 0 ? (
+                products.map((prod) => (
                   <div
-                    className="form-container__row"
                     key={prod.product.productId}
+                    className="form-container__row"
                   >
-                    <div className="row__col-25">
+                    <div
+                      className="row__col-25"
+                      style={{
+                        whiteSpace: "nowrap",
+                        marginRight: "15px",
+                        width: "auto",
+                      }}
+                    >
                       <div
                         className="icon-container"
-                        style={{ fontSize: "25px" }}
+                        style={{
+                          fontSize: "25px",
+                          display: "inline-block",
+                          width: "50px",
+                        }}
                       >
                         <BsTrashFill
                           className="icon-container__delete-icon"
@@ -489,7 +501,12 @@ const ProductsForRentDetails = (props) => {
                         />
                         <p>Usuń</p>
                       </div>
-                      <label htmlFor={prod.product.productId}>
+                      <label
+                        htmlFor={prod.product.productId}
+                        style={{
+                          display: "inline-block",
+                        }}
+                      >
                         {prod.product.productName}
                       </label>
                     </div>
@@ -519,26 +536,29 @@ const ProductsForRentDetails = (props) => {
                       />
                     </div>
                   </div>
-                </div>
-              ))
-            ) : (
-              <h3>Brak produktów typu media standard</h3>
-            )}
-            <div className="form-container__row">
-              <div>
+                ))
+              ) : (
+                <h3>Brak produktów typu media standard</h3>
+              )}
+
+              <div className="form-container__row">
                 {error && (
                   <span className="form-container__error-msg">{errorMsg}</span>
                 )}
+
+                {props.roles[0] !== "client" && (
+                  <div className="form-container__buttons">
+                    <button
+                      disabled={!countersAvailable}
+                      type="submit"
+                      style={{ marginLeft: "55%" }}
+                    >
+                      Zapisz
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
-
-            {props.roles[0] !== "client" && (
-              <div className="form-container__buttons">
-                <button type="submit" style={{ marginLeft: "55%" }}>
-                  Zapisz
-                </button>
-              </div>
-            )}
 
             {props.roles[0] !== "client" && (
               <h3
