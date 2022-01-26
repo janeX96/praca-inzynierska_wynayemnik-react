@@ -21,6 +21,10 @@ const ProductsForRentDetails = (props) => {
   const [productsForLocation, setProductsForLocation] = useState();
   const [showMediaRentsByDate, setShowMediaRentsByDate] = useState({});
   const [countersFilled, setCountersFilled] = useState(false);
+  const [addCounter, setAddCounter] = useState(false);
+  const [newCounterValue, setNewCounterValue] = useState(0);
+  const [newCounterError, setNewCounterError] = useState(false);
+  const [newCounterProductId, setNewCounterProductId] = useState(-1);
 
   const getProductsForLocation = () => {
     let urlByRole =
@@ -290,8 +294,7 @@ const ProductsForRentDetails = (props) => {
     }
   };
 
-  const handleAddProduct = (e) => {
-    const value = e.target.value;
+  const addProductRequest = (prodId, counterVal = 0) => {
     if (!sending) {
       setSending(true);
       let urlByRole =
@@ -301,8 +304,17 @@ const ProductsForRentDetails = (props) => {
           ? admin.rent.addProduct
           : "";
 
+      let obj = {};
+
+      if (counterVal > 0) {
+        obj = { counter: counterVal };
+      } else {
+        obj = { counter: null };
+      }
+      let json = JSON.stringify(obj);
       POST(
-        `${urlByRole}${props.rentId}${general.rent.addProductPrefix}${value}`
+        `${urlByRole}${props.rentId}${general.rent.addProductPrefix}${prodId}`,
+        json
       ).then((res) => {
         if (res.ok) {
           toast.success("Produkt został dodany");
@@ -316,6 +328,19 @@ const ProductsForRentDetails = (props) => {
           });
         }
       });
+    }
+  };
+
+  const handleAddProduct = (e) => {
+    const value = e.target.value;
+
+    if (value.split("&").length === 2 && value.split("&")[1] === "STANDARD") {
+      setAddCounter(true);
+      setNewCounterProductId(value.split("&")[0]);
+    } else {
+      const prodId = value.split("&")[0];
+
+      addProductRequest(prodId);
     }
   };
 
@@ -333,11 +358,19 @@ const ProductsForRentDetails = (props) => {
             >
               <option value=""></option>
               {productsForLocation.map((prod) => (
-                <option key={prod.productId} value={prod.productId}>
+                <option
+                  key={prod.productId}
+                  value={
+                    prod.subtypeMedia !== null
+                      ? prod.productId + "&" + prod.subtypeMedia
+                      : prod.productId + "&"
+                  }
+                >
                   {prod.productName}
                 </option>
               ))}
             </select>
+            {addCounter && renderCounterInput()}
           </>
         ) : (
           <div className="icon-container" style={{ fontSize: "24px" }}>
@@ -440,6 +473,50 @@ const ProductsForRentDetails = (props) => {
           { column: "startDate", dir: "asc" },
         ]}
       />
+    );
+  };
+
+  const handleAddCounter = (e) => {
+    e.preventDefault();
+
+    if (newCounterValue > 0) {
+      addProductRequest(newCounterProductId, newCounterValue);
+      setNewCounterError(false);
+      setAddCounter(false);
+    } else {
+      setNewCounterError(true);
+    }
+  };
+
+  const handleChangeNewCounterValue = (e) => {
+    const value = e.target.value;
+    setNewCounterValue(value);
+  };
+
+  const renderCounterInput = () => {
+    return (
+      <>
+        <input
+          className="form-container__input"
+          style={{ marginLeft: "10px", width: "120px", marginRight: "10px" }}
+          type="number"
+          min={0}
+          placeholder="Wprowadź stan licznika"
+          value={newCounterValue}
+          onChange={handleChangeNewCounterValue}
+        />
+        <button
+          className="content-container__button"
+          onClick={handleAddCounter}
+        >
+          Dodaj
+        </button>
+        {newCounterError && (
+          <span className="form-container__error-msg">
+            Wprowadź stan licznika
+          </span>
+        )}
+      </>
     );
   };
 
