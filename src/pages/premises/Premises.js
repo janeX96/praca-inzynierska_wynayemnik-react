@@ -221,7 +221,7 @@ const Premises = (props) => {
                 </div>
               )}
 
-              {state.data.length > 0 ? renderTable() : "brak"}
+              {state.data.length > 0 ? renderTable() : <h1>Brak</h1>}
             </div>
           </>
         )}

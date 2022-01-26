@@ -166,7 +166,7 @@ const Administrators = (props) => {
                   />
                 </div>
               </div>
-              {administrators.length > 0 ? renderTable() : "brak"}
+              {administrators.length > 0 ? renderTable() : <h1>Brak</h1>}
             </div>
           </>
         )}

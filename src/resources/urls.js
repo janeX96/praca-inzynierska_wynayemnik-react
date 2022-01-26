@@ -61,6 +61,7 @@ const paths = {
     updateBailPrefix: "/bail/",
     changeUserCountersAccessPrefix: "/change-counter-media-rent/",
     checkIssuedAllMediaRentSuffix: "/checkIssuedAllMediaRent",
+    checkIssuedAllMediaRentStandardSuffix: "/checkIssuedAllMediaRentStandard",
   },
   bail: {
     inverseIsComePrefix: "/inverse-isCome/", //{id}
@@ -126,6 +127,7 @@ const owner = {
     changeUserCountersAccess: `${httpPrefix}${port}${ownerPrefix}${paths.rent.changeUserCountersAccessPrefix}`, //{id}
     paymentDetails: `${httpPrefix}${port}${ownerPrefix}${paths.rent.defaultPrefix}`, //{id}
     checkIssuedAllMediaRentPrefix: `${httpPrefix}${port}${ownerPrefix}${paths.rent.defaultPrefix}`, //{id}
+    checkIssuedAllMediaRentStandardPrefix: `${httpPrefix}${port}${ownerPrefix}${paths.rent.defaultPrefix}`, //{id}
   },
   bail: {
     inverseIsCome: `${httpPrefix}${port}${ownerPrefix}${paths.bail.inverseIsComePrefix}`,
@@ -183,6 +185,7 @@ const admin = {
     changeUserCountersAccess: `${httpPrefix}${port}${adminPrefix}${paths.rent.changeUserCountersAccessPrefix}`, //{id}
     checkIssuedAllMediaRentPrefix: `${httpPrefix}${port}${adminPrefix}${paths.rent.defaultPrefix}`, //{id}
     paymentDetails: `${httpPrefix}${port}${adminPrefix}${paths.rent.defaultPrefix}`, //{id}
+    checkIssuedAllMediaRentStandardPrefix: `${httpPrefix}${port}${ownerPrefix}${paths.rent.defaultPrefix}`, //{id}
   },
   bail: {
     inverseIsCome: `${httpPrefix}${port}${adminPrefix}${paths.bail.inverseIsComePrefix}`,
@@ -197,6 +200,7 @@ const client = {
     payments: `${httpPrefix}${port}${clientPrefix}${paths.rent.paymentsPrefix}`, //{id}
     getAllMediaRent: `${httpPrefix}${port}${clientPrefix}${paths.rent.getAllMediaRentPrefix}`, //{id}
     products: `${httpPrefix}${port}${clientPrefix}${paths.rent.rentDetails}`, //{id}
+    paymentDetails: `${httpPrefix}${port}${clientPrefix}${paths.rent.defaultPrefix}`, //{id}
   },
 };
 
@@ -241,6 +245,8 @@ const general = {
     updateBailPrefix: paths.rent.updateBailPrefix,
     paymentDetailsSuffix: paths.rent.paymentDetailsSuffix,
     checkIssuedAllMediaRentSuffix: paths.rent.checkIssuedAllMediaRentSuffix,
+    checkIssuedAllMediaRentStandardSuffix:
+      paths.rent.checkIssuedAllMediaRentStandardSuffix,
   },
 };
 

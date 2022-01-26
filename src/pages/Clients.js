@@ -100,7 +100,13 @@ const Clients = () => {
   return (
     <div className="content-container">
       <h1 className="content-container__title">Moi najemcy</h1>
-      <div className="table-container">{renderTable()}</div>
+      <div className="table-container">
+        {clients !== undefined && clients.length > 0 ? (
+          renderTable()
+        ) : (
+          <h1>Brak</h1>
+        )}
+      </div>
     </div>
   );
 };

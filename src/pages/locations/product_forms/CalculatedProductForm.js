@@ -100,6 +100,14 @@ const CalculatedProductForm = (props) => {
       pattern = true;
     }
 
+    if (product.obj.patternName === "Czynsz") {
+      price = true;
+    }
+
+    if (product.obj.patternName === "Wymiar lokalu") {
+      quantity = true;
+    }
+
     const correct =
       premisesTypes &&
       price &&
@@ -147,7 +155,18 @@ const CalculatedProductForm = (props) => {
       }
     } else if (type === "select-one") {
       const value = e.target.value;
-      setProduct({ ...product, obj: { ...product.obj, [name]: value } });
+
+      if (value === "Czynsz") {
+        setProduct({
+          ...product,
+          obj: { ...product.obj, [name]: value, price: 0 },
+        });
+      } else if (value === "Wymiar lokalu") {
+        setProduct({
+          ...product,
+          obj: { ...product.obj, [name]: value, quantity: 0 },
+        });
+      }
     }
   };
 
@@ -244,7 +263,8 @@ const CalculatedProductForm = (props) => {
               disabled={
                 product.obj.patternName.length === 0 ||
                 product.obj.patternName === "Czynsz" ||
-                product.obj.quantity.length > 0
+                (product.obj.quantity !== "0" &&
+                  product.obj.quantity.length > 0)
               }
               className="form-container__input"
               id="price"
@@ -269,7 +289,10 @@ const CalculatedProductForm = (props) => {
               disabled={
                 product.obj.patternName === undefined ||
                 product.obj.patternName !== "Czynsz" ||
-                product.obj.price.length > 0
+                (product.obj.price !== null &&
+                  product.obj.price !== "0" &&
+                  product.obj.price !== "" &&
+                  product.obj.price > 0)
               }
               className="form-container__input"
               id="quantity"

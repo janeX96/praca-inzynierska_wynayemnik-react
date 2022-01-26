@@ -20,6 +20,12 @@ const ProductsForRentDetails = (props) => {
   const [addProduct, setAddProduct] = useState(false);
   const [productsForLocation, setProductsForLocation] = useState();
   const [showMediaRentsByDate, setShowMediaRentsByDate] = useState({});
+  const [countersFilled, setCountersFilled] = useState(false);
+  const [addCounter, setAddCounter] = useState(false);
+  const [newCounterValue, setNewCounterValue] = useState(0);
+  const [newCounterError, setNewCounterError] = useState(false);
+  const [newCounterProductId, setNewCounterProductId] = useState(-1);
+
   const getProductsForLocation = () => {
     let urlByRole =
       props.roles[0] === "owner"
@@ -111,6 +117,22 @@ const ProductsForRentDetails = (props) => {
     return today;
   };
 
+  const checkIssuedAllMediaRentStandard = () => {
+    let urlByRole =
+      props.roles[0] === "owner"
+        ? owner.rent.checkIssuedAllMediaRentStandardPrefix
+        : props.roles[0] === "administrator"
+        ? admin.rent.checkIssuedAllMediaRentStandardPrefix
+        : "";
+    GET(
+      `${urlByRole}${props.rentId}${general.rent.checkIssuedAllMediaRentStandardSuffix}`
+    ).then((res) => {
+      if (res !== null) {
+        setCountersFilled(res);
+      }
+    });
+  };
+
   useEffect(() => {
     let mounted = true;
     if (mounted) {
@@ -131,9 +153,11 @@ const ProductsForRentDetails = (props) => {
           setLastPaymentDate(lessThanMonthAgo.startDate);
         } else {
           setCountersAvailable(true);
+          checkIssuedAllMediaRentStandard();
         }
       } else {
         setCountersAvailable(true);
+        checkIssuedAllMediaRentStandard();
       }
 
       getMediaStandardProducts();
@@ -190,7 +214,9 @@ const ProductsForRentDetails = (props) => {
       if (res.ok) {
         toast.success("Stan liczników został zapisany");
       } else {
-        toast.error("Nie udało się zapisać stanu liczników...");
+        toast.info(
+          "Stany liczników zostały już wprowadzone, możesz wystawić płatność za bieżący miesiąc."
+        );
       }
       return res;
     });
@@ -268,8 +294,7 @@ const ProductsForRentDetails = (props) => {
     }
   };
 
-  const handleAddProduct = (e) => {
-    const value = e.target.value;
+  const addProductRequest = (prodId, counterVal = 0) => {
     if (!sending) {
       setSending(true);
       let urlByRole =
@@ -279,8 +304,17 @@ const ProductsForRentDetails = (props) => {
           ? admin.rent.addProduct
           : "";
 
+      let obj = {};
+
+      if (counterVal > 0) {
+        obj = { counter: counterVal };
+      } else {
+        obj = { counter: null };
+      }
+      let json = JSON.stringify(obj);
       POST(
-        `${urlByRole}${props.rentId}${general.rent.addProductPrefix}${value}`
+        `${urlByRole}${props.rentId}${general.rent.addProductPrefix}${prodId}`,
+        json
       ).then((res) => {
         if (res.ok) {
           toast.success("Produkt został dodany");
@@ -294,6 +328,19 @@ const ProductsForRentDetails = (props) => {
           });
         }
       });
+    }
+  };
+
+  const handleAddProduct = (e) => {
+    const value = e.target.value;
+
+    if (value.split("&").length === 2 && value.split("&")[1] === "STANDARD") {
+      setAddCounter(true);
+      setNewCounterProductId(value.split("&")[0]);
+    } else {
+      const prodId = value.split("&")[0];
+
+      addProductRequest(prodId);
     }
   };
 
@@ -311,11 +358,19 @@ const ProductsForRentDetails = (props) => {
             >
               <option value=""></option>
               {productsForLocation.map((prod) => (
-                <option key={prod.productId} value={prod.productId}>
+                <option
+                  key={prod.productId}
+                  value={
+                    prod.subtypeMedia !== null
+                      ? prod.productId + "&" + prod.subtypeMedia
+                      : prod.productId + "&"
+                  }
+                >
                   {prod.productName}
                 </option>
               ))}
             </select>
+            {addCounter && renderCounterInput()}
           </>
         ) : (
           <div className="icon-container" style={{ fontSize: "24px" }}>
@@ -327,7 +382,7 @@ const ProductsForRentDetails = (props) => {
         )}
 
         <ul>
-          {allProducts !== undefined ? (
+          {allProducts !== undefined && allProducts.length > 0 ? (
             <>
               {allProducts.map((prod) => (
                 <li key={prod.product.productName}>
@@ -345,17 +400,22 @@ const ProductsForRentDetails = (props) => {
               ))}
             </>
           ) : (
-            ""
+            <h3>Brak</h3>
           )}
         </ul>
       </div>
     );
   };
 
+  var cellDateFormatter = function (cell, formatterParams) {
+    return cell.getValue().split("T")[0];
+  };
+
   const columns = [
     {
       title: "Data",
       field: "startDate",
+      formatter: cellDateFormatter,
     },
     {
       title: "Produkt",
@@ -416,16 +476,62 @@ const ProductsForRentDetails = (props) => {
     );
   };
 
+  const handleAddCounter = (e) => {
+    e.preventDefault();
+
+    if (newCounterValue > 0) {
+      addProductRequest(newCounterProductId, newCounterValue);
+      setNewCounterError(false);
+      setAddCounter(false);
+    } else {
+      setNewCounterError(true);
+    }
+  };
+
+  const handleChangeNewCounterValue = (e) => {
+    const value = e.target.value;
+    setNewCounterValue(value);
+  };
+
+  const renderCounterInput = () => {
+    return (
+      <>
+        <input
+          className="form-container__input"
+          style={{ marginLeft: "10px", width: "120px", marginRight: "10px" }}
+          type="number"
+          min={0}
+          placeholder="Wprowadź stan licznika"
+          value={newCounterValue}
+          onChange={handleChangeNewCounterValue}
+        />
+        <button
+          className="content-container__button"
+          onClick={handleAddCounter}
+        >
+          Dodaj
+        </button>
+        {newCounterError && (
+          <span className="form-container__error-msg">
+            Wprowadź stan licznika
+          </span>
+        )}
+      </>
+    );
+  };
+
   return (
     <>
       <h1 className="content-container__title">Produkty wynajmu</h1>
 
       <div className="form-container">
-        <h1>Media</h1>
         {props.roles[0] === "client" ? (
           props.counterMediaRent ? (
             <ul>
-              {products !== undefined && products !== null && (
+              <h1>Media</h1>
+              {products !== undefined &&
+              products !== null &&
+              products.length > 0 ? (
                 <>
                   {products.map((data) => (
                     <li key={data.startDate}>
@@ -453,6 +559,8 @@ const ProductsForRentDetails = (props) => {
                     </li>
                   ))}
                 </>
+              ) : (
+                <h3>Brak mediów</h3>
               )}
             </ul>
           ) : (
@@ -463,17 +571,42 @@ const ProductsForRentDetails = (props) => {
           )
         ) : (
           <form onSubmit={handleSubmit}>
-            {products !== undefined && values !== undefined
-              ? products.map((prod) => (
-                  <div key={prod.product.productId}>
+            <div
+              className="form-container"
+              style={{ borderStyle: "groove", padding: "20px" }}
+            >
+              <h1>Media</h1>
+              {products !== undefined &&
+              values !== undefined &&
+              products.length > 0 ? (
+                products.map((prod) => (
+                  <div
+                    key={prod.product.productId}
+                    className="form-container__row"
+                  >
                     <div
-                      className="form-container__row"
-                      key={prod.product.productId}
+                      className="row__col-25"
+                      style={{
+                        whiteSpace: "nowrap",
+                        marginRight: "15px",
+                        width: "300px",
+                      }}
                     >
-                      <div className="row__col-25">
+                      <label
+                        htmlFor={prod.product.productId}
+                        style={{
+                          display: "inline-block",
+                          width: "200px",
+                        }}
+                      >
                         <div
                           className="icon-container"
-                          style={{ fontSize: "25px" }}
+                          style={{
+                            fontSize: "25px",
+                            display: "inline-block",
+                            width: "50px",
+                            marginTop: "0px",
+                          }}
                         >
                           <BsTrashFill
                             className="icon-container__delete-icon"
@@ -483,54 +616,72 @@ const ProductsForRentDetails = (props) => {
                           />
                           <p>Usuń</p>
                         </div>
-                        <label htmlFor={prod.product.productId}>
-                          {prod.product.productName}
-                        </label>
-                      </div>
-                      <div className="row__col-75">
-                        <input
-                          disabled={!countersAvailable}
-                          placeholder={
-                            !countersAvailable
-                              ? `ostatnia płatność: ${lastPaymentDate}`
-                              : "Wprowadź stan licznika"
-                          }
-                          className="form-container__input"
-                          type="number"
-                          name={prod.product.productId}
-                          id={prod.product.productId}
-                          value={values[prod.product.productId.counter]}
-                          onChange={handleChange}
-                        />
-                        różnica:
-                        <input
-                          disabled={!countersAvailable}
-                          type="checkbox"
-                          name={prod.product.productId}
-                          id={prod.product.productId}
-                          value={values[prod.product.quantity]}
-                          onChange={handleChange}
-                        />
-                      </div>
+                        {prod.product.productName}
+                      </label>
+                    </div>
+                    <div className="row__col-75">
+                      <input
+                        style={{ width: "200px" }}
+                        disabled={!countersAvailable || countersFilled}
+                        placeholder={
+                          !countersAvailable
+                            ? `ostatnia płatność: ${lastPaymentDate}`
+                            : countersFilled
+                            ? "Wprowadzono"
+                            : "Wprowadź stan licznika"
+                        }
+                        className="form-container__input"
+                        type="number"
+                        name={prod.product.productId}
+                        id={prod.product.productId}
+                        value={values[prod.product.productId.counter]}
+                        onChange={handleChange}
+                      />
+                      różnica:
+                      <input
+                        disabled={!countersAvailable || countersFilled}
+                        type="checkbox"
+                        name={prod.product.productId}
+                        id={prod.product.productId}
+                        value={values[prod.product.quantity]}
+                        onChange={handleChange}
+                      />
                     </div>
                   </div>
                 ))
-              : ""}
-            <div className="form-container__row">
-              <div>
+              ) : (
+                <h3>Brak produktów typu media standard</h3>
+              )}
+
+              <div className="form-container__row">
                 {error && (
                   <span className="form-container__error-msg">{errorMsg}</span>
                 )}
+                {countersFilled && (
+                  <span>
+                    Wprowadzono stany liczników, można wystawić płatność
+                  </span>
+                )}
+
+                {props.roles[0] !== "client" && (
+                  <div className="form-container__buttons">
+                    <button
+                      disabled={
+                        !countersAvailable ||
+                        products === undefined ||
+                        products === null ||
+                        products.length === 0 ||
+                        countersFilled
+                      }
+                      type="submit"
+                      style={{ marginLeft: "55%" }}
+                    >
+                      Zapisz
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
-
-            {props.roles[0] !== "client" && (
-              <div className="form-container__buttons">
-                <button type="submit" style={{ marginLeft: "55%" }}>
-                  Zapisz
-                </button>
-              </div>
-            )}
 
             {props.roles[0] !== "client" && (
               <h3
