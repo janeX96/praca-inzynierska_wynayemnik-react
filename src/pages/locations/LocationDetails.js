@@ -137,7 +137,7 @@ const LocationDetails = (props) => {
 
   const productTypes = [
     { value: "calculated", label: "Wyliczalny" },
-    { value: "disposable", label: "Jednorazowy" },
+    // { value: "disposable", label: "Jednorazowy" },
     { value: "media-quantity", label: "Ilościowy" },
     { value: "media-standard", label: "Standardowy" },
     { value: "state", label: "Stałe" },

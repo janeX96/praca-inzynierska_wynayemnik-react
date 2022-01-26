@@ -150,7 +150,7 @@ const Locations = (props) => {
               <h1 className="content-container__title">Lokacje</h1>
             )}
             <div className="table-container">
-              {locations.length > 0 ? renderTable() : "brak"}
+              {locations.length > 0 ? renderTable() : <h1>Brak</h1>}
             </div>
           </>
         )}

@@ -167,9 +167,11 @@ const PaymentsForRent = (props) => {
             </div>
             {props.payments !== null &&
             props.payments !== undefined &&
-            props.payments.length > 0
-              ? renderTable()
-              : "brak"}
+            props.payments.length > 0 ? (
+              renderTable()
+            ) : (
+              <h1>Brak</h1>
+            )}
             <div>
               <button
                 className="content-container__button"

@@ -232,7 +232,7 @@ const RentForm = (props) => {
               <div className="row__col-25">
                 <label htmlFor="startDate">Od: </label>
               </div>
-              <div className="row__col-75">
+              <div className="row__col-75" style={{ width: "200px" }}>
                 <input
                   className="form-container__input"
                   type="datetime-local"
@@ -254,7 +254,7 @@ const RentForm = (props) => {
               <div className="row__col-25">
                 <label htmlFor="endDate">Do: </label>
               </div>
-              <div className="row__col-75">
+              <div className="row__col-75" style={{ width: "200px" }}>
                 <input
                   className="form-container__input"
                   type="datetime-local"
@@ -301,7 +301,7 @@ const RentForm = (props) => {
 
             <div className="form-container__row">
               <div className="row__col-25">
-                <label htmlFor="carNumber">carNumber: </label>
+                <label htmlFor="carNumber">Nr rej. pojazdu: </label>
               </div>
               <div className="row__col-75">
                 <input

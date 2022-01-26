@@ -386,7 +386,11 @@ const AdministratorLogs = (props) => {
             <button onClick={handleCancel}>Resetuj daty</button>
           </div>
         </div>
-        {renderTable()}
+        {administrator !== undefined && administrator.length > 0 ? (
+          renderTable()
+        ) : (
+          <h1>Brak</h1>
+        )}
       </div>
 
       <div className="table-container" style={{ marginTop: "50px" }}>

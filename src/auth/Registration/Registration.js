@@ -172,7 +172,9 @@ const Registration = () => {
         <RegistrationComplete />
       ) : (
         <div className="form-container">
-          <span className="error-msg">{data.registrationError}</span>
+          <span className="form-container__error-msg">
+            {data.registrationError}
+          </span>
           <form onSubmit={handleSubmit}>
             <div className="form-container__row">
               <div className="row__col-75">
@@ -247,7 +249,9 @@ const Registration = () => {
                   required
                 />
                 {data.errors.passwordsNotSameError && (
-                  <span className="error-msg">{messages.notSamePass}</span>
+                  <span className="form-container__error-msg">
+                    {messages.notSamePass}
+                  </span>
                 )}
               </div>
             </div>
@@ -265,7 +269,9 @@ const Registration = () => {
                   required
                 />
                 {data.errors.passwordsNotSameError && (
-                  <span className="error-msg">{messages.notSamePass}</span>
+                  <span className="form-container__error-msg">
+                    {messages.notSamePass}
+                  </span>
                 )}
               </div>
             </div>
