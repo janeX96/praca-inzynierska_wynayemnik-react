@@ -77,7 +77,8 @@ const PremisesDetails = ({ premisesId, action, reloadData, roles }) => {
     GET(`${urlByRole}${premisesId}`).then((res) => {
       res.map((r) => {
         r.startDate = r.startDate.split("T")[0];
-        r.endDate = r.startDate.split("T")[0];
+        r.endDate = r.endDate.split("T")[0];
+        return r;
       });
       setRents(res);
       res.find((rent) => {
