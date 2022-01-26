@@ -66,15 +66,8 @@ const RentBillingPeriods = (props) => {
       props.addBillingPeriod(billingPeriod);
       var date = new Date(billingPeriod.endDate);
 
-      // if (firstPeriod) {
       date.setDate(date.getDate() + 1);
       date = formatDate(date);
-      console.log("Next startdate: ", date);
-      // } else {
-      // date = calcEndOfPeriod();
-      // date = formatDate(date);
-      // console.log("Next startdate: ", date);
-      // }
 
       setLastDate(date);
       setBillingPeriod({
@@ -116,8 +109,6 @@ const RentBillingPeriods = (props) => {
 
     newDate = formatDate(newDate);
 
-    console.log("newdate: ", newDate);
-
     if (newDate > rentEndDate || newDate === rentEndDate) {
       return rentEndDate;
     }
@@ -126,80 +117,81 @@ const RentBillingPeriods = (props) => {
   };
 
   return (
-    <div className="form-container">
-      <form onSubmit={handleSubmit}>
-        <div className="form-container__row">
-          <div className="row__col-25">
-            <label>Data rozpoczęcia: </label>
-          </div>
-          <div className="row__col-75">
-            <input
-              className="form-container__input"
-              type="date"
-              id="startDate"
-              name="startDate"
-              min={lastDate}
-              max={lastDate}
-              onChange={handleChange}
-              value={billingPeriod.startDate}
-            />
-            {errors.startDateError && (
-              <span className="form-container__error-msg">
-                {messages.startDate_incorrect}
-              </span>
-            )}
-          </div>
+    <form
+      onSubmit={handleSubmit}
+      style={{ borderStyle: "groove", padding: "20px" }}
+    >
+      <div className="form-container__row">
+        <div className="row__col-25">
+          <label>Data rozpoczęcia: </label>
         </div>
+        <div className="row__col-75">
+          <input
+            className="form-container__input"
+            type="date"
+            id="startDate"
+            name="startDate"
+            min={lastDate}
+            max={lastDate}
+            onChange={handleChange}
+            value={billingPeriod.startDate}
+          />
+          {errors.startDateError && (
+            <span className="form-container__error-msg">
+              {messages.startDate_incorrect}
+            </span>
+          )}
+        </div>
+      </div>
 
-        <div className="form-container__row">
-          <div className="row__col-25">
-            <label>Data zakończenia: </label>
-          </div>
-          <div className="row__col-75">
-            <input
-              className="form-container__input"
-              type="date"
-              id="endDate"
-              name="endDate"
-              min={calcEndOfPeriod()}
-              max={rentEndDate}
-              onChange={handleChange}
-              value={billingPeriod.endDate}
-            />
-            {errors.endDateError && (
-              <span className="form-container__error-msg">
-                {messages.endDate_incorrect}
-              </span>
-            )}
-          </div>
+      <div className="form-container__row">
+        <div className="row__col-25">
+          <label>Data zakończenia: </label>
         </div>
-        <div className="form-container__row">
-          <div className="row__col-25">
-            <label>Kwota: </label>
-          </div>
-          <div className="row__col-75">
-            <input
-              className="form-container__input"
-              type="number"
-              id="value"
-              name="value"
-              onChange={handleChange}
-              value={billingPeriod.value}
-            />
-            {errors.valueError && (
-              <span className="form-container__error-msg">
-                {messages.value_incorrect}
-              </span>
-            )}
-          </div>
+        <div className="row__col-75">
+          <input
+            className="form-container__input"
+            type="date"
+            id="endDate"
+            name="endDate"
+            min={calcEndOfPeriod()}
+            max={rentEndDate}
+            onChange={handleChange}
+            value={billingPeriod.endDate}
+          />
+          {errors.endDateError && (
+            <span className="form-container__error-msg">
+              {messages.endDate_incorrect}
+            </span>
+          )}
         </div>
-        <div className="form-container__buttons">
-          <button disabled={lastDate > rentEndDate} type="submit">
-            Dodaj
-          </button>
+      </div>
+      <div className="form-container__row">
+        <div className="row__col-25">
+          <label>Kwota: </label>
         </div>
-      </form>
-    </div>
+        <div className="row__col-75">
+          <input
+            className="form-container__input"
+            type="number"
+            id="value"
+            name="value"
+            onChange={handleChange}
+            value={billingPeriod.value}
+          />
+          {errors.valueError && (
+            <span className="form-container__error-msg">
+              {messages.value_incorrect}
+            </span>
+          )}
+        </div>
+      </div>
+      <div className="form-container__buttons">
+        <button disabled={lastDate > rentEndDate} type="submit">
+          Dodaj
+        </button>
+      </div>
+    </form>
   );
 };
 

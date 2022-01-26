@@ -446,10 +446,11 @@ const RentForm = (props) => {
                 startDate={rentDetails.startDate}
                 endDate={rentDetails.endDate}
               />
-              <ul>
+              <ul style={{ listStyle: "inside" }}>
                 {rentDetails.paymentValues.map((payment) => (
-                  <li>
-                    {payment.startDate} - {payment.endDate} - {payment.value}
+                  <li key={payment.startDate}>
+                    ({payment.startDate} - {payment.endDate}) -
+                    <b> {payment.value} zł</b>
                   </li>
                 ))}
               </ul>
