@@ -20,6 +20,8 @@ const ProductsForRentDetails = (props) => {
   const [addProduct, setAddProduct] = useState(false);
   const [productsForLocation, setProductsForLocation] = useState();
   const [showMediaRentsByDate, setShowMediaRentsByDate] = useState({});
+  const [countersFilled, setCountersFilled] = useState(false);
+
   const getProductsForLocation = () => {
     let urlByRole =
       props.roles[0] === "owner"
@@ -111,6 +113,22 @@ const ProductsForRentDetails = (props) => {
     return today;
   };
 
+  const checkIssuedAllMediaRentStandard = () => {
+    let urlByRole =
+      props.roles[0] === "owner"
+        ? owner.rent.checkIssuedAllMediaRentStandardPrefix
+        : props.roles[0] === "administrator"
+        ? admin.rent.checkIssuedAllMediaRentStandardPrefix
+        : "";
+    GET(
+      `${urlByRole}${props.rentId}${general.rent.checkIssuedAllMediaRentStandardSuffix}`
+    ).then((res) => {
+      if (res !== null) {
+        setCountersFilled(res);
+      }
+    });
+  };
+
   useEffect(() => {
     let mounted = true;
     if (mounted) {
@@ -131,9 +149,11 @@ const ProductsForRentDetails = (props) => {
           setLastPaymentDate(lessThanMonthAgo.startDate);
         } else {
           setCountersAvailable(true);
+          checkIssuedAllMediaRentStandard();
         }
       } else {
         setCountersAvailable(true);
+        checkIssuedAllMediaRentStandard();
       }
 
       getMediaStandardProducts();
@@ -525,10 +545,12 @@ const ProductsForRentDetails = (props) => {
                     <div className="row__col-75">
                       <input
                         style={{ width: "200px" }}
-                        disabled={!countersAvailable}
+                        disabled={!countersAvailable || countersFilled}
                         placeholder={
                           !countersAvailable
                             ? `ostatnia płatność: ${lastPaymentDate}`
+                            : countersFilled
+                            ? "Wprowadzono"
                             : "Wprowadź stan licznika"
                         }
                         className="form-container__input"
@@ -540,7 +562,7 @@ const ProductsForRentDetails = (props) => {
                       />
                       różnica:
                       <input
-                        disabled={!countersAvailable}
+                        disabled={!countersAvailable || countersFilled}
                         type="checkbox"
                         name={prod.product.productId}
                         id={prod.product.productId}
@@ -558,6 +580,11 @@ const ProductsForRentDetails = (props) => {
                 {error && (
                   <span className="form-container__error-msg">{errorMsg}</span>
                 )}
+                {countersFilled && (
+                  <span>
+                    Wprowadzono stany liczników, można wystawić płatność
+                  </span>
+                )}
 
                 {props.roles[0] !== "client" && (
                   <div className="form-container__buttons">
@@ -566,7 +593,8 @@ const ProductsForRentDetails = (props) => {
                         !countersAvailable ||
                         products === undefined ||
                         products === null ||
-                        products.length === 0
+                        products.length === 0 ||
+                        countersFilled
                       }
                       type="submit"
                       style={{ marginLeft: "55%" }}

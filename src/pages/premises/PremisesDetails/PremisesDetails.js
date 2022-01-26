@@ -105,6 +105,8 @@ const PremisesDetails = ({ premisesId, action, reloadData, roles }) => {
     getData();
   };
 
+  //delete available in the future
+
   // const handleDelete = () => {
   //   if (window.confirm("Czy na pewno chcesz usunąć ten lokal?")) {
   //     PATCH(`${owner.premisesDelete}${premisesId}`)

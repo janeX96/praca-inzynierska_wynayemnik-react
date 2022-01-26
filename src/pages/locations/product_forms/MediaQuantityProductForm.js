@@ -171,10 +171,10 @@ const MediaQuantityProductForm = (props) => {
     if (data.obj.vat > 0) {
       vat = true;
     }
-    if (pattern.attr1.length > 0) {
+    if (pattern.attr1 !== undefined && pattern.attr1.length > 0) {
       attr1 = true;
     }
-    if (pattern.attr2.length > 0) {
+    if (pattern.attr2 !== undefined && pattern.attr2.length > 0) {
       attr2 = true;
     }
 
